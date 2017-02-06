@@ -16,4 +16,4 @@ inputs:
   - name: concourse-vsphere
 
 run:
-  path: concourse-vsphere/tasks/import-opsman/task.sh
+  path: concourse-vsphere/tasks/config-opsman/task.sh
