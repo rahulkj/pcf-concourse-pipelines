@@ -13,7 +13,7 @@ params:
   VCENTER_PWD:
 
 inputs:
-- name: delete-opsman
+  - name: concourse-vsphere
 
 run:
-  path: ./delete-opsman/task.sh
+  path: concourse-vsphere/delete-opsman/task.sh

@@ -7,12 +7,12 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
-  OPS_MAN_URL:
+  OPS_MAN_HOST:
   OPS_MAN_USER:
-  OPS_MAN_PWD: 
+  OPS_MAN_PWD:
 
 inputs:
-- name: delete-products
+  - name: concourse-vsphere
 
 run:
-  path: ./delete-products/task.sh
+  path: concourse-vsphere/delete-products/task.sh
