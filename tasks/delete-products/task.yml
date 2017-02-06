@@ -15,4 +15,4 @@ inputs:
   - name: concourse-vsphere
 
 run:
-  path: concourse-vsphere/delete-products/task.sh
+  path: concourse-vsphere/tasks/delete-products/task.sh
