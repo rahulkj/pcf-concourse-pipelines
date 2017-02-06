@@ -93,15 +93,15 @@ EOF
 
 om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
             -i "$IAAS_CONFIGURATION" \
-            -d "$DIRECTOR_CONFIG" \
-            -n "$NETWORK_CONFIGURATION"
+            -d "$DIRECTOR_CONFIG"
 
-curl "https://example.com/api/v0/staged/director/availability_zones" \
-            -X PUT \
+curl "https://$OPS_MGR_HOST/api/v0/staged/director/availability_zones" \
+            -X PUT -k \
             -H "Authorization: Bearer $UAA_ACCESS_TOKEN" \
             -H "Content-Type: application/json" \
             -d "$AZ_CONFIGURATION"
 
-om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
+            -n "$NETWORK_CONFIGURATION"
 
 #om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD apply-changes
