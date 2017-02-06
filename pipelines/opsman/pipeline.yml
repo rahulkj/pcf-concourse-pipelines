@@ -152,3 +152,17 @@ jobs:
       AZ_3_RP_NAME: {{az_3_rp_name}}
       NTP_SERVER_IPS: {{ntp_servers}}
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [configure-ops-director]
+      trigger: true
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}

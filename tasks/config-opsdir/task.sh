@@ -104,5 +104,3 @@ curl "https://$OPS_MGR_HOST/api/v0/staged/director/availability_zones" \
 
 om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
             -n "$NETWORK_CONFIGURATION"
-
-#om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD apply-changes
