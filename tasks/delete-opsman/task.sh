@@ -5,4 +5,4 @@ export GOVC_URL=$VCENTER_HOST
 export GOVC_USERNAME=$VCENTER_USR
 export GOVC_PASSWORD=$VCENTER_PWD
 
-govc vm.destroy -vm.ip=$OPS_MAN_IP
+govc vm.destroy -vm.ip=$OPS_MGR_IP

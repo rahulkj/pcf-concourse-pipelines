@@ -1,3 +1,3 @@
 #!/bin/bash
 
-om -t https://$OPS_MAN_HOST -k -u $OPS_MAN_USER -p $OPS_MAN_PWD delete-installation
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD delete-installation

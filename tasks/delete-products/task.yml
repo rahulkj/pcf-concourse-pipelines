@@ -7,9 +7,9 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
-  OPS_MAN_HOST:
-  OPS_MAN_USER:
-  OPS_MAN_PWD:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
 
 inputs:
   - name: concourse-vsphere

@@ -7,7 +7,7 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
-  OPS_MAN_IP:
+  OPS_MGR_IP:
   VCENTER_HOST:
   VCENTER_USR:
   VCENTER_PWD:
