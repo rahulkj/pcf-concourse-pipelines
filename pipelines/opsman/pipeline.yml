@@ -27,11 +27,19 @@ resources:
     branch: master
     private_key: {{github_private_key}}
 
-- name: pivnet-product
+- name: pivnet-opsman-product
   type: pivnet
   source:
     api_token: {{pivnet_token}}
     product_slug: ops-manager
+    #product_version: 1.10-alpha1
+    #sort_by: semver
+
+- name: pivnet-er-product
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: elastic-runtime
     #product_version: 1.10-alpha1
     #sort_by: semver
 
@@ -44,7 +52,7 @@ jobs:
     - get: govc
     - get: om-cli
       globs: om-linux
-    - get: pivnet-product
+    - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
@@ -72,7 +80,7 @@ jobs:
     - get: govc
     - get: om-cli
       globs: om-linux
-    - get: pivnet-product
+    - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
@@ -153,7 +161,7 @@ jobs:
       NTP_SERVER_IPS: {{ntp_servers}}
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
 
-- name: apply-changes
+- name: opsman-apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -162,6 +170,25 @@ jobs:
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+
+- name: upload-elastic-runtime-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [opsman-apply-changes]
+      trigger: true
+    - get: pivnet-er-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+
+  - task: upload-er-tile
+    file: concourse-vsphere/tasks/upload-tile/task.yml
     params:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}

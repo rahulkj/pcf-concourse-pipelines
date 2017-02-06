@@ -33,7 +33,7 @@ params:
 
 
 inputs:
-  - name: pivnet-product
+  - name: pivnet-opsman-product
   - name: concourse-vsphere
   - name: govc
 
