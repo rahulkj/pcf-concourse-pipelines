@@ -151,3 +151,4 @@ jobs:
       AZ_3_CUSTER_NAME: {{az_3_cluster_name}}
       AZ_3_RP_NAME: {{az_3_rp_name}}
       NTP_SERVER_IPS: {{ntp_servers}}
+      OPS_DIR_HOSTNAME: {{ops_dir_hostname}}

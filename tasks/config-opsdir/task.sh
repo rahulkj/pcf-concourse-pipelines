@@ -78,7 +78,8 @@ DIRECTOR_CONFIG=$(cat <<-EOF
   "resurrector_enabled": true,
   "max_threads": null,
   "database_type": "internal",
-  "blobstore_type": "local"
+  "blobstore_type": "local",
+  "director_hostname": "$OPS_DIR_HOSTNAME"
 }
 EOF
 )

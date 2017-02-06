@@ -32,6 +32,7 @@ params:
   AZ_3_CUSTER_NAME:
   AZ_3_RP_NAME:
   NTP_SERVER_IPS:
+  OPS_DIR_HOSTNAME:
 
 inputs:
   - name: concourse-vsphere
