@@ -2,7 +2,7 @@
 
 uaac target https://$OPS_MGR_HOST/uaa --skip-ssl-validation
 uaac token owner get opsman $OPS_MGR_USR -s "" -p $OPS_MGR_PWD
-UAA_ACCESS_TOKEN=`cat ~/.uaac.yml | grep "access_token" | tr -d ":" -f2`
+UAA_ACCESS_TOKEN=`cat ~/.uaac.yml | grep "access_token" | tr -d ":" -f2 | tr -d " "`
 
 IAAS_CONFIGURATION=$(cat <<-EOF
 {
