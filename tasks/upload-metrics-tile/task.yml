@@ -12,8 +12,8 @@ params:
   OPS_MGR_PWD:
 
 inputs:
-  - name: pivnet-er-product
+  - name: pivnet-metrics-product
   - name: concourse-vsphere
 
 run:
-  path: concourse-vsphere/tasks/upload-tile/task.sh
+  path: concourse-vsphere/tasks/upload-metrics-tile/task.sh
