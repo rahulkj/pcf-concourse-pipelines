@@ -5,10 +5,10 @@ resource_types:
     repository: pivotalcf/pivnet-resource
     tag: latest-final
 
-- name: dummy
+- name: mock
   type: docker-image
   source:
-    repository: starkandwayne/dummy-concourse-resource
+    repository: rjain/mock-resource
 
 resources:
 - name: govc
@@ -32,8 +32,8 @@ resources:
     branch: master
     private_key: {{github_private_key}}
 
-- name: resource-dummy
-  type: dummy
+- name: resource-mock
+  type: mock
 
 - name: pivnet-opsman-product
   type: pivnet
@@ -65,7 +65,7 @@ jobs:
         globs:
         - "*.ova"
       trigger: true
-    - put: resource-dummy
+    - put: resource-mock
 
   - task: delete-products
     file: concourse-vsphere/tasks/delete-products/task.yml
@@ -93,10 +93,10 @@ jobs:
       params:
         globs:
         - "*.ova"
-    - get: resource-dummy
+    - get: resource-mock
       passed: [delete-opsmgr]
       trigger: true
-    - put: resource-dummy
+    - put: resource-mock
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
@@ -139,10 +139,10 @@ jobs:
     - get: concourse-vsphere
     - get: om-cli
       globs: om-linux
-    - get: resource-dummy
+    - get: resource-mock
       trigger: true
       passed: [install-opsmgr]
-    - put: resource-dummy
+    - put: resource-mock
 
   - task: config-opsdir
     file: concourse-vsphere/tasks/config-opsdir/task.yml
@@ -178,17 +178,21 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-    - get: resource-dummy
+    - get: resource-mock
       trigger: true
       passed: [configure-ops-director]
-    - put: resource-dummy
+    - get: pivnet-er-product
+      params:
+        globs:
+        - "*.pivotal"
+    - put: resource-mock
 
-  - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+    - task: apply-changes
+      file: concourse-vsphere/tasks/apply-changes/task.yml
+      params:
+        OPS_MGR_HOST: {{ops_mgr_host}}
+        OPS_MGR_USR: {{ops_mgr_usr}}
+        OPS_MGR_PWD: {{ops_mgr_pwd}}
 
 - name: upload-elastic-runtime-tile
   plan:
@@ -198,10 +202,10 @@ jobs:
       params:
         globs:
         - "*.pivotal"
-    - get: resource-dummy
+    - get: resource-mock
       trigger: true
       passed: [opsman-apply-changes]
-    - put: resource-dummy
+    - put: resource-mock
 
   - task: upload-er-tile
     file: concourse-vsphere/tasks/upload-tile/task.yml
@@ -214,10 +218,10 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-    - get: resource-dummy
+    - get: resource-mock
       trigger: true
       passed: [upload-elastic-runtime-tile]
-    - put: resource-dummy
+    - put: resource-mock
 
   - task: config-er-tile
     file: concourse-vsphere/tasks/config-ert/task.yml
@@ -268,10 +272,9 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-    - get: resource-dummy
+    - get: resource-mock
       trigger: true
       passed: [config-elastic-runtime-tile]
-    - put: resource-dummy
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
