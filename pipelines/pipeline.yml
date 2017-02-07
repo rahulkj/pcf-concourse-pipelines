@@ -303,14 +303,14 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
+      trigger: true
+      passed: [configure-ops-director, opsman-apply-changes]
     - get: pivnet-metrics-product
       params:
         globs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
-      trigger: true
-      passed: [configure-ops-director, opsman-apply-changes]
 
   - task: upload-metrics-tile
     file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
@@ -318,3 +318,25 @@ jobs:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
+
+- name: config-metrics-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [upload-metrics-runtime-tile]
+    - get: om-cli
+      globs: om-linux
+
+  - task: config-metrics-tile
+    file: concourse-vsphere/tasks/config-metrics-tile/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      AZ_1: {{az_1_name}}
+      NETWORK_NAME: {{network_name}}
+      JMX_ADMIN_USR: {{jmx_admin_usr}}
+      JMX_ADMIN_PWD: {{jmx_admin_pwd}}
+      JMX_SECURITY_LOGGING: {{jmx_security_logging}}
+      JMX_USE_SSL: {{jmx_use_ssl}}

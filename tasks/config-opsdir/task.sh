@@ -1,5 +1,7 @@
 #!/bin/bash
 
+chmod +x om-cli/om-linux
+
 IAAS_CONFIGURATION=$(cat <<-EOF
 {
   "vcenter_host": "$VCENTER_HOST",
@@ -88,13 +90,13 @@ NETWORK_ASSIGNMENT=$(cat <<-EOF
 EOF
 )
 
-om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
+./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
             -i "$IAAS_CONFIGURATION" \
             -d "$DIRECTOR_CONFIG"
 
-om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
             curl -p "/api/v0/staged/director/availability_zones" \
             -x PUT -d "$AZ_CONFIGURATION"
 
-om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
+./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
             -n "$NETWORK_CONFIGURATION"

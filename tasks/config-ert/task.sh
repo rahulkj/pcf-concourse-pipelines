@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo $LOGGREGATOR_ENDPOINT_PORT
+chmod +x om-cli/om-linux
 
 CF_RELEASE=`om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep cf`
 
@@ -280,4 +280,4 @@ CF_RESOURCES=$(cat <<-EOF
 EOF
 )
 
-om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
+./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"

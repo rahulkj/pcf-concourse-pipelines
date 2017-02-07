@@ -13,6 +13,7 @@ params:
 
 inputs:
   - name: concourse-vsphere
+  - name: om-cli
 
 run:
   path: concourse-vsphere/tasks/apply-changes/task.sh

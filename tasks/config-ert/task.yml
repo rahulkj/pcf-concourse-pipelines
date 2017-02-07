@@ -47,10 +47,11 @@ params:
   ROUTER_STATIC_IPS:
   MYSQL_MONITOR_EMAIL:
   TCP_ROUTER_STATIC_IPS:
-  SSH_STATIC_IPS:  
+  SSH_STATIC_IPS:
 
 inputs:
   - name: concourse-vsphere
+  - name: om-cli
 
 run:
   path: concourse-vsphere/tasks/config-ert/task.sh
