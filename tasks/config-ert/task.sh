@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo $LOGGREGATOR_ENDPOINT_PORT
+
 CF_RELEASE=`om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep cf`
 
 PRODUCT_NAME=`echo $CF_RELEASE | cut -d"|" -f2 | tr -d " "`
@@ -275,6 +277,7 @@ CF_RESOURCES=$(cat <<-EOF
     "instances" : 1
   }
 }
-EOF)
+EOF
+)
 
 om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
