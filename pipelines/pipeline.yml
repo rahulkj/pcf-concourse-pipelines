@@ -303,14 +303,14 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
-      passed: [configure-ops-director, opsman-apply-changes]
     - get: pivnet-metrics-product
       params:
         globs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
+      trigger: true
+      passed: [configure-ops-director, opsman-apply-changes]
 
   - task: upload-metrics-tile
     file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
