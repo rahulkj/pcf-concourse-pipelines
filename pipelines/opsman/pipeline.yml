@@ -5,6 +5,11 @@ resource_types:
     repository: pivotalcf/pivnet-resource
     tag: latest-final
 
+- name: dummy
+  type: docker-image
+  source:
+    repository: starkandwayne/dummy-concourse-resource
+
 resources:
 - name: govc
   type: github-release
@@ -26,6 +31,9 @@ resources:
     uri: git@github.com:rahul-kj/concourse-vsphere
     branch: master
     private_key: {{github_private_key}}
+
+- name: resource-dummy
+  type: dummy
 
 - name: pivnet-opsman-product
   type: pivnet
@@ -57,6 +65,7 @@ jobs:
         globs:
         - "*.ova"
       trigger: true
+    - put: resource-dummy
 
   - task: delete-products
     file: concourse-vsphere/tasks/delete-products/task.yml
@@ -84,8 +93,10 @@ jobs:
       params:
         globs:
         - "*.ova"
-      trigger: true
+    - get: resource-dummy
       passed: [delete-opsmgr]
+      trigger: true
+    - put: resource-dummy
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
@@ -128,8 +139,10 @@ jobs:
     - get: concourse-vsphere
     - get: om-cli
       globs: om-linux
+    - get: resource-dummy
       trigger: true
       passed: [install-opsmgr]
+    - put: resource-dummy
 
   - task: config-opsdir
     file: concourse-vsphere/tasks/config-opsdir/task.yml
@@ -165,8 +178,10 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [configure-ops-director]
+    - get: resource-dummy
       trigger: true
+      passed: [configure-ops-director]
+    - put: resource-dummy
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -179,16 +194,87 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [opsman-apply-changes]
-      trigger: true
     - get: pivnet-er-product
       params:
         globs:
         - "*.pivotal"
+    - get: resource-dummy
       trigger: true
+      passed: [opsman-apply-changes]
+    - put: resource-dummy
 
   - task: upload-er-tile
     file: concourse-vsphere/tasks/upload-tile/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+
+- name: config-elastic-runtime-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: resource-dummy
+      trigger: true
+      passed: [upload-elastic-runtime-tile]
+    - put: resource-dummy
+
+  - task: config-er-tile
+    file: concourse-vsphere/tasks/config-ert/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      AZ_2: {{az_2_name}}
+      AZ_3: {{az_3_name}}
+      NETWORK_NAME: {{network_name}}
+      SYSLOG_HOST: {{syslog_host}}
+      SYSLOG_PORT: {{syslog_port}}
+      SYSLOG_PROTOCOL: {{syslog_protocol}}
+      LOGGREGATOR_ENDPOINT_PORT: {{loggregator_endpoint_port}}
+      SSL_CERT: {{ssl_cert}}
+      SSL_PRIVATE_KEY: {{ssl_private_key}}
+      DISABLE_HTTP_PROXY: {{disable_http_proxy}}
+      TCP_ROUTING: {{tcp_routing}}
+      TCP_ROUTING_PORTS: {{tcp_routing_ports}}
+      ROUTE_SERVICES: {{route_services}}
+      IGNORE_SSL_CERT: {{ignore_ssl_cert_verification}}
+      SMTP_FROM: {{smtp_from}}
+      SMTP_ADDRESS: {{smtp_address}}
+      SMTP_PORT: {{smtp_port}}
+      SMTP_USER: {{smtp_user}}
+      SMTP_PWD: {{smtp_pwd}}
+      SMTP_AUTH_MECHANISM: {{smtp_auth_mechanism}}
+      LDAP_URL: {{ldap_url}}
+      LDAP_USER: {{ldap_user}}
+      LDAP_PWD: {{ldap_pwd}}
+      SEARCH_BASE: {{search_base}}
+      SEARCH_FILTER: {{search_filter}}
+      GROUP_SEARCH_BASE: {{group_search_base}}
+      GROUP_SEARCH_FILTER: {{group_search_filter}}
+      MAIL_ATTR_NAME: {{mail_attribute_name}}
+      FIRST_NAME_ATTR: {{first_name_attribute}}
+      LAST_NAME_ATTR: {{last_name_attribute}}
+      SYSTEM_DOMAIN: {{system_domain}}
+      APPS_DOMAIN: {{apps_domain}}
+      HA_PROXY_IPS: {{ha_proxy_ips}}
+      SKIP_CERT_VERIFY: {{skip_cert_verify}}
+      ROUTER_STATIC_IPS: {{router_static_ips}}
+      MYSQL_MONITOR_EMAIL: {{mysql_monitor_email}}
+      TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
+      SSH_STATIC_IPS: {{ssh_static_ips}}
+
+- name: ert-apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: resource-dummy
+      trigger: true
+      passed: [config-elastic-runtime-tile]
+    - put: resource-dummy
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}

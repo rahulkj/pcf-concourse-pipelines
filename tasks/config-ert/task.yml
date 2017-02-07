@@ -1,0 +1,56 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
+  AZ_2:
+  AZ_3:
+  NETWORK_NAME:
+  SYSLOG_HOST:
+  SYSLOG_PORT:
+  SYSLOG_PROTOCOL:
+  LOGGREGATOR_ENDPOINT_PORT:
+  SSL_CERT:
+  SSL_PRIVATE_KEY:
+  DISABLE_HTTP_PROXY:
+  TCP_ROUTING:
+  TCP_ROUTING_PORTS:
+  ROUTE_SERVICES:
+  IGNORE_SSL_CERT:
+  SMTP_FROM:
+  SMTP_ADDRESS:
+  SMTP_PORT:
+  SMTP_USER:
+  SMTP_PWD:
+  SMTP_AUTH_MECHANISM:
+  LDAP_URL:
+  LDAP_USER:
+  LDAP_PWD:
+  SEARCH_BASE:
+  SEARCH_FILTER:
+  GROUP_SEARCH_BASE:
+  GROUP_SEARCH_FILTER:
+  MAIL_ATTR_NAME:
+  FIRST_NAME_ATTR:
+  LAST_NAME_ATTR:
+  SYSTEM_DOMAIN:
+  APPS_DOMAIN:
+  HA_PROXY_IPS:
+  SKIP_CERT_VERIFY:
+  ROUTER_STATIC_IPS:
+  MYSQL_MONITOR_EMAIL:
+  TCP_ROUTER_STATIC_IPS:
+  SSH_STATIC_IPS:  
+
+inputs:
+  - name: concourse-vsphere
+
+run:
+  path: concourse-vsphere/tasks/config-ert/task.sh
