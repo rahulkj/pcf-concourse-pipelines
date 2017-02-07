@@ -1,9 +1,5 @@
 #!/bin/bash
 
-uaac target https://$OPS_MGR_HOST/uaa --skip-ssl-validation
-uaac token owner get opsman $OPS_MGR_USR -s "" -p $OPS_MGR_PWD
-UAA_ACCESS_TOKEN=`cat ~/.uaac.yml | grep "access_token" | cut -d ":" -f2 | tr -d " "`
-
 IAAS_CONFIGURATION=$(cat <<-EOF
 {
   "vcenter_host": "$VCENTER_HOST",
@@ -96,11 +92,9 @@ om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
             -i "$IAAS_CONFIGURATION" \
             -d "$DIRECTOR_CONFIG"
 
-curl "https://$OPS_MGR_HOST/api/v0/staged/director/availability_zones" \
-            -X PUT -k \
-            -H "Authorization: Bearer $UAA_ACCESS_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "$AZ_CONFIGURATION"
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+            curl -p "/api/v0/staged/director/availability_zones" \
+            -x PUT -d "$AZ_CONFIGURATION"
 
 om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
             -n "$NETWORK_CONFIGURATION"

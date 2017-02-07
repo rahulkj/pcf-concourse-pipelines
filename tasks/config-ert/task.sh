@@ -280,10 +280,4 @@ CF_RESOURCES=$(cat <<-EOF
 EOF
 )
 
-echo $CF_PROPERTIES
-
-echo $CF_NETWORK
-
-echo $CF_RESOURCES
-
 om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
