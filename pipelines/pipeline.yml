@@ -58,7 +58,6 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
     - get: govc
       params:
         globs:
@@ -318,7 +317,7 @@ jobs:
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
 
-- name: upload-metrics-runtime-tile
+- name: upload-metrics-tile
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -348,12 +347,12 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [upload-metrics-runtime-tile]
+      passed: [upload-metrics-tile]
     - get: om-cli
       globs: om-linux
 
   - task: config-metrics-tile
-    file: concourse-vsphere/tasks/config-metrics-tile/task.yml
+    file: concourse-vsphere/tasks/config-ops-metrics/task.yml
     params:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}
