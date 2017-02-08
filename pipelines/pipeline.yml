@@ -184,7 +184,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [configure-ops-director, opsman-apply-changes]
+      passed: [configure-ops-director]
     - get: pivnet-er-product
       params:
         globs:
@@ -258,7 +258,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [config-elastic-runtime-tile]
+      passed: [config-elastic-runtime-tile, opsman-apply-changes]
     - get: om-cli
       globs: om-linux
 
@@ -304,7 +304,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [configure-ops-director, opsman-apply-changes]
+      passed: [configure-ops-director]
     - get: pivnet-metrics-product
       params:
         globs:
