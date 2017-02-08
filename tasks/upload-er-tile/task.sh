@@ -7,7 +7,7 @@ chmod +x om-cli/om-linux
 
 FILE_PATH=`find ./pivnet-er-product -name *.pivotal`
 
-STEMCELL_VERSION=`cat ./pivnet-metrics-product/metadata.json | jq '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'
+STEMCELL_VERSION=`cat ./pivnet-metrics-product/metadata.json | jq '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'`
 
 echo "Downloading stemcell $STEMCELL_VERSION"
 $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
@@ -18,4 +18,4 @@ SC_FILE_PATH=`find ./ -name *.tgz`
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $FILE_PATH
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -p $SC_FILE_PATH
+./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
