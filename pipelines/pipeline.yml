@@ -54,10 +54,47 @@ resources:
 
 jobs:
 
+- name: download-products
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: govc
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+    - get: pivnet-opsman-product
+      params:
+        globs:
+        - "*.ova"
+      trigger: true
+    - get: pivnet-metrics-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: pivnet-er-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+
+  - task: download-products
+    file: concourse-vsphere/tasks/download-products/task.yml
+    params:
+      PIVNET_API_TOKEN: {{pivnet_token}}
+
 - name: delete-opsmgr
   plan:
   - aggregate:
     - get: concourse-vsphere
+      passed: [download-products]
+      trigger: true
     - get: govc
       params:
         globs:
@@ -197,7 +234,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [configure-ops-director]
+      passed: [opsman-apply-changes]
     - get: pivnet-er-product
       params:
         globs:
@@ -271,12 +308,12 @@ jobs:
       TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
       SSH_STATIC_IPS: {{ssh_static_ips}}
 
-- name: ert-apply-changes
+- name: product-apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [config-elastic-runtime-tile, opsman-apply-changes]
+      passed: [config-elastic-runtime-tile, config-metrics-tile]
     - get: om-cli
       globs: om-linux
 
@@ -292,7 +329,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [ert-apply-changes]
+      passed: [product-apply-changes]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
@@ -322,7 +359,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [configure-ops-director]
+      passed: [opsman-apply-changes]
     - get: pivnet-metrics-product
       params:
         globs:
@@ -341,7 +378,7 @@ jobs:
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
-      
+
 - name: config-metrics-tile
   plan:
   - aggregate:
