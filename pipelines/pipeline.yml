@@ -222,9 +222,9 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [upload-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
+      passed: [upload-elastic-runtime-tile]
 
   - task: config-er-tile
     file: concourse-vsphere/tasks/config-ert/task.yml
@@ -347,9 +347,9 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [upload-metrics-tile]
     - get: om-cli
       globs: om-linux
+      passed: [upload-metrics-tile]
 
   - task: config-metrics-tile
     file: concourse-vsphere/tasks/config-ops-metrics/task.yml

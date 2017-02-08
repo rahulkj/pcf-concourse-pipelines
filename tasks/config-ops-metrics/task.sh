@@ -2,12 +2,12 @@
 
 chmod +x om-cli/om-linux
 
-METRICS_RELEASE=`om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep p-metrics`
+METRICS_RELEASE=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep p-metrics`
 
 PRODUCT_NAME=`echo $METRICS_RELEASE | cut -d"|" -f2 | tr -d " "`
 PRODUCT_VERSION=`echo $METRICS_RELEASE | cut -d"|" -f3 | tr -d " "`
 
-om -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
+./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
 NETWORK=$(cat <<-EOF
 {
