@@ -54,46 +54,10 @@ resources:
 
 jobs:
 
-- name: download-products
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-    - get: govc
-      params:
-        globs:
-        - "*linux_amd64*"
-    - get: om-cli
-      globs: om-linux
-    - get: pivnet-cli
-      params:
-        globs:
-        - "*linux-amd64*"
-    - get: pivnet-opsman-product
-      params:
-        globs:
-        - "*.ova"
-      trigger: true
-    - get: pivnet-metrics-product
-      params:
-        globs:
-        - "*.pivotal"
-      trigger: true
-    - get: pivnet-er-product
-      params:
-        globs:
-        - "*.pivotal"
-      trigger: true
-
-  - task: download-products
-    file: concourse-vsphere/tasks/download-products/task.yml
-    params:
-      PIVNET_API_TOKEN: {{pivnet_token}}
-
 - name: delete-opsmgr
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [download-products]
       trigger: true
     - get: govc
       params:
