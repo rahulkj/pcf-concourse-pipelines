@@ -15,6 +15,7 @@ inputs:
   - name: pivnet-metrics-product
   - name: concourse-vsphere
   - name: om-cli
+  - name: pivnet-cli
 
 run:
   path: concourse-vsphere/tasks/upload-metrics-tile/task.sh

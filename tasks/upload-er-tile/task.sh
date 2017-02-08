@@ -1,12 +1,16 @@
 #!/bin/bash
-chmod + om-cli/om-linux
+
+PIVNET_CLI=`find ./pivnet-cli -name "*linux-amd64*"`
+chmod +x $PIVNET_CLI
+
+chmod +x om-cli/om-linux
 
 FILE_PATH=`find ./pivnet-er-product -name *.pivotal`
 
 STEMCELL_VERSION=`cat ./pivnet-er-product/metadata.json | jq '.Dependencies[32].Release.Version'`
 
 echo "Downloading stemcell"
-pivnet-cli download-product-files -p stemcells -r $STEMCELL_VERSION -g "*vsphere*"
+./$PIVNET_CLI download-product-files -p stemcells -r $STEMCELL_VERSION -g "*vsphere*"
 
 SC_FILE_PATH=`find ./ -name *.tgz`
 

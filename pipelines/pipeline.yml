@@ -20,6 +20,13 @@ resources:
     repository: om
     access_token: {{github_token}}
 
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: {{github_token}}
+
 - name: concourse-vsphere
   type: git
   source:
@@ -197,6 +204,10 @@ jobs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
 
   - task: upload-er-tile
     file: concourse-vsphere/tasks/upload-er-tile/task.yml
@@ -317,6 +328,10 @@ jobs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"  
 
   - task: upload-metrics-tile
     file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
