@@ -8,6 +8,9 @@ export GOVC_URL=$VCENTER_HOST
 export GOVC_USERNAME=$VCENTER_USR
 export GOVC_PASSWORD=$VCENTER_PWD
 
-set +e
-
-./govc/govc_linux_amd64 vm.destroy -vm.ip=$OPS_MGR_IP
+if curl -s http://$OPS_MGR_HOST >/dev/null
+then
+  ./govc/govc_linux_amd64 vm.destroy -vm.ip=$OPS_MGR_IP
+else
+  echo "Ops Manager not reachable or does not exist"
+fi
