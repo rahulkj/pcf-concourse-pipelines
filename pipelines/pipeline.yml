@@ -215,6 +215,7 @@ jobs:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
 
 - name: config-elastic-runtime-tile
   plan:
@@ -331,7 +332,7 @@ jobs:
     - get: pivnet-cli
       params:
         globs:
-        - "*linux-amd64*"  
+        - "*linux-amd64*"
 
   - task: upload-metrics-tile
     file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
@@ -339,7 +340,8 @@ jobs:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
-
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      
 - name: config-metrics-tile
   plan:
   - aggregate:
