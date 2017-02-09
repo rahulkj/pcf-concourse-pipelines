@@ -95,8 +95,10 @@ jobs:
       params:
         globs:
         - "*linux_amd64*"
+      passed: [delete-opsmgr]
     - get: om-cli
       globs: om-linux
+      passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
@@ -145,6 +147,7 @@ jobs:
       trigger: true
     - get: om-cli
       globs: om-linux
+      passed: [install-opsmgr]
 
   - task: config-opsdir
     file: concourse-vsphere/tasks/config-opsdir/task.yml
@@ -184,6 +187,7 @@ jobs:
       passed: [configure-ops-director]
     - get: om-cli
       globs: om-linux
+      passed: [configure-ops-director]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -204,6 +208,7 @@ jobs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
+      passed: [opsman-apply-changes]
     - get: pivnet-cli
       params:
         globs:
@@ -222,6 +227,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
+      passed: [upload-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
       passed: [upload-elastic-runtime-tile]
@@ -279,6 +285,7 @@ jobs:
       passed: [config-elastic-runtime-tile, config-metrics-tile]
     - get: om-cli
       globs: om-linux
+      passed: [config-elastic-runtime-tile, config-metrics-tile]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -309,6 +316,7 @@ jobs:
       passed: [disable-ert-errands]
     - get: om-cli
       globs: om-linux
+      passed: [product-apply-changes]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -329,6 +337,7 @@ jobs:
         - "*.pivotal"
     - get: om-cli
       globs: om-linux
+      passed: [opsman-apply-changes]
     - get: pivnet-cli
       params:
         globs:
@@ -347,6 +356,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
+      passed: [upload-metrics-tile]
     - get: om-cli
       globs: om-linux
       passed: [upload-metrics-tile]
