@@ -12,7 +12,7 @@ STEMCELL_VERSION=`cat ./pivnet-er-product/metadata.json | jq '.Dependencies[] | 
 echo "Downloading stemcell $STEMCELL_VERSION"
 $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
 
-./$PIVNET_CLI download-product-files -p stemcells -r $STEMCELL_VERSION -g "*vsphere*"
+./$PIVNET_CLI download-product-files -p stemcells -r $STEMCELL_VERSION -g "*vsphere*" --accept-eula
 
 SC_FILE_PATH=`find ./ -name *.tgz`
 
