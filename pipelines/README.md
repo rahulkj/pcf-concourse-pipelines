@@ -86,6 +86,11 @@ mysql_monitor_email:
 tcp_router_static_ips:
 ssh_static_ips:
 
+jmx_admin_usr:
+jmx_admin_pwd:
+jmx_security_logging: true
+jmx_use_ssl: false
+
 ```
 
 Now you can execute the following commands:
@@ -93,3 +98,5 @@ Now you can execute the following commands:
 * `fly -t lite login`
 * `fly -t lite set-pipeline -p pcf -c pipeline.yml -l params.yml`
 * `fly -t lite unpause-pipeline -p pcf`
+
+![](./images/pipeline.png)
