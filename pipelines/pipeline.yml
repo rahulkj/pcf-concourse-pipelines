@@ -103,6 +103,7 @@ jobs:
       params:
         globs:
         - "*.ova"
+      passed: [delete-opsmgr]  
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
