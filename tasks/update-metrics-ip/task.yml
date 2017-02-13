@@ -16,4 +16,4 @@ inputs:
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/disable-ert-errands/task.sh
+  path: concourse-vsphere/tasks/update-metrics-ip/task.sh

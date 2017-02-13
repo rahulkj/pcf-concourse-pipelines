@@ -298,11 +298,31 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
+      # trigger: true
+      # passed: [product-apply-changes]
+    - get: om-cli
+      globs: om-linux
       passed: [product-apply-changes]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+
+- name: update-metrics-ip-in-bosh
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      # trigger: true
+      # passed: [product-apply-changes]
+    - get: om-cli
+      globs: om-linux
+      passed: [product-apply-changes]
+
+  - task: update-metrics-ip
+    file: concourse-vsphere/tasks/update-metrics-ip/task.yml
     params:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}

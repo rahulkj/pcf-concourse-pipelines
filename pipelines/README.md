@@ -1,35 +1,35 @@
 **To use this pipeline create the params.yml file with the following variables**
 
 ```
-pivnet_token:
-github_token:
-github_private_key:
+pivnet_token: <YOUR-PIVNET-TOKEN>
+github_token: <YOUR-GITHUB-TOKEN>
+github_private_key: <YOUR-GITHUB-PRIVATE-KEY>
 
-vcenter_host:
-vcenter_usr:
-vcenter_pwd:
-vcenter_data_center:
+vcenter_host: <VCENTER-HOST-OR-IP>
+vcenter_usr: <VCENTER-SERVICE-USR>
+vcenter_pwd: <VCENTER-SERVICE-USR-PWD>
+vcenter_data_center: <VCENTER-DATA-CENTER-TO-DEPLOY>
 
-om_data_store:
-ops_mgr_host:
-ops_mgr_usr:
-ops_mgr_pwd:
-ops_mgr_ssh_pwd:
-om_decryption_pwd:
-om_ntp_servers:
-om_dns_servers:
-om_gateway:
-om_netmask:
-om_ip:
+om_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER>
+ops_mgr_host: <DESIRED-OPS-MANAGER-HOST-NAME>
+ops_mgr_usr: <DESIRED-OPS-MANAGER-USR>
+ops_mgr_pwd: <DESIRED-OPS-MANAGER-PWD>
+ops_mgr_ssh_pwd: <DESIRED-OPS-MANAGER-SSH-PWD>
+om_decryption_pwd: <DESIRED-OPS-MANAGER-DECRYPTION-PWD>
+om_ntp_servers: <OPS-MANAGER-NTP-SERVERS>
+om_dns_servers: <OPS-MANAGER-DNS-SERVERS>
+om_gateway: <OPS-MANAGER-NETWORK-GATEWAY>
+om_netmask: <OPS-MANAGER-NETWORK-MASK>
+om_ip: <DESIRED-OPS-MANAGER-IP>
 
-om_vm_network:
-om_vm_name:
-om_resource_pool:
-disk_type:
-om_vm_power_state:
+om_vm_network: <OPS-MANAGER-NETWORK-NAME>
+om_vm_name: <OPS-MANAGER-VM-NAME>
+om_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH>
+disk_type: "thick"
+om_vm_power_state: true
 
-storage_names:
-network_name:
+storage_names: <PCF-STORAGE-NAMES>
+network_name: <PCF-NETWORK-NAME>
 vm_network:
 deployment_nw_cidr:
 excluded_range:

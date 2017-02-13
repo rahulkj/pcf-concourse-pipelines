@@ -1,6 +1,8 @@
 #!/bin/bash
 
-ERRANDS=$(cat <<-EOF
+chmod +x om-cli/om-linux
+
+ERT_ERRANDS=$(cat <<-EOF
 {"errands": [
   {"name": "smoke-tests","post_deploy": false},
   {"name": "push-apps-manager","post_deploy": false},
@@ -13,10 +15,17 @@ ERRANDS=$(cat <<-EOF
 EOF
 )
 
-uaac target https://$OPS_MGR_HOST/uaa --skip-ssl-validation
-uaac token owner get opsman $OPS_MGR_USR -s "" -p $OPS_MGR_PWD
-UAA_ACCESS_TOKEN=`cat ~/.uaac.yml | grep "access_token" | cut -d ":" -f2 | tr -d " "`
+METRICS_ERRANDS=$(cat <<-EOF
+{"errands": [
+  {"name": "smoke-tests","post_deploy": false}
+]}
+EOF
+)
 
-CF_GUID=`curl "https://$OPS_MGR_HOST/api/v0/staged/products" -k -X GET -H "Authorization: Bearer $UAA_ACCESS_TOKEN" | jq '.[] | select(.installation_name | contains("cf-")) | .guid' | tr -d '"'`
+CF_GUID=`./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p "/api/v0/deployed/products" -x GET | jq '.[] | select(.installation_name | contains("cf-")) | .guid' | tr -d '"'`
 
-curl -k "https://$OPS_MGR_HOST/api/v0/staged/products/$CF_GUID/errands" -X PUT -H "Authorization: Bearer $UAA_ACCESS_TOKEN" -H "Content-Type: application/json" -d "$ERRANDS"
+./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p "/api/v0/staged/products/$CF_GUID/errands" -x PUT -d "$ERT_ERRANDS"
+
+METRICS_GUID=`./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p "/api/v0/deployed/products" -x GET | jq '.[] | select(.type | contains("p-metrics")) | .installation_name' | tr -d '"'`
+
+./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p "/api/v0/staged/products/$METRICS_GUID/errands" -x PUT -d "$METRICS_ERRANDS"
