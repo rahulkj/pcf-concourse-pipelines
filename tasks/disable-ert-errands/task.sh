@@ -17,7 +17,7 @@ EOF
 
 METRICS_ERRANDS=$(cat <<-EOF
 {"errands": [
-  {"name": "smoke-tests","post_deploy": false}
+  {"name": "integration-tests","post_deploy": false}
 ]}
 EOF
 )
