@@ -294,12 +294,12 @@ jobs:
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
 
-- name: disable-ert-errands
+- name: disable-errands
   plan:
   - aggregate:
     - get: concourse-vsphere
-      # trigger: true
-      # passed: [product-apply-changes]
+      trigger: true
+      passed: [product-apply-changes]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
@@ -315,8 +315,8 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      # trigger: true
-      # passed: [product-apply-changes]
+      trigger: true
+      passed: [product-apply-changes]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
@@ -328,12 +328,12 @@ jobs:
       OPS_MGR_USR: {{ops_mgr_usr}}
       OPS_MGR_PWD: {{ops_mgr_pwd}}
 
-- name: post-ert-deploy-apply-changes
+- name: post-apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [disable-ert-errands]
+      passed: [disable-errands, update-metrics-ip-in-bosh]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
