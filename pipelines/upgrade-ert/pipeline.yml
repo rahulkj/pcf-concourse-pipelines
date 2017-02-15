@@ -120,10 +120,10 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [product-apply-changes]
+      passed: [config-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
-      passed: [product-apply-changes]
+      passed: [config-elastic-runtime-tile]
 
   - task: enable-ert-errands
     file: concourse-vsphere/tasks/enable-ert-errands/task.yml
