@@ -103,7 +103,7 @@ jobs:
       params:
         globs:
         - "*.ova"
-      passed: [delete-opsmgr]  
+      passed: [delete-opsmgr]
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
@@ -305,8 +305,15 @@ jobs:
       globs: om-linux
       passed: [product-apply-changes]
 
-  - task: apply-changes
+  - task: disable-ert-errands
     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
+    params:
+      OPS_MGR_HOST: {{ops_mgr_host}}
+      OPS_MGR_USR: {{ops_mgr_usr}}
+      OPS_MGR_PWD: {{ops_mgr_pwd}}
+
+  - task: disable-metrics-errands
+    file: concourse-vsphere/tasks/disable-metrics-errands/task.yml
     params:
       OPS_MGR_HOST: {{ops_mgr_host}}
       OPS_MGR_USR: {{ops_mgr_usr}}
