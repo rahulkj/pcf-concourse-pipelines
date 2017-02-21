@@ -196,10 +196,6 @@ CF_RESOURCES=$(cat <<-EOF
     "instance_type": {"id": "automatic"},
     "instances" : 1
   },
-  "etcd_server": {
-    "instance_type": {"id": "automatic"},
-    "instances" : 1
-  },
   "nfs_server": {
     "instance_type": {"id": "automatic"},
     "instances" : 1

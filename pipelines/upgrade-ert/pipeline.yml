@@ -65,7 +65,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [upgrade-elastic-runtime-tile]
+      # passed: [upgrade-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
       passed: [upgrade-elastic-runtime-tile]
