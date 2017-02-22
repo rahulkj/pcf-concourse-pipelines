@@ -54,56 +54,56 @@ resources:
 
 jobs:
 
-- name: delete-opsmgr
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-    - get: govc
-      params:
-        globs:
-        - "*linux_amd64*"
-    - get: om-cli
-      globs: om-linux
-    - get: pivnet-opsman-product
-      params:
-        globs:
-        - "*.ova"
-      trigger: true
-
-  - task: delete-products
-    file: concourse-vsphere/tasks/delete-products/task.yml
-    params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
-
-  - task: delete-opsman
-    file: concourse-vsphere/tasks/delete-opsman/task.yml
-    params:
-      OPS_MGR_IP: {{om_ip}}
-      VCENTER_HOST: {{vcenter_host}}
-      VCENTER_USR: {{vcenter_usr}}
-      VCENTER_PWD: {{vcenter_pwd}}
+# - name: delete-opsmgr
+#   plan:
+#   - aggregate:
+#     - get: concourse-vsphere
+#     - get: govc
+#       params:
+#         globs:
+#         - "*linux_amd64*"
+#     - get: om-cli
+#       globs: om-linux
+#     - get: pivnet-opsman-product
+#       params:
+#         globs:
+#         - "*.ova"
+#       trigger: true
+#
+#   - task: delete-products
+#     file: concourse-vsphere/tasks/delete-products/task.yml
+#     params:
+#       OPS_MGR_HOST: {{ops_mgr_host}}
+#       OPS_MGR_USR: {{ops_mgr_usr}}
+#       OPS_MGR_PWD: {{ops_mgr_pwd}}
+#
+#   - task: delete-opsman
+#     file: concourse-vsphere/tasks/delete-opsman/task.yml
+#     params:
+#       OPS_MGR_IP: {{om_ip}}
+#       VCENTER_HOST: {{vcenter_host}}
+#       VCENTER_USR: {{vcenter_usr}}
+#       VCENTER_PWD: {{vcenter_pwd}}
 
 - name: install-opsmgr
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [delete-opsmgr]
+      # passed: [delete-opsmgr]
       trigger: true
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      passed: [delete-opsmgr]
+      # passed: [delete-opsmgr]
     - get: om-cli
       globs: om-linux
-      passed: [delete-opsmgr]
+      # passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
-      passed: [delete-opsmgr]
+      # passed: [delete-opsmgr]
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
