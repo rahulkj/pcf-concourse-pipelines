@@ -96,7 +96,7 @@ jmx_use_ssl: false
 Now you can execute the following commands:
 
 * `fly -t lite login`
-* `fly -t lite set-pipeline -p pcf -c pipeline.yml -l params.yml`
+* `fly -t lite set-pipeline -p pcf -c new-setup/pipeline.yml -l params.yml`
 * `fly -t lite unpause-pipeline -p pcf`
 
 ![](./images/pipeline.png)
