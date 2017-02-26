@@ -164,28 +164,28 @@ jobs:
       VCENTER_DISK_TYPE: {{disk_type}}
       STORAGE_NAMES: {{storage_names}}
       INFRA_NETWORK_NAME: {{infra_network_name}}
-      INFRA_VCENTER_NETWORK: {{infra_vm_network}}
+      INFRA_VCENTER_NETWORK: {{infra_vsphere_network}}
       INFRA_NW_CIDR: {{infra_nw_cidr}}
       INFRA_EXCLUDED_RANGE: {{infra_excluded_range}}
       INFRA_NW_DNS: {{infra_nw_dns}}
       INFRA_NW_GATEWAY: {{infra_nw_gateway}}
       INFRA_NW_AZ: {{infra_nw_az}}
       DEPLOYMENT_NETWORK_NAME: {{deployment_network_name}}
-      DEPLOYMENT_VCENTER_NETWORK: {{deployment_vm_network}}
+      DEPLOYMENT_VCENTER_NETWORK: {{deployment_vsphere_network}}
       DEPLOYMENT_NW_CIDR: {{deployment_nw_cidr}}
       DEPLOYMENT_EXCLUDED_RANGE: {{deployment_excluded_range}}
       DEPLOYMENT_NW_DNS: {{deployment_nw_dns}}
       DEPLOYMENT_NW_GATEWAY: {{deployment_nw_gateway}}
       DEPLOYMENT_NW_AZ: {{deployment_nw_az}}
       SERVICES_NETWORK_NAME: {{services_network_name}}
-      SERVICES_VCENTER_NETWORK: {{services_vm_network}}
+      SERVICES_VCENTER_NETWORK: {{services_vsphere_network}}
       SERVICES_NW_CIDR: {{services_nw_cidr}}
       SERVICES_EXCLUDED_RANGE: {{services_excluded_range}}
       SERVICES_NW_DNS: {{services_nw_dns}}
       SERVICES_NW_GATEWAY: {{services_nw_gateway}}
       SERVICES_NW_AZ: {{services_nw_az}}
       DYNAMIC_SERVICES_NETWORK_NAME: {{dynamic_services_network_name}}
-      DYNAMIC_SERVICES_VCENTER_NETWORK: {{dynamic_services_vm_network}}
+      DYNAMIC_SERVICES_VCENTER_NETWORK: {{dynamic_services_vsphere_network}}
       DYNAMIC_SERVICES_NW_CIDR: {{dynamic_services_nw_cidr}}
       DYNAMIC_SERVICES_EXCLUDED_RANGE: {{dynamic_services_excluded_range}}
       DYNAMIC_SERVICES_NW_DNS: {{dynamic_services_nw_dns}}
