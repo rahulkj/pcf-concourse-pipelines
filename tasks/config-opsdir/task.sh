@@ -1,6 +1,4 @@
 #!/bin/bash
-source ../../.env
-
 chmod +x om-cli/om-linux
 
 CMD=./om-cli/om-linux
