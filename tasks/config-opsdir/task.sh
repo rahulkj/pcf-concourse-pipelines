@@ -44,22 +44,68 @@ EOF
 
 NETWORK_CONFIGURATION=$(cat <<-EOF
 {
-  "icmp_checks_enabled": false,
+  "icmp_checks_enabled": true,
   "networks": [
     {
-      "name": "$NETWORK_NAME",
+      "name": "$INFRA_NETWORK_NAME",
       "service_network": false,
-      "iaas_identifier": "$VCENTER_NETWORK",
+      "iaas_identifier": "$INFRA_VCENTER_NETWORK",
+      "subnets": [
+        {
+          "cidr": "$INFRA_NW_CIDR",
+          "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
+          "dns": "$INFRA_NW_DNS",
+          "gateway": "$INFRA_NW_GATEWAY",
+          "availability_zones": [
+            "$INFRA_NW_AZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "$DEPLOYMENT_NETWORK_NAME",
+      "service_network": false,
+      "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
       "subnets": [
         {
           "cidr": "$DEPLOYMENT_NW_CIDR",
-          "reserved_ip_ranges": "$EXCLUDED_RANGE",
+          "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
           "dns": "$DEPLOYMENT_NW_DNS",
           "gateway": "$DEPLOYMENT_NW_GATEWAY",
           "availability_zones": [
-            "$AZ_1",
-            "$AZ_2",
-            "$AZ_3"
+            "$DEPLOYMENT_NW_AZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "$SERVICES_NETWORK_NAME",
+      "service_network": true,
+      "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
+      "subnets": [
+        {
+          "cidr": "$SERVICES_NW_CIDR",
+          "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
+          "dns": "$SERVICES_NW_DNS",
+          "gateway": "$SERVICES_NW_GATEWAY",
+          "availability_zones": [
+            "$SERVICES_NW_AZ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
+      "service_network": true,
+      "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
+      "subnets": [
+        {
+          "cidr": "$DYNAMIC_SERVICES_NW_CIDR",
+          "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
+          "dns": "$DYNAMIC_SERVICES_NW_DNS",
+          "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
+          "availability_zones": [
+            "$DYNAMIC_SERVICES_NW_AZ"
           ]
         }
       ]
@@ -85,7 +131,7 @@ EOF
 NETWORK_ASSIGNMENT=$(cat <<-EOF
 {
   "singleton_availability_zone": "$AZ_1",
-  "network": "$NETWORK_NAME"
+  "network": "$INFRA_NETWORK_NAME"
 }
 EOF
 )
