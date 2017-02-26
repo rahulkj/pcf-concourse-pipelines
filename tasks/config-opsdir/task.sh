@@ -1,6 +1,9 @@
 #!/bin/bash
+source ../../.env
 
 chmod +x om-cli/om-linux
+
+CMD=./om-cli/om-linux
 
 IAAS_CONFIGURATION=$(cat <<-EOF
 {
@@ -49,14 +52,14 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     {
       "name": "$INFRA_NETWORK_NAME",
       "service_network": false,
-      "iaas_identifier": "$INFRA_VCENTER_NETWORK",
       "subnets": [
         {
+          "iaas_identifier": "$INFRA_VCENTER_NETWORK",
           "cidr": "$INFRA_NW_CIDR",
           "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
           "dns": "$INFRA_NW_DNS",
           "gateway": "$INFRA_NW_GATEWAY",
-          "availability_zones": [
+          "availability_zone_names": [
             "$INFRA_NW_AZ"
           ]
         }
@@ -65,14 +68,14 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     {
       "name": "$DEPLOYMENT_NETWORK_NAME",
       "service_network": false,
-      "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
       "subnets": [
         {
+          "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
           "cidr": "$DEPLOYMENT_NW_CIDR",
           "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
           "dns": "$DEPLOYMENT_NW_DNS",
           "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zones": [
+          "availability_zone_names": [
             "$DEPLOYMENT_NW_AZ"
           ]
         }
@@ -81,14 +84,14 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     {
       "name": "$SERVICES_NETWORK_NAME",
       "service_network": true,
-      "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
       "subnets": [
         {
+          "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
           "cidr": "$SERVICES_NW_CIDR",
           "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
           "dns": "$SERVICES_NW_DNS",
           "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zones": [
+          "availability_zone_names": [
             "$SERVICES_NW_AZ"
           ]
         }
@@ -97,14 +100,14 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     {
       "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
       "service_network": true,
-      "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
       "subnets": [
         {
+          "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
           "cidr": "$DYNAMIC_SERVICES_NW_CIDR",
           "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
           "dns": "$DYNAMIC_SERVICES_NW_DNS",
           "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zones": [
+          "availability_zone_names": [
             "$DYNAMIC_SERVICES_NW_AZ"
           ]
         }
@@ -140,13 +143,12 @@ echo $NETWORK_CONFIGURATION
 
 echo network names - $INFRA_VCENTER_NETWORK $DEPLOYMENT_VCENTER_NETWORK $SERVICES_VCENTER_NETWORK $DYNAMIC_SERVICES_VCENTER_NETWORK
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
+$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
             -i "$IAAS_CONFIGURATION" \
             -d "$DIRECTOR_CONFIG"
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
             curl -p "/api/v0/staged/director/availability_zones" \
             -x PUT -d "$AZ_CONFIGURATION"
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
-            -n "$NETWORK_CONFIGURATION"
+$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT" -n "$NETWORK_CONFIGURATION"
