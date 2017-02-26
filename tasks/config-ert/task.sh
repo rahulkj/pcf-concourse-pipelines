@@ -25,7 +25,7 @@ CF_NETWORK=$(cat <<-EOF
 EOF
 )
 
-if [ -z $SSL_CERT ]; then
+if [[ -z "$SSL_CERT" ]]; then
 DOMAINS=$(cat <<-EOF
   {"domains": ["*.$SYSTEM_DOMAIN", "*.$APPS_DOMAIN", "*.login.$SYSTEM_DOMAIN", "*.uaa.$SYSTEM_DOMAIN"] }
 EOF
@@ -35,6 +35,11 @@ EOF
 
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
+
+  echo "SSL_CERT is" $SSL_CERT
+  echo "SSL_PRIVATE_KEY is" $SSL_PRIVATE_KEY
+else
+  echo "I should be generating certs"
 fi
 
 
@@ -198,91 +203,91 @@ CF_RESOURCES=$(cat <<-EOF
 {
   "consul_server": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $CONSUL_SERVER_INSTANCES
   },
   "nats": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $NATS_INSTANCES
   },
   "etcd_tls_server": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $ETCD_TLS_SERVER_INSTANCES
   },
   "nfs_server": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $NFS_SERVER_INSTANCES
   },
   "mysql_proxy": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $MYSQL_PROXY_INSTANCES
   },
   "mysql": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $MYSQL_INSTANCES
   },
   "backup-prepare": {
     "instance_type": {"id": "automatic"},
-    "instances" : 0
+    "instances" : $BACKUP_PREPARE_INSTANCES
   },
   "ccdb": {
     "instance_type": {"id": "automatic"},
-    "instances" : 0
+    "instances" : $CCDB_INSTANCES
   },
   "uaadb": {
     "instance_type": {"id": "automatic"},
-    "instances" : 0
+    "instances" : $UAADB_INSTANCES
   },
   "uaa": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $UAA_INSTANCES
   },
   "cloud_controller": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $CLOUD_CONTROLLER_INSTANCES
   },
   "ha_proxy": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $HA_PROXY_INSTANCES
   },
   "router": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $ROUTER_INSTANCES
   },
   "mysql_monitor": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $MYSQL_MONITOR_INSTANCES
   },
   "clock_global": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $CLOCK_GLOBAL_INSTANCES
   },
   "cloud_controller_worker": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $CLOUD_CONTROLLER_WORKER_INSTANCES
   },
   "diego_database": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $DIEGO_DATABASE_INSTANCES
   },
   "diego_brain": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $DIEGO_BRAIN_INSTANCES
   },
   "diego_cell": {
     "instance_type": {"id": "automatic"},
-    "instances" : 2
+    "instances" : $DIEGO_CELL_INSTANCES
   },
   "doppler": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $DOPPLER_INSTANCES
   },
   "loggregator_trafficcontroller": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $LOGGREGATOR_TC_INSTANCES
   },
   "tcp_router": {
     "instance_type": {"id": "automatic"},
-    "instances" : 1
+    "instances" : $TCP_ROUTER_INSTANCES
   }
 }
 EOF
