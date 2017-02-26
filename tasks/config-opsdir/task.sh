@@ -133,8 +133,14 @@ EOF
 
 NETWORK_ASSIGNMENT=$(cat <<-EOF
 {
-  "singleton_availability_zone": "$AZ_1",
-  "network": "$INFRA_NETWORK_NAME"
+  "network_and_az": {
+     "network": {
+       "name": "$INFRA_NETWORK_NAME"
+     },
+     "singleton_availability_zone": {
+       "name": "$AZ_1"
+     }
+  }
 }
 EOF
 )
@@ -151,4 +157,10 @@ $CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
             curl -p "/api/v0/staged/director/availability_zones" \
             -x PUT -d "$AZ_CONFIGURATION"
 
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT" -n "$NETWORK_CONFIGURATION"
+$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+            curl -p "/api/v0/staged/director/networks" \
+            -x PUT -d "$NETWORK_CONFIGURATION"
+
+$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+            curl -p "/api/v0/staged/director/network_and_az" \
+            -x PUT -d "$NETWORK_ASSIGNMENT"
