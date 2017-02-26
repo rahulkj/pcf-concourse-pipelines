@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ../../.env
+
 chmod +x om-cli/om-linux
 
 IAAS_CONFIGURATION=$(cat <<-EOF
@@ -136,13 +138,17 @@ NETWORK_ASSIGNMENT=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
+echo $NETWORK_CONFIGURATION
+
+echo network names - $INFRA_VCENTER_NETWORK $DEPLOYMENT_VCENTER_NETWORK $SERVICES_VCENTER_NETWORK $DYNAMIC_SERVICES_VCENTER_NETWORK
+
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
             -i "$IAAS_CONFIGURATION" \
             -d "$DIRECTOR_CONFIG"
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
             curl -p "/api/v0/staged/director/availability_zones" \
             -x PUT -d "$AZ_CONFIGURATION"
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
+om -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh -na "$NETWORK_ASSIGNMENT"  \
             -n "$NETWORK_CONFIGURATION"
