@@ -25,6 +25,18 @@ CF_NETWORK=$(cat <<-EOF
 EOF
 )
 
+if [ -z $SSL_CERT ]; then
+DOMAINS=$(cat <<-EOF
+  {"domains": ["*.$SYSTEM_DOMAIN", "*.$APPS_DOMAIN", "*.login.$SYSTEM_DOMAIN", "*.uaa.$SYSTEM_DOMAIN"] }
+EOF
+)
+
+  CERTIFICATES=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates" -x POST -d "$DOMAINS"`
+
+  export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
+  export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
+fi
+
 
 CF_PROPERTIES=$(cat <<-EOF
 {
