@@ -36,6 +36,9 @@ EOF
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
 
+  SSL_CERT=`echo ${SSL_CERT//\n/\n\\r}`
+  SSL_PRIVATE_KEY=`echo ${SSL_PRIVATE_KEY//\n/\n\\r}`
+
   echo "SSL_CERT is" $SSL_CERT
   echo "SSL_PRIVATE_KEY is" $SSL_PRIVATE_KEY
 else
@@ -292,5 +295,7 @@ CF_RESOURCES=$(cat <<-EOF
 }
 EOF
 )
+
+echo CF_PROPERTIES $CF_PROPERTIES
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
