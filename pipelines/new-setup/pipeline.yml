@@ -398,10 +398,10 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
-      passed: [pre-install-step]
+      passed: [upload-metrics-tile]
     - get: om-cli
       globs: om-linux
+      trigger: true
       passed: [pre-install-step]
 
   - task: apply-changes
@@ -473,10 +473,9 @@ jobs:
   plan:
   - aggregate:
     - get: customer-repo
-      trigger: true
-      passed: [post-apply-changes]
     - get: om-cli
       globs: om-linux
+      trigger: true
       passed: [product-apply-changes]
 
   - task: post-step
