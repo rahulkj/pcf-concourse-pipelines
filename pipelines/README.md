@@ -173,4 +173,4 @@ Now you can execute the following commands:
 * `fly -t lite set-pipeline -p pcf -c new-setup/pipeline.yml -l params.yml`
 * `fly -t lite unpause-pipeline -p pcf`
 
-![](./images/pipeline.png)
+![](./images/pipeline_new.png)
