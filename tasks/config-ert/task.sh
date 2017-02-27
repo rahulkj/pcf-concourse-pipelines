@@ -36,9 +36,6 @@ EOF
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
 
-  SSL_CERT=`echo ${SSL_CERT//\n/\n\\r}`
-  SSL_PRIVATE_KEY=`echo ${SSL_PRIVATE_KEY//\n/\n\\r}`
-
   echo "SSL_CERT is" $SSL_CERT
   echo "SSL_PRIVATE_KEY is" $SSL_PRIVATE_KEY
 else
@@ -62,8 +59,8 @@ CF_PROPERTIES=$(cat <<-EOF
   },
   ".properties.networking_point_of_entry.haproxy.ssl_rsa_certificate": {
     "value": {
-      "cert_pem": "$SSL_CERT",
-      "private_key_pem": "$SSL_PRIVATE_KEY"
+      "cert_pem": $SSL_CERT,
+      "private_key_pem": $SSL_PRIVATE_KEY
     }
   },
   ".properties.networking_point_of_entry.haproxy.disable_http": {
