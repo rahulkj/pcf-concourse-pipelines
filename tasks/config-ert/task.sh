@@ -292,6 +292,4 @@ CF_RESOURCES=$(cat <<-EOF
 EOF
 )
 
-echo CF_PROPERTIES $CF_PROPERTIES
-
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"

@@ -322,7 +322,56 @@ jobs:
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
 
-- name: product-apply-changes
+- name: upload-metrics-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [opsman-apply-changes]
+    - get: pivnet-metrics-product
+      params:
+        globs:
+        - "*.pivotal"
+    - get: om-cli
+      globs: om-linux
+      passed: [opsman-apply-changes]
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-metrics-tile
+    file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
+    params:
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+
+- name: config-metrics-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [upload-metrics-tile]
+    - get: om-cli
+      globs: om-linux
+      passed: [upload-metrics-tile]
+
+  - task: config-metrics-tile
+    file: concourse-vsphere/tasks/config-ops-metrics/task.yml
+    params:
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      AZ_1: {{az_1_name}}
+      NETWORK_NAME: {{infra_network_name}}
+      JMX_ADMIN_USR: {{jmx_admin_usr}}
+      JMX_ADMIN_PWD: {{jmx_admin_pwd}}
+      JMX_SECURITY_LOGGING: {{jmx_security_logging}}
+      JMX_USE_SSL: {{jmx_use_ssl}}
+
+- name: pre-install-step
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -331,6 +380,23 @@ jobs:
     - get: om-cli
       globs: om-linux
       passed: [config-elastic-runtime-tile, config-metrics-tile]
+
+  - task: pre-step
+    file: concourse-vsphere/tasks/pre-step/task.yml
+    params:
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+
+- name: product-apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [pre-install-step]
+    - get: om-cli
+      globs: om-linux
+      passed: [pre-install-step]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -397,51 +463,19 @@ jobs:
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
-- name: upload-metrics-tile
+- name: post-install-step
   plan:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [opsman-apply-changes]
-    - get: pivnet-metrics-product
-      params:
-        globs:
-        - "*.pivotal"
+      passed: [post-apply-changes]
     - get: om-cli
       globs: om-linux
-      passed: [opsman-apply-changes]
-    - get: pivnet-cli
-      params:
-        globs:
-        - "*linux-amd64*"
+      passed: [product-apply-changes]
 
-  - task: upload-metrics-tile
-    file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
+  - task: post-step
+    file: concourse-vsphere/tasks/post-step/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
-      PIVNET_API_TOKEN: {{pivnet_token}}
-
-- name: config-metrics-tile
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [upload-metrics-tile]
-    - get: om-cli
-      globs: om-linux
-      passed: [upload-metrics-tile]
-
-  - task: config-metrics-tile
-    file: concourse-vsphere/tasks/config-ops-metrics/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      AZ_1: {{az_1_name}}
-      NETWORK_NAME: {{infra_network_name}}
-      JMX_ADMIN_USR: {{jmx_admin_usr}}
-      JMX_ADMIN_PWD: {{jmx_admin_pwd}}
-      JMX_SECURITY_LOGGING: {{jmx_security_logging}}
-      JMX_USE_SSL: {{jmx_use_ssl}}
