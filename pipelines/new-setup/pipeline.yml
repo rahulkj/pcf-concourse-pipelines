@@ -263,7 +263,6 @@ jobs:
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
       AZ_2: {{az_2_name}}
-      AZ_3: {{az_3_name}}
       NETWORK_NAME: {{deployment_network_name}}
       SYSLOG_HOST: {{syslog_host}}
       SYSLOG_PORT: {{syslog_port}}
@@ -300,6 +299,28 @@ jobs:
       MYSQL_MONITOR_EMAIL: {{mysql_monitor_email}}
       TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
       SSH_STATIC_IPS: {{ssh_static_ips}}
+      CONSUL_SERVER_INSTANCES: {{consul_server_instances}}
+      NATS_INSTANCES: {{nats_instances}}
+      ETCD_TLS_SERVER_INSTANCES: {{etcd_tls_server_instances}}
+      NFS_SERVER_INSTANCES: {{nfs_server_instances}}
+      MYSQL_PROXY_INSTANCES: {{mysql_proxy_instances}}
+      MYSQL_INSTANCES: {{mysql_instances}}
+      BACKUP_PREPARE_INSTANCES: {{backup_prepare_instances}}
+      CCDB_INSTANCES: {{ccdb_instances}}
+      UAADB_INSTANCES: {{uaadb_instances}}
+      UAA_INSTANCES: {{uaa_instances}}
+      CLOUD_CONTROLLER_INSTANCES: {{cloud_controller_instances}}
+      HA_PROXY_INSTANCES: {{ha_proxy_instances}}
+      ROUTER_INSTANCES: {{router_instances}}
+      MYSQL_MONITOR_INSTANCES: {{mysql_monitor_instances}}
+      CLOCK_GLOBAL_INSTANCES: {{clock_global_instances}}
+      CLOUD_CONTROLLER_WORKER_INSTANCES: {{cloud_controller_worker_instances}}
+      DIEGO_DATABASE_INSTANCES: {{diego_database_instances}}
+      DIEGO_BRAIN_INSTANCES: {{diego_brain_instances}}
+      DIEGO_CELL_INSTANCES: {{diego_cell_instances}}
+      DOPPLER_INSTANCES: {{doppler_instances}}
+      LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
+      TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
 
 - name: product-apply-changes
   plan:
