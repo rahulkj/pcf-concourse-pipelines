@@ -15,8 +15,7 @@ CF_NETWORK=$(cat <<-EOF
     "name": "$AZ_2"
   },
   "other_availability_zones": [
-    { "name": "$AZ_2" },
-    { "name": "$AZ_3" }
+    { "name": "$AZ_2" }
   ],
   "network": {
     "name": "$NETWORK_NAME"
