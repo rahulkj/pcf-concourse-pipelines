@@ -56,14 +56,14 @@ CF_PROPERTIES=$(cat <<-EOF
   ".properties.syslog_protocol": {
     "value": "$SYSLOG_PROTOCOL"
   },
-  ".properties.networking_point_of_entry.haproxy.ssl_rsa_certificate": {
+  ".properties.networking_point_of_entry": {
+    "value": "external_ssl"
+  },
+  ".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate": {
     "value": {
       "cert_pem": $SSL_CERT,
       "private_key_pem": $SSL_PRIVATE_KEY
     }
-  },
-  ".properties.networking_point_of_entry.haproxy.disable_http": {
-    "value": $DISABLE_HTTP_PROXY
   },
   ".properties.tcp_routing": {
     "value": "$TCP_ROUTING"

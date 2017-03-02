@@ -110,7 +110,7 @@ jobs:
       params:
         globs:
         - "*.ova"
-      trigger: true  
+      trigger: true
       # passed: [delete-opsmgr]
 
   - task: deploy-opsman
