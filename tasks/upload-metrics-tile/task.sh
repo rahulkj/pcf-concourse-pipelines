@@ -18,3 +18,6 @@ SC_FILE_PATH=`find ./ -name *.tgz`
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $FILE_PATH
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
+
+echo "Removing downloaded stemcell $STEMCELL_VERSION"
+rm $SC_FILE_PATH
