@@ -19,7 +19,7 @@ SC_FILE_PATH=`find ./ -name *.tgz`
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
 
-if [ ! -f $SC_FILE_PATH ]; then
+if [ ! -f "$SC_FILE_PATH" ]; then
     echo "Stemcell file not found!"
 else
   echo "Removing downloaded stemcell $STEMCELL_VERSION"
