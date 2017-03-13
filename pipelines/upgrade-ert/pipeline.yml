@@ -12,21 +12,18 @@ resources:
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}}
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: {{github_token}}
 
 - name: concourse-vsphere
   type: git
   source:
-    uri: git@github.com:rahul-kj/concourse-vsphere
+    uri: https://github.com/rahul-kj/concourse-vsphere
     branch: master
-    private_key: {{github_private_key}}
 
 - name: pivnet-er-product
   type: pivnet
@@ -55,9 +52,9 @@ jobs:
   - task: upload-er-tile
     file: concourse-vsphere/tasks/upload-er-tile/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
 
 - name: config-elastic-runtime-tile
@@ -73,12 +70,12 @@ jobs:
   - task: config-er-tile
     file: concourse-vsphere/tasks/config-ert/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
       AZ_2: {{az_2_name}}
       AZ_3: {{az_3_name}}
-      NETWORK_NAME: {{network_name}}
+      NETWORK_NAME: {{deployment_network_name}}
       SYSLOG_HOST: {{syslog_host}}
       SYSLOG_PORT: {{syslog_port}}
       SYSLOG_PROTOCOL: {{syslog_protocol}}
@@ -128,9 +125,9 @@ jobs:
   - task: enable-ert-errands
     file: concourse-vsphere/tasks/enable-ert-errands/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
 
 - name: product-apply-changes
   plan:
@@ -145,9 +142,9 @@ jobs:
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
 
 - name: disable-errands
   plan:
@@ -162,9 +159,9 @@ jobs:
   - task: disable-ert-errands
     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
 
 - name: final-apply-changes
   plan:
@@ -179,6 +176,6 @@ jobs:
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{ops_mgr_host}}
-      OPS_MGR_USR: {{ops_mgr_usr}}
-      OPS_MGR_PWD: {{ops_mgr_pwd}}
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}

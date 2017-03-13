@@ -11,21 +11,18 @@ resources:
   source:
     user: vmware
     repository: govmomi
-    access_token: {{github_token}}
 
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}}
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: {{github_token}}
 
 - name: concourse-vsphere
   type: git
