@@ -2,6 +2,7 @@
 
 ```
 pivnet_token: <YOUR-PIVNET-TOKEN>
+github_token: <YOUR-GITHUB-TOKEN>
 
 vcenter_host: <VCENTER-HOST-OR-IP>
 vcenter_usr: <VCENTER-SERVICE-USR>

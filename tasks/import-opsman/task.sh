@@ -3,15 +3,6 @@
 gunzip ./govc/govc_linux_amd64.gz
 chmod +x ./govc/govc_linux_amd64
 
-export GOVC_INSECURE=1
-export GOVC_URL=$GOVC_URL
-export GOVC_USERNAME=$GOVC_USERNAME
-export GOVC_PASSWORD=$GOVC_PASSWORD
-export GOVC_DATACENTER=$GOVC_DATACENTER
-export GOVC_DATASTORE=$GOVC_DATASTORE
-export GOVC_NETWORK=$GOVC_NETWORK
-export GOVC_RESOURCE_POOL=$GOVC_RESOURCE_POOL
-
 function setPropertyMapping() {
   if [ -e out.json ]; then
     mv out.json in.json
