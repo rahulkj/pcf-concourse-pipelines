@@ -35,10 +35,8 @@ EOF
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
 
-  echo "SSL_CERT is" $SSL_CERT
-  echo "SSL_PRIVATE_KEY is" $SSL_PRIVATE_KEY
-else
-  echo "I should be generating certs"
+  echo "Using self signed certificates generated using Ops Manager..."
+
 fi
 
 
@@ -236,6 +234,7 @@ EOF
 
 if [[ ! -z "$LDAP_URL" ]]; then
 
+echo "Configuring LDAP in ERT..."
 CF_LDAP_PROPERTIES=$(cat <<-EOF
 {
   ".properties.uaa": {
@@ -282,6 +281,8 @@ fi
 
 if [[ ! -z "$SYSLOG_HOST" ]]; then
 
+echo "Configuring Syslog in ERT..."
+
 CF_SYSLOG_PROPERTIES=$(cat <<-EOF
 {
   ".properties.syslog_host": {
@@ -302,6 +303,8 @@ EOF
 fi
 
 if [[ ! -z "$SMTP_ADDRESS" ]]; then
+
+echo "Configuraing SMTP in ERT..."
 
 CF_SMTP_PROPERTIES=$(cat <<-EOF
 {
@@ -331,5 +334,28 @@ EOF
 )
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SMTP_PROPERTIES"
+
+fi
+
+if [[ $HA_PROXY_INSTANCES -ge 0 ]]; then
+
+echo "Terminating SSL on HAProxy"
+
+CF_HAPROXY_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.networking_point_of_entry": {
+    "value": "haproxy"
+  },
+  ".properties.networking_point_of_entry.haproxy.ssl_rsa_certificate": {
+    "value": {
+      "cert_pem": $SSL_CERT,
+      "private_key_pem": $SSL_PRIVATE_KEY
+    }
+  }
+}
+EOF
+)
+
+./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_HAPROXY_PROPERTIES"
 
 fi
