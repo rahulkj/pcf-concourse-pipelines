@@ -19,4 +19,4 @@ inputs:
   - name: pivnet-cli
 
 run:
-  path: concourse-vsphere/tasks/upload-metrics-tile/task.sh
+  path: concourse-vsphere/tasks/upload-product/task.sh
