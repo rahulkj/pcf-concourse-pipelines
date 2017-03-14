@@ -429,29 +429,29 @@ jobs:
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
-- name: disable-errands
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [product-apply-changes]
-    - get: om-cli
-      globs: om-linux
-      passed: [product-apply-changes]
-
-  - task: disable-ert-errands
-    file: concourse-vsphere/tasks/disable-ert-errands/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-  - task: disable-metrics-errands
-    file: concourse-vsphere/tasks/disable-metrics-errands/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
+# - name: disable-errands
+#   plan:
+#   - aggregate:
+#     - get: concourse-vsphere
+#       trigger: true
+#       passed: [product-apply-changes]
+#     - get: om-cli
+#       globs: om-linux
+#       passed: [product-apply-changes]
+#
+#   - task: disable-ert-errands
+#     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
+#     params:
+#       OPS_MGR_HOST: {{om_host}}
+#       OPS_MGR_USR: {{om_usr}}
+#       OPS_MGR_PWD: {{om_pwd}}
+#
+#   - task: disable-metrics-errands
+#     file: concourse-vsphere/tasks/disable-metrics-errands/task.yml
+#     params:
+#       OPS_MGR_HOST: {{om_host}}
+#       OPS_MGR_USR: {{om_usr}}
+#       OPS_MGR_PWD: {{om_pwd}}
 
 - name: update-metrics-ip-in-bosh
   plan:
@@ -470,23 +470,6 @@ jobs:
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
-- name: post-apply-changes
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [disable-errands, update-metrics-ip-in-bosh]
-    - get: om-cli
-      globs: om-linux
-      passed: [disable-errands, update-metrics-ip-in-bosh, post-install-step]
-
-  - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
 - name: post-install-step
   plan:
   - aggregate:
@@ -498,6 +481,23 @@ jobs:
       passed: [product-apply-changes]
   - task: post-step
     file: customer-repo/tasks/post-step/task.yml
+    params:
+      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+
+- name: post-apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [update-metrics-ip-in-bosh]
+    - get: om-cli
+      globs: om-linux
+      passed: [update-metrics-ip-in-bosh, post-install-step]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
