@@ -33,13 +33,20 @@ resources:
     api_token: {{pivnet_token}}
     product_slug: elastic-runtime
 
+- name: customer-repo
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/sample-customer-repo
+    branch: master
+
 jobs:
 
 - name: upgrade-elastic-runtime-tile
   plan:
   - aggregate:
     - get: concourse-vsphere
-    - get: pivnet-er-product
+    - get: pivnet-product
+      resource: pivnet-er-product
       params:
         globs:
         - "*.pivotal"
@@ -52,80 +59,24 @@ jobs:
         - "*linux-amd64*"
 
   - task: upload-er-tile
-    file: concourse-vsphere/tasks/upload-er-tile/task.yml
+    file: concourse-vsphere/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
 
-- name: config-elastic-runtime-tile
+- name: pre-install-step
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: customer-repo
       trigger: true
-      # passed: [upgrade-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
       passed: [upgrade-elastic-runtime-tile]
 
-  - task: config-er-tile
-    file: concourse-vsphere/tasks/config-ert/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      AZ_2: {{az_2_name}}
-      AZ_3: {{az_3_name}}
-      NETWORK_NAME: {{deployment_network_name}}
-      SYSLOG_HOST: {{syslog_host}}
-      SYSLOG_PORT: {{syslog_port}}
-      SYSLOG_PROTOCOL: {{syslog_protocol}}
-      LOGGREGATOR_ENDPOINT_PORT: {{loggregator_endpoint_port}}
-      SSL_CERT: {{ssl_cert}}
-      SSL_PRIVATE_KEY: {{ssl_private_key}}
-      DISABLE_HTTP_PROXY: {{disable_http_proxy}}
-      TCP_ROUTING: {{tcp_routing}}
-      TCP_ROUTING_PORTS: {{tcp_routing_ports}}
-      ROUTE_SERVICES: {{route_services}}
-      IGNORE_SSL_CERT: {{ignore_ssl_cert_verification}}
-      SMTP_FROM: {{smtp_from}}
-      SMTP_ADDRESS: {{smtp_address}}
-      SMTP_PORT: {{smtp_port}}
-      SMTP_USER: {{smtp_user}}
-      SMTP_PWD: {{smtp_pwd}}
-      SMTP_AUTH_MECHANISM: {{smtp_auth_mechanism}}
-      LDAP_URL: {{ldap_url}}
-      LDAP_USER: {{ldap_user}}
-      LDAP_PWD: {{ldap_pwd}}
-      SEARCH_BASE: {{search_base}}
-      SEARCH_FILTER: {{search_filter}}
-      GROUP_SEARCH_BASE: {{group_search_base}}
-      GROUP_SEARCH_FILTER: {{group_search_filter}}
-      MAIL_ATTR_NAME: {{mail_attribute_name}}
-      FIRST_NAME_ATTR: {{first_name_attribute}}
-      LAST_NAME_ATTR: {{last_name_attribute}}
-      SYSTEM_DOMAIN: {{system_domain}}
-      APPS_DOMAIN: {{apps_domain}}
-      HA_PROXY_IPS: {{ha_proxy_ips}}
-      SKIP_CERT_VERIFY: {{skip_cert_verify}}
-      ROUTER_STATIC_IPS: {{router_static_ips}}
-      MYSQL_MONITOR_EMAIL: {{mysql_monitor_email}}
-      TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
-      SSH_STATIC_IPS: {{ssh_static_ips}}
-
-- name: enable-errands
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [config-elastic-runtime-tile]
-    - get: om-cli
-      globs: om-linux
-      passed: [config-elastic-runtime-tile]
-
-  - task: enable-ert-errands
-    file: concourse-vsphere/tasks/enable-ert-errands/task.yml
+  - task: pre-step
+    file: customer-repo/tasks/pre-step/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
@@ -136,44 +87,10 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [enable-errands]
+      passed: [upgrade-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
-      passed: [enable-errands]
-
-  - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: disable-errands
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [product-apply-changes]
-    - get: om-cli
-      globs: om-linux
-      passed: [product-apply-changes]
-
-  - task: disable-ert-errands
-    file: concourse-vsphere/tasks/disable-ert-errands/task.yml
-    params:
-      OPS_MGR_HOST: {{om_host}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: final-apply-changes
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [disable-errands]
-    - get: om-cli
-      globs: om-linux
-      passed: [disable-errands]
+      passed: [pre-install-step]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml

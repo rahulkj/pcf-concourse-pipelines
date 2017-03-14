@@ -249,7 +249,8 @@ jobs:
     - get: concourse-vsphere
       trigger: true
       passed: [opsman-apply-changes]
-    - get: pivnet-er-product
+    - get: pivnet-product
+      resource: pivnet-er-product
       params:
         globs:
         - "*.pivotal"
@@ -262,7 +263,7 @@ jobs:
         - "*linux-amd64*"
 
   - task: upload-er-tile
-    file: concourse-vsphere/tasks/upload-er-tile/task.yml
+    file: concourse-vsphere/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
@@ -351,7 +352,8 @@ jobs:
     - get: concourse-vsphere
       trigger: true
       passed: [opsman-apply-changes]
-    - get: pivnet-metrics-product
+    - get: pivnet-product
+      resource: pivnet-metrics-product
       params:
         globs:
         - "*.pivotal"
@@ -364,7 +366,7 @@ jobs:
         - "*linux-amd64*"
 
   - task: upload-metrics-tile
-    file: concourse-vsphere/tasks/upload-metrics-tile/task.yml
+    file: concourse-vsphere/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}

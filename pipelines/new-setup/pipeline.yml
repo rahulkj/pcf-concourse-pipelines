@@ -189,7 +189,8 @@ jobs:
     - get: concourse-vsphere
       trigger: true
       passed: [opsman-apply-changes]
-    - get: pivnet-er-product
+    - get: pivnet-product
+      resource: pivnet-er-product
       params:
         globs:
         - "*.pivotal"
