@@ -192,28 +192,28 @@ jobs:
       INFRA_EXCLUDED_RANGE: {{infra_excluded_range}}
       INFRA_NW_DNS: {{infra_nw_dns}}
       INFRA_NW_GATEWAY: {{infra_nw_gateway}}
-      INFRA_NW_AZ: {{infra_nw_az}}
+      INFRA_NW_AZS: {{infra_nw_azs}}
       DEPLOYMENT_NETWORK_NAME: {{deployment_network_name}}
       DEPLOYMENT_VCENTER_NETWORK: {{deployment_vsphere_network}}
       DEPLOYMENT_NW_CIDR: {{deployment_nw_cidr}}
       DEPLOYMENT_EXCLUDED_RANGE: {{deployment_excluded_range}}
       DEPLOYMENT_NW_DNS: {{deployment_nw_dns}}
       DEPLOYMENT_NW_GATEWAY: {{deployment_nw_gateway}}
-      DEPLOYMENT_NW_AZ: {{deployment_nw_az}}
+      DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
       SERVICES_NETWORK_NAME: {{services_network_name}}
       SERVICES_VCENTER_NETWORK: {{services_vsphere_network}}
       SERVICES_NW_CIDR: {{services_nw_cidr}}
       SERVICES_EXCLUDED_RANGE: {{services_excluded_range}}
       SERVICES_NW_DNS: {{services_nw_dns}}
       SERVICES_NW_GATEWAY: {{services_nw_gateway}}
-      SERVICES_NW_AZ: {{services_nw_az}}
+      SERVICES_NW_AZS: {{services_nw_azs}}
       DYNAMIC_SERVICES_NETWORK_NAME: {{dynamic_services_network_name}}
       DYNAMIC_SERVICES_VCENTER_NETWORK: {{dynamic_services_vsphere_network}}
       DYNAMIC_SERVICES_NW_CIDR: {{dynamic_services_nw_cidr}}
       DYNAMIC_SERVICES_EXCLUDED_RANGE: {{dynamic_services_excluded_range}}
       DYNAMIC_SERVICES_NW_DNS: {{dynamic_services_nw_dns}}
       DYNAMIC_SERVICES_NW_GATEWAY: {{dynamic_services_nw_gateway}}
-      DYNAMIC_SERVICES_NW_AZ: {{dynamic_services_nw_az}}
+      DYNAMIC_SERVICES_NW_AZS: {{dynamic_services_nw_azs}}
       AZ_1: {{az_1_name}}
       AZ_1_CUSTER_NAME: {{az_1_cluster_name}}
       AZ_1_RP_NAME: {{az_1_rp_name}}
@@ -286,7 +286,8 @@ jobs:
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
-      AZ_2: {{az_2_name}}
+      ERT_SINGLETON_JOB_AZ: {{ert_singleton_job_az}}
+      DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
       NETWORK_NAME: {{deployment_network_name}}
       SYSLOG_HOST: {{syslog_host}}
       SYSLOG_PORT: {{syslog_port}}
@@ -400,10 +401,10 @@ jobs:
   plan:
   - aggregate:
     - get: customer-repo
-      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [config-elastic-runtime-tile, config-metrics-tile]
+      trigger: true
 
   - task: pre-step
     file: customer-repo/tasks/pre-step/task.yml
@@ -417,10 +418,10 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       passed: [upload-metrics-tile]
-      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [pre-install-step]
+      trigger: true
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -457,11 +458,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [product-apply-changes]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
+      trigger: true
 
   - task: update-metrics-ip
     file: concourse-vsphere/tasks/update-metrics-ip/task.yml
@@ -474,11 +475,11 @@ jobs:
   plan:
   - aggregate:
     - get: customer-repo
-      trigger: true
       passed: [pre-install-step]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
+      trigger: true
   - task: post-step
     file: customer-repo/tasks/post-step/task.yml
     params:
@@ -490,11 +491,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [update-metrics-ip-in-bosh]
     - get: om-cli
       globs: om-linux
       passed: [update-metrics-ip-in-bosh, post-install-step]
+      trigger: true
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
