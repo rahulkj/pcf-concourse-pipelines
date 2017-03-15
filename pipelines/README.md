@@ -54,7 +54,7 @@ infra_nw_cidr:
 infra_excluded_range:
 infra_nw_dns:
 infra_nw_gateway:
-infra_nw_az:
+infra_nw_azs:
 
 deployment_network_name: "DEPLOYMENT"
 deployment_vsphere_network:
@@ -62,7 +62,7 @@ deployment_nw_cidr:
 deployment_excluded_range:
 deployment_nw_dns:
 deployment_nw_gateway:
-deployment_nw_az:
+deployment_nw_azs:
 
 services_network_name: "SERVICES"
 services_vsphere_network:
@@ -70,7 +70,7 @@ services_nw_cidr:
 services_excluded_range:
 services_nw_dns:
 services_nw_gateway:
-services_nw_az:
+services_nw_azs:
 
 dynamic_services_network_name: "DYNAMIC-SERVICES"
 dynamic_services_vsphere_network:
@@ -78,7 +78,10 @@ dynamic_services_nw_cidr:
 dynamic_services_excluded_range:
 dynamic_services_nw_dns:
 dynamic_services_nw_gateway:
-dynamic_services_nw_az:
+dynamic_services_nw_azs:
+
+
+ert_singleton_job_az:
 
 loggregator_endpoint_port:
 
