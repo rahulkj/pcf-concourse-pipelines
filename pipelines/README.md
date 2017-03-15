@@ -94,6 +94,7 @@ enable_security_event_logging: true/false
 syslog_drain_buffer_size: 10000
 
 ## Wildcard domain certs go here
+ssl_termination_point: "external_ssl/external_non_ssl/haproxy"
 ssl_cert:
 ssl_private_key:
 
