@@ -289,9 +289,13 @@ jobs:
       ERT_SINGLETON_JOB_AZ: {{ert_singleton_job_az}}
       DEPLOYMENT_NW_AZS: {{deployment_nw_azs}}
       NETWORK_NAME: {{deployment_network_name}}
+      ENABLE_SECURITY_EVENT_LOGGING:: {{enable_security_event_logging}}
       SYSLOG_HOST: {{syslog_host}}
       SYSLOG_PORT: {{syslog_port}}
       SYSLOG_PROTOCOL: {{syslog_protocol}}
+      SYSLOG_DRAIN_BUFFER_SIZE: {{syslog_drain_buffer_size}}
+      COMPANY_NAME: {{company_name}}
+      AUTHENTICATION_MODE: {{authentication_mode}}
       LOGGREGATOR_ENDPOINT_PORT: {{loggregator_endpoint_port}}
       SSL_CERT: {{ssl_cert}}
       SSL_PRIVATE_KEY: {{ssl_private_key}}
@@ -316,12 +320,21 @@ jobs:
       MAIL_ATTR_NAME: {{mail_attribute_name}}
       FIRST_NAME_ATTR: {{first_name_attribute}}
       LAST_NAME_ATTR: {{last_name_attribute}}
+      SECURITY_ACKNOWLEDGEMENT: {{security_acknowledgement}}
       SYSTEM_DOMAIN: {{system_domain}}
       APPS_DOMAIN: {{apps_domain}}
+      DEFAULT_QUOTA_MEMORY_LIMIT_IN_MB: {{default_quota_memory_limit_mb}}
+      DEFAULT_QUOTA_MAX_SERVICES_COUNT: {{default_quota_max_number_services}}
       HA_PROXY_IPS: {{ha_proxy_ips}}
       SKIP_CERT_VERIFY: {{skip_cert_verify}}
+      DISABLE_INSECURE_COOKIES: {{disable_insecure_cookies}}
       ROUTER_STATIC_IPS: {{router_static_ips}}
+      ROUTER_REQUEST_TIMEOUT_IN_SEC: {{router_request_timeout_in_seconds}}
+      GARDEN_NETWORK_POOL_CIDR: {{garden_network_pool_cidr}}
+      GARDEN_NETWORK_MTU: {{garden_network_mtu}}
       MYSQL_MONITOR_EMAIL: {{mysql_monitor_email}}
+      MYSQL_BACKUPS: {{mysql_backups}}
+      ALLOW_APP_SSH_ACCESS: {{allow_app_ssh_access}}
       TCP_ROUTER_STATIC_IPS: {{tcp_router_static_ips}}
       SSH_STATIC_IPS: {{ssh_static_ips}}
       CONSUL_SERVER_INSTANCES: {{consul_server_instances}}
