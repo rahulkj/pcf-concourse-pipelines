@@ -401,10 +401,10 @@ jobs:
   plan:
   - aggregate:
     - get: customer-repo
-      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [config-elastic-runtime-tile, config-metrics-tile]
+      trigger: true
 
   - task: pre-step
     file: customer-repo/tasks/pre-step/task.yml
@@ -418,10 +418,10 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       passed: [upload-metrics-tile]
-      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [pre-install-step]
+      trigger: true
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -458,11 +458,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [product-apply-changes]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
+      trigger: true
 
   - task: update-metrics-ip
     file: concourse-vsphere/tasks/update-metrics-ip/task.yml
@@ -475,11 +475,11 @@ jobs:
   plan:
   - aggregate:
     - get: customer-repo
-      trigger: true
       passed: [pre-install-step]
     - get: om-cli
       globs: om-linux
       passed: [product-apply-changes]
+      trigger: true
   - task: post-step
     file: customer-repo/tasks/post-step/task.yml
     params:
@@ -491,11 +491,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [update-metrics-ip-in-bosh]
     - get: om-cli
       globs: om-linux
       passed: [update-metrics-ip-in-bosh, post-install-step]
+      trigger: true
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml

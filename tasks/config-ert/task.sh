@@ -353,7 +353,7 @@ EOF
 
 fi
 
-if [[ $HA_PROXY_INSTANCES -ge 0 ]]; then
+if [[ $HA_PROXY_INSTANCES -ge 1 ]]; then
 
 echo "Terminating SSL on HAProxy"
 
