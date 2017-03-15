@@ -61,15 +61,6 @@ CF_PROPERTIES=$(cat <<-EOF
   ".properties.logger_endpoint_port": {
     "value": "$LOGGREGATOR_ENDPOINT_PORT"
   },
-  ".properties.networking_point_of_entry": {
-    "value": "external_ssl"
-  },
-  ".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate": {
-    "value": {
-      "cert_pem": $SSL_CERT,
-      "private_key_pem": $SSL_PRIVATE_KEY
-    }
-  },
   ".properties.tcp_routing": {
     "value": "$TCP_ROUTING"
   },
@@ -353,11 +344,10 @@ EOF
 
 fi
 
-if [[ $HA_PROXY_INSTANCES -ge 1 ]]; then
+if [[ "$SSL_TERMINATION" == "haproxy" ]]; then
 
 echo "Terminating SSL on HAProxy"
-
-CF_HAPROXY_PROPERTIES=$(cat <<-EOF
+CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
 {
   ".properties.networking_point_of_entry": {
     "value": "haproxy"
@@ -372,6 +362,34 @@ CF_HAPROXY_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_HAPROXY_PROPERTIES"
+elif [[ "$SSL_TERMINATION" == "external_ssl" ]]; then
+echo "Terminating SSL on GoRouters"
+
+CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.networking_point_of_entry": {
+    "value": "external_ssl"
+  },
+  ".properties.networking_point_of_entry.external_ssl.ssl_rsa_certificate": {
+    "value": {
+      "cert_pem": $SSL_CERT,
+      "private_key_pem": $SSL_PRIVATE_KEY
+    }
+  }
+}
+EOF
+)
+elif [[ "$SSL_TERMINATION" == "external_non_ssl" ]]; then
+echo "Terminating SSL on Load Balancers"
+CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.networking_point_of_entry": {
+    "value": "external_non_ssl"
+  }
+}
+EOF
+)
 
 fi
+
+./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SSL_TERM_PROPERTIES"
