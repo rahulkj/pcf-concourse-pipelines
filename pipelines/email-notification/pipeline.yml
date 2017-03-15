@@ -1,0 +1,41 @@
+resource_types:
+  - name: email
+    type: docker-image
+    source:
+      repository: pcfseceng/email-resource
+
+resources:
+- name: send-an-email
+  type: email
+  source:
+    smtp:
+      host: {{smtp_address}}
+      port: {{smtp_port}}
+      username: {{smtp_user}}
+      password: {{smtp_pwd}}
+    from: {{smtp_from}}
+    to: [ "rahulkj@gmail.com" ]
+
+- name: email-resource-source
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/email-resource
+    branch: master
+
+jobs:
+  - name: demo-email-an-artifact-sha
+    plan:
+      - get: email-resource-source
+        trigger: false
+      - task: demo-prep-sha-email
+        file: email-resource-source/ci/demo-prep-sha-email.yml
+        config:
+          params:
+            file_to_hash: email-resource-source/Dockerfile
+            output_subject_file: generated-subject
+            output_body_file: generated-body
+        on_success:
+          - put: send-an-email
+            params:
+              subject: email-out/generated-subject
+              body: email-out/generated-body

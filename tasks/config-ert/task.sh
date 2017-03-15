@@ -83,13 +83,13 @@ CF_PROPERTIES=$(cat <<-EOF
     "value": $IGNORE_SSL_CERT
   },
   ".properties.security_acknowledgement": {
-    "value": "X"
+    "value": "$SECURITY_ACKNOWLEDGEMENT"
   },
   ".properties.system_blobstore": {
     "value": "internal"
   },
   ".properties.mysql_backups": {
-    "value": "disable"
+    "value": "$MYSQL_BACKUPS"
   },
   ".cloud_controller.system_domain": {
     "value": "$SYSTEM_DOMAIN"
@@ -98,16 +98,13 @@ CF_PROPERTIES=$(cat <<-EOF
     "value": "$APPS_DOMAIN"
   },
   ".cloud_controller.default_quota_memory_limit_mb": {
-    "value": 10240
+    "value": $DEFAULT_QUOTA_MEMORY_LIMIT_IN_MB
   },
   ".cloud_controller.default_quota_max_number_services": {
-    "value": 1000
+    "value": $DEFAULT_QUOTA_MAX_SERVICES_COUNT
   },
   ".cloud_controller.allow_app_ssh_access": {
-    "value": true
-  },
-  ".cloud_controller.security_event_logging_enabled": {
-    "value": true
+    "value": $ALLOW_APP_SSH_ACCESS
   },
   ".ha_proxy.static_ips": {
     "value": "$HA_PROXY_IPS"
@@ -119,34 +116,31 @@ CF_PROPERTIES=$(cat <<-EOF
     "value": "$ROUTER_STATIC_IPS"
   },
   ".router.disable_insecure_cookies": {
-    "value": false
+    "value": $DISABLE_INSECURE_COOKIES
   },
   ".router.request_timeout_in_seconds": {
-    "value": 900
+    "value": $ROUTER_REQUEST_TIMEOUT_IN_SEC
   },
   ".mysql_monitor.recipient_email": {
     "value": "$MYSQL_MONITOR_EMAIL"
   },
   ".diego_cell.garden_network_pool": {
-    "value": "10.254.0.0/22"
+    "value": "$GARDEN_NETWORK_POOL_CIDR"
   },
   ".diego_cell.garden_network_mtu": {
-    "value": 1454
-  },
-  ".doppler.message_drain_buffer_size": {
-    "value": 10000
+    "value": $GARDEN_NETWORK_MTU
   },
   ".tcp_router.static_ips": {
     "value": "$TCP_ROUTER_STATIC_IPS"
   },
   ".push-apps-manager.company_name": {
-    "value": "Homelab"
+    "value": "$COMPANY_NAME"
   },
   ".diego_brain.static_ips": {
     "value": "$SSH_STATIC_IPS"
   },
   ".properties.uaa": {
-    "value": "internal"
+    "value": "$AUTHENTICATION_MODE"
   }
 }
 EOF
@@ -248,7 +242,7 @@ EOF
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
 
-if [[ ! -z "$LDAP_URL" ]]; then
+if [[ "$AUTHENTICATION_MODE" == "ldap" ]]; then
 
 echo "Configuring LDAP in ERT..."
 CF_LDAP_PROPERTIES=$(cat <<-EOF
@@ -301,6 +295,12 @@ echo "Configuring Syslog in ERT..."
 
 CF_SYSLOG_PROPERTIES=$(cat <<-EOF
 {
+  ".doppler.message_drain_buffer_size": {
+    "value": $SYSLOG_DRAIN_BUFFER_SIZE
+  },
+  ".cloud_controller.security_event_logging_enabled": {
+    "value": $ENABLE_SECURITY_EVENT_LOGGING
+  },
   ".properties.syslog_host": {
     "value": "$SYSLOG_HOST"
   },

@@ -84,23 +84,29 @@ dynamic_services_nw_azs:
 ert_singleton_job_az:
 
 loggregator_endpoint_port:
+company_name:
 
 ## Syslog endpoint configuration goes here
 syslog_host:
 syslog_port:
 syslog_protocol:
+enable_security_event_logging: true/false
+syslog_drain_buffer_size: 10000
 
 ## Wildcard domain certs go here
 ssl_cert:
 ssl_private_key:
 
 disable_http_proxy: <true/false>
+security_acknowledgement: "X"
 
 ## TCP routing and routing services
 tcp_routing: <enable/disable>
 tcp_routing_ports:
 route_services: <enable/disable>
 ignore_ssl_cert_verification: <true/false>
+garden_network_pool_cidr: 10.254.0.0/22  ## Default value
+garden_network_mtu: 1454  ## Default value
 
 ## SMTP configuration goes here
 smtp_from:
@@ -109,6 +115,9 @@ smtp_port:
 smtp_user:
 smtp_pwd:
 smtp_auth_mechanism:
+
+## Authnetication type needed. For SAML please fork this repo and make the changes
+authentication_mode: <ldap/internal>
 
 ## LDAP Configuration goes here
 ldap_url:
@@ -128,6 +137,14 @@ apps_domain:
 
 skip_cert_verify: <true/false>
 
+disable_insecure_cookies: <true/false>
+
+default_quota_memory_limit_mb: 10240  ## Default
+default_quota_max_number_services: 1000  ## Default
+allow_app_ssh_access: <true/false>
+
+router_request_timeout_in_seconds: 900  ## Default
+
 ## Static IP's for the following jobs
 ha_proxy_ips:
 router_static_ips:
@@ -136,6 +153,7 @@ ssh_static_ips:
 
 ## Target email address to receive mysql monitor notifications
 mysql_monitor_email:
+mysql_backups: "enable/disable"
 
 ## Default resource configuration
 consul_server_instances: 1
