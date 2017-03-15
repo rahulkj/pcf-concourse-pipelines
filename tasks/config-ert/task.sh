@@ -9,13 +9,29 @@ PRODUCT_VERSION=`echo $CF_RELEASE | cut -d"|" -f3 | tr -d " "`
 
 ./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
+function fn_ert_balanced_azs {
+  local ERT_AZS
+  for v in $(echo $1 | sed "s/,/ /g")
+  do
+    if [[ -z "$ERT_AZS" ]]; then
+      ERT_AZS={\"name\":\"$v\"}
+    else
+      ERT_AZS+=,{\"name\":\"$v\"}
+    fi
+  done
+
+  echo $ERT_AZS
+}
+
+ERT_AZS=$(fn_ert_balanced_azs $DEPLOYMENT_NW_AZS)
+
 CF_NETWORK=$(cat <<-EOF
 {
   "singleton_availability_zone": {
-    "name": "$AZ_2"
+    "name": "$ERT_SINGLETON_JOB_AZ"
   },
   "other_availability_zones": [
-    { "name": "$AZ_2" }
+    $ERT_AZS
   ],
   "network": {
     "name": "$NETWORK_NAME"
