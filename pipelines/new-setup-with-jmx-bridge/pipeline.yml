@@ -126,10 +126,10 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       passed: [install-opsmgr]
-      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [install-opsmgr]
+      trigger: true
 
   - task: config-opsdir
     file: concourse-vsphere/tasks/config-opsdir/task.yml
@@ -182,16 +182,18 @@ jobs:
       AZ_3_RP_NAME: {{az_3_rp_name}}
       NTP_SERVER_IPS: {{ntp_servers}}
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
+      ENABLE_VM_RESURRECTOR: {{enable_vm_resurrector}}
+      MAX_THREADS: {{max_threads}}
 
 - name: opsman-apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [configure-ops-director]
     - get: om-cli
       globs: om-linux
       passed: [configure-ops-director]
+      trigger: true
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -204,7 +206,6 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [opsman-apply-changes]
     - get: pivnet-product
       resource: pivnet-er-product
@@ -214,6 +215,7 @@ jobs:
     - get: om-cli
       globs: om-linux
       passed: [opsman-apply-changes]
+      trigger: true
     - get: pivnet-cli
       params:
         globs:
@@ -231,11 +233,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [upload-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
       passed: [upload-elastic-runtime-tile]
+      trigger: true
 
   - task: config-er-tile
     file: concourse-vsphere/tasks/config-ert/task.yml
@@ -323,7 +325,6 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [opsman-apply-changes]
     - get: pivnet-product
       resource: pivnet-metrics-product
@@ -333,6 +334,7 @@ jobs:
     - get: om-cli
       globs: om-linux
       passed: [opsman-apply-changes]
+      trigger: true
     - get: pivnet-cli
       params:
         globs:
@@ -350,11 +352,11 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      trigger: true
       passed: [upload-metrics-tile]
     - get: om-cli
       globs: om-linux
       passed: [upload-metrics-tile]
+      trigger: true
 
   - task: config-metrics-tile
     file: concourse-vsphere/tasks/config-ops-metrics/task.yml
@@ -450,7 +452,7 @@ jobs:
       passed: [pre-install-step]
     - get: om-cli
       globs: om-linux
-      passed: [product-apply-changes]
+      passed: [update-metrics-ip-in-bosh]
       trigger: true
   - task: post-step
     file: customer-repo/tasks/post-step/task.yml

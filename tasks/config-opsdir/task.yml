@@ -55,6 +55,8 @@ params:
   AZ_3_RP_NAME:
   NTP_SERVER_IPS:
   OPS_DIR_HOSTNAME:
+  ENABLE_VM_RESURRECTOR:
+  MAX_THREADS:
 
 inputs:
   - name: concourse-vsphere

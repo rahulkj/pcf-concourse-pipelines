@@ -165,6 +165,8 @@ jobs:
       AZ_3_RP_NAME: {{az_3_rp_name}}
       NTP_SERVER_IPS: {{ntp_servers}}
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
+      ENABLE_VM_RESURRECTOR: {{enable_vm_resurrector}}
+      MAX_THREADS: {{max_threads}}
 
 - name: opsman-apply-changes
   plan:
