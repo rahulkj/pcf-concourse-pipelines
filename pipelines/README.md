@@ -46,6 +46,8 @@ az_3_rp_name: <vcenter-services-resource-pool-name>
 
 ntp_servers:
 ops_dir_hostname:
+enable_vm_resurrector: <true/false>
+max_threads:
 
 ## Network configuration for Ops Director
 infra_network_name: "INFRASTRUCTURE"
