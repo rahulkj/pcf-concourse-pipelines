@@ -46,7 +46,7 @@ DOMAINS=$(cat <<-EOF
 EOF
 )
 
-  CERTIFICATES=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
+  CERTIFICATES=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`

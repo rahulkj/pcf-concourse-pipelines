@@ -66,64 +66,21 @@ resources:
 
 jobs:
 
-# - name: delete-opsmgr
-#   plan:
-#   - aggregate:
-#     - get: concourse-vsphere
-#     - get: govc
-#       params:
-#         globs:
-#         - "*linux_amd64*"
-#     - get: om-cli
-#       globs: om-linux
-#     - get: pivnet-opsman-product
-#       params:
-#         globs:
-#         - "*.ova"
-#       trigger: true
-#
-#   - task: delete-products
-#     file: concourse-vsphere/tasks/delete-products/task.yml
-#     params:
-#       OPS_MGR_HOST: {{om_host}}
-#       OPS_MGR_USR: {{om_usr}}
-#       OPS_MGR_PWD: {{om_pwd}}
-#
-#   - task: apply-changes
-#     file: concourse-vsphere/tasks/apply-changes/task.yml
-#     params:
-#       OPS_MGR_HOST: {{om_host}}
-#       OPS_MGR_USR: {{om_usr}}
-#       OPS_MGR_PWD: {{om_pwd}}
-#
-#   - task: delete-opsman
-#     file: concourse-vsphere/tasks/delete-opsman/task.yml
-#     params:
-#       OPS_MGR_HOST: {{om_host}}
-#       OPS_MGR_IP: {{om_ip}}
-#       VCENTER_HOST: {{vcenter_host}}
-#       VCENTER_USR: {{vcenter_usr}}
-#       VCENTER_PWD: {{vcenter_pwd}}
-
 - name: install-opsmgr
   plan:
   - aggregate:
     - get: concourse-vsphere
-      # passed: [delete-opsmgr]
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      # passed: [delete-opsmgr]
     - get: om-cli
       globs: om-linux
-      # passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
       trigger: true
-      # passed: [delete-opsmgr]
     - get: jq
       params:
         globs:
@@ -300,6 +257,7 @@ jobs:
       SSL_TERMINATION: {{ssl_termination_point}}
       SSL_CERT: {{ssl_cert}}
       SSL_PRIVATE_KEY: {{ssl_private_key}}
+      OPS_MGR_GENERATE_SSL_ENDPOINT: {{om_generate_ssl_endpoint}}
       DISABLE_HTTP_PROXY: {{disable_http_proxy}}
       TCP_ROUTING: {{tcp_routing}}
       TCP_ROUTING_PORTS: {{tcp_routing_ports}}
