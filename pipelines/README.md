@@ -98,6 +98,11 @@ ssl_termination_point: "external_ssl/external_non_ssl/haproxy"
 ssl_cert:
 ssl_private_key:
 
+## Get this from the OPS Manager API docs for your release. Possible values are
+## - /api/v0/certificates/generate (for 1.10)
+## - /api/v0/rsa_certificates (for 1.9)
+om_generate_ssl_endpoint:
+
 disable_http_proxy: <true/false>
 security_acknowledgement: "X"
 
