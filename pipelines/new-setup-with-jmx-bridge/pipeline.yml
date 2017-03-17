@@ -339,6 +339,7 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+      passed: [upload-elastic-runtime-tile]  
 
   - task: upload-metrics-tile
     file: concourse-vsphere/tasks/upload-product/task.yml
@@ -352,10 +353,10 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [upload-metrics-tile]
+      passed: [upload-metrics-tile, config-elastic-runtime-tile]
     - get: om-cli
       globs: om-linux
-      passed: [upload-metrics-tile]
+      passed: [upload-metrics-tile, config-elastic-runtime-tile]
       trigger: true
 
   - task: config-metrics-tile
@@ -452,7 +453,7 @@ jobs:
       passed: [pre-install-step]
     - get: om-cli
       globs: om-linux
-      passed: [update-metrics-ip-in-bosh]
+      passed: [product-apply-changes]
       trigger: true
   - task: post-step
     file: customer-repo/tasks/post-step/task.yml
