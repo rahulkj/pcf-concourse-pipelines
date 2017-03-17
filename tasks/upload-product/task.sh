@@ -1,7 +1,6 @@
 #!/bin/bash
 
-if [[ ! -z "$COMPANY_PROXY_DOMAIN" ]]; then
-  export no_proxy=$COMPANY_PROXY_DOMAIN
+if [[ ! -z "$NO_PROXY" ]]; then
   echo "$OM_IP $OPS_MGR_HOST" >> /etc/hosts
 fi
 

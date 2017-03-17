@@ -11,7 +11,7 @@ params:
   OPS_MGR_USR:
   OPS_MGR_PWD:
   PIVNET_API_TOKEN:
-  COMPANY_PROXY_DOMAIN:
+  NO_PROXY:
   OM_IP:
 
 inputs:
