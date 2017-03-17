@@ -129,7 +129,7 @@ EOF
 DIRECTOR_CONFIG=$(cat <<-EOF
 {
   "ntp_servers_string": "$NTP_SERVER_IPS",
-  "resurrector_enabled": "$ENABLE_VM_RESURRECTOR",
+  "resurrector_enabled": $ENABLE_VM_RESURRECTOR,
   "max_threads": "$MAX_THREADS",
   "database_type": "internal",
   "blobstore_type": "local",
