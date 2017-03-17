@@ -80,6 +80,7 @@ jobs:
       GOVC_DATASTORE: {{om_data_store}}
       GOVC_NETWORK: {{om_vm_network}}
       GOVC_RESOURCE_POOL: {{om_resource_pool}}
+      GOVC_HOST: {{om_vm_host}}
       OPS_MGR_HOST: {{om_host}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
