@@ -1,3 +1,4 @@
+#!/bin/bash -e
 
 CERTIFICATES=`om -t https://opsmgr.homelab.io -u admin -p welcome -k curl -p "/api/v0/certificates" -x POST -d '{"domains": ["*.sys.homelab.io", "*.cfapps.homelab.io", "*.login.sys.homelab.io", "*.uaa.sys.homelab.io"] }'`
 

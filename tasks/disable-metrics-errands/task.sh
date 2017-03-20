@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux

@@ -11,21 +11,21 @@ resources:
   source:
     user: vmware
     repository: govmomi
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
 - name: concourse-vsphere
   type: git
