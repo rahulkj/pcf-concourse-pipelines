@@ -42,21 +42,21 @@ jobs:
   - task: delete-products
     file: concourse-vsphere/tasks/delete-products/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
   - task: delete-opsman
     file: concourse-vsphere/tasks/delete-opsman/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_IP: {{om_ip}}
       VCENTER_HOST: {{vcenter_host}}
       VCENTER_USR: {{vcenter_usr}}
