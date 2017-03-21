@@ -25,7 +25,7 @@ vcenter_data_center: <VCENTER-DATA-CENTER-TO-DEPLOY>
 ## Ops Manager installation meta data
 om_vm_host: <DESIRED-VCENTER-HOST-TO-DEPLOY-OM> ## Optional
 om_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER>
-om_host: <DESIRED-OPS-MANAGER-HOST-NAME>
+om_fqdn: <DESIRED-OPS-MANAGER-FQDN> ## ex: opsmgr.example.com
 om_usr: <DESIRED-OPS-MANAGER-USR>
 om_pwd: <DESIRED-OPS-MANAGER-PWD>
 om_ssh_pwd: <DESIRED-OPS-MANAGER-SSH-PWD>
