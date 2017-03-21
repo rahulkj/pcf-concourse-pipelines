@@ -387,6 +387,7 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
 }
 EOF
 )
+
 elif [[ "$SSL_TERMINATION" == "external_non_ssl" ]]; then
 echo "Terminating SSL on Load Balancers"
 CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
