@@ -211,7 +211,7 @@ jmx_use_ssl: <true/false>
 
 Now you can execute the following commands:
 
--	`fly -t lite login`
+-	`fly -t lite login -c https://<CONCOURSE-URL>:8080`
 -	`fly -t lite set-pipeline -p pcf -c new-setup/pipeline.yml -l params.yml`
 -	`fly -t lite unpause-pipeline -p pcf`
 
