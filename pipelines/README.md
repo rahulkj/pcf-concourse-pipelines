@@ -1,3 +1,16 @@
+NOTES:
+------
+
+-	This pipeline is based on the [vSphere reference architecture](http://docs.pivotal.io/pivotalcf/1-10/refarch/vsphere/vsphere_ref_arch.html)
+-	Pre-requisites for using this pipeline are:
+	-	4 Networks (One for each of the Infrastucture, Deployment, Services and Dynamic Services)
+	-	Minimum of 3 AZ's
+	-	DNS with wildcard domains
+-	If using External Load Balancer, you can set the `ssl_termination_point` to `external_non_ssl` in your `params.yml`
+-	If you wish to deploy Ops Manager on a cluster and not in a resource pool, specify the `om_resource_pool` to point to the Cluster using the format defined in the sample `params.yml`
+
+<span style="color:red">IMPORTANT: If the above vSphere settings do not match your setup, please fork this repository and modify the `tasks/config-opsdir/task.sh` and update the networks and AZ's JSON accordingly</span>
+
 **To use this pipeline create the params.yml file with the following variables**
 
 ```
@@ -10,6 +23,7 @@ vcenter_pwd: <VCENTER-SERVICE-USR-PWD>
 vcenter_data_center: <VCENTER-DATA-CENTER-TO-DEPLOY>
 
 ## Ops Manager installation meta data
+om_vm_host: <DESIRED-VCENTER-HOST-TO-DEPLOY-OM> ## Optional
 om_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER>
 om_host: <DESIRED-OPS-MANAGER-HOST-NAME>
 om_usr: <DESIRED-OPS-MANAGER-USR>
@@ -24,7 +38,7 @@ om_ip: <DESIRED-OPS-MANAGER-IP>
 
 om_vm_network: <OPS-MANAGER-NETWORK-NAME>
 om_vm_name: <OPS-MANAGER-VM-NAME>
-om_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH>
+om_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH> ## Format is `/<Data Center Name>/host/<Cluster Name>/Resources/<Resource Pool Name>` or `/<Data Center Name>/host/<Cluster Name>`
 
 disk_type: "<thick/thin>"
 om_vm_power_state: <true/false>
