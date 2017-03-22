@@ -111,7 +111,7 @@ jobs:
       OM_VM_NETWORK: {{om_vm_network}}
       OM_VM_NAME: {{om_vm_name}}
       OM_RESOURCE_POOL: {{om_resource_pool}}
-      OM_DISK_TYPE: {{disk_type}}
+      OM_DISK_TYPE: {{om_disk_type}}
       OM_VM_POWER_STATE: {{om_vm_power_state}}
 
   - task: config-opsman
@@ -142,8 +142,10 @@ jobs:
       VCENTER_USR: {{vcenter_usr}}
       VCENTER_PWD: {{vcenter_pwd}}
       VCENTER_DATA_CENTER: {{vcenter_data_center}}
-      VCENTER_DISK_TYPE: {{disk_type}}
-      STORAGE_NAMES: {{storage_names}}
+      VCENTER_DISK_TYPE: {{vm_disk_type}}
+      EPHEMERAL_STORAGE_NAMES: {{ephemeral_storage_names}}
+      PERSISTENT_STORAGE_NAMES: {{persistent_storage_names}}
+      ICMP_CHECKS_ENABLED: {{icmp_checks_enabled}}
       INFRA_NETWORK_NAME: {{infra_network_name}}
       INFRA_VCENTER_NETWORK: {{infra_vsphere_network}}
       INFRA_NW_CIDR: {{infra_nw_cidr}}
@@ -181,10 +183,12 @@ jobs:
       AZ_3: {{az_3_name}}
       AZ_3_CUSTER_NAME: {{az_3_cluster_name}}
       AZ_3_RP_NAME: {{az_3_rp_name}}
-      NTP_SERVER_IPS: {{ntp_servers}}
+      NTP_SERVERS: {{ntp_servers}}
       OPS_DIR_HOSTNAME: {{ops_dir_hostname}}
       ENABLE_VM_RESURRECTOR: {{enable_vm_resurrector}}
       MAX_THREADS: {{max_threads}}
+      TRUSTED_CERTIFICATES: {{trusted_certificates}}
+      GENERATE_VM_PASSWORDS: {{generate_vm_passwords}}
 
 - name: opsman-apply-changes
   plan:
