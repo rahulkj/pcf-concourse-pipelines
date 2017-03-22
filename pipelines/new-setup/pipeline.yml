@@ -94,7 +94,7 @@ jobs:
       OM_VM_NETWORK: {{om_vm_network}}
       OM_VM_NAME: {{om_vm_name}}
       OM_RESOURCE_POOL: {{om_resource_pool}}
-      OM_DISK_TYPE: {{disk_type}}
+      OM_DISK_TYPE: {{om_disk_type}}
       OM_VM_POWER_STATE: {{om_vm_power_state}}
 
   - task: config-opsman
@@ -125,7 +125,7 @@ jobs:
       VCENTER_USR: {{vcenter_usr}}
       VCENTER_PWD: {{vcenter_pwd}}
       VCENTER_DATA_CENTER: {{vcenter_data_center}}
-      VCENTER_DISK_TYPE: {{disk_type}}
+      VCENTER_DISK_TYPE: {{vm_disk_type}}
       EPHEMERAL_STORAGE_NAMES: {{ephemeral_storage_names}}
       PERSISTENT_STORAGE_NAMES: {{persistent_storage_names}}
       ICMP_CHECKS_ENABLED: {{icmp_checks_enabled}}
