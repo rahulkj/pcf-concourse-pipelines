@@ -43,7 +43,12 @@ om_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH> ## Format is `/<Data Center N
 disk_type: "<thick/thin>"
 om_vm_power_state: <true/false>
 
-storage_names: <PCF-STORAGE-NAMES>
+ephemeral_storage_names: <PCF-EPHEMERAL-STORAGE-NAMES>
+persistent_storage_names: <PCF-PERSISTENT-STORAGE-NAMES>
+
+trusted_certificates:
+bosh_vm_passwords: <generate/bosh-default>
+
 
 ## AZ configuration for Ops Director
 az_1_name: <infra-az-name>
@@ -64,6 +69,7 @@ enable_vm_resurrector: <true/false>
 max_threads: 20
 
 ## Network configuration for Ops Director
+icmp_checks_enabled: <true/false>
 infra_network_name: "INFRASTRUCTURE"
 infra_vsphere_network:
 infra_nw_cidr:
