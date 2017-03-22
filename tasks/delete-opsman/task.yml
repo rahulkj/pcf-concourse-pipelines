@@ -7,11 +7,11 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
-  OPS_MGR_HOST:
   OPS_MGR_IP:
-  VCENTER_HOST:
-  VCENTER_USR:
-  VCENTER_PWD:
+  GOVC_INSECURE:
+  GOVC_URL:
+  GOVC_USERNAME:
+  GOVC_PASSWORD:
 
 inputs:
   - name: concourse-vsphere

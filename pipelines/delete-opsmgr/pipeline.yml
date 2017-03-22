@@ -56,8 +56,8 @@ jobs:
   - task: delete-opsman
     file: concourse-vsphere/tasks/delete-opsman/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_IP: {{om_ip}}
-      VCENTER_HOST: {{vcenter_host}}
-      VCENTER_USR: {{vcenter_usr}}
-      VCENTER_PWD: {{vcenter_pwd}}
+      GOVC_INSECURE: 1
+      GOVC_URL: {{vcenter_host}}
+      GOVC_USERNAME: {{vcenter_usr}}
+      GOVC_PASSWORD: {{vcenter_pwd}}
