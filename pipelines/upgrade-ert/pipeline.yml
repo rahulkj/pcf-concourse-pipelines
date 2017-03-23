@@ -12,14 +12,14 @@ resources:
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
 - name: concourse-vsphere
   type: git
@@ -52,6 +52,7 @@ jobs:
         - "*.pivotal"
       trigger: true
     - get: om-cli
+      version: { tag: '0.18.0' }
       globs: om-linux
     - get: pivnet-cli
       params:
@@ -61,7 +62,7 @@ jobs:
   - task: upload-er-tile
     file: concourse-vsphere/tasks/upload-product/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
@@ -78,7 +79,7 @@ jobs:
   - task: pre-step
     file: customer-repo/tasks/pre-step/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
 
@@ -95,6 +96,6 @@ jobs:
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{om_host}}
+      OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}

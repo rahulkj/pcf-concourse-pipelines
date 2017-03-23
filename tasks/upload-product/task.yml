@@ -11,6 +11,8 @@ params:
   OPS_MGR_USR:
   OPS_MGR_PWD:
   PIVNET_API_TOKEN:
+  NO_PROXY:
+  OM_IP:
 
 inputs:
   - name: pivnet-product

@@ -1,7 +1,9 @@
-#!/bin/bash
+#!/bin/bash -e
 
 gunzip ./govc/govc_linux_amd64.gz
 chmod +x ./govc/govc_linux_amd64
+
+CMD=./govc/govc_linux_amd64
 
 function setPropertyMapping() {
   if [ -e out.json ]; then
@@ -85,12 +87,12 @@ FILE_PATH=`find ./pivnet-opsman-product/ -name *.ova`
 
 echo $FILE_PATH
 
-./govc/govc_linux_amd64 import.spec $FILE_PATH | python -m json.tool > om-import.json
+$CMD import.spec $FILE_PATH | python -m json.tool > om-import.json
 
 mv om-import.json in.json
 
 update
 
-./govc/govc_linux_amd64 import.ova -options=out.json $FILE_PATH
+$CMD import.ova -options=out.json $FILE_PATH
 
 rm *.json

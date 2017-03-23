@@ -1,26 +1,19 @@
-#!/bin/bash
+#!/bin/bash -e
 
 chmod +x om-cli/om-linux
 
-CF_RELEASE=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep cf`
+CMD=./om-cli/om-linux
+
+CF_RELEASE=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep cf`
 
 PRODUCT_NAME=`echo $CF_RELEASE | cut -d"|" -f2 | tr -d " "`
 PRODUCT_VERSION=`echo $CF_RELEASE | cut -d"|" -f3 | tr -d " "`
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
 function fn_ert_balanced_azs {
-  local ERT_AZS
-  for v in $(echo $1 | sed "s/,/ /g")
-  do
-    if [[ -z "$ERT_AZS" ]]; then
-      ERT_AZS={\"name\":\"$v\"}
-    else
-      ERT_AZS+=,{\"name\":\"$v\"}
-    fi
-  done
-
-  echo $ERT_AZS
+  local azs_csv=$1
+  echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
 }
 
 ERT_AZS=$(fn_ert_balanced_azs $DEPLOYMENT_NW_AZS)
@@ -46,7 +39,7 @@ DOMAINS=$(cat <<-EOF
 EOF
 )
 
-  CERTIFICATES=`./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
+  CERTIFICATES=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key'`
@@ -129,9 +122,6 @@ CF_PROPERTIES=$(cat <<-EOF
   },
   ".diego_brain.static_ips": {
     "value": "$SSH_STATIC_IPS"
-  },
-  ".properties.uaa": {
-    "value": "$AUTHENTICATION_MODE"
   }
 }
 EOF
@@ -231,12 +221,22 @@ CF_RESOURCES=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_PROPERTIES" -pn "$CF_NETWORK" -pr "$CF_RESOURCES"
 
-if [[ "$AUTHENTICATION_MODE" == "ldap" ]]; then
+if [[ "$AUTHENTICATION_MODE" == "internal" ]]; then
+echo "Configuring Internal Authentication in ERT..."
+CF_AUTH_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.uaa": {
+    "value": "$AUTHENTICATION_MODE"
+  }
+}
+EOF
+)
 
-echo "Configuring LDAP in ERT..."
-CF_LDAP_PROPERTIES=$(cat <<-EOF
+elif [[ "$AUTHENTICATION_MODE" == "ldap" ]]; then
+echo "Configuring LDAP Authentication in ERT..."
+CF_AUTH_PROPERTIES=$(cat <<-EOF
 {
   ".properties.uaa": {
     "value": "ldap"
@@ -275,10 +275,9 @@ CF_LDAP_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_LDAP_PROPERTIES"
-
 fi
 
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_AUTH_PROPERTIES"
 
 if [[ ! -z "$SYSLOG_HOST" ]]; then
 
@@ -305,7 +304,7 @@ CF_SYSLOG_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SYSLOG_PROPERTIES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SYSLOG_PROPERTIES"
 
 fi
 
@@ -340,7 +339,7 @@ CF_SMTP_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SMTP_PROPERTIES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SMTP_PROPERTIES"
 
 fi
 
@@ -379,6 +378,7 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
 }
 EOF
 )
+
 elif [[ "$SSL_TERMINATION" == "external_non_ssl" ]]; then
 echo "Terminating SSL on Load Balancers"
 CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
@@ -392,4 +392,4 @@ EOF
 
 fi
 
-./om-cli/om-linux -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SSL_TERM_PROPERTIES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SSL_TERM_PROPERTIES"
