@@ -66,13 +66,13 @@ az_1_name: <az1-name> # AZ1 logical name. No spaces or special characters
 az_1_cluster_name: <vcenter-az1-cluster-name> # vCenter Cluster name for AZ1
 az_1_rp_name: <vcenter-az1-resource-pool-name> # vCenter Resource Pool name for AZ1
 
-az_2_name: <az2-name> # AZ2 logical name. No spaces or special characters
-az_2_cluster_name: <vcenter-az2-cluster-name> # vCenter Cluster name for AZ2
-az_2_rp_name: <vcenter-az2-resource-pool-name> # vCenter Resource Pool name for AZ2
+az_2_name: <az2-name> # Not Required, leave blank
+az_2_cluster_name: <vcenter-az2-cluster-name> # Not Required, leave blank
+az_2_rp_name: <vcenter-az2-resource-pool-name> # Not Required, leave blank
 
-az_3_name: <az3-name> # AZ3 logical name. No spaces or special characters
-az_3_cluster_name: <vcenter-az3-cluster-name> # vCenter Cluster name for AZ3
-az_3_rp_name: <vcenter-az3-resource-pool-name> # vCenter Resource Pool name for AZ3
+az_3_name: <az3-name> # Not Required, leave blank
+az_3_cluster_name: <vcenter-az3-cluster-name> # Not Required, leave blank
+az_3_rp_name: <vcenter-az3-resource-pool-name> # Not Required, leave blank
 
 ntp_servers: # Comma Seperated NTP Servers for use for VM's deployed by BOSH
 ops_dir_hostname: # Optional - Ops Director DNS resolvable name. Should be reachable from all networks
@@ -89,29 +89,29 @@ infra_nw_dns: # Infrastructure network DNS
 infra_nw_gateway: # Infrastructure network Gateway
 infra_nw_azs: # Comma seperated list of AZ's to be associated with this network
 
-deployment_network_name: "DEPLOYMENT"
-deployment_vsphere_network: # vCenter Deployment network name
-deployment_nw_cidr: # Deployment network CIDR, ex: 10.0.0.0/22
-deployment_excluded_range: # Deployment network exclusion range
-deployment_nw_dns: # Deployment network DNS
-deployment_nw_gateway: # Deployment network Gateway
-deployment_nw_azs: # Comma seperated list of AZ's to be associated with this network
+deployment_network_name: "DEPLOYMENT" # Same as infra_network_name
+deployment_vsphere_network: # Not Required, leave blank
+deployment_nw_cidr: # Not Required, leave blank
+deployment_excluded_range: # Not Required, leave blank
+deployment_nw_dns: # Not Required, leave blank
+deployment_nw_gateway: # Not Required, leave blank
+deployment_nw_azs: # Same as infra_nw_azs
 
 services_network_name: "SERVICES"
-services_vsphere_network: # vCenter Services network name
-services_nw_cidr: # Services network CIDR, ex: 10.0.0.0/22
-services_excluded_range: # Services network exclusion range
-services_nw_dns: # Services network DNS
-services_nw_gateway: # Services network Gateway
-services_nw_azs: # Comma seperated list of AZ's to be associated with this network
+services_vsphere_network: # Same as infra_network_name
+services_nw_cidr: # Not Required, leave blank
+services_excluded_range: # Not Required, leave blank
+services_nw_dns: # Not Required, leave blank
+services_nw_gateway: # Not Required, leave blank
+services_nw_azs: # Same as infra_nw_azs
 
 dynamic_services_network_name: "DYNAMIC-SERVICES"
-dynamic_services_vsphere_network: # vCenter Dynamic Services network name
-dynamic_services_nw_cidr: # Dynamic Services network CIDR, ex: 10.0.0.0/22
-dynamic_services_excluded_range: # Dynamic Services network exclusion range
-dynamic_services_nw_dns: # Dynamic Services network DNS
-dynamic_services_nw_gateway: # Dynamic Services network Gateway
-dynamic_services_nw_azs: # Comma seperated list of AZ's to be associated with this network
+dynamic_services_vsphere_network: # Same as infra_network_name
+dynamic_services_nw_cidr: # Not Required, leave blank
+dynamic_services_excluded_range: # Not Required, leave blank
+dynamic_services_nw_dns: # Not Required, leave blank
+dynamic_services_nw_gateway: # Not Required, leave blank
+dynamic_services_nw_azs: # Same as infra_nw_azs
 
 ert_singleton_job_az: # AZ to use for deployment of ERT Singleton jobs
 

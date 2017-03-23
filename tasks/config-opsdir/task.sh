@@ -33,16 +33,6 @@ AZ_CONFIGURATION=$(cat <<-EOF
       "name": "$AZ_1",
       "cluster": "$AZ_1_CUSTER_NAME",
       "resource_pool": "$AZ_1_RP_NAME"
-    },
-    {
-      "name": "$AZ_2",
-      "cluster": "$AZ_2_CUSTER_NAME",
-      "resource_pool": "$AZ_2_RP_NAME"
-    },
-    {
-      "name": "$AZ_3",
-      "cluster": "$AZ_3_CUSTER_NAME",
-      "resource_pool": "$AZ_3_RP_NAME"
     }
   ]
 }
@@ -70,54 +60,6 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "gateway": "$INFRA_NW_GATEWAY",
           "availability_zone_names": [
             $INFRA_AZS
-          ]
-        }
-      ]
-    },
-    {
-      "name": "$DEPLOYMENT_NETWORK_NAME",
-      "service_network": false,
-      "subnets": [
-        {
-          "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
-          "cidr": "$DEPLOYMENT_NW_CIDR",
-          "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
-          "dns": "$DEPLOYMENT_NW_DNS",
-          "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zone_names": [
-            $DEPLOYMENT_AZS
-          ]
-        }
-      ]
-    },
-    {
-      "name": "$SERVICES_NETWORK_NAME",
-      "service_network": true,
-      "subnets": [
-        {
-          "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
-          "cidr": "$SERVICES_NW_CIDR",
-          "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
-          "dns": "$SERVICES_NW_DNS",
-          "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zone_names": [
-            $SERVICES_AZS
-          ]
-        }
-      ]
-    },
-    {
-      "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
-      "service_network": true,
-      "subnets": [
-        {
-          "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
-          "cidr": "$DYNAMIC_SERVICES_NW_CIDR",
-          "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
-          "dns": "$DYNAMIC_SERVICES_NW_DNS",
-          "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zone_names": [
-            $DYNAMIC_SERVICES_AZS
           ]
         }
       ]
