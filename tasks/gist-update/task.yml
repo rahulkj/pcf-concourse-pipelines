@@ -15,7 +15,7 @@ inputs:
   - name: concourse-trigger-gist
 
 outputs:
-  - name: concourse-trigger-gist
+  - name: updated-concourse-trigger-gist
 
 run:
   path: concourse-vsphere/tasks/gist-update/task.sh

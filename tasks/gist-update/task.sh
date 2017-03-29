@@ -1,9 +1,9 @@
 #!/bin/sh -ex
 
-git clone concourse-trigger-gist
+git clone concourse-trigger-gist updated-concourse-trigger-gist
 
-cd concourse-trigger-gist
-echo $(date) >
+cd updated-concourse-trigger-gist
+echo $(date) > concourse-trigger
 
 git config --global user.email "${CI_EMAIL_ADDRESS}"
 git config --global user.name "${CI_USERNAME}"

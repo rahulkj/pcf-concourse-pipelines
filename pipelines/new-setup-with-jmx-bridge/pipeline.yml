@@ -137,7 +137,7 @@ jobs:
       CI_EMAIL_ADDRESS: {{ci_email_address}}
 
   - put: concourse-trigger-gist
-    params: {repository: concourse-trigger-gist}
+    params: {repository: updated-concourse-trigger-gist}
 
 - name: configure-ops-director
   plan:
