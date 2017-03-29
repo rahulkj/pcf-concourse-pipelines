@@ -7,7 +7,7 @@ image_resource:
 
 inputs:
   - name: concourse-vsphere
-  - name: version-gist
+  - name: concourse-trigger-gist
 
 params:
   CI_USERNAME:
