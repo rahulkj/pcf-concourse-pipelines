@@ -1,0 +1,40 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  PRODUCT_NAME:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
+  OPS_MGR_GENERATE_SSL_ENDPOINT:
+  SINGLETON_JOB_AZ:
+  DEPLOYMENT_NW_AZS:
+  OTHER_AZS:
+  NETWORK_NAME:
+  SYSTEM_DOMAIN:
+  APPS_DOMAIN:
+  SSL_TERMINATION_POINT:
+  SSL_CERT:
+  SSL_PRIVATE_KEY:
+  ROUTER_SSL_CIPHERS:
+  ROUTER_STATIC_IPS:
+  CELL_DISK_CAPACITY:
+  CELL_MEMORY_CAPACITY:
+  APPLICATION_NETWORK_CIDR:
+  APPLICATION_NETWORK_MTU:
+  INSECURE_DOCKER_REGISTRY_LIST:
+  SEGMENT_NAME:
+  IS_ROUTER_INSTANCES:
+  IS_DIEGO_CELL_INSTANCES:
+
+inputs:
+  - name: concourse-vsphere
+  - name: om-cli
+
+run:
+  path: concourse-vsphere/tasks/config-is-tile/task.sh
