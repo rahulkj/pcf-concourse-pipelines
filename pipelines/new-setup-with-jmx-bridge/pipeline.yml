@@ -38,7 +38,7 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: master
+    branch: develop
 
 - name: customer-repo
   type: git
@@ -64,12 +64,12 @@ resources:
     api_token: {{pivnet_token}}
     product_slug: ops-metrics
 
-- name: version-gist
+- name: concourse-trigger-gist
   type: git
   source:
     uri: {{gist_url}}
     branch: master
-    access_token: {{github_token}}
+    private_key: {{github_private_key}}
 
 jobs:
 
@@ -92,7 +92,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
-    - get: version-gist
+    - get: concourse-trigger-gist
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
@@ -136,8 +136,8 @@ jobs:
       CI_USERNAME: {{ci_username}}
       CI_EMAIL_ADDRESS: {{ci_email_address}}
 
-  - put: version-gist
-    params: {repository: version-gist}
+  - put: concourse-trigger-gist
+    params: {repository: concourse-trigger-gist}
 
 - name: configure-ops-director
   plan:
@@ -148,7 +148,7 @@ jobs:
       globs: om-linux
       passed: [install-opsmgr]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [install-opsmgr]
 
@@ -219,7 +219,7 @@ jobs:
       globs: om-linux
       passed: [configure-ops-director]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [configure-ops-director]
 
@@ -248,7 +248,7 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [opsman-apply-changes]
 
@@ -271,7 +271,7 @@ jobs:
       globs: om-linux
       passed: [upload-elastic-runtime-tile]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [upload-elastic-runtime-tile]
 
@@ -375,7 +375,7 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [opsman-apply-changes]
 
@@ -398,7 +398,7 @@ jobs:
       globs: om-linux
       passed: [upload-metrics-tile]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [upload-metrics-tile]
 
@@ -423,7 +423,7 @@ jobs:
       globs: om-linux
       passed: [config-elastic-runtime-tile, config-metrics-tile]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [config-elastic-runtime-tile, config-metrics-tile]
 
@@ -443,7 +443,7 @@ jobs:
       globs: om-linux
       passed: [pre-install-step]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [pre-install-step]
 
@@ -487,7 +487,7 @@ jobs:
       globs: om-linux
       passed: [product-apply-changes]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [product-apply-changes]
 
@@ -507,7 +507,7 @@ jobs:
       globs: om-linux
       passed: [product-apply-changes]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [product-apply-changes]
 
@@ -527,7 +527,7 @@ jobs:
       globs: om-linux
       passed: [update-metrics-ip-in-bosh, post-install-step]
       trigger: true
-    - get: version-gist
+    - get: concourse-trigger-gist
       trigger: true
       passed: [update-metrics-ip-in-bosh, post-install-step]
 
