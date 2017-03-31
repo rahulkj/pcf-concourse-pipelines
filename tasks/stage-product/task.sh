@@ -3,7 +3,7 @@
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-VERSION=`echo pivnet-product/metadata.json | jq '.Release.Version' | tr -d '"'`
+VERSION=`cat pivnet-product/metadata.json | jq '.Release.Version' | tr -d '"'`
 
 RELEASE_NAME=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep $PRODUCT_IDENTIFIER | grep $VERSION`
 
