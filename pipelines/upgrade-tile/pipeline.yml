@@ -35,7 +35,7 @@ resources:
 
 jobs:
 
-- name: upload-tile
+- name: upload-product
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -64,17 +64,17 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [upload-tile]
+      passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [upload-tile]
+      passed: [upload-product]
       trigger: true
     - get: om-cli
       globs: om-linux
-      passed: [upload-tile]
+      passed: [upload-product]
 
   - task: stage-tile
     file: concourse-vsphere/tasks/stage-product/task.yml
@@ -84,7 +84,7 @@ jobs:
       OPS_MGR_PWD: {{om_pwd}}
       PRODUCT_IDENTIFIER: {{product_identifier}}
 
-- name: product-apply-changes
+- name: apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
