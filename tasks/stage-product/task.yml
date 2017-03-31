@@ -15,6 +15,7 @@ params:
 inputs:
   - name: concourse-vsphere
   - name: om-cli
+  - name: pivnet-product
 
 run:
   path: concourse-vsphere/tasks/stage-product/task.sh

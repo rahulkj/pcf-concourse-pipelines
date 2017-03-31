@@ -1,0 +1,102 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/concourse-vsphere
+    branch: master
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: {{product_name}}
+
+jobs:
+
+- name: upload-tile
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: concourse-vsphere/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [upload-tile]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-tile]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [upload-tile]
+
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PRODUCT_IDENTIFIER: {{product_identifier}}
+
+- name: product-apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [stage-product]
+    - get: om-cli
+      globs: om-linux
+      passed: [stage-product]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
