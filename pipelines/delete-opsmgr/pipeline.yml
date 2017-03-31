@@ -28,7 +28,7 @@ resources:
 
 jobs:
 
-- name: delete-opsmgr
+- name: delete-installation
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -52,6 +52,20 @@ jobs:
       OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
+
+- name: delete-opsmgr
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [delete-installation]
+    - get: govc
+      passed: [delete-installation]
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      passed: [delete-installation]
+      globs: om-linux
 
   - task: delete-opsman
     file: concourse-vsphere/tasks/delete-opsman/task.yml

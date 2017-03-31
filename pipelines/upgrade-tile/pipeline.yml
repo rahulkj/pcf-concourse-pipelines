@@ -27,39 +27,32 @@ resources:
     uri: https://github.com/rahul-kj/concourse-vsphere
     branch: master
 
-- name: pivnet-er-product
+- name: pivnet-product
   type: pivnet
   source:
     api_token: {{pivnet_token}}
-    product_slug: elastic-runtime
-
-- name: customer-repo
-  type: git
-  source:
-    uri: https://github.com/rahul-kj/sample-customer-repo
-    branch: master
+    product_slug: {{product_name}}
 
 jobs:
 
-- name: upgrade-elastic-runtime-tile
+- name: upload-product
   plan:
   - aggregate:
     - get: concourse-vsphere
     - get: pivnet-product
-      resource: pivnet-er-product
+      resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
       trigger: true
     - get: om-cli
-      version: { tag: '0.18.0' }
       globs: om-linux
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
 
-  - task: upload-er-tile
+  - task: upload-tile
     file: concourse-vsphere/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: {{om_fqdn}}
@@ -67,31 +60,39 @@ jobs:
       OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
 
-- name: pre-install-step
+- name: stage-product
   plan:
   - aggregate:
-    - get: customer-repo
+    - get: concourse-vsphere
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
       trigger: true
     - get: om-cli
       globs: om-linux
-      passed: [upgrade-elastic-runtime-tile]
+      passed: [upload-product]
 
-  - task: pre-step
-    file: customer-repo/tasks/pre-step/task.yml
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
     params:
       OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
+      PRODUCT_IDENTIFIER: {{product_identifier}}
 
-- name: product-apply-changes
+- name: apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [upgrade-elastic-runtime-tile]
+      passed: [stage-product]
     - get: om-cli
       globs: om-linux
-      passed: [pre-install-step]
+      passed: [stage-product]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml

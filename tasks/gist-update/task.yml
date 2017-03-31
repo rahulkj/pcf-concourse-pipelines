@@ -1,0 +1,21 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  CI_USERNAME:
+  CI_EMAIL_ADDRESS:
+
+inputs:
+  - name: concourse-vsphere
+  - name: concourse-trigger-gist
+
+outputs:
+  - name: updated-concourse-trigger-gist
+
+run:
+  path: concourse-vsphere/tasks/gist-update/task.sh
