@@ -1,0 +1,25 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  CF_API_ENDPOINT:
+  CF_USER:
+  CF_PASSWORD:
+  BUILDPACK_NAME:
+  BUILDPACK_POSITION:
+  ORG:
+  SPACE:
+  IS_ENABLE:
+
+inputs:
+  - name: pivnet-product
+  - name: concourse-vsphere
+  - name: cf-cli
+
+run:
+  path: concourse-vsphere/tasks/update-buildpack/task.sh
