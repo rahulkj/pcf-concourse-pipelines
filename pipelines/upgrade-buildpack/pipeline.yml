@@ -1,0 +1,54 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: cf-cli
+  type: s3
+  source:
+    bucket: cf-cli-releases
+    region_name: us-west-1
+    regexp: releases/v([\d\.]+)/cf-cli_.*_linux_x86-64.tgz
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/concourse-vsphere
+    branch: develop
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: {{product_slug}}
+    product_version: {{product_version}}
+
+jobs:
+
+- name: upgrade-buildpack
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - {{product_glob}}
+      trigger: true
+    - get: cf-cli
+
+  - task: upgrade-buildpack
+    file: concourse-vsphere/tasks/update-buildpack/task.yml
+    params:
+      CF_API_ENDPOINT: {{cf_api_endpoint}}
+      CF_USER: {{cf_user}}
+      CF_PASSWORD: {{cf_password}}
+      BUILDPACK_NAME: {{buildpack_name}}
+      BUILDPACK_POSITION: {{buildpack_position}}
+      ORG: {{org}}
+      SPACE: {{space}}
+      IS_ENABLE: {{is_enabled}}
