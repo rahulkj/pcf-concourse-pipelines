@@ -2,9 +2,10 @@
 
 BUILDPACK_FILE_PATH='ls pivnet-product | grep *.tgz'
 
-chmod +x cf-cli/cf
+tar -xf cf-cli/*.tgz cf
+chmod +x cf
 
-CMD=./cf-cli/cf
+CMD=./cf
 
 $CMD api --skip-ssl-validation $CF_API_ENDPOINT
 
