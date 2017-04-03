@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-BUILDPACK_FILE_PATH='ls pivnet-product | grep *.tgz'
-
 tar -xf cf-cli/*.tgz cf
 chmod +x cf
 
@@ -15,7 +13,7 @@ EXISTS=`$CMD curl /v2/buildpacks | jq --arg name $BUILDPACK_NAME '.resources | .
 
 if [[ -z "$EXISTS" ]]; then
   echo "Creating the buildpack $BUILDPACK_NAME and setting it at position $BUILDPACK_POSITION..."
-  $CMD create-buildpack $BUILDPACK_NAME -p $BUILDPACK_FILE_PATH --$IS_ENABLE --i $BUILDPACK_POSITION
+  $CMD create-buildpack $BUILDPACK_NAME -p pivnet-product/*.zip --$IS_ENABLE --i $BUILDPACK_POSITION
 else
   if [[ -z "$BUILDPACK_POSITION" ]]; then
     BP_POSITION=`echo $EXISTS | jq '.entity.position' | tr -d '"'`
@@ -23,5 +21,5 @@ else
     BP_POSITION=$BUILDPACK_POSITION
   fi
   echo "Updating the buildpack $BUILDPACK_NAME and setting it at position $BP_POSITION..."
-  $CMD update-buildpack $BUILDPACK_NAME -p $BUILDPACK_FILE_PATH --$IS_ENABLE --i $BP_POSITION
+  $CMD update-buildpack $BUILDPACK_NAME -p pivnet-product/*.zip --$IS_ENABLE --i $BP_POSITION
 fi
