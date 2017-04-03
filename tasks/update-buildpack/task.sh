@@ -21,5 +21,5 @@ else
     BP_POSITION=$BUILDPACK_POSITION
   fi
   echo "Updating the buildpack $BUILDPACK_NAME and setting it at position $BP_POSITION..."
-  $CMD update-buildpack $BUILDPACK_NAME -p pivnet-product/*.zip --$IS_ENABLE --i $BP_POSITION
+  $CMD update-buildpack $BUILDPACK_NAME -p pivnet-product/*.zip --$IS_ENABLE -i $BP_POSITION
 fi
