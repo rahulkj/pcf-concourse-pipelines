@@ -73,7 +73,7 @@ resources:
 
 jobs:
 
-- name: install-opsmgr
+- name: delete-installation
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -83,16 +83,86 @@ jobs:
         - "*linux_amd64*"
     - get: om-cli
       globs: om-linux
+    - get: concourse-trigger-gist
+    - get: pivnet-opsman-product
+      params:
+        globs: []
+      trigger: true
+
+  - task: delete-products
+    file: concourse-vsphere/tasks/delete-products/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+
+  - task: bump-timestamp
+    file: concourse-vsphere/tasks/gist-update/task.yml
+    params:
+      CI_USERNAME: {{ci_username}}
+      CI_EMAIL_ADDRESS: {{ci_email_address}}
+
+  - put: concourse-trigger-gist
+    params: {repository: updated-concourse-trigger-gist}
+
+- name: delete-opsmgr
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [delete-installation]
+    - get: govc
+      passed: [delete-installation]
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      passed: [delete-installation]
+      globs: om-linux
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [delete-installation]
+
+  - task: delete-opsman
+    file: concourse-vsphere/tasks/delete-opsman/task.yml
+    params:
+      OPS_MGR_IP: {{om_ip}}
+      GOVC_INSECURE: 1
+      GOVC_URL: {{vcenter_host}}
+      GOVC_USERNAME: {{vcenter_usr}}
+      GOVC_PASSWORD: {{vcenter_pwd}}
+
+- name: install-opsmgr
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [delete-opsmgr]
+    - get: govc
+      params:
+        globs:
+        - "*linux_amd64*"
+      passed: [delete-opsmgr]
+    - get: om-cli
+      globs: om-linux
+      passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
-      trigger: true
+      # trigger: true
     - get: jq
       params:
         globs:
         - "*linux64*"
     - get: concourse-trigger-gist
+      trigger: true
+      passed: [delete-opsmgr]
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
