@@ -96,7 +96,6 @@ PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
     "instance_type": {"id": "automatic"},
     "instances" : $BACKUP_PREPARE_INSTANCES
   },
-  ,
   "proxy": {
     "instance_type": {"id": "automatic"},
     "instances" : $MYSQL_PROXY_INSTANCES
