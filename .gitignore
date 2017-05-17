@@ -1,3 +1,3 @@
 .env
-creds.yml
+*creds.yml
 .DS_Store

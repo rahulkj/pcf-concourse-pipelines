@@ -90,6 +90,13 @@ jobs:
     - get: concourse-vsphere
       trigger: true
       passed: [stage-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
     - get: om-cli
       globs: om-linux
       passed: [stage-product]
