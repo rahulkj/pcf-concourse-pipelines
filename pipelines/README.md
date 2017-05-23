@@ -104,6 +104,7 @@ services_excluded_range: # Services network exclusion range
 services_nw_dns: # Services network DNS
 services_nw_gateway: # Services network Gateway
 services_nw_azs: # Comma seperated list of AZ's to be associated with this network
+services_nw_is_service_nw: false # true/false - set if this is a services network
 
 dynamic_services_network_name: "DYNAMIC-SERVICES"
 dynamic_services_vsphere_network: # vCenter Dynamic Services network name
@@ -112,6 +113,7 @@ dynamic_services_excluded_range: # Dynamic Services network exclusion range
 dynamic_services_nw_dns: # Dynamic Services network DNS
 dynamic_services_nw_gateway: # Dynamic Services network Gateway
 dynamic_services_nw_azs: # Comma seperated list of AZ's to be associated with this network
+dynamic_services_nw_is_service_nw: true # true/false - set if this is a services network
 
 ert_singleton_job_az: # AZ to use for deployment of ERT Singleton jobs
 
