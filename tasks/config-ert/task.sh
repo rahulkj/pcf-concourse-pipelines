@@ -39,10 +39,21 @@ DOMAINS=$(cat <<-EOF
 EOF
 )
 
+SECURITY_DOMAIN=$(cat <<-EOF
+  {"domains": ["*.login.$SYSTEM_DOMAIN"] }
+EOF
+)
+
   CERTIFICATES=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
   export SSL_CERT=`echo $CERTIFICATES | jq '.certificate' | tr -d '"'`
   export SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key' | tr -d '"'`
+
+  CERTIFICATES=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$SECURITY_DOMAIN"`
+
+  export UAA_SSL_CERT=`echo $CERTIFICATES | jq '.certificate' | tr -d '"'`
+  export UAA_SSL_PRIVATE_KEY=`echo $CERTIFICATES | jq '.key' | tr -d '"'`
+
 
   echo "Using self signed certificates generated using Ops Manager..."
 
@@ -122,6 +133,12 @@ CF_PROPERTIES=$(cat <<-EOF
   },
   ".diego_brain.static_ips": {
     "value": "$SSH_STATIC_IPS"
+  },
+  ".uaa.service_provider_key_credentials": {
+    "value": {
+      "cert_pem": "$UAA_SSL_CERT",
+      "private_key_pem": "$UAA_SSL_PRIVATE_KEY"
+    }
   }
 }
 EOF

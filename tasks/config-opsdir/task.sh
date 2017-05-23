@@ -92,7 +92,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     },
     {
       "name": "$SERVICES_NETWORK_NAME",
-      "service_network": true,
+      "service_network": $SERVICES_NW_IS_SERVICE_NW,
       "subnets": [
         {
           "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
@@ -108,7 +108,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     },
     {
       "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
-      "service_network": true,
+      "service_network": $DYNAMIC_SERVICES_NW_IS_SERVICE_NW,
       "subnets": [
         {
           "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
