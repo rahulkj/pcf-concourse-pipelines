@@ -5,7 +5,7 @@ CMD=./om-cli/om-linux
 
 if [[ -z "$SSL_CERT" ]]; then
 DOMAINS=$(cat <<-EOF
-  {"domains": ["*.$SYSTEM_DOMAIN", "*.$APPS_DOMAIN", "*.login.$SYSTEM_DOMAIN", "*.uaa.$SYSTEM_DOMAIN"] }
+  {"domains": ["*.login.$SYSTEM_DOMAIN"] }
 EOF
 )
 
