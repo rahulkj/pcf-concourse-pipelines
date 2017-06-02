@@ -88,7 +88,6 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
