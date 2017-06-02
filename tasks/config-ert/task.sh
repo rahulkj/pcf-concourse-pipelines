@@ -119,9 +119,6 @@ CF_PROPERTIES=$(cat <<-EOF
   ".mysql_monitor.recipient_email": {
     "value": "$MYSQL_MONITOR_EMAIL"
   },
-  ".diego_cell.garden_network_pool": {
-    "value": "$GARDEN_NETWORK_POOL_CIDR"
-  },
   ".diego_cell.garden_network_mtu": {
     "value": $GARDEN_NETWORK_MTU
   },

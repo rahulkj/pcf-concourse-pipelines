@@ -145,7 +145,6 @@ tcp_routing: <enable/disable>
 tcp_routing_ports:
 route_services: <enable/disable>
 ignore_ssl_cert_verification: <true/false>
-garden_network_pool_cidr: 10.254.0.0/22  ## Default value
 garden_network_mtu: 1454  ## Default value
 
 ## SMTP configuration goes here

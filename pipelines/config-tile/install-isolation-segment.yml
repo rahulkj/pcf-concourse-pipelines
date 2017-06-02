@@ -1,0 +1,152 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/concourse-vsphere
+    branch: master
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: {{product_name}}
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: concourse-vsphere/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PRODUCT_IDENTIFIER: {{product_identifier}}
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [stage-product]
+
+  - task: config-tile
+    file: concourse-vsphere/tasks/config-is-tile/task.yml
+    params:
+      PRODUCT_IDENTIFIER: {{product_identifier}}
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      OPS_MGR_GENERATE_SSL_ENDPOINT: {{om_generate_ssl_endpoint}}
+      SINGLETON_JOB_AZ: {{singleton_jobs_az}}
+      OTHER_AZS: {{other_azs}}
+      NETWORK_NAME: {{deployment_nw}}
+      ISOLATION_SEGMENT_DOMAIN: {{isolation_segment_domain}}
+      SSL_TERMINATION_POINT: {{ssl_termination_point}}
+      SSL_CERT: {{ssl_rsa_certificate}}
+      SSL_PRIVATE_KEY: {{ssl_private_key}}
+      ROUTER_SSL_CIPHERS: {{router_ssl_cipher}}
+      ROUTER_STATIC_IPS: {{router_static_ips}}
+      CELL_DISK_CAPACITY: {{cell_disk_capacity}}
+      CELL_MEMORY_CAPACITY: {{cell_memory_capacity}}
+      APPLICATION_NETWORK_CIDR: {{application_network_cidr}}
+      APPLICATION_NETWORK_MTU: {{application_network_mtu}}
+      INSECURE_DOCKER_REGISTRY_LIST: {{insecure_docker_registry_list}}
+      SEGMENT_NAME: {{isolation_segment_name}}
+      IS_ROUTER_INSTANCES: {{router_instances}}
+      IS_DIEGO_CELL_INSTANCES: {{diego_cell_instances}}
+      ISOLATED_ROUTER_INSTANCE_TYPE: {{isolated_router_instance_type}}
+      DIEGO_CELL_INSTANCE_TYPE: {{diego_cell_instance_type}}
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [config-product]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
