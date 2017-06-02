@@ -50,7 +50,7 @@ function fn_other_azs {
   echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
 }
 
-OTHER_AZS=$(fn_other_azs $DEPLOYMENT_NW_AZS)
+BALANCE_JOB_AZS=$(fn_other_azs $OTHER_AZS)
 
 PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
 {
@@ -58,7 +58,7 @@ PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
     "name": "$SINGLETON_JOB_AZ"
   },
   "other_availability_zones": [
-    $OTHER_AZS
+    $BALANCE_JOB_AZS
   ],
   "network": {
     "name": "$NETWORK_NAME"
