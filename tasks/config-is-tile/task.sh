@@ -5,7 +5,7 @@ CMD=./om-cli/om-linux
 
 if [[ -z "$SSL_CERT" ]]; then
 DOMAINS=$(cat <<-EOF
-  {"domains": ["*.login.$SYSTEM_DOMAIN"] }
+  {"domains": ["*.$ISOLATION_SEGMENT_DOMAIN"] }
 EOF
 )
 
@@ -70,18 +70,18 @@ EOF
 PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
 {
   "isolated_router": {
-    "instance_type": {"id": "automatic"},
+    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
     "instances" : $IS_ROUTER_INSTANCES
   },
   "isolated_diego_cell": {
-    "instance_type": {"id": "automatic"},
+    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
     "instances" : $IS_DIEGO_CELL_INSTANCES
   }
 }
 EOF
 )
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_NAME -p "$PRODUCT_PROPERTIES" -pn "$PRODUCT_NETWORK_CONFIG" -pr "$PRODUCT_RESOURCE_CONFIG"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PRODUCT_PROPERTIES" -pn "$PRODUCT_NETWORK_CONFIG" -pr "$PRODUCT_RESOURCE_CONFIG"
 
 if [[ "$SSL_TERMINATION_POINT" == "terminate_at_router" ]]; then
 echo "Terminating SSL at the gorouters and using self signed/provided certs..."
@@ -127,4 +127,4 @@ EOF
 
 fi
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_NAME -p "$SSL_PROPERTIES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$SSL_PROPERTIES"
