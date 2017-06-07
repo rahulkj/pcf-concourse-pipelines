@@ -6,6 +6,7 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
+  PRODUCT_IDENTIFIER:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:

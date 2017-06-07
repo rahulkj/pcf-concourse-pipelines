@@ -102,6 +102,7 @@ jobs:
   - task: config-tile
     file: concourse-vsphere/tasks/config-rabbitmq/task.yml
     params:
+      PRODUCT_IDENTIFIER: {{product_identifier}}
       METRICS_POLLING_INTERVAL: {{metrics_polling_interval}}
       OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
