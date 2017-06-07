@@ -143,6 +143,7 @@ jobs:
       PCF_MARKETPLACE_PRODUCT_IDENTIFIER: {{marketplace_identifier}}
       SERVICE_INSTANCE_COUNT: {{single_node_service_instance_quota}}
       GLOBAL_SERVICE_INSTANCE_QUOTA: {{global_service_instance_quota}}
+      SINGLE_NODE_PERSISTENT_DISK_TYPE: {{single_node_persistent_disk_type}}
       ON_DEMAND_BROKER_AZS: {{on_demand_broker_azs}}
       ON_DEMAND_BROKER_VM_TYPE: {{on_demand_broker_vm_type}}
       VM_EXTENSIONS: {{vm_extensions}}

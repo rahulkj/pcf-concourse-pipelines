@@ -7,16 +7,16 @@ CMD=./om-cli/om-linux
 PRODUCT_PROPERTIES=$(cat <<-EOF
 {
   ".properties.metrics_polling_interval": {
-    "value": $METRICS_POLLING_INTERVAL
+    "value": "$METRICS_POLLING_INTERVAL"
   },
   ".properties.syslog_address": {
-    "value": $SYSLOG_ADDRESS
+    "value": "$SYSLOG_ADDRESS"
   },
   ".properties.syslog_port": {
-    "value": $SYSLOG_PORT
+    "value": "$SYSLOG_PORT"
   },
   ".properties.disk_alarm_threshold": {
-    "value": $DISK_ALARM_THRESHOLD
+    "value": "$DISK_ALARM_THRESHOLD"
   },
   ".rabbitmq-server.plugins": {
     "value": [
@@ -30,16 +30,16 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     }
   },
   ".rabbitmq-server.ssl_cacert": {
-    "value": "RMQ_CA_CERT"
+    "value": "$RMQ_CA_CERT"
   },
   ".rabbitmq-server.ssl_verify": {
     "value": "$SSL_VERIFY"
   },
   ".rabbitmq-server.ssl_verification_depth": {
-    "value": $SSL_VERIFICATION_DEPTH
+    "value": "$SSL_VERIFICATION_DEPTH"
   },
   ".rabbitmq-server.ssl_fail_if_no_peer_cert": {
-    "value": $SSL_FAIL_IF_NO_PEER_CERT
+    "value": "$SSL_FAIL_IF_NO_PEER_CERT"
   },
   ".rabbitmq-server.cookie": {
     "value": "$ERLANG_COOKIE_NAME"
@@ -51,7 +51,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     "value": "$RMQ_SERCURITY_OPTION"
   },
   ".rabbitmq-server.cluster_partition_handling": {
-    "value": "RMQ_NW_PARTITION_HANDLING"
+    "value": "$RMQ_NW_PARTITION_HANDLING"
   },
   ".rabbitmq-server.ports": {
     "value": "$RMQ_SERVER_PORTS"
@@ -72,7 +72,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     "value": "$RMQ_LOADBALANCER_DNS"
   },
   ".rabbitmq-broker.operator_set_policy_enabled": {
-    "value": "IS_RMQ_POLICY_ENABLED"
+    "value": "$IS_RMQ_POLICY_ENABLED"
   },
   ".rabbitmq-broker.policy_definition": {
     "value": "$RMQ_POLICY_DEFINITION"
@@ -90,16 +90,18 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     "value": "$PCF_MARKETPLACE_PRODUCT_IDENTIFIER"
   },
   ".on-demand-broker.solo_plan_instance_quota": {
-    "value": $SERVICE_INSTANCE_COUNT
+    "value": "$SERVICE_INSTANCE_COUNT"
   },
   ".on-demand-broker.global_service_instance_quota": {
-    "value": $GLOBAL_SERVICE_INSTANCE_QUOTA
+    "value": "$GLOBAL_SERVICE_INSTANCE_QUOTA"
   },
   ".on-demand-broker.persistent_disk_type": {
-    "value": $SINGLE_NODE_PERSISTENT_DISK_TYPE
+    "value": "$SINGLE_NODE_PERSISTENT_DISK_TYPE"
   },
   ".on-demand-broker.az_placement": {
-    "value": "$ON_DEMAND_BROKER_AZS"
+    "value": [
+      "$ON_DEMAND_BROKER_AZS"
+    ]
   },
   ".on-demand-broker.rmq_vm_type": {
     "value": "$ON_DEMAND_BROKER_VM_TYPE"
@@ -132,7 +134,7 @@ PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
   "network": {
     "name": "$NETWORK_NAME"
   },
-  "services-network": {
+  "service_network": {
     "name": "$SERVICES_NETWORK"
   }
 }
@@ -141,24 +143,23 @@ EOF
 
 PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
 {
-	"resources": [{
-		"identifier": "rabbitmq-server",
-		"instances": "$RMQ_SERVER_INSTANCES",
-		"persistent_disk_mb": "$RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE",
-    "instance_type_id": "automatic"
-	}, {
-		"identifier": "rabbitmq-haproxy",
-		"instances": "$RMQ_HAPROXY_INSTANCES",
-		"instance_type_id": "automatic"
-	}, {
-		"identifier": "rabbitmq-broker",
-    "instances": "RMQ_BROKER_INSTANCES",
-		"instance_type_id": "automatic"
-	}, {
-		"identifier": "on-demand-broker",
-		"instances": "RMQ_ONDEMAND_INSTANCES",
-		"instance_type_id": "automatic"
-	}]
+  "rabbitmq-server": {
+    "instance_type": {"id": "automatic"},
+    "instances": $RMQ_SERVER_INSTANCES,
+    "persistent_disk": {"size_mb":"$RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE"}
+  },
+  "rabbitmq-haproxy": {
+    "instance_type": {"id": "automatic"},
+    "instances": $RMQ_HAPROXY_INSTANCES
+  },
+  "rabbitmq-broker": {
+    "instance_type": {"id": "automatic"},
+    "instances": $RMQ_BROKER_INSTANCES
+  },
+  "on-demand-broker": {
+    "instance_type": {"id": "automatic"},
+    "instances": $RMQ_ONDEMAND_INSTANCES
+  }
 }
 EOF
 )
