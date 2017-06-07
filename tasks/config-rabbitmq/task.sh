@@ -20,7 +20,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   },
   ".rabbitmq-server.plugins": {
     "value": [
-      "$RMQ_PLUGINS"
+      $RMQ_PLUGINS
     ]
   },
   ".rabbitmq-server.rsa_certificate": {
