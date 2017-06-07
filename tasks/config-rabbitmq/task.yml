@@ -50,10 +50,10 @@ params:
   ON_DEMAND_BROKER_VM_TYPE:
   VM_EXTENSIONS:
   RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE:
-  
+
 inputs:
   - name: concourse-vsphere
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/configure-rabbitmq/task-1.sh
+  path: concourse-vsphere/tasks/configure-rabbitmq/task.sh

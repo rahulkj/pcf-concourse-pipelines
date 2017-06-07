@@ -25,7 +25,7 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: master
+    branch: develop
 
 - name: pivnet-product
   type: pivnet
@@ -144,7 +144,7 @@ jobs:
       GLOBAL_SERVICE_INSTANCE_QUOTA: {{global_service_instance_quota}}
       ON_DEMAND_BROKER_AZS: {{on_demand_broker_azs}}
       ON_DEMAND_BROKER_VM_TYPE: {{on_demand_broker_vm_type}}
-      VM_EXTENSIONS: {{vm_extenstions}}
+      VM_EXTENSIONS: {{vm_extensions}}
       RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE: {{rabbitmq_server_node_disk_size}}
 
 - name: apply-changes

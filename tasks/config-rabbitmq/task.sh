@@ -18,7 +18,6 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   ".properties.disk_alarm_threshold": {
     "value": $DISK_ALARM_THRESHOLD
   },
-  // todo: fixthis
   ".rabbitmq-server.plugins": {
     "value": [
       "$RMQ_PLUGINS"
