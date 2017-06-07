@@ -56,4 +56,4 @@ inputs:
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/configure-rabbitmq/task.sh
+  path: concourse-vsphere/tasks/config-rabbitmq/task.sh
