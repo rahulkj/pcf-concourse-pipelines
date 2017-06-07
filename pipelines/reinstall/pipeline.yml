@@ -51,12 +51,14 @@ resources:
   source:
     api_token: {{pivnet_token}}
     product_slug: ops-manager
+    product_version: 1\.11\.*
 
 - name: pivnet-er-product
   type: pivnet
   source:
     api_token: {{pivnet_token}}
     product_slug: elastic-runtime
+    product_version: 1\.11\.*
 
 - name: pivnet-metrics-product
   type: pivnet
@@ -254,6 +256,7 @@ jobs:
       SERVICES_NW_DNS: {{services_nw_dns}}
       SERVICES_NW_GATEWAY: {{services_nw_gateway}}
       SERVICES_NW_AZS: {{services_nw_azs}}
+      SERVICES_NW_IS_SERVICE_NW: {{services_nw_is_service_nw}}
       DYNAMIC_SERVICES_NETWORK_NAME: {{dynamic_services_network_name}}
       DYNAMIC_SERVICES_VCENTER_NETWORK: {{dynamic_services_vsphere_network}}
       DYNAMIC_SERVICES_NW_CIDR: {{dynamic_services_nw_cidr}}
@@ -261,6 +264,7 @@ jobs:
       DYNAMIC_SERVICES_NW_DNS: {{dynamic_services_nw_dns}}
       DYNAMIC_SERVICES_NW_GATEWAY: {{dynamic_services_nw_gateway}}
       DYNAMIC_SERVICES_NW_AZS: {{dynamic_services_nw_azs}}
+      DYNAMIC_SERVICES_NW_IS_SERVICE_NW: {{dynamic_services_nw_is_service_nw}}
       AZ_1: {{az_1_name}}
       AZ_1_CUSTER_NAME: {{az_1_cluster_name}}
       AZ_1_RP_NAME: {{az_1_rp_name}}

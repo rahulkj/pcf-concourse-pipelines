@@ -1,0 +1,172 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/concourse-vsphere
+    branch: master
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: {{pivnet_token}}
+    product_slug: {{product_name}}
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: concourse-vsphere/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PRODUCT_IDENTIFIER: {{product_identifier}}
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [stage-product]
+
+  - task: config-tile
+    file: concourse-vsphere/tasks/config-rabbitmq/task.yml
+    params:
+      METRICS_POLLING_INTERVAL: {{metrics_polling_interval}}
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      OPS_MGR_GENERATE_SSL_ENDPOINT: {{om_generate_ssl_endpoint}}
+      SINGLETON_JOB_AZ: {{singleton_jobs_az}}
+      OTHER_AZS: {{other_azs}}
+      NETWORK_NAME: {{deployment_nw}}
+      SERVICES_NETWORK: {{services_nw}}
+      SYSLOG_ADDRESS: {{syslog_address}}
+      SYSLOG_PORT: {{syslog_port}}
+      DISK_ALARM_THRESHOLD: {{disk_alarm_threshold}}
+      RMQ_SERVER_INSTANCES: {{rabbitmq_server_instances}}
+      RMQ_HAPROXY_INSTANCES: {{rabbitmq_haproxy_instances}}
+      RMQ_BROKER_INSTANCES: {{rabbitmq_broker_instances}}
+      RMQ_ONDEMAND_INSTANCES: {{rabbitmq_ondemand_instances}}
+      RMQ_PLUGINS: {{rabbitmq_server_plugins}}
+      RMQ_SSL_CERT: {{rabbitmq_ssl_certificate}}
+      RMQ_PRIVATE_CERT: {{rabbitmq_private_certificate}}
+      RMQ_CA_CERT: {{rabbitmq_ca_certificate}}
+      SSL_VERIFY: {{ssl_verify}}
+      SSL_VERIFICATION_DEPTH: {{ssl_verification_depth}}
+      SSL_FAIL_IF_NO_PEER_CERT: {{ssl_fail_if_no_peer_cert}}
+      ERLANG_COOKIE_NAME: {{erlang_cookie_name}}
+      RMQ_SERVER_CONFIG: {{rabbitmq_server_config}}
+      RMQ_SERCURITY_OPTION: {{rabbitmq_security_option}}
+      RMQ_NW_PARTITION_HANDLING: {{rabbitmq_network_partition_handling}}
+      RMQ_SERVER_PORTS: {{rabbitmq_server_ports}}
+      RMQ_SERVER_STATIC_IPS: {{rabbitmq_server_static_ips}}
+      RMQ_ADMIN_USERNAME: {{rabbitmq_admin_username}}
+      RMQ_ADMIN_PASSWORD: {{rabbitmq_admin_password}}
+      RMQ_LOADBALANCER_DNS: {{rabbitmq_loadbalancer_dns_name}}
+      IS_RMQ_POLICY_ENABLED: {{rabbitmq_policy_enabled}}
+      RMQ_POLICY_DEFINITION: {{rabbitmq_policy_definition}}
+      ENABLE_SINGLE_NODE_PLAN: {{enable_single_node_plan}}
+      PLAN_NAME: {{plan_name}}
+      PLAN_DESCRIPTION: {{plan_description}}
+      PCF_MARKETPLACE_PRODUCT_IDENTIFIER: {{marketplace_identifier}}
+      SERVICE_INSTANCE_COUNT: {{single_node_service_instance_quota}}
+      GLOBAL_SERVICE_INSTANCE_QUOTA: {{global_service_instance_quota}}
+      ON_DEMAND_BROKER_AZS: {{on_demand_broker_azs}}
+      ON_DEMAND_BROKER_VM_TYPE: {{on_demand_broker_vm_type}}
+      VM_EXTENSIONS: {{vm_extenstions}}
+      RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE: {{rabbitmq_server_node_disk_size}}
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      globs: om-linux
+      passed: [config-product]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}

@@ -1,0 +1,32 @@
+{
+  "networks_and_azs":{
+    "networks_and_azs": {
+      "singleton_availability_zone": {
+        "name": "{{az1}}"
+      },
+      "other_availability_zones": [
+        { "name": "{{az1}}" }
+      ],
+      "network": {
+        "name": "{{RABBITMQ_NETWORK}}"
+      }
+    }
+  },
+  "properties": {
+    "properties": {
+      ".rabbitmq-server.server_admin_credentials": {
+          "value": {"identity": "{{rabbitmq_admin_username}}", "password": "{{rabbitmq_admin_password}}"}
+        },
+      ".rabbitmq-broker.dns_host": {
+        "value": "{{rabbitmq_external_lb_dns_name}}"
+      }
+    }
+  },
+  "jobs": {
+      "rabbitmq-server": {"instance_type": {"id": "automatic"},"instances": 3,"persistent_disk": {"size_mb": "automatic"} },
+      "rabbitmq-haproxy": {"instance_type": {"id": "automatic"},"instances": 3},
+      "rabbitmq-broker": {"instance_type": {"id": "automatic"},"instances": 1,"persistent_disk": {"size_mb": "automatic"}},
+      "broker-registrar": {"instance_type": {"id": "automatic"},"instances": 0},
+      "broker-deregistrar": {"instance_type": {"id": "automatic"},"instances": 0}
+  }
+}
