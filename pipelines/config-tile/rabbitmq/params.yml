@@ -1,0 +1,57 @@
+pivnet_token: # [R] PivNet Access Token
+github_token: # [R] Your github token
+
+## Ops Manager installation meta data
+om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+om_usr: # [R] Ops Manager admin user
+om_pwd: # [R] Ops Manager admin password
+
+product_name: pivotal-rabbitmq-service
+product_identifier: p-rabbitmq
+
+om_generate_ssl_endpoint: /api/v0/certificates/generate
+
+singleton_jobs_az: # [R] Place singleton jobs in an AZ
+other_azs: # [R] Balance other jobs in AZ's
+deployment_nw: # [R] Tile network name
+services_nw: # [R] Services network name
+
+metrics_polling_interval: 30 # [R] Metrics polling interval  min: 10
+syslog_address: # [O] Syslog address
+syslog_port: # [O] Syslog port
+disk_alarm_threshold: fixed_50_mb # [R] fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0 - Disk free alarm limit
+rabbitmq_server_plugins: "\"rabbitmq_amqp1_0\",\"rabbitmq_auth_backend_ldap\",\"rabbitmq_auth_mechanism_ssl\",\"rabbitmq_consistent_hash_exchange\",\"rabbitmq_federation\",\"rabbitmq_federation_management\",\"rabbitmq_management\",\"rabbitmq_management_visualiser\",\"rabbitmq_mqtt\",\"rabbitmq_shovel\",\"rabbitmq_shovel_management\",\"rabbitmq_stomp\",\"rabbitmq_tracing\",\"rabbitmq_web_stomp\",\"rabbitmq_web_stomp_examples\",\"rabbitmq_event_exchange\",\"rabbitmq_jms_topic_exchange\""
+rabbitmq_ssl_certificate: # [O] RabbitMQ server RSA public certificate
+rabbitmq_private_certificate: # [O] RabbitMQ server RSA private key certificate
+rabbitmq_ca_certificate: # [O] RabbitMQ server CA certificate
+ssl_verify: false # [R] true|false Enable 'verify_peer' SSL certificate verification (default is 'verify_none')
+ssl_verification_depth: 5 # [R] SSL certificate verification depth  min: 1, max: 32
+ssl_fail_if_no_peer_cert: false #true|false
+erlang_cookie_name: # [O] Erlang cookie used by RabbitMQ nodes and rabbitmqctl
+rabbitmq_server_config: # [O] RabbitMQ configuration
+rabbitmq_security_option: # [O] blank|enable_tls1_0 RabbitMQ TLS 1.0 Support
+rabbitmq_network_partition_handling: pause_minority # [R] pause_minority|autoheal Select the network partition behavior of the RabbitMQ cluster
+rabbitmq_server_ports: 15672,5672,5671,1883,8883,61613,61614,15674 # [R] RabbitMQ cluster HAproxy ports
+rabbitmq_haproxy_static_ips: # [O] HAProxy Static IPs
+rabbitmq_server_static_ips: # [O] RabbitMQ Server Static IPs
+rabbitmq_admin_username: # [R] RabbitMQ admin user credentials
+rabbitmq_admin_password: # [R] RabbitMQ admin user credentials
+rabbitmq_loadbalancer_dns_name: # [O] External load balancer DNS name
+rabbitmq_policy_enabled: false # [O] true|false Enable custom policy on new instances
+rabbitmq_policy_definition: # [O] If the above attribute is enabled, then this policy will be applied to all new instances.
+enable_single_node_plan: false # [O] true|false Enable Single Node Plan
+plan_name: solo # [O] Single Node Plan name
+plan_description: "Single node RabbitMQ dedicated instance" # [O] Single Node Plan description
+marketplace_identifier: "RabbitMQ 3.6.9" # [O] Single Node Plan features
+single_node_service_instance_quota: 5 # [R] Set the total number of dedicated service instances which can be deployed (max = 50)
+global_service_instance_quota: 20 # [R] Set the total number of dedicated service instances which can be deployed (max = 50)
+single_node_persistent_disk_type: 51200 # [R] Persistent disk type - refer to the cloud config for this tile to get all the supported disk types
+on_demand_broker_azs: # [R] AZ placement - The AZ(s) that the service instance will be deployed into
+on_demand_broker_vm_type: nano # [R] nano|micro|large|xlarge - RabbitMQ VM Type - refer to the cloud config for this tile to get all the supported vm types
+vm_extensions: # [O] blank or public_ip > Please refer to the Ops Manager documentation for IaaS specific behavior. Log forwarding and backups may require internet access.
+rabbitmq_server_node_disk_size: 51200 # [R] Refer to cloud config for this tile to get the possible values for this section
+
+rabbitmq_server_instances: # [R] RabbitMQ node instances, integer, 0 or n instances
+rabbitmq_haproxy_instances: # [R] HAProxy for RabbitMQ, integer, 0 or n instances
+rabbitmq_broker_instances: 1 # [R] RabbitMQ service broker, integer, 0 or 1 instance only
+rabbitmq_ondemand_instances: 1 # [R] RabbitMQ on-demand broker, integer, 0 or 1 instance only

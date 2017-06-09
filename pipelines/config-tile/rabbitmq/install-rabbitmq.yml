@@ -131,6 +131,7 @@ jobs:
       RMQ_SERCURITY_OPTION: {{rabbitmq_security_option}}
       RMQ_NW_PARTITION_HANDLING: {{rabbitmq_network_partition_handling}}
       RMQ_SERVER_PORTS: {{rabbitmq_server_ports}}
+      RMQ_HAPROXY_STATIC_IPS: {{rabbitmq_haproxy_static_ips}}
       RMQ_SERVER_STATIC_IPS: {{rabbitmq_server_static_ips}}
       RMQ_ADMIN_USERNAME: {{rabbitmq_admin_username}}
       RMQ_ADMIN_PASSWORD: {{rabbitmq_admin_password}}
