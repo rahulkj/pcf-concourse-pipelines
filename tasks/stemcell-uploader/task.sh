@@ -17,8 +17,6 @@ $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
 
 RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $STEMCELL_VERSION`
 
-IAAS_TYPE=vsphere
-
 if [[ -z "$RESPONSE" ]]; then
   wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-$STEMCELL_VERSION-$IAAS_TYPE-esxi-ubuntu-trusty-go_agent.tgz
 else
