@@ -6,6 +6,8 @@ pivnet_token: <YOUR-PIVNET-TOKEN>
 # The token used to download the repos from GitHub for the pipelines
 github_token: <YOUR-GITHUB-TOKEN>
 
+iaas_type: vsphere
+
 # Enter vCenter details
 vcenter_host: <VCENTER-HOST-OR-IP>
 vcenter_usr: <VCENTER-SERVICE-USR> # If user is tied to a domain, then escape the \, example `domain\\user`
@@ -202,6 +204,7 @@ diego_cell_instances: 3
 doppler_instances: 1
 loggregator_traffic_controller_instances: 1
 tcp_router_instances: 1
+syslog_adapter_instances: 1
 
 ## JMX Bridge tile configuration goes here
 jmx_admin_usr:

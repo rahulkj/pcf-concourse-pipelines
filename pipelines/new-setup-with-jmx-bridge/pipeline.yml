@@ -38,7 +38,7 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: develop
+    branch: master
 
 - name: customer-repo
   type: git
@@ -259,6 +259,17 @@ jobs:
       NO_PROXY: {{company_proxy_domain}}
       OM_IP: {{om_ip}}
 
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      IAAS_TYPE: {{iaas_type}}
+
 - name: config-elastic-runtime-tile
   plan:
   - aggregate:
@@ -352,6 +363,7 @@ jobs:
       DOPPLER_INSTANCES: {{doppler_instances}}
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
+      SYSLOG_ADAPTER_INSTANCES:: {{syslog_adapter_instances}}
 
 - name: upload-metrics-tile
   plan:
@@ -384,6 +396,17 @@ jobs:
       PIVNET_API_TOKEN: {{pivnet_token}}
       NO_PROXY: {{company_proxy_domain}}
       OM_IP: {{om_ip}}
+
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      IAAS_TYPE: {{iaas_type}}
 
 - name: config-metrics-tile
   plan:

@@ -60,6 +60,17 @@ jobs:
       OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
 
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      IAAS_TYPE: {{iaas_type}}
+
 - name: stage-product
   plan:
   - aggregate:
