@@ -34,7 +34,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   ".isolated_diego_cell.executor_memory_capacity": {
     "value": "$CELL_MEMORY_CAPACITY"
   },
-  ".isolated_diego_cell.garden_network_pool": {
+  ".properties.container_networking.disable.garden_network_pool": {
     "value": "$APPLICATION_NETWORK_CIDR"
   },
   ".isolated_diego_cell.garden_network_mtu": {
@@ -68,7 +68,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
     "value": "$CELL_MEMORY_CAPACITY"
   },
-  ".isolated_diego_cell_$REPLICATOR_NAME.garden_network_pool": {
+  ".properties.container_networking.disable.garden_network_pool": {
     "value": "$APPLICATION_NETWORK_CIDR"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.garden_network_mtu": {
