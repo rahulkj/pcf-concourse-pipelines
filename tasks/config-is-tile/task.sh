@@ -53,6 +53,20 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
+PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "isolated_router": {
+    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
+    "instances" : $IS_ROUTER_INSTANCES
+  },
+  "isolated_diego_cell": {
+    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
+    "instances" : $IS_DIEGO_CELL_INSTANCES
+  }
+}
+EOF
+)
+
 else
 
 echo "Setting Isolation Segment properties for replicated tile"
@@ -87,6 +101,20 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
+PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "isolated_router_$REPLICATOR_NAME": {
+    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
+    "instances" : $IS_ROUTER_INSTANCES
+  },
+  "isolated_diego_cell_$REPLICATOR_NAME": {
+    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
+    "instances" : $IS_DIEGO_CELL_INSTANCES
+  }
+}
+EOF
+)
+
 fi
 
 function fn_other_azs {
@@ -106,20 +134,6 @@ PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
   ],
   "network": {
     "name": "$NETWORK_NAME"
-  }
-}
-EOF
-)
-
-PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
-{
-  "isolated_router": {
-    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
-    "instances" : $IS_ROUTER_INSTANCES
-  },
-  "isolated_diego_cell": {
-    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
-    "instances" : $IS_DIEGO_CELL_INSTANCES
   }
 }
 EOF
