@@ -23,4 +23,4 @@ outputs:
   - name: replicator-tile
 
 run:
-  path: concourse-vsphere/tasks/stage-product/task.sh
+  path: concourse-vsphere/tasks/replicate-and-upload-tile/task.sh
