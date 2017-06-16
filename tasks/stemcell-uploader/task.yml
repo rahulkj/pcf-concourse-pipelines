@@ -22,4 +22,4 @@ inputs:
   - name: pivnet-cli
 
 run:
-  path: concourse-vsphere/tasks/upload-product/task.sh
+  path: concourse-vsphere/tasks/stemcell-uploader/task.sh
