@@ -81,7 +81,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     "value": "$SEGMENT_NAME"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.dns_servers": {
-    "value": "$DNS_SERVERS",
+    "value": "$DNS_SERVERS"
   }
 }
 EOF
