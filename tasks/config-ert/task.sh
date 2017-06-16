@@ -230,6 +230,10 @@ CF_RESOURCES=$(cat <<-EOF
   "tcp_router": {
     "instance_type": {"id": "automatic"},
     "instances" : $TCP_ROUTER_INSTANCES
+  },
+  "syslog_adapter": {
+    "instance_type": {"id": "automatic"},
+    "instances" : $SYSLOG_ADAPTER_INSTANCES
   }
 }
 EOF

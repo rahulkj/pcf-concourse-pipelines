@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
@@ -18,6 +18,11 @@ EOF
 
 fi
 
+REPLICATOR_NAME=`echo $PRODUCT_IDENTIFIER | cut -d'-' -f4`
+
+if [[ -z "$REPLICATOR_NAME" ]]; then
+echo "Setting Isolation Segment properties for non replicated tile"
+
 PRODUCT_PROPERTIES=$(cat <<-EOF
 {
   ".isolated_router.static_ips": {
@@ -29,7 +34,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   ".isolated_diego_cell.executor_memory_capacity": {
     "value": "$CELL_MEMORY_CAPACITY"
   },
-  ".isolated_diego_cell.garden_network_pool": {
+  ".properties.container_networking.disable.garden_network_pool": {
     "value": "$APPLICATION_NETWORK_CIDR"
   },
   ".isolated_diego_cell.garden_network_mtu": {
@@ -40,10 +45,77 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   },
   ".isolated_diego_cell.placement_tag": {
     "value": "$SEGMENT_NAME"
+  },
+  ".isolated_diego_cell.dns_servers": {
+    "value": "$DNS_SERVERS"
   }
 }
 EOF
 )
+
+PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "isolated_router": {
+    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
+    "instances" : $IS_ROUTER_INSTANCES
+  },
+  "isolated_diego_cell": {
+    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
+    "instances" : $IS_DIEGO_CELL_INSTANCES
+  }
+}
+EOF
+)
+
+else
+
+echo "Setting Isolation Segment properties for replicated tile"
+
+PRODUCT_PROPERTIES=$(cat <<-EOF
+{
+  ".isolated_router_$REPLICATOR_NAME.static_ips": {
+    "value": "$ROUTER_STATIC_IPS"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.executor_disk_capacity": {
+    "value": "$CELL_DISK_CAPACITY"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
+    "value": "$CELL_MEMORY_CAPACITY"
+  },
+  ".properties.container_networking.disable.garden_network_pool": {
+    "value": "$APPLICATION_NETWORK_CIDR"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.garden_network_mtu": {
+    "value": $APPLICATION_NETWORK_MTU
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.insecure_docker_registry_list": {
+    "value": "$INSECURE_DOCKER_REGISTRY_LIST"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.placement_tag": {
+    "value": "$SEGMENT_NAME"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.dns_servers": {
+    "value": "$DNS_SERVERS"
+  }
+}
+EOF
+)
+
+PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "isolated_router_$REPLICATOR_NAME": {
+    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
+    "instances" : $IS_ROUTER_INSTANCES
+  },
+  "isolated_diego_cell_$REPLICATOR_NAME": {
+    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
+    "instances" : $IS_DIEGO_CELL_INSTANCES
+  }
+}
+EOF
+)
+
+fi
 
 function fn_other_azs {
   local azs_csv=$1
@@ -62,20 +134,6 @@ PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
   ],
   "network": {
     "name": "$NETWORK_NAME"
-  }
-}
-EOF
-)
-
-PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
-{
-  "isolated_router": {
-    "instance_type": {"id": "$ISOLATED_ROUTER_INSTANCE_TYPE"},
-    "instances" : $IS_ROUTER_INSTANCES
-  },
-  "isolated_diego_cell": {
-    "instance_type": {"id": "$DIEGO_CELL_INSTANCE_TYPE"},
-    "instances" : $IS_DIEGO_CELL_INSTANCES
   }
 }
 EOF

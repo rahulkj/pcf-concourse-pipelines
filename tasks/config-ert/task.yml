@@ -84,6 +84,7 @@ params:
   DOPPLER_INSTANCES:
   LOGGREGATOR_TC_INSTANCES:
   TCP_ROUTER_INSTANCES:
+  SYSLOG_ADAPTER_INSTANCES:
 
 inputs:
   - name: concourse-vsphere

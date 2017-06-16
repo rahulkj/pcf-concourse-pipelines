@@ -38,12 +38,6 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: develop
-
-- name: customer-repo
-  type: git
-  source:
-    uri: https://github.com/rahul-kj/sample-customer-repo
     branch: master
 
 - name: pivnet-opsman-product
@@ -59,12 +53,6 @@ resources:
     api_token: {{pivnet_token}}
     product_slug: elastic-runtime
     product_version: 1\.11\.*
-
-- name: pivnet-metrics-product
-  type: pivnet
-  source:
-    api_token: {{pivnet_token}}
-    product_slug: ops-metrics
 
 - name: concourse-trigger-gist
   type: git
@@ -84,7 +72,9 @@ jobs:
         globs:
         - "*linux_amd64*"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
     - get: concourse-trigger-gist
     - get: pivnet-opsman-product
       params:
@@ -126,7 +116,9 @@ jobs:
         - "*linux_amd64*"
     - get: om-cli
       passed: [delete-installation]
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
     - get: concourse-trigger-gist
       trigger: true
       passed: [delete-installation]
@@ -151,20 +143,21 @@ jobs:
         - "*linux_amd64*"
       passed: [delete-opsmgr]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [delete-opsmgr]
+    - get: concourse-trigger-gist
+      trigger: true
       passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
         - "*.ova"
-      # trigger: true
     - get: jq
       params:
         globs:
         - "*linux64*"
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [delete-opsmgr]
 
   - task: deploy-opsman
     file: concourse-vsphere/tasks/import-opsman/task.yml
@@ -214,9 +207,10 @@ jobs:
     - get: concourse-vsphere
       passed: [install-opsmgr]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
       passed: [install-opsmgr]
-      trigger: true
     - get: concourse-trigger-gist
       trigger: true
       passed: [install-opsmgr]
@@ -287,9 +281,10 @@ jobs:
     - get: concourse-vsphere
       passed: [configure-ops-director]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
       passed: [configure-ops-director]
-      trigger: true
     - get: concourse-trigger-gist
       trigger: true
       passed: [configure-ops-director]
@@ -312,9 +307,10 @@ jobs:
         globs:
         - "*.pivotal"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
       passed: [opsman-apply-changes]
-      trigger: true
     - get: pivnet-cli
       params:
         globs:
@@ -333,15 +329,27 @@ jobs:
       NO_PROXY: {{company_proxy_domain}}
       OM_IP: {{om_ip}}
 
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      IAAS_TYPE: {{iaas_type}}
+
 - name: config-elastic-runtime-tile
   plan:
   - aggregate:
     - get: concourse-vsphere
       passed: [upload-elastic-runtime-tile]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*om-linux*"
       passed: [upload-elastic-runtime-tile]
-      trigger: true
     - get: concourse-trigger-gist
       trigger: true
       passed: [upload-elastic-runtime-tile]
@@ -426,180 +434,21 @@ jobs:
       DOPPLER_INSTANCES: {{doppler_instances}}
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
-
-- name: upload-metrics-tile
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      passed: [opsman-apply-changes]
-    - get: pivnet-product
-      resource: pivnet-metrics-product
-      params:
-        globs:
-        - "*.pivotal"
-    - get: om-cli
-      globs: om-linux
-      passed: [opsman-apply-changes]
-      trigger: true
-    - get: pivnet-cli
-      params:
-        globs:
-        - "*linux-amd64*"
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [opsman-apply-changes]
-
-  - task: upload-metrics-tile
-    file: concourse-vsphere/tasks/upload-product/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      PIVNET_API_TOKEN: {{pivnet_token}}
-      NO_PROXY: {{company_proxy_domain}}
-      OM_IP: {{om_ip}}
-
-- name: config-metrics-tile
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      passed: [upload-metrics-tile]
-    - get: om-cli
-      globs: om-linux
-      passed: [upload-metrics-tile]
-      trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [upload-metrics-tile]
-
-  - task: config-metrics-tile
-    file: concourse-vsphere/tasks/config-ops-metrics/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      AZ_1: {{az_1_name}}
-      NETWORK_NAME: {{infra_network_name}}
-      JMX_ADMIN_USR: {{jmx_admin_usr}}
-      JMX_ADMIN_PWD: {{jmx_admin_pwd}}
-      JMX_SECURITY_LOGGING: {{jmx_security_logging}}
-      JMX_USE_SSL: {{jmx_use_ssl}}
-
-- name: pre-install-step
-  plan:
-  - aggregate:
-    - get: customer-repo
-    - get: om-cli
-      globs: om-linux
-      passed: [config-elastic-runtime-tile, config-metrics-tile]
-      trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [config-elastic-runtime-tile, config-metrics-tile]
-
-  - task: pre-step
-    file: customer-repo/tasks/pre-step/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
+      SYSLOG_ADAPTER_INSTANCES:: {{syslog_adapter_instances}}
 
 - name: product-apply-changes
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [upload-metrics-tile]
+      passed: [config-elastic-runtime-tile]
     - get: om-cli
-      globs: om-linux
-      passed: [pre-install-step]
-      trigger: true
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-elastic-runtime-tile]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [pre-install-step]
-
-  - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-# - name: disable-errands
-#   plan:
-#   - aggregate:
-#     - get: concourse-vsphere
-#       trigger: true
-#       passed: [product-apply-changes]
-#     - get: om-cli
-#       globs: om-linux
-#       passed: [product-apply-changes]
-#
-#   - task: disable-ert-errands
-#     file: concourse-vsphere/tasks/disable-ert-errands/task.yml
-#     params:
-#       OPS_MGR_HOST: {{om_fqdn}}
-#       OPS_MGR_USR: {{om_usr}}
-#       OPS_MGR_PWD: {{om_pwd}}
-#
-#   - task: disable-metrics-errands
-#     file: concourse-vsphere/tasks/disable-metrics-errands/task.yml
-#     params:
-#       OPS_MGR_HOST: {{om_fqdn}}
-#       OPS_MGR_USR: {{om_usr}}
-#       OPS_MGR_PWD: {{om_pwd}}
-
-- name: update-metrics-ip-in-bosh
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      passed: [product-apply-changes]
-    - get: om-cli
-      globs: om-linux
-      passed: [product-apply-changes]
-      trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [product-apply-changes]
-
-  - task: update-metrics-ip
-    file: concourse-vsphere/tasks/update-metrics-ip/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: post-install-step
-  plan:
-  - aggregate:
-    - get: customer-repo
-      passed: [pre-install-step]
-    - get: om-cli
-      globs: om-linux
-      passed: [product-apply-changes]
-      trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [product-apply-changes]
-
-  - task: post-step
-    file: customer-repo/tasks/post-step/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: post-apply-changes
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      passed: [update-metrics-ip-in-bosh]
-    - get: om-cli
-      globs: om-linux
-      passed: [update-metrics-ip-in-bosh, post-install-step]
-      trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [update-metrics-ip-in-bosh, post-install-step]
+      passed: [config-elastic-runtime-tile]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml

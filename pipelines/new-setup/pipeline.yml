@@ -31,7 +31,7 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: develop
+    branch: master
 
 # - name: customer-repo
 #   type: git
@@ -220,6 +220,17 @@ jobs:
       NO_PROXY: {{company_proxy_domain}}
       OM_IP: {{om_ip}}
 
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PIVNET_API_TOKEN: {{pivnet_token}}
+      NO_PROXY: {{company_proxy_domain}}
+      OM_IP: {{om_ip}}
+      IAAS_TYPE: {{iaas_type}}
+
 - name: config-elastic-runtime-tile
   plan:
   - aggregate:
@@ -310,6 +321,7 @@ jobs:
       DOPPLER_INSTANCES: {{doppler_instances}}
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
+      SYSLOG_ADAPTER_INSTANCES:: {{syslog_adapter_instances}}
 
 # - name: pre-install-step
 #   plan:
@@ -336,40 +348,6 @@ jobs:
     - get: om-cli
       globs: om-linux
       passed: [config-elastic-runtime-tile]
-
-  - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: disable-errands
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [product-apply-changes]
-    - get: om-cli
-      globs: om-linux
-      passed: [product-apply-changes]
-
-  - task: disable-ert-errands
-    file: concourse-vsphere/tasks/disable-ert-errands/task.yml
-    params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-
-- name: post-apply-changes
-  plan:
-  - aggregate:
-    - get: concourse-vsphere
-      trigger: true
-      passed: [disable-errands]
-    - get: om-cli
-      globs: om-linux
-      passed: [disable-errands]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
