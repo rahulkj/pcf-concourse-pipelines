@@ -14,6 +14,13 @@ resources:
     repository: om
     access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
 
+- name: replicator
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: replicator
+    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pivnet-cli
   type: github-release
   source:
@@ -25,7 +32,7 @@ resources:
   type: git
   source:
     uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: master
+    branch: develop
 
 - name: pivnet-product
   type: pivnet
@@ -35,7 +42,7 @@ resources:
 
 jobs:
 
-- name: upload-product
+- name: replicate-and-upload-tile
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -51,14 +58,19 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: replicator
+      params:
+        globs:
+        - "*linux*"
 
-  - task: upload-tile
-    file: concourse-vsphere/tasks/upload-product/task.yml
+  - task: replicate-and-upload-tile
+    file: concourse-vsphere/tasks/replicate-and-upload-tile/task.yml
     params:
       OPS_MGR_HOST: {{om_fqdn}}
       OPS_MGR_USR: {{om_usr}}
       OPS_MGR_PWD: {{om_pwd}}
       PIVNET_API_TOKEN: {{pivnet_token}}
+      REPLICATOR_NAME: {{replicator_name}}
 
   - task: upload-stemcell
     file: concourse-vsphere/tasks/stemcell-uploader/task.yml
@@ -75,17 +87,19 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [upload-product]
+      passed: [replicate-and-upload-tile]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [upload-product]
+      passed: [replicate-and-upload-tile]
       trigger: true
     - get: om-cli
-      globs: om-linux
-      passed: [upload-product]
+      params:
+        globs:
+        - "*linux*"
+      passed: [replicate-and-upload-tile]
 
   - task: stage-tile
     file: concourse-vsphere/tasks/stage-product/task.yml
@@ -131,6 +145,7 @@ jobs:
       CELL_MEMORY_CAPACITY: {{cell_memory_capacity}}
       APPLICATION_NETWORK_CIDR: {{application_network_cidr}}
       APPLICATION_NETWORK_MTU: {{application_network_mtu}}
+      DNS_SERVERS: {{dns_servers}}
       INSECURE_DOCKER_REGISTRY_LIST: {{insecure_docker_registry_list}}
       SEGMENT_NAME: {{isolation_segment_name}}
       IS_ROUTER_INSTANCES: {{router_instances}}

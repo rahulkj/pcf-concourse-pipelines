@@ -23,8 +23,9 @@ ssl_rsa_certificate: # [O] TLS Termination Public Certificates
 ssl_private_key: # [O] TLS Termination Private Certificates
 router_ssl_cipher: # [O] Router ciphers are read in Golang and should use underscores instead of dashes in their names e.g. TLS_RSA_WITH_RC4_128_SHA:TLS_RSA_WITH_AES_128_CBC_SHA
 router_static_ips: # [O] Enter static IP address(es) for the Router(s), which must be within the subnet CIDR block that you defined in the Ops Manager network configuration. If you have a load balancer, configure it to point to these IPs.
-cell_disk_capacity: #
-cell_memory_capacity: #
+cell_disk_capacity: # [O] Cell Disk Capacity (MB)
+cell_memory_capacity: # [O] Cell Memory Capacity (MB)
+dns_servers: # [O] List of DNS Servers
 application_network_cidr: 10.254.0.0/22 # [R] Applications Subnet (Only change this if you need to avoid address collision with a third-party service on the same subnet.)
 application_network_mtu: 1454 # [R] Applications Network Maximum Transmission Unit (MTU) (in bytes)
 insecure_docker_registry_list: # [O] Private Docker Insecure Registry Whitelist
