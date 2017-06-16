@@ -12,7 +12,7 @@ CMD=./om-cli/om-linux
 
 STEMCELL_VERSION=`cat ./pivnet-product/metadata.json | jq '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'`
 
-SC_VERSION=`echo $STEMCELL_VERSION \ tr -d '"'`
+SC_VERSION=`echo $STEMCELL_VERSION | tr -d '"'`
 
 echo "Downloading stemcell $SC_VERSION"
 $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
