@@ -1,0 +1,17 @@
+pivnet_token: # [R] PivNet Access Token
+github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
+
+company_proxy_domain: # [O] proxy domain
+iaas_type: vsphere
+
+## Ops Manager installation meta data
+om_ip: # [O] Ops Manager IP if behind proxy
+om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+om_usr: # [R] Ops Manager admin user
+om_pwd: # [R] Ops Manager admin password
+
+product_name:
+product_identifier:
