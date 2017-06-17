@@ -1,5 +1,8 @@
 pivnet_token: # [R] PivNet Access Token
 github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
 
 company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
