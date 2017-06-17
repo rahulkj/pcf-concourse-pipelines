@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 tar -xf cf-cli/*.tgz cf
 chmod +x cf
