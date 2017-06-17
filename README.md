@@ -15,7 +15,18 @@ Refer to the /pipelines [README](./pipelines/README.md) for more instructions
 Now you can execute the following commands:
 
 -	`fly -t lite login -c https://<CONCOURSE-URL>:8080`
--	`fly -t lite set-pipeline -p pcf -c ./pipelines/new-setup/pipeline.yml -l ./pipelines/params.yml`
+-	`fly -t lite set-pipeline -p pcf -c ./pipelines/new-setup/pipeline.yml -l ./pipelines/new-setup/params.yml`
 -	`fly -t lite unpause-pipeline -p pcf`
 
 ![](./pipelines/images/pipeline_new.png)
+
+Supported pipelines
+-------------------
+
+-	[New Install of PCF (OM/ERT)](./pipelines/new-setup)
+-	[New Install of PCF with JMX Bridge](./pipelines/new-setup-with-jmx-bridge)
+-	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
+-	[Isolation Segments Installation](./pipelines/config-tile/isolation-segments)
+-	[RabbitMQ Installation](./pipelines/config-tile/rabbitmq)
+-	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
+-	[Upgrade Tile](./pipelines/upgrade-tile)

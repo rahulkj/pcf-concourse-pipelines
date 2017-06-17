@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 gunzip ./govc/govc_linux_amd64.gz
 chmod +x ./govc/govc_linux_amd64

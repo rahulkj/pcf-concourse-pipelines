@@ -37,8 +37,10 @@ resources:
 - name: concourse-vsphere
   type: git
   source:
-    uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: master
+    uri: {{github_repo}}
+    branch: {{github_branch}}
+    username: {{github_username}}
+    password: {{github_token}}
 
 - name: pivnet-opsman-product
   type: pivnet
@@ -59,7 +61,8 @@ resources:
   source:
     uri: {{gist_url}}
     branch: master
-    private_key: {{github_private_key}}
+    username: {{github_username}}
+    password: {{github_token}}
 
 jobs:
 

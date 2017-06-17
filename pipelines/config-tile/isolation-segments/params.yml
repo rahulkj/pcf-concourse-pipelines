@@ -1,5 +1,8 @@
 pivnet_token: # [R] PivNet Access Token
 github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
 
 company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
@@ -11,7 +14,8 @@ om_usr: # [R] Ops Manager admin user
 om_pwd: # [R] Ops Manager admin password
 
 product_name: isolation-segment
-product_identifier: p-isolation-segment
+product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
+replicator_name: # [O] Replicated Tile Name, ex: abc
 
 om_generate_ssl_endpoint: /api/v0/certificates/generate
 singleton_jobs_az: # [R] Place singleton jobs in an AZ

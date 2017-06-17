@@ -31,14 +31,17 @@ resources:
 - name: concourse-vsphere
   type: git
   source:
-    uri: https://github.com/rahul-kj/concourse-vsphere
-    branch: develop
+    uri: {{github_repo}}
+    branch: {{github_branch}}
+    username: {{github_username}}
+    password: {{github_token}}
 
 - name: pivnet-product
   type: pivnet
   source:
     api_token: {{pivnet_token}}
     product_slug: {{product_name}}
+    product_version: {{product_version}}
 
 jobs:
 
