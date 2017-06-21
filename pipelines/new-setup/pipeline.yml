@@ -323,7 +323,7 @@ jobs:
       DOPPLER_INSTANCES: {{doppler_instances}}
       LOGGREGATOR_TC_INSTANCES: {{loggregator_traffic_controller_instances}}
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
-      SYSLOG_ADAPTER_INSTANCES:: {{syslog_adapter_instances}}
+      SYSLOG_ADAPTER_INSTANCES: {{syslog_adapter_instances}}
 
 # - name: pre-install-step
 #   plan:
