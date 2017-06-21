@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 chmod +x om-cli/om-linux
 
@@ -8,5 +8,7 @@ until $(curl --output /dev/null -k --silent --head --fail https://$OPS_MGR_HOST/
     printf '.'
     sleep 5
 done
+
+set -x
 
 $CMD -t https://$OPS_MGR_HOST -k configure-authentication -u $OPS_MGR_USR -p $OPS_MGR_PWD -dp $OM_DECRYPTION_PWD
