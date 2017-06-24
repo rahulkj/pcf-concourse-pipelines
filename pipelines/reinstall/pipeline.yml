@@ -439,7 +439,7 @@ jobs:
       TCP_ROUTER_INSTANCES: {{tcp_router_instances}}
       SYSLOG_ADAPTER_INSTANCES: {{syslog_adapter_instances}}
 
-- name: product-apply-changes
+- name: disable-errands
   plan:
   - aggregate:
     - get: concourse-vsphere
@@ -452,6 +452,29 @@ jobs:
     - get: concourse-trigger-gist
       trigger: true
       passed: [config-elastic-runtime-tile]
+
+  - task: disable-errands
+    file: concourse-vsphere/tasks/disable-errands/task.yml
+    params:
+      OPS_MGR_HOST: {{om_fqdn}}
+      OPS_MGR_USR: {{om_usr}}
+      OPS_MGR_PWD: {{om_pwd}}
+      PRODUCT_IDENTIFIER: {{product_identifier}}
+      ERRANDS: {{errands_to_disable}}
+
+- name: product-apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [disable-errands]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [disable-errands]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [disable-errands]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml

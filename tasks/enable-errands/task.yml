@@ -10,10 +10,12 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
+  PRODUCT_IDENTIFIER:
+  ERRANDS:
 
 inputs:
   - name: concourse-vsphere
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/disable-ert-errands/task.sh
+  path: concourse-vsphere/tasks/enable-errands/task.sh
