@@ -66,7 +66,9 @@ jobs:
         globs:
         - "*linux_amd64*"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
     - get: pivnet-opsman-product
       params:
         globs:
@@ -113,7 +115,9 @@ jobs:
       passed: [install-opsmgr]
       trigger: true
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [install-opsmgr]
 
   - task: config-opsdir
@@ -183,7 +187,9 @@ jobs:
       trigger: true
       passed: [configure-ops-director]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [configure-ops-director]
 
   - task: apply-changes
@@ -205,7 +211,9 @@ jobs:
         globs:
         - "*.pivotal"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [opsman-apply-changes]
     - get: pivnet-cli
       params:
@@ -240,7 +248,9 @@ jobs:
       trigger: true
       passed: [upload-elastic-runtime-tile]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [upload-elastic-runtime-tile]
 
   - task: config-er-tile
@@ -331,7 +341,9 @@ jobs:
 #     - get: customer-repo
 #       trigger: true
 #     - get: om-cli
-#       globs: om-linux
+#       params:
+#         globs:
+#         - "*-linux"
 #       passed: [config-elastic-runtime-tile]
 #
 #   - task: pre-step
@@ -348,7 +360,9 @@ jobs:
       passed: [config-elastic-runtime-tile]
       trigger: true
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [config-elastic-runtime-tile]
 
   - task: apply-changes
@@ -364,7 +378,9 @@ jobs:
 #     - get: customer-repo
 #       trigger: true
 #     - get: om-cli
-#       globs: om-linux
+#       params:
+#         globs: 
+#         - "*-linux"
 #       passed: [product-apply-changes]
 #   - task: post-step
 #     file: customer-repo/tasks/post-step/task.yml
