@@ -87,7 +87,9 @@ jobs:
         globs:
         - "*linux_amd64*"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
     - get: pivnet-opsman-product
       params:
         globs:
@@ -147,7 +149,9 @@ jobs:
     - get: concourse-vsphere
       passed: [install-opsmgr]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [install-opsmgr]
       trigger: true
     - get: concourse-trigger-gist
@@ -218,7 +222,9 @@ jobs:
     - get: concourse-vsphere
       passed: [configure-ops-director]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [configure-ops-director]
       trigger: true
     - get: concourse-trigger-gist
@@ -243,7 +249,9 @@ jobs:
         globs:
         - "*.pivotal"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [opsman-apply-changes]
       trigger: true
     - get: pivnet-cli
@@ -281,7 +289,9 @@ jobs:
     - get: concourse-vsphere
       passed: [upload-elastic-runtime-tile]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [upload-elastic-runtime-tile]
       trigger: true
     - get: concourse-trigger-gist
@@ -381,7 +391,9 @@ jobs:
         globs:
         - "*.pivotal"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [opsman-apply-changes]
       trigger: true
     - get: pivnet-cli
@@ -419,7 +431,9 @@ jobs:
     - get: concourse-vsphere
       passed: [upload-metrics-tile]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [upload-metrics-tile]
       trigger: true
     - get: concourse-trigger-gist
@@ -444,7 +458,9 @@ jobs:
   - aggregate:
     - get: customer-repo
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [config-elastic-runtime-tile, config-metrics-tile]
       trigger: true
     - get: concourse-trigger-gist
@@ -464,7 +480,9 @@ jobs:
     - get: concourse-vsphere
       passed: [upload-metrics-tile]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [pre-install-step]
       trigger: true
     - get: concourse-trigger-gist
@@ -485,7 +503,9 @@ jobs:
 #       trigger: true
 #       passed: [product-apply-changes]
 #     - get: om-cli
-#       globs: om-linux
+#       params:
+#         globs:
+#         - "*-linux"
 #       passed: [product-apply-changes]
 #
 #   - task: disable-ert-errands
@@ -508,7 +528,9 @@ jobs:
     - get: concourse-vsphere
       passed: [product-apply-changes]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [product-apply-changes]
       trigger: true
     - get: concourse-trigger-gist
@@ -528,7 +550,9 @@ jobs:
     - get: customer-repo
       passed: [pre-install-step]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [product-apply-changes]
       trigger: true
     - get: concourse-trigger-gist
@@ -548,7 +572,9 @@ jobs:
     - get: concourse-vsphere
       passed: [update-metrics-ip-in-bosh]
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [update-metrics-ip-in-bosh, post-install-step]
       trigger: true
     - get: concourse-trigger-gist

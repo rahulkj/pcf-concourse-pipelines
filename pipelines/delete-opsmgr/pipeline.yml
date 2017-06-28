@@ -39,7 +39,9 @@ jobs:
         globs:
         - "*linux_amd64*"
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
 
   - task: delete-products
     file: concourse-vsphere/tasks/delete-products/task.yml
@@ -67,7 +69,9 @@ jobs:
         - "*linux_amd64*"
     - get: om-cli
       passed: [delete-installation]
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
 
   - task: delete-opsman
     file: concourse-vsphere/tasks/delete-opsman/task.yml

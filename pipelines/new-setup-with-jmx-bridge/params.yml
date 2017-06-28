@@ -13,6 +13,8 @@ github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines githu
 github_branch: master
 github_username: # [R] Your github username
 
+opsman_product_version: ^1\.11\..*$
+ert_product_version: ^1\.11\..*$
 iaas_type: vsphere
 
 # Enter vCenter details

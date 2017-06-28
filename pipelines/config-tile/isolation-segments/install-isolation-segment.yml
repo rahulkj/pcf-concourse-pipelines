@@ -56,7 +56,9 @@ jobs:
         - "*.pivotal"
       trigger: true
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
     - get: pivnet-cli
       params:
         globs:
@@ -124,7 +126,9 @@ jobs:
       passed: [stage-product]
       trigger: true
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [stage-product]
 
   - task: config-tile
@@ -170,7 +174,9 @@ jobs:
       passed: [config-product]
       trigger: true
     - get: om-cli
-      globs: om-linux
+      params:
+        globs:
+        - "*-linux"
       passed: [config-product]
 
   - task: apply-changes
