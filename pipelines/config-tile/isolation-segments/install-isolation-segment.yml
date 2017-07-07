@@ -185,3 +185,20 @@ jobs:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
