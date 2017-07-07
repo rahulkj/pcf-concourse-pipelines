@@ -16,7 +16,6 @@ params:
 
 inputs:
   - name: concourse-vsphere
-  - name: fly-cli
 
 run:
   path: concourse-vsphere/tasks/set-upgrade-pipeline/task.sh

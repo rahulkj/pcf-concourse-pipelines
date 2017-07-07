@@ -21,13 +21,6 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: fly-cli
-  type: github-release
-  source:
-    user: concourse
-    repository: concourse
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
-
 - name: concourse-vsphere
   type: git
   source:
@@ -209,7 +202,6 @@ jobs:
     - get: concourse-vsphere
       trigger: true
       passed: [apply-changes]
-    - get: fly-cli
 
   - task: set-upgrade-pipeline
     file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
