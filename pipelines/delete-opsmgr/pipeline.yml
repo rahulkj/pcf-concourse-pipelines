@@ -11,22 +11,22 @@ resources:
   source:
     user: vmware
     repository: govmomi
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: ((github_token)) ## Optional: Removing this will call you to hit the rate limit
 
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}} ## Optional: Removing this will call you to hit the rate limit
+    access_token: ((github_token)) ## Optional: Removing this will call you to hit the rate limit
 
 - name: concourse-vsphere
   type: git
   source:
-    uri: {{github_repo}}
-    branch: {{github_branch}}
-    username: {{github_username}}
-    password: {{github_token}}
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
 
 jobs:
 
@@ -46,16 +46,16 @@ jobs:
   - task: delete-products
     file: concourse-vsphere/tasks/delete-products/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
 
 - name: delete-opsmgr
   plan:
@@ -76,8 +76,8 @@ jobs:
   - task: delete-opsman
     file: concourse-vsphere/tasks/delete-opsman/task.yml
     params:
-      OPS_MGR_IP: {{om_ip}}
+      OPS_MGR_IP: ((om_ip))
       GOVC_INSECURE: 1
-      GOVC_URL: {{vcenter_host}}
-      GOVC_USERNAME: {{vcenter_usr}}
-      GOVC_PASSWORD: {{vcenter_pwd}}
+      GOVC_URL: ((vcenter_host))
+      GOVC_USERNAME: ((vcenter_usr))
+      GOVC_PASSWORD: ((vcenter_pwd))

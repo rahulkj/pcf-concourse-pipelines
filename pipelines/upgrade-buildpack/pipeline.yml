@@ -17,17 +17,17 @@ resources:
 - name: concourse-vsphere
   type: git
   source:
-    uri: {{github_repo}}
-    branch: {{github_branch}}
-    username: {{github_username}}
-    password: {{github_token}}
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
 
 - name: pivnet-product
   type: pivnet
   source:
-    api_token: {{pivnet_token}}
-    product_slug: {{product_slug}}
-    product_version: {{product_version}}
+    api_token: ((pivnet_token))
+    product_slug: ((product_slug))
+    product_version: ((product_version))
 
 jobs:
 
@@ -39,18 +39,18 @@ jobs:
       resource: pivnet-product
       params:
         globs:
-        - {{product_glob}}
+        - ((product_glob))
       trigger: true
     - get: cf-cli
 
   - task: upgrade-buildpack
     file: concourse-vsphere/tasks/update-buildpack/task.yml
     params:
-      CF_API_ENDPOINT: {{cf_api_endpoint}}
-      CF_USER: {{cf_user}}
-      CF_PASSWORD: {{cf_password}}
-      BUILDPACK_NAME: {{buildpack_name}}
-      BUILDPACK_POSITION: {{buildpack_position}}
-      ORG: {{org}}
-      SPACE: {{space}}
-      IS_ENABLE: {{is_enabled}}
+      CF_API_ENDPOINT: ((cf_api_endpoint))
+      CF_USER: ((cf_user))
+      CF_PASSWORD: ((cf_password))
+      BUILDPACK_NAME: ((buildpack_name))
+      BUILDPACK_POSITION: ((buildpack_position))
+      ORG: ((org))
+      SPACE: ((space))
+      IS_ENABLE: ((is_enabled))

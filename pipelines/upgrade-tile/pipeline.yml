@@ -12,28 +12,28 @@ resources:
   source:
     user: pivotal-cf
     repository: om
-    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: {{github_token}} ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: concourse-vsphere
   type: git
   source:
-    uri: {{github_repo}}
-    branch: {{github_branch}}
-    username: {{github_username}}
-    password: {{github_token}}
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
 
 - name: pivnet-product
   type: pivnet
   source:
-    api_token: {{pivnet_token}}
-    product_slug: {{product_name}}
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
 
 jobs:
 
@@ -59,21 +59,21 @@ jobs:
   - task: upload-tile
     file: concourse-vsphere/tasks/upload-product/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      PIVNET_API_TOKEN: {{pivnet_token}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: concourse-vsphere/tasks/stemcell-uploader/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      PIVNET_API_TOKEN: {{pivnet_token}}
-      NO_PROXY: {{company_proxy_domain}}
-      OM_IP: {{om_ip}}
-      IAAS_TYPE: {{iaas_type}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
 
 - name: stage-product
   plan:
@@ -96,10 +96,10 @@ jobs:
   - task: stage-tile
     file: concourse-vsphere/tasks/stage-product/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
-      PRODUCT_IDENTIFIER: {{product_identifier}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: apply-changes
   plan:
@@ -123,6 +123,6 @@ jobs:
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: {{om_fqdn}}
-      OPS_MGR_USR: {{om_usr}}
-      OPS_MGR_PWD: {{om_pwd}}
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
