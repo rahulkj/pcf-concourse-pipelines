@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
-FLY_CLI=`find ./fly-cli -name "*linux-amd64*"`
+FLY_CLI=`find ./fly-cli -name "*linux_amd64*"`
 chmod +x $FLY_CLI
 
 $FLY_CLI -t cc login -u $CONCOURSE_USERNAME -p $CONCOURSE_PASSWD -n $BUILD_TEAM_NAME
