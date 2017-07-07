@@ -1,0 +1,22 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  CONCOURSE_USERNAME:
+  CONCOURSE_PASSWD:
+  ATC_EXTERNAL_URL:
+  BUILD_PIPELINE_NAME:
+  BUILD_TEAM_NAME:
+  UPGRADE_PIPELINE_NAME:
+
+inputs:
+  - name: concourse-vsphere
+  - name: fly-cli
+
+run:
+  path: concourse-vsphere/tasks/set-upgrade-pipeline/task.sh
