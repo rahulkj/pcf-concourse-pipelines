@@ -3,7 +3,7 @@
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-if [[ -z "$SSL_CERT" ]]; then
+if [[ -z "$SSL_CERT" || "$SSL_CERT" == "null" ]]; then
 DOMAINS=$(cat <<-EOF
   {"domains": ["*.$JMX_DOMAIN"] }
 EOF
