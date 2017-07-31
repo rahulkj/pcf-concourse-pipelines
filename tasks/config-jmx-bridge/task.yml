@@ -1,0 +1,37 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
+  AZ_NAME:
+  NETWORK_NAME:
+  JMX_ADMIN_USR:
+  JMX_ADMIN_PWD:
+  NAT_ENABLED: #option_disabled|option_enabled
+  NAT_JMX_BRIDGE_IP:
+  SECURITY_LOGGING_ENABLED: #true|false
+  JMX_USE_SSL: #true|false
+  SSL_CERT:
+  SSL_PRIVATE_KEY:
+  JMX_DOMAIN:
+  USE_METRIC_PREFIX: #true|false
+  MAXIMUS_INSTANCE_TYPE: automatic
+  MAXIMUS_INSTANCES: 1
+  JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE: automatic
+  JMX_FIREHOSE_NOZZLE_INSTANCES: 1
+  INTEGRATION_TESTS_INSTANCE_TYPE: automatic
+  INTEGRATION_TESTS_INSTANCES: 1
+
+inputs:
+  - name: concourse-vsphere
+  - name: om-cli
+
+run:
+  path: concourse-vsphere/tasks/config-jmx-bridge/task.sh

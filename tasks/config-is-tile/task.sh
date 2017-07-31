@@ -96,6 +96,27 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.dns_servers": {
     "value": "$DNS_SERVERS"
+  },
+  ".properties.system_logging": {
+    "value": "$LOGGING_ENABLED"
+  },
+  ".properties.system_logging.enabled.host": {
+    "value": "$SYSLOG_HOST"
+  },
+  ".properties.system_logging.enabled.port": {
+    "value": "$SYSLOG_PORT"
+  },
+  ".properties.system_logging.enabled.protocol": {
+    "value": "$SYSLOG_PROTOCOL"
+  },
+  ".properties.system_logging.enabled.tls_enabled": {
+    "value": "$SYSLOG_TLS_ENABLED"
+  },
+  ".properties.system_logging.enabled.tls_permitted_peer": {
+    "value": "$SYSLOG_TLS_PERMITTED_PEER"
+  },
+  ".properties.system_logging.enabled.tls_ca_cert": {
+    "value": "$SYSLOG_TLS_CA_CERTIFICATE"
   }
 }
 EOF

@@ -1,0 +1,75 @@
+{
+  "properties": {
+    ".properties.enable_nat_support": {
+      "type": "selector",
+      "configurable": true,
+      "credential": false,
+      "value": "option_disabled",
+      "optional": false
+    },
+    ".properties.enable_nat_support.nat_option_enabled.external_ip_address": {
+      "type": "string",
+      "configurable": true,
+      "credential": false,
+      "value": null,
+      "optional": true
+    },
+    ".maximus.security_logging": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    },
+    ".maximus.use_ssl": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": false,
+      "optional": false
+    },
+    ".maximus.ssl_rsa_certificate": {
+      "type": "rsa_cert_credentials",
+      "configurable": true,
+      "credential": true,
+      "value": {
+        "private_key_pem": "***"
+      },
+      "optional": true
+    },
+    ".maximus.metrics_rsa_certificate": {
+      "type": "rsa_cert_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "private_key_pem": "***"
+      },
+      "optional": false
+    },
+    ".jmx-firehose-nozzle.flush_duration_seconds": {
+      "type": "integer",
+      "configurable": false,
+      "credential": false,
+      "value": 15,
+      "optional": false
+    },
+    ".jmx-firehose-nozzle.nozzle_rsa_certificate": {
+      "type": "rsa_cert_credentials",
+      "configurable": false,
+      "credential": true,
+      "value": {
+        "private_key_pem": "***"
+      },
+      "optional": false
+    },
+    ".jmx-firehose-nozzle.use_metric_prefix": {
+      "type": "boolean",
+      "configurable": true,
+      "credential": false,
+      "value": true,
+      "optional": false
+    }
+  }
+}
+
+{"resources":[{"identifier":"maximus","description":"JMX Provider for Runtime metrics","instances":"","instances_best_fit":1,"instance_type_id":"","instance_type_best_fit":"medium","persistent_disk_mb":1024,"persistent_disk_best_fit":1024},{"identifier":"jmx-firehose-nozzle","description":"Firehose Nozzle","instances":"","instances_best_fit":1,"instance_type_id":"","instance_type_best_fit":"medium","persistent_disk_mb":1024,"persistent_disk_best_fit":1024},{"identifier":"integration-tests","description":"Errand that run the smoke tests for JMX Bridge.","instances":"","instances_best_fit":1,"instance_type_id":"","instance_type_best_fit":"medium.cpu"}]}
