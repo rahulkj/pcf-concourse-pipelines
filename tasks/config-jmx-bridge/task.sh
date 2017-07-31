@@ -8,8 +8,6 @@ DOMAINS=$(cat <<-EOF
   {"domains": ["*.$JMX_DOMAIN"] }
 EOF
 )
-EOF
-)
 
   CERTIFICATES=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
