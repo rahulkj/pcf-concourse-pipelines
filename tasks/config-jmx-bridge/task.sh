@@ -55,7 +55,7 @@ PROPERTIES=$(cat <<-EOF
   },
   ".maximus.ssl_rsa_certificate": {
     "value": {
-      cert_pem: "$SSL_CERT",
+      "cert_pem": "$SSL_CERT",
       "private_key_pem": "$SSL_PRIVATE_KEY"
     }
   },
