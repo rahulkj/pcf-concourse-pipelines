@@ -3,8 +3,6 @@
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-METRICS_RELEASE=`$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep p-metrics`
-
 if [[ -z "$SSL_CERT" ]]; then
 DOMAINS=$(cat <<-EOF
   {"domains": ["*.$JMX_DOMAIN"] }
@@ -21,11 +19,6 @@ EOF
   echo "Using self signed certificates generated using Ops Manager..."
 
 fi
-
-PRODUCT_NAME=`echo $METRICS_RELEASE | cut -d"|" -f2 | tr -d " "`
-PRODUCT_VERSION=`echo $METRICS_RELEASE | cut -d"|" -f3 | tr -d " "`
-
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
 NETWORK=$(cat <<-EOF
 {
@@ -93,4 +86,4 @@ RESOURCES=$(cat <<-EOF
 EOF
 )
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_NAME -p "$PROPERTIES" -pn "$NETWORK" -pr "$RESOURCES"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PROPERTIES" -pn "$NETWORK" -pr "$RESOURCES"

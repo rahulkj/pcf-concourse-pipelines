@@ -21,8 +21,21 @@ az_name: # [R] Place singleton jobs in an AZ
 network_name: # [R] Tile network name
 jmx_admin_usr:
 jmx_admin_pwd:
-jmx_security_logging: # [R] Isolation segment domain. ex: cfis.example.com
-jmx_use_ssl: terminate_at_router # [R] terminate_at_router|terminate_at_router_ert_cert|terminate_before_router
+jmx_use_ssl:
+nat_enabled:
+nat_jmx_bridge_ip:
+jmx_security_logging_enabled:
+jmx_use_ssl:
+ssl_cert:
+ssl_private_key:
+jmx_domain: 
+use_metric_prefix: true #true|false
+maximus_instance_type: automatic
+maximus_instances: 1
+jmx_firehose_nozzle_instance_type: automatic
+jmx_firehose_nozzle_instances: 1
+integration_tests_instance_type: automatic
+integration_tests_instances: 1
 
 concourse_url:
 concourse_user:

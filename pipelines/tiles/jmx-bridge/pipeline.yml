@@ -129,7 +129,6 @@ jobs:
       NETWORK_NAME: ((network_name))
       JMX_ADMIN_USR: ((jmx_admin_usr))
       JMX_ADMIN_PWD: ((jmx_admin_pwd))
-      JMX_SECURITY_LOGGING:
       NAT_ENABLED: ((nat_enabled))
       NAT_JMX_BRIDGE_IP: ((nat_jmx_bridge_ip))
       SECURITY_LOGGING_ENABLED: ((jmx_security_logging_enabled))
@@ -175,16 +174,13 @@ jobs:
   plan:
   - aggregate:
     - get: concourse-vsphere
-      passed: [product-apply-changes]
+      passed: [apply-changes]
     - get: om-cli
       params:
         globs:
         - "*-linux"
-      passed: [product-apply-changes]
+      passed: [apply-changes]
       trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [product-apply-changes]
 
   - task: update-metrics-ip
     file: concourse-vsphere/tasks/update-metrics-ip/task.yml
@@ -204,9 +200,6 @@ jobs:
         - "*-linux"
       passed: [update-metrics-ip-in-bosh]
       trigger: true
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [update-metrics-ip-in-bosh]
 
   - task: apply-changes
     file: concourse-vsphere/tasks/apply-changes/task.yml
@@ -220,7 +213,7 @@ jobs:
   - aggregate:
     - get: concourse-vsphere
       trigger: true
-      passed: [apply-changes]
+      passed: [post-apply-changes]
 
   - task: set-upgrade-pipeline
     file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
