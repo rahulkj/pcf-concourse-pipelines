@@ -10,6 +10,27 @@ function fn_other_azs {
 
 BALANCE_JOB_AZS=$(fn_other_azs $OTHER_AZS)
 
+PROPERTIES_CONFIG=$(cat <<-EOF
+{
+  ".deploy-service-broker.broker_max_instances": {
+    "value": "$BROKER_MAX_INSTANCES"
+  },
+  ".deploy-service-broker.buildpack": {
+    "value": "$BUILDPACK"
+  },
+  ".deploy-service-broker.disable_cert_check": {
+    "value": "$DISABLE_CERT_CHECK"
+  },
+  ".deploy-service-broker.instances_app_push_timeout": {
+    "value": "$APP_PUSH_TIMEOUT"
+  },
+  ".register-service-broker.enable_global_access": {
+    "value": "$ENABLE_GLOBAL_ACCESS"
+  }
+}
+EOF
+)
+
 PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
 {
   "singleton_availability_zone": {
