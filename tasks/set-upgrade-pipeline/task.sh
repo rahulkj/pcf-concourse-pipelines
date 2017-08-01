@@ -1,6 +1,6 @@
 #!/bin/sh -ex
 
- curl "http://$ATC_EXTERNAL_URL/api/v1/cli?arch=amd64&platform=linux" > fly
+ curl "$ATC_EXTERNAL_URL/api/v1/cli?arch=amd64&platform=linux" > fly
 
 FLY_CLI=$(find . -name "fly")
 chmod +x $FLY_CLI
