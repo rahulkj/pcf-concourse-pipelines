@@ -31,7 +31,7 @@ NETWORK=$(cat <<-EOF
     "name": "$SINGLETON_AZ"
   },
   "other_availability_zones": [
-    { "name": $BALANCED_JOBS_AZS }
+    $BALANCED_JOBS_AZS
   ],
   "network": {
     "name": "$NETWORK_NAME"
