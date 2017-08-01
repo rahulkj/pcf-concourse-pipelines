@@ -59,11 +59,13 @@ RESOURCES=$(cat <<-EOF
 {
   "maximus": {
     "instance_type": {"id": "$MAXIMUS_INSTANCE_TYPE"},
-    "instances" : $MAXIMUS_INSTANCES
+    "instances" : $MAXIMUS_INSTANCES,
+    "persistent_disk_mb": "$MAXIMUS_PERSISTENT_DISK_SIZE_MB"
   },
   "jmx-firehose-nozzle": {
     "instance_type": {"id": "$JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE"},
-    "instances" : $JMX_FIREHOSE_NOZZLE_INSTANCES
+    "instances" : $JMX_FIREHOSE_NOZZLE_INSTANCES,
+    "persistent_disk_mb": "$JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB"
   },
   "integration-tests": {
     "instance_type": {"id": "$INTEGRATION_TESTS_INSTANCE_TYPE"},

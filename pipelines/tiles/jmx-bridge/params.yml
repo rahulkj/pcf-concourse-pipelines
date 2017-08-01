@@ -38,8 +38,10 @@ jmx_domain:
 use_metric_prefix: true #true|false
 maximus_instance_type: automatic
 maximus_instances: 1
+maximus_persistent_disk_size_mb: 1024
 jmx_firehose_nozzle_instance_type: automatic
 jmx_firehose_nozzle_instances: 1
+jmx_firehose_nozzle_persistent_disk_size_mb: 1024
 integration_tests_instance_type: automatic
 integration_tests_instances: 1
 

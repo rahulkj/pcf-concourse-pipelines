@@ -142,8 +142,10 @@ jobs:
       USE_METRIC_PREFIX: ((use_metric_prefix))
       MAXIMUS_INSTANCE_TYPE: ((maximus_instance_type))
       MAXIMUS_INSTANCES: ((maximus_instances))
+      MAXIMUS_PERSISTENT_DISK_SIZE_MB: ((maximus_persistent_disk_size_mb))
       JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE: ((jmx_firehose_nozzle_instance_type))
       JMX_FIREHOSE_NOZZLE_INSTANCES: ((jmx_firehose_nozzle_instances))
+      JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB: ((jmx_firehose_nozzle_persistent_disk_size_mb))
       INTEGRATION_TESTS_INSTANCE_TYPE: ((integration_tests_instance_type))
       INTEGRATION_TESTS_INSTANCES: ((integration_tests_instances))
 
