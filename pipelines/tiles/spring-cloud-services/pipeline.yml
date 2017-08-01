@@ -123,13 +123,17 @@ jobs:
     file: concourse-vsphere/tasks/config-spring-cloud-services/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
       SINGLETON_JOB_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
+      BROKER_MAX_INSTANCES: ((broken_max_instances))
+      BUILDPACK: ((buildpack_name))
+      DISABLE_CERT_CHECK: ((disable_cert_check))
+      APP_PUSH_TIMEOUT: ((app_push_timeout))
+      ENABLE_GLOBAL_ACCESS: ((enable_global_access))
 
 - name: apply-changes
   plan:

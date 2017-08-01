@@ -20,3 +20,9 @@ product_version: ^1\.4\..*$ # [O] Replicated Tile Name, ex: abc
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
+
+broken_max_instances: 100
+buildpack_name:
+disable_cert_check: false
+app_push_timeout:
+enable_global_access: true
