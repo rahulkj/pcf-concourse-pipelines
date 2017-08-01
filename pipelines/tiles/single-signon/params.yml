@@ -1,8 +1,8 @@
 pivnet_token: # [R] PivNet Access Token
+github_username: # [R] Your github username
 github_token: # [R] Your github token
 github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
 github_branch: master
-github_username: # [R] Your github username
 
 company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
@@ -15,11 +15,11 @@ om_pwd: # [R] Ops Manager admin password
 
 product_name: pivotal_single_sign-on_service # Product slug from PivNet
 product_identifier: Pivotal_Single_Sign-On_Service # product identifier using OM cli
-product_version: ^1\.11\..*$
+product_version: ^1\.4\..*$
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
-deployment_nw: # [R] Tile network name
+network_name: # [R] Tile network name
 deploy_service_broker_instances: 1
 
 concourse_user:

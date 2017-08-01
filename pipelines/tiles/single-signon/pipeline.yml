@@ -120,16 +120,15 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-rabbitmq/task.yml
+    file: concourse-vsphere/tasks/config-single-signon/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
       SINGLETON_JOB_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
-      NETWORK_NAME: ((deployment_nw))
+      NETWORK_NAME: ((network_name))
       DEPLOY_SERVICE_BROKER_INSTANCES: ((deploy_service_broker_instances))
 
 - name: apply-changes
