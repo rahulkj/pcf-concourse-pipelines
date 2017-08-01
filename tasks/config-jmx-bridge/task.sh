@@ -43,18 +43,6 @@ PROPERTIES=$(cat <<-EOF
   },
   ".maximus.security_logging": {
     "value": "$SECURITY_LOGGING_ENABLED"
-  },
-  ".maximus.use_ssl": {
-    "value": "$JMX_USE_SSL"
-  },
-  ".maximus.ssl_rsa_certificate": {
-    "value": {
-      "cert_pem": "$SSL_CERT",
-      "private_key_pem": "$SSL_PRIVATE_KEY"
-    }
-  },
-  ".jmx-firehose-nozzle.use_metric_prefix": {
-    "value": "$USE_METRIC_PREFIX"
   }
 }
 EOF
@@ -103,4 +91,37 @@ EOF
 )
 fi
 
+echo "Configuring JMX NATing..."
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$NAT_SETTINGS"
+
+if [[ "$JMX_USE_SSL" == "true" ]]; then
+SSL_CONFIGURATION=$(cat <<-EOF
+{
+  ".maximus.use_ssl": {
+    "value": "$JMX_USE_SSL"
+  },
+  ".maximus.ssl_rsa_certificate": {
+    "value": {
+      "cert_pem": "$SSL_CERT",
+      "private_key_pem": "$SSL_PRIVATE_KEY"
+    }
+  },
+  ".jmx-firehose-nozzle.use_metric_prefix": {
+    "value": "$USE_METRIC_PREFIX"
+  }
+}
+EOF
+)
+elif [[ "$JMX_USE_SSL" == "false" ]]; then
+SSL_CONFIGURATION=$(cat <<-EOF
+{
+  ".maximus.use_ssl": {
+    "value": "$JMX_USE_SSL"
+  }
+}
+EOF
+)
+fi
+
+echo "Configuring JMX SSL..."
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$SSL_CONFIGURATION"
