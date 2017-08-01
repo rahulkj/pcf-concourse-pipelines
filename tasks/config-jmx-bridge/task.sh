@@ -41,12 +41,6 @@ PROPERTIES=$(cat <<-EOF
       "password": "$JMX_ADMIN_PWD"
     }
   },
-  ".properties.enable_nat_support": {
-    "value": "$NAT_ENABLED"
-  },
-  ".properties.enable_nat_support.nat_option_enabled.external_ip_address": {
-    "value": "$NAT_JMX_BRIDGE_IP"
-  },
   ".maximus.security_logging": {
     "value": "$SECURITY_LOGGING_ENABLED"
   },
@@ -85,3 +79,28 @@ EOF
 )
 
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PROPERTIES" -pn "$NETWORK" -pr "$RESOURCES"
+
+if [[ "$NAT_ENABLED" == "option_disabled" ]]; then
+NAT_SETTINGS=$(cat <<-EOF
+{
+  ".properties.enable_nat_support": {
+    "value": "$NAT_ENABLED"
+  }
+}
+EOF
+)
+elif [[ "$NAT_ENABLED" == "option_enabled" ]]; then
+NAT_SETTINGS=$(cat <<-EOF
+{
+  ".properties.enable_nat_support": {
+    "value": "$NAT_ENABLED"
+  },
+  ".properties.enable_nat_support.nat_option_enabled.external_ip_address": {
+    "value": "$NAT_JMX_BRIDGE_IP"
+  }
+}
+EOF
+)
+fi
+
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$NAT_SETTINGS"
