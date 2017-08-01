@@ -9,12 +9,6 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   ".properties.metrics_polling_interval": {
     "value": "$METRICS_POLLING_INTERVAL"
   },
-  ".properties.syslog_address": {
-    "value": "$SYSLOG_ADDRESS"
-  },
-  ".properties.syslog_port": {
-    "value": "$SYSLOG_PORT"
-  },
   ".properties.disk_alarm_threshold": {
     "value": "$DISK_ALARM_THRESHOLD"
   },
@@ -48,7 +42,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
     "value": "$RMQ_SERVER_CONFIG"
   },
   ".rabbitmq-server.security_options": {
-    "value": "$RMQ_SERCURITY_OPTION"
+    "value": "$RMQ_SECURITY_OPTION"
   },
   ".rabbitmq-server.cluster_partition_handling": {
     "value": "$RMQ_NW_PARTITION_HANDLING"
@@ -164,5 +158,33 @@ PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
 EOF
 )
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG"
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PRODUCT_PROPERTIES"  -pr "$PRODUCT_RESOURCE_CONFIG"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG" -p "$PRODUCT_PROPERTIES" -pr "$PRODUCT_RESOURCE_CONFIG"
+
+if [[ "$SYSLOG_SELECTOR" == "enabled" ]]; then
+SYSLOG_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.syslog_selector": {
+    "value": "$SYSLOG_SELECTOR"
+  },
+  ".properties.syslog_selector.enabled.address": {
+    "value": "$SYSLOG_ADDRESS"
+  },
+  ".properties.syslog_selector.enabled.port": {
+    "value": "$SYSLOG_PORT"
+  }
+}
+EOF
+)
+elif [[ "$SYSLOG_SELECTOR" == "disabled" ]]; then
+SYSLOG_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.syslog_selector": {
+    "value": "$SYSLOG_SELECTOR"
+  }
+}
+EOF
+)
+fi
+
+echo "Configuring syslog ..."
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG" -p "$SYSLOG_PROPERTIES"
