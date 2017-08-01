@@ -1,0 +1,175 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: concourse-vsphere/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: config-tile
+    file: concourse-vsphere/tasks/config-rabbitmq/task.yml
+    params:
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      OTHER_AZS: ((other_azs))
+      NETWORK_NAME: ((deployment_nw))
+      DEPLOY_SERVICE_BROKER_INSTANCES: ((deploy_service_broker_instances))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [config-product]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((current-pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
