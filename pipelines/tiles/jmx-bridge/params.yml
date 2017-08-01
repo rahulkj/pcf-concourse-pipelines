@@ -23,7 +23,7 @@ product_identifier: p-metrics # If using replicated tile name, then specify the 
 product_version: 1.9.1
 
 singleton_az: # [R] Place singleton jobs in an AZ
-other_azs: "\"AZ1\",\"AZ2\"" # [R] AZ's to balance other jobs
+other_azs: AZ1,AZ2 # [R] AZ's to balance other jobs
 network_name:  # [R] Tile network name
 jmx_admin_usr:
 jmx_admin_pwd:

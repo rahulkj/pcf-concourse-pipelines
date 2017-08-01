@@ -18,13 +18,20 @@ EOF
 
 fi
 
+function fn_balanced_azs {
+  local azs_csv=$1
+  echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
+}
+
+BALANCED_JOBS_AZS=$(fn_balanced_azs $OTHER_AZS)
+
 NETWORK=$(cat <<-EOF
 {
   "singleton_availability_zone": {
     "name": "$SINGLETON_AZ"
   },
   "other_availability_zones": [
-    { "name": $OTHER_AZS }
+    { "name": $BALANCED_JOBS_AZS }
   ],
   "network": {
     "name": "$NETWORK_NAME"
