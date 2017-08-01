@@ -21,10 +21,10 @@ fi
 NETWORK=$(cat <<-EOF
 {
   "singleton_availability_zone": {
-    "name": "$AZ_NAME"
+    "name": "$SINGLETON_AZ"
   },
   "other_availability_zones": [
-    { "name": "$AZ_NAME" }
+    { "name": $OTHER_AZS }
   ],
   "network": {
     "name": "$NETWORK_NAME"

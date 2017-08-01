@@ -120,12 +120,15 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-ops-metrics/task.yml
+    file: concourse-vsphere/tasks/config-jmx-bridge/task.yml
     params:
+      PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
-      AZ_NAME: ((az_name))
+      OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
+      SINGLETON_AZ: ((singleton_az))
+      OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
       JMX_ADMIN_USR: ((jmx_admin_usr))
       JMX_ADMIN_PWD: ((jmx_admin_pwd))

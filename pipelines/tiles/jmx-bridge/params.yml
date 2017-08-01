@@ -13,22 +13,28 @@ om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
 om_usr: # [R] Ops Manager admin user
 om_pwd: # [R] Ops Manager admin password
 
+## Get this from the OPS Manager API docs for your release. Possible values are
+## - /api/v0/certificates/generate (for 1.10)
+## - /api/v0/rsa_certificates (for 1.9)
+om_generate_ssl_endpoint:
+
 product_name: p-metrics
 product_identifier: p-metrics # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
 product_version: 1.9.1
 
-az_name: # [R] Place singleton jobs in an AZ
-network_name: # [R] Tile network name
+singleton_az: # [R] Place singleton jobs in an AZ
+other_azs: "\"AZ1\",\"AZ2\"" # [R] AZ's to balance other jobs
+network_name:  # [R] Tile network name
 jmx_admin_usr:
 jmx_admin_pwd:
-jmx_use_ssl:
-nat_enabled:
+jmx_use_ssl: false #true|false
+nat_enabled: option_disabled  #option_disabled|option_enabled
 nat_jmx_bridge_ip:
-jmx_security_logging_enabled:
-jmx_use_ssl:
+jmx_security_logging_enabled: true #true|false
+jmx_use_ssl: false #true|false
 ssl_cert:
 ssl_private_key:
-jmx_domain: 
+jmx_domain:
 use_metric_prefix: true #true|false
 maximus_instance_type: automatic
 maximus_instances: 1
