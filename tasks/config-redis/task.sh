@@ -17,9 +17,6 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   },
   ".cf-redis-broker.redis_maxmemory": {
     "value": "$REDIS_MAX_MEMORY"
-  },
-  ".redis-on-demand-broker.vm_extensions": {
-    "value": "$VM_EXTENSIONS"
   }
 }
 EOF
@@ -393,3 +390,15 @@ EOF
 fi
 
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$LARGE_PLAN_SETTINGS"
+
+if [[ "$VM_EXTENSIONS" != "null" || ! -z "$VM_EXTENSIONS" ]]; then
+VM_OPTIONS_PROPERTIES=$(cat <<-EOF
+{
+  ".redis-on-demand-broker.vm_extensions": {
+    "value": "$VM_EXTENSIONS"
+  }
+}
+EOF
+)
+
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$VM_OPTIONS_PROPERTIES"
