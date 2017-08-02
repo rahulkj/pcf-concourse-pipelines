@@ -391,7 +391,7 @@ fi
 
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$LARGE_PLAN_SETTINGS"
 
-if [[ "$VM_EXTENSIONS" != "null" || ! -z "$VM_EXTENSIONS" ]]; then
+if [[ "$VM_EXTENSIONS" != "null" ]]; then
 VM_OPTIONS_PROPERTIES=$(cat <<-EOF
 {
   ".redis-on-demand-broker.vm_extensions": {
@@ -400,6 +400,10 @@ VM_OPTIONS_PROPERTIES=$(cat <<-EOF
 }
 EOF
 )
+fi
+
+if [[ "$VM_EXTENSIONS" != "null" ]]; then
+  echo "hello"
 fi
 
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$VM_OPTIONS_PROPERTIES"
