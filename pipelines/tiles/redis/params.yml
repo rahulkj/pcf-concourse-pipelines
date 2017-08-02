@@ -17,7 +17,6 @@ product_name: p-redis
 product_identifier: p-redis
 product_version: ^1\.9\..*$
 
-om_generate_ssl_endpoint: /api/v0/certificates/generate
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
