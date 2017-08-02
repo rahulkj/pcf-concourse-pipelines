@@ -402,8 +402,4 @@ EOF
 )
 fi
 
-if [[ "$VM_EXTENSIONS" != "null" ]]; then
-  echo "hello"
-fi
-
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$VM_OPTIONS_PROPERTIES"
