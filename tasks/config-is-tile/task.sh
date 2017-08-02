@@ -96,27 +96,6 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.dns_servers": {
     "value": "$DNS_SERVERS"
-  },
-  ".properties.system_logging": {
-    "value": "$LOGGING_ENABLED"
-  },
-  ".properties.system_logging.enabled.host": {
-    "value": "$SYSLOG_HOST"
-  },
-  ".properties.system_logging.enabled.port": {
-    "value": "$SYSLOG_PORT"
-  },
-  ".properties.system_logging.enabled.protocol": {
-    "value": "$SYSLOG_PROTOCOL"
-  },
-  ".properties.system_logging.enabled.tls_enabled": {
-    "value": "$SYSLOG_TLS_ENABLED"
-  },
-  ".properties.system_logging.enabled.tls_permitted_peer": {
-    "value": "$SYSLOG_TLS_PERMITTED_PEER"
-  },
-  ".properties.system_logging.enabled.tls_ca_cert": {
-    "value": "$SYSLOG_TLS_CA_CERTIFICATE"
   }
 }
 EOF
@@ -206,4 +185,48 @@ EOF
 
 fi
 
+echo "Configuring SSL termiation point ..."
+
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$SSL_PROPERTIES"
+
+if [[ "$LOGGING_ENABLED" == "disabled" ]]; then
+SYSLOG_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.system_logging": {
+    "value": "$LOGGING_ENABLED"
+  }
+}
+EOF
+)
+elif [[ "$LOGGING_ENABLED" == "disabled" ]]; then
+SYSLOG_PROPERTIES=$(cat <<-EOF
+{
+  ".properties.system_logging": {
+    "value": "$LOGGING_ENABLED"
+  },
+  ".properties.system_logging.enabled.host": {
+    "value": "$SYSLOG_HOST"
+  },
+  ".properties.system_logging.enabled.port": {
+    "value": "$SYSLOG_PORT"
+  },
+  ".properties.system_logging.enabled.protocol": {
+    "value": "$SYSLOG_PROTOCOL"
+  },
+  ".properties.system_logging.enabled.tls_enabled": {
+    "value": "$SYSLOG_TLS_ENABLED"
+  },
+  ".properties.system_logging.enabled.tls_permitted_peer": {
+    "value": "$SYSLOG_TLS_PERMITTED_PEER"
+  },
+  ".properties.system_logging.enabled.tls_ca_cert": {
+    "value": "$SYSLOG_TLS_CA_CERTIFICATE"
+  }
+}
+EOF
+)
+fi
+
+echo "Configuring syslog ..."
+
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$SYSLOG_PROPERTIES"

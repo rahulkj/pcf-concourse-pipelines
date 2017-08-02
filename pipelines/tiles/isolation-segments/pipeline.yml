@@ -159,6 +159,13 @@ jobs:
       IS_DIEGO_CELL_INSTANCES: ((diego_cell_instances))
       ISOLATED_ROUTER_INSTANCE_TYPE: ((isolated_router_instance_type))
       DIEGO_CELL_INSTANCE_TYPE: ((diego_cell_instance_type))
+      LOGGING_ENABLED: ((logging_enabled))
+      SYSLOG_HOST: ((syslog_host))
+      SYSLOG_PORT: ((syslog_port))
+      SYSLOG_PROTOCOL: ((syslog_protocol))
+      SYSLOG_TLS_ENABLED: ((syslog_tls_enabled))
+      SYSLOG_TLS_PERMITTED_PEER: ((syslog_tls_permitted_peer))
+      SYSLOG_TLS_CA_CERTIFICATE: ((syslog_tls_ca_certificate))
 
 - name: apply-changes
   plan:
