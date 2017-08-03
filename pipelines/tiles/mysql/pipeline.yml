@@ -120,7 +120,7 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-rabbitmq/task.yml
+    file: concourse-vsphere/tasks/config-mysql/task.yml
     params:
       PRODUCT_NAME: ((product_identifier))
       OPS_MGR_HOST: ((om_fqdn))
