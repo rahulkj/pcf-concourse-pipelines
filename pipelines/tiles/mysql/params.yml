@@ -1,0 +1,89 @@
+pivnet_token: # [R] PivNet Access Token
+github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
+
+company_proxy_domain: # [O] proxy domain
+iaas_type: vsphere
+
+## Ops Manager installation meta data
+om_ip: # [O] Ops Manager IP if behind proxy
+om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+om_usr: # [R] Ops Manager admin user
+om_pwd: # [R] Ops Manager admin password
+
+product_name: p-mysql
+product_identifier: p-mysql
+product_version: ^1\.9\..*$
+
+singleton_jobs_az:
+other_azs:
+network_name:
+plan_name: 100mb
+plan_description: "100MB default"
+plan_max_storage_mb: 100
+plan_max_user_connections: 40
+plan_private: false
+metrics_polling_frequency: 30
+cluster_probe_timeout: 10
+tmp_table_size: 33554432
+table_open_cache: 2000
+table_definition_cache: 8192
+max_connections: 1500
+binlog_expire_days: 7
+cluster_name: cf-mariadb-galera-cluster
+innodb_strict_mode: true
+allow_cli_history: true
+allow_remote_admin_access: false
+readonly_admin_password:
+mysql_start_timeout:
+backup_enable: disable
+cron_schedule:
+backup_all_masters: false
+backup_destination: none #none|s3|azure|gcs
+s3_endpoint:
+s3_bucket_name:
+s3_bucket_path:
+s3_access_key_id:
+s3_secret_key:
+scp_user:
+scp_server:
+scp_destination_dir:
+scp_private_key:
+scp_port: 22
+azure_storage_account:
+azure_storage_access_key:
+azure_container:
+azure_base_url:
+gcs_service_account_json:
+gcs_project_id:
+gcs_bucket_name:
+syslog_enabled: enabled
+syslog_address:
+syslog_port: 6514
+server_activity_logging: enable
+audit_logging_events: "connect,query"
+server_audit_excluded_users_csv:
+buffer_pool_size: percent #percent|bytes
+buffer_pool_size_percent: 50
+buffer_pool_size_bytes:
+optional_protections: enable
+recepient_email:
+prevent_auto_join: true
+replication_canary: true
+notify_only: false
+canary_poll_frequency: 30
+canary_write_read_delay: 20
+mysql_server_instance_type: large.disk
+mysql_server_instances: 3
+mysql_persistent_disk_mb: 102400
+backup_prepare_instance_type: 0
+backup_prepare_instances: micro.ram
+backup_prepare_persistent_disk_mb: 204800
+mysql_proxy_instance_type: small.disk
+mysql_proxy_instances: 2
+monitoring_instance_type: micro
+monitoring_instances: 1
+mysql_broker_instance_type: small.disk
+mysql_broker_instances: 2
