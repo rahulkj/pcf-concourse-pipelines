@@ -20,8 +20,8 @@ params:
   ENABLE_GLOBAL_ACCESS:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-spring-cloud-services/task.sh
+  path: pipelines-repo/tasks/config-spring-cloud-services/task.sh

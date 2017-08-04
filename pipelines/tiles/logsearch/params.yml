@@ -20,7 +20,6 @@ product_version: ^1\.0\..*$
 singleton_job_az:
 other_azs:
 network_name:
-services_network:
 retention_period: 7
 parser_outputs:
 max_queue_length: 1000000

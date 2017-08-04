@@ -31,8 +31,8 @@ params:
 
 inputs:
   - name: pivnet-opsman-product
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: govc
 
 run:
-  path: concourse-vsphere/tasks/import-opsman/task.sh
+  path: pipelines-repo/tasks/import-opsman/task.sh

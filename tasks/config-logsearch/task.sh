@@ -51,9 +51,6 @@ PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
   ],
   "network": {
     "name": "$NETWORK_NAME"
-  },
-  "service_network": {
-    "name": "$SERVICES_NETWORK"
   }
 }
 EOF

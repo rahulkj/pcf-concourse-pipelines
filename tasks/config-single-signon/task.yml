@@ -15,8 +15,8 @@ params:
   DEPLOY_SERVICE_BROKER_INSTANCES:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-single-signon/task.sh
+  path: pipelines-repo/tasks/config-single-signon/task.sh

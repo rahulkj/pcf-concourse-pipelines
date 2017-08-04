@@ -41,8 +41,8 @@ params:
   SYSLOG_TLS_CA_CERTIFICATE:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-is-tile/task.sh
+  path: pipelines-repo/tasks/config-is-tile/task.sh

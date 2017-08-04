@@ -15,7 +15,7 @@ params:
   UPGRADE_PIPELINE_NAME:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
 
 run:
-  path: concourse-vsphere/tasks/set-upgrade-pipeline/task.sh
+  path: pipelines-repo/tasks/set-upgrade-pipeline/task.sh

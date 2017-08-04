@@ -14,8 +14,8 @@ params:
   ERRANDS:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/disable-errands/task.sh
+  path: pipelines-repo/tasks/disable-errands/task.sh

@@ -13,7 +13,6 @@ params:
   SINGLETON_JOB_AZ:
   OTHER_AZS:
   NETWORK_NAME:
-  SERVICES_NETWORK:
   RETENTION_PERIOD:
   PARSER_OUTPUTS:
   MAX_QUEUE_LENGTH:
@@ -37,8 +36,8 @@ params:
   FIREHOSE_TO_SYSLOG_INSTANCES:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-logsearch/task.sh
+  path: pipelines-repo/tasks/config-logsearch/task.sh

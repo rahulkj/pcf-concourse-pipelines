@@ -97,8 +97,8 @@ params:
   DEDICATED_NODE_DISK_SIZE:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-redis/task.sh
+  path: pipelines-repo/tasks/config-redis/task.sh

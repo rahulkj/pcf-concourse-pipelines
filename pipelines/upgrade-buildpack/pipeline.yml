@@ -14,7 +14,7 @@ resources:
     region_name: us-west-1
     regexp: releases/v([\d\.]+)/cf-cli_.*_linux_x86-64.tgz
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -34,7 +34,7 @@ jobs:
 - name: upgrade-buildpack
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -44,7 +44,7 @@ jobs:
     - get: cf-cli
 
   - task: upgrade-buildpack
-    file: concourse-vsphere/tasks/update-buildpack/task.yml
+    file: pipelines-repo/tasks/update-buildpack/task.yml
     params:
       CF_API_ENDPOINT: ((cf_api_endpoint))
       CF_USER: ((cf_user))

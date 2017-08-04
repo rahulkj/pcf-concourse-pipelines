@@ -56,8 +56,8 @@ params:
   RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-rabbitmq/task.sh
+  path: pipelines-repo/tasks/config-rabbitmq/task.sh

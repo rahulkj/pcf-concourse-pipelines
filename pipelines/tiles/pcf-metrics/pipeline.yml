@@ -120,34 +120,30 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-jmx-bridge/task.yml
+    file: pipelines-repo/tasks/config-pcf-metrics/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-      OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
-      SINGLETON_AZ: ((singleton_az))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      SINGLETON_JOB_AZ: ((singleton_job_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      JMX_ADMIN_USR: ((jmx_admin_usr))
-      JMX_ADMIN_PWD: ((jmx_admin_pwd))
-      NAT_ENABLED: ((nat_enabled))
-      NAT_JMX_BRIDGE_IP: ((nat_jmx_bridge_ip))
-      SECURITY_LOGGING_ENABLED: ((jmx_security_logging_enabled))
-      JMX_USE_SSL: ((jmx_use_ssl))
-      SSL_CERT: ((ssl_cert))
-      SSL_PRIVATE_KEY: ((ssl_private_key))
-      JMX_DOMAIN: ((jmx_domain))
-      USE_METRIC_PREFIX: ((use_metric_prefix))
-      MAXIMUS_INSTANCE_TYPE: ((maximus_instance_type))
-      MAXIMUS_INSTANCES: ((maximus_instances))
-      MAXIMUS_PERSISTENT_DISK_SIZE_MB: ((maximus_persistent_disk_size_mb))
-      JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE: ((jmx_firehose_nozzle_instance_type))
-      JMX_FIREHOSE_NOZZLE_INSTANCES: ((jmx_firehose_nozzle_instances))
-      JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB: ((jmx_firehose_nozzle_persistent_disk_size_mb))
-      INTEGRATION_TESTS_INSTANCE_TYPE: ((integration_tests_instance_type))
-      INTEGRATION_TESTS_INSTANCES: ((integration_tests_instances))
+      MYSQL_MONITOR_EMAIL: ((mysql_monitor_email))
+      MYSQL_LOGQUEUE_INSTANCE_COUNT: ((mysql_logqueue_instance_count))
+      ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((elasticsearch_logqueue_instance_count))
+      INGESTOR_INSTANCE_COUNT: ((ingestor_instance_count))
+      ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
+      ELASTICSEARCH_MASTER_INSTANCES: ((elasticsearch_master_instances))
+      ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE: ((elasticsearch_master_persistent_disk_size))
+      ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
+      ELASTICSEARCH_DATA_INSTANCES: ((elasticsearch_data_instances))
+      ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE: ((elasticsearch_data_persistent_disk_size))
+      MYSQL_SERVER_INSTANCE_TYPE: ((mysql_server_instance_type))
+      MYSQL_SERVER_INSTANCES: ((mysql_server_instances))
+      MYSQL_SERVER_PERSISTENT_DISK_SIZE: ((mysql_server_persistent_disk_size))
+      MYSQL_PROXY_INSTANCE_TYPE: ((mysql_proxy_instance_type))
+      MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
 
 - name: apply-changes
   plan:
@@ -175,50 +171,12 @@ jobs:
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
 
-- name: update-metrics-ip-in-bosh
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [apply-changes]
-    - get: om-cli
-      params:
-        globs:
-        - "*-linux"
-      passed: [apply-changes]
-      trigger: true
-
-  - task: update-metrics-ip
-    file: pipelines-repo/tasks/update-metrics-ip/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-
-- name: post-apply-changes
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [update-metrics-ip-in-bosh]
-    - get: om-cli
-      params:
-        globs:
-        - "*-linux"
-      passed: [update-metrics-ip-in-bosh]
-      trigger: true
-
-  - task: apply-changes
-    file: pipelines-repo/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-
 - name: set-upgrade-pipeline
   plan:
   - aggregate:
     - get: pipelines-repo
       trigger: true
-      passed: [post-apply-changes]
+      passed: [apply-changes]
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml

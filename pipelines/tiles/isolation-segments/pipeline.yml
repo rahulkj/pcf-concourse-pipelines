@@ -28,7 +28,7 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -48,7 +48,7 @@ jobs:
 - name: replicate-and-upload-tile
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -69,7 +69,7 @@ jobs:
         - "*linux*"
 
   - task: replicate-and-upload-tile
-    file: concourse-vsphere/tasks/replicate-and-upload-tile/task.yml
+    file: pipelines-repo/tasks/replicate-and-upload-tile/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -78,7 +78,7 @@ jobs:
       REPLICATOR_NAME: ((replicator_name))
 
   - task: upload-stemcell
-    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -91,7 +91,7 @@ jobs:
 - name: stage-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       passed: [replicate-and-upload-tile]
     - get: pivnet-product
       resource: pivnet-product
@@ -107,7 +107,7 @@ jobs:
       passed: [replicate-and-upload-tile]
 
   - task: stage-tile
-    file: concourse-vsphere/tasks/stage-product/task.yml
+    file: pipelines-repo/tasks/stage-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -117,7 +117,7 @@ jobs:
 - name: config-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -132,7 +132,7 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-is-tile/task.yml
+    file: pipelines-repo/tasks/config-is-tile/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((om_fqdn))
@@ -170,7 +170,7 @@ jobs:
 - name: apply-changes
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [config-product]
     - get: pivnet-product
@@ -187,7 +187,7 @@ jobs:
       passed: [config-product]
 
   - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
+    file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -196,12 +196,12 @@ jobs:
 - name: set-upgrade-pipeline
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [apply-changes]
 
   - task: set-upgrade-pipeline
-    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
     params:
       CONCOURSE_USERNAME: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_pwd))

@@ -21,7 +21,7 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -40,7 +40,7 @@ jobs:
 - name: upload-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -57,7 +57,7 @@ jobs:
         - "*linux-amd64*"
 
   - task: upload-tile
-    file: concourse-vsphere/tasks/upload-product/task.yml
+    file: pipelines-repo/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -65,7 +65,7 @@ jobs:
       PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
-    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -78,7 +78,7 @@ jobs:
 - name: stage-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -94,7 +94,7 @@ jobs:
       passed: [upload-product]
 
   - task: stage-tile
-    file: concourse-vsphere/tasks/stage-product/task.yml
+    file: pipelines-repo/tasks/stage-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -104,7 +104,7 @@ jobs:
 - name: apply-changes
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [stage-product]
     - get: pivnet-product
@@ -121,7 +121,7 @@ jobs:
       passed: [stage-product]
 
   - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
+    file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))

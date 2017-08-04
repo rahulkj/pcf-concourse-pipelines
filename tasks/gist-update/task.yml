@@ -11,11 +11,11 @@ params:
   CI_EMAIL_ADDRESS:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: concourse-trigger-gist
 
 outputs:
   - name: updated-concourse-trigger-gist
 
 run:
-  path: concourse-vsphere/tasks/gist-update/task.sh
+  path: pipelines-repo/tasks/gist-update/task.sh

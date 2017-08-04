@@ -17,9 +17,9 @@ params:
 
 inputs:
   - name: pivnet-product
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
   - name: pivnet-cli
 
 run:
-  path: concourse-vsphere/tasks/stemcell-uploader/task.sh
+  path: pipelines-repo/tasks/stemcell-uploader/task.sh

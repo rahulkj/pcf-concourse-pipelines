@@ -84,8 +84,8 @@ params:
   MYSQL_BROKER_INSTANCES:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-mysql/task.sh
+  path: pipelines-repo/tasks/config-mysql/task.sh

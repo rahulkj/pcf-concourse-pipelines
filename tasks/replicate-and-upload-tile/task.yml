@@ -14,7 +14,7 @@ params:
   REPLICATOR_NAME:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
   - name: pivnet-product
   - name: replicator
@@ -23,4 +23,4 @@ outputs:
   - name: replicator-tile
 
 run:
-  path: concourse-vsphere/tasks/replicate-and-upload-tile/task.sh
+  path: pipelines-repo/tasks/replicate-and-upload-tile/task.sh
