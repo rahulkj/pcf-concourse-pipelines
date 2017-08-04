@@ -21,9 +21,9 @@ singleton_job_az:
 other_azs:
 network_name:
 retention_period: 7
-parser_outputs:
+parser_outputs: ""
 max_queue_length: 1000000
-event_types: "\"CounterEvent\",\"ValueMetric\",\"Error\""
+event_types: "\"CounterEvent\",\"ValueMetric\",\"Error\",\"HttpStartStop\",\"LogMessage\",\"ContainerMetric\""
 elastic_search_instances: 1
 elastic_search_instance_type: small
 elasticsearch_master_persistent_disk_mb: 5120
@@ -36,7 +36,7 @@ ingestor_instance_type: small
 ingestor_instances: 1
 kibana_instance_type: small
 kibana_instances: 1
-monitor_instance_type: medim
+monitor_instance_type: medium
 monitor_instances: 1
 monitor_persistent_disk_mb: 10240
 firehose_to_syslog_instance_type: micro
