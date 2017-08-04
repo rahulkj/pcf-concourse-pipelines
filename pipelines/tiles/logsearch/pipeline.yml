@@ -1,0 +1,196 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: concourse-vsphere
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: concourse-vsphere/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: concourse-vsphere/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: config-tile
+    file: concourse-vsphere/tasks/config-logsearch/task.yml
+    params:
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      SINGLETON_JOB_AZ: ((singleton_job_az))
+      OTHER_AZS: ((other_azs))
+      NETWORK_NAME: ((network_name))
+      SERVICES_NETWORK: ((services_network))
+      RETENTION_PERIOD: ((retention_period))
+      PARSER_OUTPUTS: ((parser_outputs))
+      MAX_QUEUE_LENGTH: ((max_queue_length))
+      EVENT_TYPES: ((event_types))
+      ELASTIC_SEARCH_INSTANCES: ((elastic_search_instances))
+      ELASTIC_SEARCH_INSTANCE_TYPE: ((elastic_search_instance_type))
+      ELASTICSEARCH_MASTER_PERSISTENT_DISK_MB: ((elasticsearch_master_persistent_disk_mb))
+      ELASTIC_DATA_INSTANCE_TYPE: ((elastic_data_instance_type))
+      ELASTIC_DATA_INSTANCES: ((elastic_data_instances))
+      ELASTICSEARCH_DATA_PERSISTENT_DISK_MB: ((elasticsearch_data_persistent_disk_mb))
+      PARSER_INSTANCE_TYPE: ((parser_instance_type))
+      PARSER_INSTANCES: ((parser_instances))
+      INGESTOR_INSTANCE_TYPE: ((ingestor_instance_type))
+      INGESTOR_INSTANCES: ((ingestor_instances))
+      KIBANA_INSTANCE_TYPE: ((kibana_instance_type))
+      KIBANA_INSTANCES: ((kibana_instances))
+      MONITOR_INSTANCE_TYPE: ((monitor_instance_type))
+      MONITOR_INSTANCES: ((monitor_instances))
+      MONITOR_PERSISTENT_DISK_MB: ((monitor_persistent_disk_mb))
+      FIREHOSE_TO_SYSLOG_INSTANCE_TYPE: ((firehose_to_syslog_instance_type))
+      FIREHOSE_TO_SYSLOG_INSTANCES: ((firehose_to_syslog_instances))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [config-product]
+
+  - task: apply-changes
+    file: concourse-vsphere/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: concourse-vsphere
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
