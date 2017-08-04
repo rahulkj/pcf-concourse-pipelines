@@ -46,7 +46,7 @@ EOF
 PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
 {
   "elasticsearch_master": {
-    "instance_type": {"id": "ELASTICSEARCH_MASTER_INSTANCE_TYPE"},
+    "instance_type": {"id": "$ELASTICSEARCH_MASTER_INSTANCE_TYPE"},
     "instances": $ELASTICSEARCH_MASTER_INSTANCES,
     "persistent_disk": {"size_mb":"$ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE"}
   },
