@@ -55,12 +55,12 @@ PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
     "instances": $ELASTICSEARCH_DATA_INSTANCES,
     "persistent_disk": {"size_mb":"$ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE"}
   },
-  "mysql_server": {
+  "mysql": {
     "instance_type": {"id": "$MYSQL_SERVER_INSTANCE_TYPE"},
     "instances": $MYSQL_SERVER_INSTANCES,
     "persistent_disk": {"size_mb":"$MYSQL_SERVER_PERSISTENT_DISK_SIZE"}
   },
-  "mysql_proxy": {
+  "proxy": {
     "instance_type": {"id": "$MYSQL_PROXY_INSTANCE_TYPE"},
     "instances": $MYSQL_PROXY_INSTANCES
   }
