@@ -99,12 +99,10 @@ PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
     "instance_type": {"id": "$MYSQL_PROXY_INSTANCE_TYPE"},
     "instances" : $MYSQL_PROXY_INSTANCES
   },
-  ,
   "monitoring": {
     "instance_type": {"id": "$MONITORING_INSTANCE_TYPE"},
     "instances" : $MONITORING_INSTANCES
   },
-  ,
   "cf-mysql-broker": {
     "instance_type": {"id": "$MYSQL_BROKER_INSTANCE_TYPE"},
     "instances" : $MYSQL_BROKER_INSTANCES
