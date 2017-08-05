@@ -123,9 +123,9 @@ jobs:
     file: pipelines-repo/tasks/config-pcf-metrics/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
       SINGLETON_JOB_AZ: ((singleton_job_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
