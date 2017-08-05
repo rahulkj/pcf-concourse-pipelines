@@ -7,6 +7,7 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
 {
   ".properties.plan_collection": {
     "value": [
+      {
         "name": "$PLAN_NAME",
         "description": "$PLAN_DESCRIPTION",
         "max_storage_mb": "$PLAN_MAX_STORAGE_MB",
