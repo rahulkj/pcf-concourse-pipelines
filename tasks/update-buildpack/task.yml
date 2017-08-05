@@ -18,8 +18,8 @@ params:
 
 inputs:
   - name: pivnet-product
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: cf-cli
 
 run:
-  path: concourse-vsphere/tasks/update-buildpack/task.sh
+  path: pipelines-repo/tasks/update-buildpack/task.sh

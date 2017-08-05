@@ -32,10 +32,17 @@ params:
   IS_DIEGO_CELL_INSTANCES:
   ISOLATED_ROUTER_INSTANCE_TYPE:
   DIEGO_CELL_INSTANCE_TYPE:
+  LOGGING_ENABLED:
+  SYSLOG_HOST:
+  SYSLOG_PORT:
+  SYSLOG_PROTOCOL:
+  SYSLOG_TLS_ENABLED:
+  SYSLOG_TLS_PERMITTED_PEER:
+  SYSLOG_TLS_CA_CERTIFICATE:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-is-tile/task.sh
+  path: pipelines-repo/tasks/config-is-tile/task.sh

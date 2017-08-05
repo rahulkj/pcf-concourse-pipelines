@@ -1,0 +1,189 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: config-tile
+    file: pipelines-repo/tasks/config-pcf-metrics/task.yml
+    params:
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      SINGLETON_JOB_AZ: ((singleton_job_az))
+      OTHER_AZS: ((other_azs))
+      NETWORK_NAME: ((network_name))
+      MYSQL_MONITOR_EMAIL: ((mysql_monitor_email))
+      MYSQL_LOGQUEUE_INSTANCE_COUNT: ((mysql_logqueue_instance_count))
+      ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((elasticsearch_logqueue_instance_count))
+      INGESTOR_INSTANCE_COUNT: ((ingestor_instance_count))
+      ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
+      ELASTICSEARCH_MASTER_INSTANCES: ((elasticsearch_master_instances))
+      ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE: ((elasticsearch_master_persistent_disk_size))
+      ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
+      ELASTICSEARCH_DATA_INSTANCES: ((elasticsearch_data_instances))
+      ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE: ((elasticsearch_data_persistent_disk_size))
+      MYSQL_SERVER_INSTANCE_TYPE: ((mysql_server_instance_type))
+      MYSQL_SERVER_INSTANCES: ((mysql_server_instances))
+      MYSQL_SERVER_PERSISTENT_DISK_SIZE: ((mysql_server_persistent_disk_size))
+      MYSQL_PROXY_INSTANCE_TYPE: ((mysql_proxy_instance_type))
+      MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [config-product]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))

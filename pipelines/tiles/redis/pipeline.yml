@@ -1,0 +1,256 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: config-tile
+    file: pipelines-repo/tasks/config-redis/task.yml
+    params:
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      OTHER_AZS: ((other_azs))
+      NETWORK_NAME: ((network_name))
+      SERVICES_NETWORK: ((service_network_name))
+      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
+      ON_DEMAND_SERVICE_INSTANCE_LIMIT: ((on_demand_service_instance_limit))
+      REDIS_BROKER_SERVICE_INSTANCE_LIMIT: ((redis_broker_service_instance_limit))
+      REDIS_MAX_MEMORY: ((redis_max_memory))
+      VM_EXTENSIONS: ((vm_extensions))
+      SYSLOG_SELECTOR: ((syslog_selector))
+      SYSLOG_ADDRESS: ((syslog_address))
+      SYSLOG_PORT: ((syslog_port))
+      SYSLOG_PROTOCOL: ((syslog_protocol))
+      BACKUP_SELECTOR: ((backup_selector))
+      S3_ACCESS_KEY_ID: ((s3_access_key_id))
+      S3_SECRET_ACCESS_KEY: ((s3_secret_access_key))
+      S3_ENDPOINT_URL: ((s3_endpoint_url))
+      S3_REGION: ((s3_region))
+      S3_SIGNATURE_VERSION: ((s3_signature_version))
+      S3_BUCKET_NAME: ((s3_bucket_name))
+      S3_PATH: ((s3_path))
+      S3_CRON_SCHEDULE: ((s3_cron_schedule))
+      S3_BG_SAVE_TIMEOUT: ((s3_bg_save_timeout))
+      SCP_SERVER: ((scp_server))
+      SCP_USERNAME: ((scp_username))
+      SCP_SSH_KEY: ((scp_ssh_key))
+      SCP_PATH: ((scp_path))
+      SCP_PORT: ((scp_port))
+      SCP_CRON_SCHEDULE: ((scp_cron_schedule))
+      SCP_BG_SAVE_TIMEOUT: ((scp_bg_save_timeout))
+      SCP_FINGERPRINT: ((scp_fingerprint))
+      AZURE_ACCOUNT: ((azure_account))
+      AZURE_STORAGE_ACCESS_KEY: ((azure_storage_access_key))
+      AZURE_PATH: ((azure_path))
+      AZURE_CRON_SCHEDULE: ((azure_cron_schedule))
+      AZURE_BG_SAVE_TIMEOUT: ((azure_bg_save_timeout))
+      AZURE_CONTAINER: ((azure_container))
+      AZURE_BLOB_STORE_BASE_URL: ((azure_blob_store_base_url))
+      GCS_PROJECT_ID: ((gcs_project_id))
+      GCS_BUCKET_NAME: ((gcs_bucket_name))
+      GCS_SERVICE_ACCOUNT_JSON: ((gcs_service_account_json))
+      GCS_CRON_SCHEDULE: ((gcs_cron_schedule))
+      GCS_BG_SAVE_TIMEOUT: ((gcs_bg_save_timeout))
+      SMALL_PLAN_SELECTOR: ((small_plan_selector))
+      SMALL_PLAN_NAME: ((small_plan_name))
+      SMALL_PLAN_DESCRIPTION: ((small_plan_description))
+      SMALL_PLAN_SERVICE_ACCESS: ((small_plan_service_access))
+      SMALL_PLAN_AZ: ((small_plan_az))
+      SMALL_PLAN_VM_TYPE: ((small_plan_vm_type))
+      SMALL_PLAN_DISK_SIZE: ((small_plan_disk_size))
+      SMALL_PLAN_TIMEOUT: ((small_plan_timeout))
+      SMALL_PLAN_TCP_KEEP_ALIVE: ((small_plan_tcp_keep_alive))
+      SMALL_PLAN_MAX_CLIENTS: ((small_plan_max_clients))
+      SMALL_PLAN_LUA_SCRIPTING: ((small_plan_lua_scripting))
+      SMALL_PLAN_INSTANCE_LIMIT: ((small_plan_instance_limit))
+      MEDIUM_PLAN_SELECTOR: ((medium_plan_selector))
+      MEDIUM_PLAN_NAME: ((medium_plan_name))
+      MEDIUM_PLAN_DESCRIPTION: ((medium_plan_description))
+      MEDIUM_PLAN_SERVICE_ACCESS: ((medium_plan_service_access))
+      MEDIUM_PLAN_AZ: ((medium_plan_az))
+      MEDIUM_PLAN_VM_TYPE: ((medium_plan_vm_type))
+      MEDIUM_PLAN_DISK_TYPE: ((medium_plan_disk_type))
+      MEDIUM_PLAN_TIMEOUT: ((medium_plan_timeout))
+      MEDIUM_PLAN_TCP_KEEPALIVE: ((medium_plan_tcp_keep_alive))
+      MEDIUM_PLAN_MAX_CLIENTS: ((medium_plan_max_clients))
+      MEDIUM_PLAN_LUA_SCRIPTING: ((medium_plan_lua_scripting))
+      MEDIUM_PLAN_INSTANCE_LIMIT: ((medium_plan_instance_limit))
+      LARGE_PLAN_SELECTOR: ((large_plan_selector))
+      LARGE_PLAN_NAME: ((large_plan_name))
+      LARGE_PLAN_DESCRIPTION: ((large_plan_description))
+      LARGE_PLAN_SERVICE_ACCESS: ((large_plan_service_access))
+      LARGE_PLAN_AZ: ((large_plan_az))
+      LARGE_PLAN_VM_TYPE: ((large_plan_vm_type))
+      LARGE_PLAN_DISK_SIZE: ((large_plan_disk_size))
+      LARGE_PLAN_TIMEOUT: ((large_plan_timeout))
+      LARGE_PLAN_KEEPALIVE: ((large_plan_keep_alive))
+      LARGE_PLAN_MAX_CLIENTS: ((large_plan_max_clients))
+      LARGE_PLAN_LUA_SCRIPTING: ((large_plan_lua_scripting))
+      LARGE_PLAN_INSTANCE_LIMIT: ((large_plan_instance_limit))
+      REDIS_ON_DEMAND_BROKER_INSTANCES: ((redis_on_demand_broker_instances))
+      REDIS_ON_DEMAND_BROKER_DISK_SIZE: ((redis_on_demand_broker_disk_size))
+      CF_REDIS_BROKER_INSTANCES: ((cf_redis_broker_instances))
+      CF_REDIS_BROKER_DISK_SIZE: ((cf_redis_broker_disk_size))
+      DEDICATED_NODE_INSTANCES: ((dedicate_node_instances))
+      DEDICATED_NODE_DISK_SIZE: ((dedicated_node_disk_size))
+
+# - name: apply-changes
+#   plan:
+#   - aggregate:
+#     - get: pipelines-repo
+#       trigger: true
+#       passed: [config-product]
+#     - get: pivnet-product
+#       resource: pivnet-product
+#       params:
+#         globs:
+#         - "*.pivotal"
+#       passed: [config-product]
+#       trigger: true
+#     - get: om-cli
+#       params:
+#         globs:
+#         - "*-linux"
+#       passed: [config-product]
+#
+#   - task: apply-changes
+#     file: pipelines-repo/tasks/apply-changes/task.yml
+#     params:
+#       OPS_MGR_HOST: ((om_fqdn))
+#       OPS_MGR_USR: ((om_usr))
+#       OPS_MGR_PWD: ((om_pwd))
+#
+# - name: set-upgrade-pipeline
+#   plan:
+#   - aggregate:
+#     - get: pipelines-repo
+#       trigger: true
+#       passed: [apply-changes]
+#
+#   - task: set-upgrade-pipeline
+#     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+#     params:
+#       CONCOURSE_USERNAME: ((concourse_user))
+#       CONCOURSE_PASSWD: ((concourse_pwd))
+#       ATC_EXTERNAL_URL: ((concourse_url))
+#       BUILD_PIPELINE_NAME: ((pipeline-name))
+#       BUILD_TEAM_NAME: ((team-name))
+#       UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))

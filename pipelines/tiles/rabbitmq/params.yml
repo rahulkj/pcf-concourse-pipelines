@@ -21,8 +21,9 @@ deployment_nw: # [R] Tile network name
 services_nw: # [R] Services network name
 
 metrics_polling_interval: 30 # [R] Metrics polling interval  min: 10
-syslog_address: # [O] Syslog address
-syslog_port: # [O] Syslog port
+syslog_selector: disabled # [O] enabled|disabled - Syslog enabled
+syslog_address: # [O] Syslog address, required if syslog is enabled
+syslog_port: # [O] Syslog port, required if syslog is enabled
 disk_alarm_threshold: fixed_50_mb # [R] fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0 - Disk free alarm limit
 rabbitmq_server_plugins: "\"rabbitmq_amqp1_0\",\"rabbitmq_auth_backend_ldap\",\"rabbitmq_auth_mechanism_ssl\",\"rabbitmq_consistent_hash_exchange\",\"rabbitmq_federation\",\"rabbitmq_federation_management\",\"rabbitmq_management\",\"rabbitmq_management_visualiser\",\"rabbitmq_mqtt\",\"rabbitmq_shovel\",\"rabbitmq_shovel_management\",\"rabbitmq_stomp\",\"rabbitmq_tracing\",\"rabbitmq_web_stomp\",\"rabbitmq_web_stomp_examples\",\"rabbitmq_event_exchange\",\"rabbitmq_jms_topic_exchange\""
 rabbitmq_ssl_certificate: # [O] RabbitMQ server RSA public certificate

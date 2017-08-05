@@ -65,8 +65,8 @@ params:
   GENERATE_VM_PASSWORDS:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-opsdir/task.sh
+  path: pipelines-repo/tasks/config-opsdir/task.sh

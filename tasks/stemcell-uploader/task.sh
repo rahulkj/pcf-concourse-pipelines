@@ -10,7 +10,7 @@ chmod +x $PIVNET_CLI
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-STEMCELL_VERSION=`cat ./pivnet-product/metadata.json | jq '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version'`
+STEMCELL_VERSION=`cat ./pivnet-product/metadata.json | jq '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version' | head -1`
 
 SC_VERSION=`echo $STEMCELL_VERSION | tr -d '"'`
 

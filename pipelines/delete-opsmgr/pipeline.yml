@@ -20,7 +20,7 @@ resources:
     repository: om
     access_token: ((github_token)) ## Optional: Removing this will call you to hit the rate limit
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -33,7 +33,7 @@ jobs:
 - name: delete-installation
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: govc
       params:
         globs:
@@ -44,14 +44,14 @@ jobs:
         - "*-linux"
 
   - task: delete-products
-    file: concourse-vsphere/tasks/delete-products/task.yml
+    file: pipelines-repo/tasks/delete-products/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
 
   - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
+    file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -60,7 +60,7 @@ jobs:
 - name: delete-opsmgr
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       passed: [delete-installation]
     - get: govc
       passed: [delete-installation]
@@ -74,7 +74,7 @@ jobs:
         - "*-linux"
 
   - task: delete-opsman
-    file: concourse-vsphere/tasks/delete-opsman/task.yml
+    file: pipelines-repo/tasks/delete-opsman/task.yml
     params:
       OPS_MGR_IP: ((om_ip))
       GOVC_INSECURE: 1

@@ -1,0 +1,43 @@
+pivnet_token: # [R] PivNet Access Token
+github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
+
+company_proxy_domain: # [O] proxy domain
+iaas_type: vsphere
+
+## Ops Manager installation meta data
+om_ip: # [O] Ops Manager IP if behind proxy
+om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+om_usr: # [R] Ops Manager admin user
+om_pwd: # [R] Ops Manager admin password
+
+product_name: p-logsearch
+product_identifier: p-logsearch
+product_version: ^1\.0\..*$
+
+singleton_job_az:
+other_azs:
+network_name:
+retention_period: 7
+parser_outputs: ""
+max_queue_length: 1000000
+event_types: "\"CounterEvent\",\"ValueMetric\",\"Error\",\"HttpStartStop\",\"LogMessage\",\"ContainerMetric\""
+elastic_search_instances: 1
+elastic_search_instance_type: small
+elasticsearch_master_persistent_disk_mb: 5120
+elastic_data_instance_type: medium.mem
+elastic_data_instances: 2
+elasticsearch_data_persistent_disk_mb: 51200
+parser_instance_type: small
+parser_instances: 2
+ingestor_instance_type: small
+ingestor_instances: 1
+kibana_instance_type: small
+kibana_instances: 1
+monitor_instance_type: medium
+monitor_instances: 1
+monitor_persistent_disk_mb: 10240
+firehose_to_syslog_instance_type: micro
+firehose_to_syslog_instances: 1

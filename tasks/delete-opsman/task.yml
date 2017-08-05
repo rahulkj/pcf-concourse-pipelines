@@ -14,8 +14,8 @@ params:
   GOVC_PASSWORD:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: govc
 
 run:
-  path: concourse-vsphere/tasks/delete-opsman/task.sh
+  path: pipelines-repo/tasks/delete-opsman/task.sh

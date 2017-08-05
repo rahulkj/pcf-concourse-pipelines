@@ -13,9 +13,9 @@ params:
   PRODUCT_IDENTIFIER:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
   - name: pivnet-product
 
 run:
-  path: concourse-vsphere/tasks/stage-product/task.sh
+  path: pipelines-repo/tasks/stage-product/task.sh

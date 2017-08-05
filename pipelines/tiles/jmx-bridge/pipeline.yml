@@ -21,7 +21,7 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -41,7 +41,7 @@ jobs:
 - name: upload-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -58,7 +58,7 @@ jobs:
         - "*linux-amd64*"
 
   - task: upload-tile
-    file: concourse-vsphere/tasks/upload-product/task.yml
+    file: pipelines-repo/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -66,7 +66,7 @@ jobs:
       PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
-    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -79,7 +79,7 @@ jobs:
 - name: stage-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -95,7 +95,7 @@ jobs:
       passed: [upload-product]
 
   - task: stage-tile
-    file: concourse-vsphere/tasks/stage-product/task.yml
+    file: pipelines-repo/tasks/stage-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -105,7 +105,7 @@ jobs:
 - name: config-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -120,60 +120,39 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-rabbitmq/task.yml
+    file: pipelines-repo/tasks/config-jmx-bridge/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
       OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
-      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      SINGLETON_AZ: ((singleton_az))
       OTHER_AZS: ((other_azs))
-      NETWORK_NAME: ((deployment_nw))
-      SERVICES_NETWORK: ((services_nw))
-      SYSLOG_ADDRESS: ((syslog_address))
-      SYSLOG_PORT: ((syslog_port))
-      DISK_ALARM_THRESHOLD: ((disk_alarm_threshold))
-      RMQ_SERVER_INSTANCES: ((rabbitmq_server_instances))
-      RMQ_HAPROXY_INSTANCES: ((rabbitmq_haproxy_instances))
-      RMQ_BROKER_INSTANCES: ((rabbitmq_broker_instances))
-      RMQ_ONDEMAND_INSTANCES: ((rabbitmq_ondemand_instances))
-      RMQ_PLUGINS: ((rabbitmq_server_plugins))
-      RMQ_SSL_CERT: ((rabbitmq_ssl_certificate))
-      RMQ_PRIVATE_CERT: ((rabbitmq_private_certificate))
-      RMQ_CA_CERT: ((rabbitmq_ca_certificate))
-      SSL_VERIFY: ((ssl_verify))
-      SSL_VERIFICATION_DEPTH: ((ssl_verification_depth))
-      SSL_FAIL_IF_NO_PEER_CERT: ((ssl_fail_if_no_peer_cert))
-      ERLANG_COOKIE_NAME: ((erlang_cookie_name))
-      RMQ_SERVER_CONFIG: ((rabbitmq_server_config))
-      RMQ_SERCURITY_OPTION: ((rabbitmq_security_option))
-      RMQ_NW_PARTITION_HANDLING: ((rabbitmq_network_partition_handling))
-      RMQ_SERVER_PORTS: ((rabbitmq_server_ports))
-      RMQ_HAPROXY_STATIC_IPS: ((rabbitmq_haproxy_static_ips))
-      RMQ_SERVER_STATIC_IPS: ((rabbitmq_server_static_ips))
-      RMQ_ADMIN_USERNAME: ((rabbitmq_admin_username))
-      RMQ_ADMIN_PASSWORD: ((rabbitmq_admin_password))
-      RMQ_LOADBALANCER_DNS: ((rabbitmq_loadbalancer_dns_name))
-      IS_RMQ_POLICY_ENABLED: ((rabbitmq_policy_enabled))
-      RMQ_POLICY_DEFINITION: ((rabbitmq_policy_definition))
-      ENABLE_SINGLE_NODE_PLAN: ((enable_single_node_plan))
-      PLAN_NAME: ((plan_name))
-      PLAN_DESCRIPTION: ((plan_description))
-      PCF_MARKETPLACE_PRODUCT_IDENTIFIER: ((marketplace_identifier))
-      SERVICE_INSTANCE_COUNT: ((single_node_service_instance_quota))
-      GLOBAL_SERVICE_INSTANCE_QUOTA: ((global_service_instance_quota))
-      SINGLE_NODE_PERSISTENT_DISK_TYPE: ((single_node_persistent_disk_type))
-      ON_DEMAND_BROKER_AZS: ((on_demand_broker_azs))
-      ON_DEMAND_BROKER_VM_TYPE: ((on_demand_broker_vm_type))
-      VM_EXTENSIONS: ((vm_extensions))
-      RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE: ((rabbitmq_server_node_disk_size))
+      NETWORK_NAME: ((network_name))
+      JMX_ADMIN_USR: ((jmx_admin_usr))
+      JMX_ADMIN_PWD: ((jmx_admin_pwd))
+      NAT_ENABLED: ((nat_enabled))
+      NAT_JMX_BRIDGE_IP: ((nat_jmx_bridge_ip))
+      SECURITY_LOGGING_ENABLED: ((jmx_security_logging_enabled))
+      JMX_USE_SSL: ((jmx_use_ssl))
+      SSL_CERT: ((ssl_cert))
+      SSL_PRIVATE_KEY: ((ssl_private_key))
+      JMX_DOMAIN: ((jmx_domain))
+      USE_METRIC_PREFIX: ((use_metric_prefix))
+      MAXIMUS_INSTANCE_TYPE: ((maximus_instance_type))
+      MAXIMUS_INSTANCES: ((maximus_instances))
+      MAXIMUS_PERSISTENT_DISK_SIZE_MB: ((maximus_persistent_disk_size_mb))
+      JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE: ((jmx_firehose_nozzle_instance_type))
+      JMX_FIREHOSE_NOZZLE_INSTANCES: ((jmx_firehose_nozzle_instances))
+      JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB: ((jmx_firehose_nozzle_persistent_disk_size_mb))
+      INTEGRATION_TESTS_INSTANCE_TYPE: ((integration_tests_instance_type))
+      INTEGRATION_TESTS_INSTANCES: ((integration_tests_instances))
 
 - name: apply-changes
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [config-product]
     - get: pivnet-product
@@ -190,7 +169,45 @@ jobs:
       passed: [config-product]
 
   - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: update-metrics-ip-in-bosh
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [apply-changes]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [apply-changes]
+      trigger: true
+
+  - task: update-metrics-ip
+    file: pipelines-repo/tasks/update-metrics-ip/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: post-apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [update-metrics-ip-in-bosh]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [update-metrics-ip-in-bosh]
+      trigger: true
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -199,12 +216,12 @@ jobs:
 - name: set-upgrade-pipeline
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
-      passed: [apply-changes]
+      passed: [post-apply-changes]
 
   - task: set-upgrade-pipeline
-    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
     params:
       CONCOURSE_USERNAME: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_pwd))

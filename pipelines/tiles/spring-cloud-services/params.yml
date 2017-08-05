@@ -1,0 +1,28 @@
+pivnet_token: # [R] PivNet Access Token
+github_token: # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_branch: master
+github_username: # [R] Your github username
+
+company_proxy_domain: # [O] proxy domain
+iaas_type: vsphere
+
+## Ops Manager installation meta data
+om_ip: # [O] Ops Manager IP if behind proxy
+om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+om_usr: # [R] Ops Manager admin user
+om_pwd: # [R] Ops Manager admin password
+
+product_name: p-spring-cloud-services # Product slug from pivnet
+product_identifier: p-spring-cloud-services # Product identifier from OpsManager using om cli
+product_version: ^1\.4\..*$ # [O] Replicated Tile Name, ex: abc
+
+singleton_jobs_az: # [R] Place singleton jobs in an AZ
+other_azs: # [R] Balance other jobs in AZ's
+network_name: # [R] Tile network name
+
+broken_max_instances: 100
+buildpack_name:
+disable_cert_check: false
+app_push_timeout:
+enable_global_access: true

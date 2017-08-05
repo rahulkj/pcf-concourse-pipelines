@@ -1,0 +1,242 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OM_IP: ((om_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: config-tile
+    file: pipelines-repo/tasks/config-mysql/task.yml
+    params:
+      PRODUCT_NAME: ((product_identifier))
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      OTHER_AZS: ((other_azs))
+      NETWORK_NAME: ((network_name))
+      PLAN_NAME: ((plan_name))
+      PLAN_DESCRIPTION: ((plan_description))
+      PLAN_MAX_STORAGE_MB: ((plan_max_storage_mb))
+      PLAN_MAX_USER_CONNECTIONS: ((plan_max_user_connections))
+      PLAN_PRIVATE: ((plan_private))
+      METRICS_POLLING_FREQUENCY: ((metrics_polling_frequency))
+      CLUSTER_PROBE_TIMEOUT: ((cluster_probe_timeout))
+      TMP_TABLE_SIZE: ((tmp_table_size))
+      TABLE_OPEN_CACHE: ((table_open_cache))
+      TABLE_DEFINITION_CACHE: ((table_definition_cache))
+      MAX_CONNECTIONS: ((max_connections))
+      BINLOG_EXPIRE_DAYS: ((binlog_expire_days))
+      CLUSTER_NAME: ((cluster_name))
+      INNODB_STRICT_MODE: ((innodb_strict_mode))
+      ALLOW_CLI_HISTORY: ((allow_cli_history))
+      ALLOW_REMOTE_ADMIN_ACCESS: ((allow_remote_admin_access))
+      READONLY_ADMIN_PASSWORD: ((readonly_admin_password))
+      MYSQL_START_TIMEOUT: ((mysql_start_timeout))
+      BACKUP_ENABLE: ((backup_enable))
+      CRON_SCHEDULE: ((cron_schedule))
+      BACKUP_ALL_MASTERS: ((backup_all_masters))
+      BACKUP_DESTINATION: ((backup_destination))
+      S3_ENDPOINT: ((s3_endpoint))
+      S3_BUCKET_NAME: ((s3_bucket_name))
+      S3_BUCKET_PATH: ((s3_bucket_path))
+      S3_ACCESS_KEY_ID: ((s3_access_key_id))
+      S3_SECRET_KEY: ((s3_secret_key))
+      SCP_USER: ((scp_user))
+      SCP_SERVER: ((scp_server))
+      SCP_DESTINATION_DIR: ((scp_destination_dir))
+      SCP_PRIVATE_KEY: ((scp_private_key))
+      SCP_PORT: ((scp_port))
+      AZURE_STORAGE_ACCOUNT: ((azure_storage_account))
+      AZURE_STORAGE_ACCESS_KEY: ((azure_storage_access_key))
+      AZURE_CONTAINER: ((azure_container))
+      AZURE_CONTAINER_PATH: ((azure_container_path))
+      AZURE_BASE_URL: ((azure_base_url))
+      GCS_SERVICE_ACCOUNT_JSON: ((gcs_service_account_json))
+      GCS_PROJECT_ID: ((gcs_project_id))
+      GCS_BUCKET_NAME: ((gcs_bucket_name))
+      SYSLOG_ENABLED: ((syslog_enabled))
+      SYSLOG_ADDRESS: ((syslog_address))
+      SYSLOG_PORT: ((syslog_port))
+      SERVER_ACTIVITY_LOGGING: ((server_activity_logging))
+      AUDIT_LOGGING_EVENTS: ((audit_logging_events))
+      SERVER_AUDIT_EXCLUDED_USERS_CSV: ((server_audit_excluded_users_csv))
+      BUFFER_POOL_SIZE: ((buffer_pool_size))
+      BUFFER_POOL_SIZE_PERCENT: ((buffer_pool_size_percent))
+      BUFFER_POOL_SIZE_BYTES: ((buffer_pool_size_bytes))
+      OPTIONAL_PROTECTIONS: ((optional_protections))
+      RECEPIENT_EMAIL: ((recepient_email))
+      PREVENT_AUTO_JOIN: ((prevent_auto_join))
+      REPLICATION_CANARY: ((replication_canary))
+      NOTIFY_ONLY: ((notify_only))
+      CANARY_POLL_FREQUENCY: ((canary_poll_frequency))
+      CANARY_WRITE_READ_DELAY: ((canary_write_read_delay))
+      MYSQL_SERVER_INSTANCE_TYPE: ((mysql_server_instance_type))
+      MYSQL_SERVER_INSTANCES: ((mysql_server_instances))
+      MYSQL_PERSISTENT_DISK_MB: ((mysql_persistent_disk_mb))
+      BACKUP_PREPARE_INSTANCE_TYPE: ((backup_prepare_instance_type))
+      BACKUP_PREPARE_INSTANCES: ((backup_prepare_instances))
+      BACKUP_PREPARE_PERSISTENT_DISK_MB: ((backup_prepare_persistent_disk_mb))
+      MYSQL_PROXY_INSTANCE_TYPE: ((mysql_proxy_instance_type))
+      MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
+      MONITORING_INSTANCE_TYPE: ((monitoring_instance_type))
+      MONITORING_INSTANCES: ((monitoring_instances))
+      MYSQL_BROKER_INSTANCE_TYPE: ((mysql_broker_instance_type))
+      MYSQL_BROKER_INSTANCES: ((mysql_broker_instances))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [config-product]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))

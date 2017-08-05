@@ -12,8 +12,8 @@ params:
   OPS_MGR_PWD:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/disable-metrics-errands/task.sh
+  path: pipelines-repo/tasks/disable-metrics-errands/task.sh

@@ -14,13 +14,6 @@ resources:
     repository: om
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: replicator
-  type: github-release
-  source:
-    user: pivotal-cf
-    repository: replicator
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
-
 - name: pivnet-cli
   type: github-release
   source:
@@ -28,7 +21,7 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
-- name: concourse-vsphere
+- name: pipelines-repo
   type: git
   source:
     uri: ((github_repo))
@@ -45,10 +38,10 @@ resources:
 
 jobs:
 
-- name: replicate-and-upload-tile
+- name: upload-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -63,22 +56,17 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
-    - get: replicator
-      params:
-        globs:
-        - "*linux*"
 
-  - task: replicate-and-upload-tile
-    file: concourse-vsphere/tasks/replicate-and-upload-tile/task.yml
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      REPLICATOR_NAME: ((replicator_name))
 
   - task: upload-stemcell
-    file: concourse-vsphere/tasks/stemcell-uploader/task.yml
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -91,23 +79,23 @@ jobs:
 - name: stage-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
-      passed: [replicate-and-upload-tile]
+    - get: pipelines-repo
+      passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [replicate-and-upload-tile]
+      passed: [upload-product]
       trigger: true
     - get: om-cli
       params:
         globs:
-        - "*linux*"
-      passed: [replicate-and-upload-tile]
+        - "*-linux"
+      passed: [upload-product]
 
   - task: stage-tile
-    file: concourse-vsphere/tasks/stage-product/task.yml
+    file: pipelines-repo/tasks/stage-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -117,7 +105,7 @@ jobs:
 - name: config-product
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -132,38 +120,25 @@ jobs:
       passed: [stage-product]
 
   - task: config-tile
-    file: concourse-vsphere/tasks/config-is-tile/task.yml
+    file: pipelines-repo/tasks/config-spring-cloud-services/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
-      OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
       SINGLETON_JOB_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
-      NETWORK_NAME: ((deployment_nw))
-      ISOLATION_SEGMENT_DOMAIN: ((isolation_segment_domain))
-      SSL_TERMINATION_POINT: ((ssl_termination_point))
-      SSL_CERT: ((ssl_rsa_certificate))
-      SSL_PRIVATE_KEY: ((ssl_private_key))
-      ROUTER_SSL_CIPHERS: ((router_ssl_cipher))
-      ROUTER_STATIC_IPS: ((router_static_ips))
-      CELL_DISK_CAPACITY: ((cell_disk_capacity))
-      CELL_MEMORY_CAPACITY: ((cell_memory_capacity))
-      APPLICATION_NETWORK_CIDR: ((application_network_cidr))
-      APPLICATION_NETWORK_MTU: ((application_network_mtu))
-      DNS_SERVERS: ((dns_servers))
-      INSECURE_DOCKER_REGISTRY_LIST: ((insecure_docker_registry_list))
-      SEGMENT_NAME: ((isolation_segment_name))
-      IS_ROUTER_INSTANCES: ((router_instances))
-      IS_DIEGO_CELL_INSTANCES: ((diego_cell_instances))
-      ISOLATED_ROUTER_INSTANCE_TYPE: ((isolated_router_instance_type))
-      DIEGO_CELL_INSTANCE_TYPE: ((diego_cell_instance_type))
+      NETWORK_NAME: ((network_name))
+      BROKER_MAX_INSTANCES: ((broken_max_instances))
+      BUILDPACK: ((buildpack_name))
+      DISABLE_CERT_CHECK: ((disable_cert_check))
+      APP_PUSH_TIMEOUT: ((app_push_timeout))
+      ENABLE_GLOBAL_ACCESS: ((enable_global_access))
 
 - name: apply-changes
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [config-product]
     - get: pivnet-product
@@ -180,7 +155,7 @@ jobs:
       passed: [config-product]
 
   - task: apply-changes
-    file: concourse-vsphere/tasks/apply-changes/task.yml
+    file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
@@ -189,12 +164,12 @@ jobs:
 - name: set-upgrade-pipeline
   plan:
   - aggregate:
-    - get: concourse-vsphere
+    - get: pipelines-repo
       trigger: true
       passed: [apply-changes]
 
   - task: set-upgrade-pipeline
-    file: concourse-vsphere/tasks/set-upgrade-pipeline/task.yml
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
     params:
       CONCOURSE_USERNAME: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_pwd))

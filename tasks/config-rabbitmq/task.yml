@@ -20,6 +20,7 @@ params:
   RMQ_HAPROXY_INSTANCES:
   RMQ_BROKER_INSTANCES:
   RMQ_ONDEMAND_INSTANCES:
+  SYSLOG_SELECTOR:
   SYSLOG_ADDRESS:
   SYSLOG_PORT:
   DISK_ALARM_THRESHOLD:
@@ -32,7 +33,7 @@ params:
   SSL_FAIL_IF_NO_PEER_CERT:
   ERLANG_COOKIE_NAME:
   RMQ_SERVER_CONFIG:
-  RMQ_SERCURITY_OPTION:
+  RMQ_SECURITY_OPTION:
   RMQ_NW_PARTITION_HANDLING:
   RMQ_SERVER_PORTS:
   RMQ_HAPROXY_STATIC_IPS:
@@ -55,8 +56,8 @@ params:
   RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE:
 
 inputs:
-  - name: concourse-vsphere
+  - name: pipelines-repo
   - name: om-cli
 
 run:
-  path: concourse-vsphere/tasks/config-rabbitmq/task.sh
+  path: pipelines-repo/tasks/config-rabbitmq/task.sh

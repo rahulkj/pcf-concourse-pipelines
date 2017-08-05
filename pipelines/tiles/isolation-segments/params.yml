@@ -35,6 +35,13 @@ application_network_mtu: 1454 # [R] Applications Network Maximum Transmission Un
 insecure_docker_registry_list: # [O] Private Docker Insecure Registry Whitelist
 isolation_segment_name: # [R] Segment Name
 router_instances: # [R] Router instances, integer
+logging_enabled: disabled # [R] enabled|disabled
+syslog_host:
+syslog_port:
+syslog_protocol: #tcp|relp|udp
+syslog_tls_enabled: #true|false
+syslog_tls_permitted_peer: # Either the accepted fingerprint (SHA1) or name of remote peer, e.g. *.example.com
+syslog_tls_ca_certificate: # This certificate will ensure that logs get securely transported to the syslog destination
 
 diego_cell_instances: # [R] Diego Cell instances, integer
 isolated_router_instance_type: micro # [R] micro|nano|small|medium|large - refer to the deployment cloud config for more options

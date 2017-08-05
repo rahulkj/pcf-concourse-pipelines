@@ -24,9 +24,8 @@ Supported pipelines
 -------------------
 
 -	[New Install of PCF (OM/ERT)](./pipelines/new-setup)
--	[New Install of PCF with JMX Bridge](./pipelines/new-setup-with-jmx-bridge)
 -	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
--	[Isolation Segments Installation](./pipelines/config-tile/isolation-segments)
--	[RabbitMQ Installation](./pipelines/config-tile/rabbitmq)
+-	[Isolation Segments Installation](./pipelines/tiles/isolation-segments)
+-	[RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 -	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 -	[Upgrade Tile](./pipelines/upgrade-tile)
