@@ -230,7 +230,7 @@ jobs:
         - "*-linux"
       passed: [config-product]
 
-  - task: apply-changes
+  - task: validate-apply-changes
     file: pipelines-repo/tasks/validate-apply-changes/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
