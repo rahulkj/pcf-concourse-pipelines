@@ -212,45 +212,53 @@ jobs:
       DEDICATED_NODE_INSTANCES: ((dedicate_node_instances))
       DEDICATED_NODE_DISK_SIZE: ((dedicated_node_disk_size))
 
-# - name: apply-changes
-#   plan:
-#   - aggregate:
-#     - get: pipelines-repo
-#       trigger: true
-#       passed: [config-product]
-#     - get: pivnet-product
-#       resource: pivnet-product
-#       params:
-#         globs:
-#         - "*.pivotal"
-#       passed: [config-product]
-#       trigger: true
-#     - get: om-cli
-#       params:
-#         globs:
-#         - "*-linux"
-#       passed: [config-product]
-#
-#   - task: apply-changes
-#     file: pipelines-repo/tasks/apply-changes/task.yml
-#     params:
-#       OPS_MGR_HOST: ((om_fqdn))
-#       OPS_MGR_USR: ((om_usr))
-#       OPS_MGR_PWD: ((om_pwd))
-#
-# - name: set-upgrade-pipeline
-#   plan:
-#   - aggregate:
-#     - get: pipelines-repo
-#       trigger: true
-#       passed: [apply-changes]
-#
-#   - task: set-upgrade-pipeline
-#     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
-#     params:
-#       CONCOURSE_USERNAME: ((concourse_user))
-#       CONCOURSE_PASSWD: ((concourse_pwd))
-#       ATC_EXTERNAL_URL: ((concourse_url))
-#       BUILD_PIPELINE_NAME: ((pipeline-name))
-#       BUILD_TEAM_NAME: ((team-name))
-#       UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [config-product]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/validate-apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
