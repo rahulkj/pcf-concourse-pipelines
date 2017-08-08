@@ -217,7 +217,6 @@ jobs:
   - aggregate:
     - get: pipelines-repo
       trigger: true
-      passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
       params:

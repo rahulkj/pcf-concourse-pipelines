@@ -107,9 +107,6 @@ PRODUCT_PROPERTIES=$(cat <<-EOF
 EOF
 )
 
-
-#null|public_ip
-
 function fn_other_azs {
   local azs_csv=$1
   echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
@@ -158,7 +155,9 @@ PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
 EOF
 )
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG" -p "$PRODUCT_PROPERTIES" -pr "$PRODUCT_RESOURCE_CONFIG"
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG"
+
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PRODUCT_PROPERTIES" -pr "$PRODUCT_RESOURCE_CONFIG"
 
 if [[ "$SYSLOG_SELECTOR" == "enabled" ]]; then
 SYSLOG_PROPERTIES=$(cat <<-EOF
