@@ -13,6 +13,10 @@ fi
 PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -path /api/v0/staged/pending_changes -s)
 PENDING_CHANGES_LENGTH=$(echo "$PENDING_CHANGES" | jq '.product_changes | length')
 
+if [[ "$PENDING_CHANGES_LENGTH" -eq "0" ]]; then
+  exit 0
+fi
+
 while [[ "$PENDING_CHANGES_LENGTH" -ne "1" ]]; do
   PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -path /api/v0/staged/pending_changes -s)
   PENDING_CHANGES_LENGTH=$(echo "$PENDING_CHANGES" | jq '.product_changes | length')
