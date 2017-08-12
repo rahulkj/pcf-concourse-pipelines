@@ -139,20 +139,20 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      #passed: [delete-opsmgr]
+      passed: [delete-opsmgr]
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      #passed: [delete-opsmgr]
+      passed: [delete-opsmgr]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      #passed: [delete-opsmgr]
+      passed: [delete-opsmgr]
     - get: concourse-trigger-gist
       trigger: true
-      #passed: [delete-opsmgr]
+      passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
