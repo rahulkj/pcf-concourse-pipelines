@@ -139,20 +139,20 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [delete-opsmgr]
+      #passed: [delete-opsmgr]
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      passed: [delete-opsmgr]
+      #passed: [delete-opsmgr]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [delete-opsmgr]
+      #passed: [delete-opsmgr]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [delete-opsmgr]
+      #passed: [delete-opsmgr]
     - get: pivnet-opsman-product
       params:
         globs:
@@ -418,13 +418,10 @@ jobs:
       SSH_STATIC_IPS: ((ssh_static_ips))
       CONSUL_SERVER_INSTANCES: ((consul_server_instances))
       NATS_INSTANCES: ((nats_instances))
-      ETCD_TLS_SERVER_INSTANCES: ((etcd_tls_server_instances))
       NFS_SERVER_INSTANCES: ((nfs_server_instances))
       MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
       MYSQL_INSTANCES: ((mysql_instances))
       BACKUP_PREPARE_INSTANCES: ((backup_prepare_instances))
-      CCDB_INSTANCES: ((ccdb_instances))
-      UAADB_INSTANCES: ((uaadb_instances))
       UAA_INSTANCES: ((uaa_instances))
       CLOUD_CONTROLLER_INSTANCES: ((cloud_controller_instances))
       HA_PROXY_INSTANCES: ((ha_proxy_instances))

@@ -151,10 +151,6 @@ CF_RESOURCES=$(cat <<-EOF
     "instance_type": {"id": "automatic"},
     "instances" : $NATS_INSTANCES
   },
-  "etcd_tls_server": {
-    "instance_type": {"id": "automatic"},
-    "instances" : $ETCD_TLS_SERVER_INSTANCES
-  },
   "nfs_server": {
     "instance_type": {"id": "automatic"},
     "instances" : $NFS_SERVER_INSTANCES
@@ -170,14 +166,6 @@ CF_RESOURCES=$(cat <<-EOF
   "backup-prepare": {
     "instance_type": {"id": "automatic"},
     "instances" : $BACKUP_PREPARE_INSTANCES
-  },
-  "ccdb": {
-    "instance_type": {"id": "automatic"},
-    "instances" : $CCDB_INSTANCES
-  },
-  "uaadb": {
-    "instance_type": {"id": "automatic"},
-    "instances" : $UAADB_INSTANCES
   },
   "uaa": {
     "instance_type": {"id": "automatic"},
