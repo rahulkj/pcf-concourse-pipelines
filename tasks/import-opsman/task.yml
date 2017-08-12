@@ -33,6 +33,7 @@ inputs:
   - name: pivnet-opsman-product
   - name: pipelines-repo
   - name: govc
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/import-opsman/task.sh

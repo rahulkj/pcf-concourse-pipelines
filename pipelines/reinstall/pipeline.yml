@@ -306,6 +306,7 @@ jobs:
       passed: [opsman-apply-changes]
     - get: pivnet-product
       resource: pivnet-er-product
+      trigger: true
       params:
         globs:
         - "*.pivotal"
