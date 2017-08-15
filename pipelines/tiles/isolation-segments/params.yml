@@ -46,3 +46,4 @@ syslog_tls_ca_certificate: # This certificate will ensure that logs get securely
 diego_cell_instances: # [R] Diego Cell instances, integer
 isolated_router_instance_type: micro # [R] micro|nano|small|medium|large - refer to the deployment cloud config for more options
 diego_cell_instance_type: xlarge.disk # [R] small.disk|large.disk|xlarge.disk - refer to the deployment cloud config for more options
+errands_to_disable:

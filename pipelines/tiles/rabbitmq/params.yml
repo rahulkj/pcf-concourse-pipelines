@@ -55,6 +55,7 @@ on_demand_broker_azs: # [R] AZ placement - The AZ(s) that the service instance w
 on_demand_broker_vm_type: nano # [R] nano|micro|large|xlarge - RabbitMQ VM Type - refer to the cloud config for this tile to get all the supported vm types
 vm_extensions: # [O] blank or public_ip > Please refer to the Ops Manager documentation for IaaS specific behavior. Log forwarding and backups may require internet access.
 rabbitmq_server_node_disk_size: 51200 # [R] Refer to cloud config for this tile to get the possible values for this section
+errands_to_disable:
 
 rabbitmq_server_instances: # [R] RabbitMQ node instances, integer, 0 or n instances
 rabbitmq_haproxy_instances: # [R] HAProxy for RabbitMQ, integer, 0 or n instances

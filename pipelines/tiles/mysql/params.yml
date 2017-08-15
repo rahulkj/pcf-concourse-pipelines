@@ -87,3 +87,4 @@ monitoring_instance_type: micro
 monitoring_instances: 1
 mysql_broker_instance_type: small.disk
 mysql_broker_instances: 2
+errands_to_disable:

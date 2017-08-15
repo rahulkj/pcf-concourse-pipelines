@@ -26,3 +26,5 @@ buildpack_name:
 disable_cert_check: false
 app_push_timeout:
 enable_global_access: true
+
+errands_to_disable:

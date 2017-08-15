@@ -41,3 +41,4 @@ monitor_instances: 1
 monitor_persistent_disk_mb: 10240
 firehose_to_syslog_instance_type: micro
 firehose_to_syslog_instances: 1
+errands_to_disable:

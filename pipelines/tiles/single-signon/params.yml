@@ -22,6 +22,8 @@ other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 deploy_service_broker_instances: 1
 
+errands_to_disable:
+
 concourse_user:
 concourse_pwd:
 concourse_url:

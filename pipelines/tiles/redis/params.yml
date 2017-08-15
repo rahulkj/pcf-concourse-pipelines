@@ -103,6 +103,8 @@ cf_redis_broker_disk_size:
 dedicate_node_instances:
 dedicated_node_disk_size:
 
+errands_to_disable:
+
 concourse_user:
 concourse_pwd:
 concourse_url:

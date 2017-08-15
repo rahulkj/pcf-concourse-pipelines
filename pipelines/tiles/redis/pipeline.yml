@@ -212,11 +212,52 @@ jobs:
       DEDICATED_NODE_INSTANCES: ((dedicate_node_instances))
       DEDICATED_NODE_DISK_SIZE: ((dedicated_node_disk_size))
 
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-product]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      ERRANDS: ((errands_to_disable))
+
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-product]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      OPS_MGR_HOST: ((om_fqdn))
+      OPS_MGR_USR: ((om_usr))
+      OPS_MGR_PWD: ((om_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      ERRANDS: ((errands_to_disable))
+
 - name: apply-changes
   plan:
   - aggregate:
     - get: pipelines-repo
       trigger: true
+      passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -228,7 +269,7 @@ jobs:
       params:
         globs:
         - "*-linux"
-      passed: [config-product]
+      passed: [disable-errands]
 
   - task: validate-apply-changes
     file: pipelines-repo/tasks/validate-apply-changes/task.yml

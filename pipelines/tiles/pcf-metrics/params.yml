@@ -21,6 +21,7 @@ singleton_job_az:
 other_azs:
 network_name:
 mysql_monitor_email:
+errands_to_disable:
 mysql_logqueue_instance_count: 2
 elasticsearch_logqueue_instance_count: 4
 ingestor_instance_count: 4
