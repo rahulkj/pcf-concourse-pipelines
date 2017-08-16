@@ -232,26 +232,6 @@ jobs:
       PRODUCT_IDENTIFIER: ((product_identifier))
       ERRANDS: ((errands_to_disable))
 
-- name: disable-errands
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [config-product]
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
-
-  - task: disable-errands
-    file: pipelines-repo/tasks/disable-errands/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      ERRANDS: ((errands_to_disable))
-
 - name: apply-changes
   plan:
   - aggregate:
