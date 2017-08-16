@@ -180,7 +180,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      #passed: [disable-errands]
+      passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -193,29 +193,6 @@ jobs:
         globs:
         - "*-linux"
       passed: [disable-errands]
-
-  - task: validate-apply-changes
-    file: pipelines-repo/tasks/validate-apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-
-  - task: apply-changes
-    file: pipelines-repo/tasks/apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-
-  - task: validate-apply-changes
-    file: pipelines-repo/tasks/validate-apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
