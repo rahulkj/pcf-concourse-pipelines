@@ -159,6 +159,13 @@ jobs:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -173,14 +180,13 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
-      passed: [disable-errands]
+      #passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [config-product]
+      passed: [disable-errands]
       trigger: true
     - get: om-cli
       params:
@@ -228,6 +234,12 @@ jobs:
         globs:
         - "*-linux"
       passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [apply-changes]
       trigger: true
 
   - task: update-metrics-ip
@@ -236,6 +248,7 @@ jobs:
       OPS_MGR_HOST: ((om_fqdn))
       OPS_MGR_USR: ((om_usr))
       OPS_MGR_PWD: ((om_pwd))
+      NAT_ENABLED: ((nat_enabled))
 
 - name: post-apply-changes
   plan:
@@ -246,6 +259,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [update-metrics-ip-in-bosh]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
       passed: [update-metrics-ip-in-bosh]
       trigger: true
 
@@ -260,8 +279,14 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [post-apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [post-apply-changes]
+      trigger: true
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
