@@ -228,7 +228,6 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [apply-changes]
     - get: om-cli
       params:
         globs:
