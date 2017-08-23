@@ -42,14 +42,14 @@ resources:
     username: ((github_username))
     password: ((github_token))
 
-- name: pivnet-opsman-product
+- name: ops-manager
   type: pivnet
   source:
     api_token: ((pivnet_token))
     product_slug: ops-manager
     product_version: ((opsman_product_version))
 
-- name: pivnet-er-product
+- name: elastic-runtime
   type: pivnet
   source:
     api_token: ((pivnet_token))
@@ -79,7 +79,7 @@ jobs:
         globs:
         - "*om-linux*"
     - get: concourse-trigger-gist
-    - get: pivnet-opsman-product
+    - get: ops-manager
       params:
         globs: []
       trigger: true
@@ -107,7 +107,7 @@ jobs:
   - put: concourse-trigger-gist
     params: {repository: updated-concourse-trigger-gist}
 
-- name: delete-opsmgr
+- name: delete-ops-manager
   plan:
   - aggregate:
     - get: pipelines-repo
@@ -126,7 +126,7 @@ jobs:
       trigger: true
       passed: [delete-installation]
 
-  - task: delete-opsman
+  - task: delete-ops-manager
     file: pipelines-repo/tasks/delete-opsman/task.yml
     params:
       OPS_MGR_IP: ((om_ip))
@@ -135,25 +135,26 @@ jobs:
       GOVC_USERNAME: ((vcenter_usr))
       GOVC_PASSWORD: ((vcenter_pwd))
 
-- name: install-opsmgr
+- name: install-ops-manager
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [delete-opsmgr]
+      passed: [delete-ops-manager]
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      passed: [delete-opsmgr]
+      passed: [delete-ops-manager]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [delete-opsmgr]
+      passed: [delete-ops-manager]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [delete-opsmgr]
-    - get: pivnet-opsman-product
+      passed: [delete-ops-manager]
+    - get: pivnet-product
+      resource: ops-manager
       params:
         globs:
         - "*.ova"
@@ -162,7 +163,7 @@ jobs:
         globs:
         - "*linux64*"
 
-  - task: deploy-opsman
+  - task: deploy-ops-manager
     file: pipelines-repo/tasks/import-opsman/task.yml
     params:
       GOVC_INSECURE: 1
@@ -187,7 +188,7 @@ jobs:
       OM_DISK_TYPE: ((om_disk_type))
       OM_VM_POWER_STATE: ((om_vm_power_state))
 
-  - task: config-opsman
+  - task: config-ops-manager
     file: pipelines-repo/tasks/config-opsman/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
@@ -208,17 +209,17 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [install-opsmgr]
+      passed: [install-ops-manager]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [install-opsmgr]
+      passed: [install-ops-manager]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [install-opsmgr]
+      passed: [install-ops-manager]
 
-  - task: config-opsdir
+  - task: config-ops-director
     file: pipelines-repo/tasks/config-opsdir/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
@@ -278,7 +279,7 @@ jobs:
       TRUSTED_CERTIFICATES: ((trusted_certificates))
       GENERATE_VM_PASSWORDS: ((generate_vm_passwords))
 
-- name: opsman-apply-changes
+- name: ops-director-apply-changes
   plan:
   - aggregate:
     - get: pipelines-repo
@@ -303,9 +304,9 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [opsman-apply-changes]
+      passed: [ops-director-apply-changes]
     - get: pivnet-product
-      resource: pivnet-er-product
+      resource: elastic-runtime
       trigger: true
       params:
         globs:
@@ -314,16 +315,16 @@ jobs:
       params:
         globs:
         - "*om-linux*"
-      passed: [opsman-apply-changes]
+      passed: [ops-director-apply-changes]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
     - get: concourse-trigger-gist
       trigger: true
-      passed: [opsman-apply-changes]
+      passed: [ops-director-apply-changes]
 
-  - task: upload-er-tile
+  - task: upload-elastic-runtime-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
@@ -358,7 +359,7 @@ jobs:
       trigger: true
       passed: [upload-elastic-runtime-tile]
 
-  - task: config-er-tile
+  - task: config-elastic-runtime-tile
     file: pipelines-repo/tasks/config-ert/task.yml
     params:
       OPS_MGR_HOST: ((om_fqdn))
@@ -460,7 +461,7 @@ jobs:
       PRODUCT_IDENTIFIER: ((product_identifier))
       ERRANDS: ((errands_to_disable))
 
-- name: product-apply-changes
+- name: elastic-runtime-apply-changes
   plan:
   - aggregate:
     - get: pipelines-repo

@@ -399,3 +399,14 @@ EOF
 fi
 
 $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$CF_SSL_TERM_PROPERTIES"
+
+HA_PROXY_CA=$(cat <<-EOF
+{
+  ".properties.haproxy_forward_tls": {
+      "value": "disable"
+  }
+}
+EOF
+)
+
+$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n cf -p "$HA_PROXY_CA"

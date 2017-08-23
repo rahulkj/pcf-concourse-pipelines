@@ -86,7 +86,7 @@ function update() {
   cat out.json
 }
 
-FILE_PATH=`find ./pivnet-opsman-product/ -name *.ova`
+FILE_PATH=`find ./pivnet-product/ -name *.ova`
 
 echo $FILE_PATH
 

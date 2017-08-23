@@ -30,7 +30,7 @@ params:
   OM_VM_POWER_STATE:
 
 inputs:
-  - name: pivnet-opsman-product
+  - name: pivnet-product
   - name: pipelines-repo
   - name: govc
   - name: jq
