@@ -139,25 +139,26 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [delete-ops-manager]
+      # passed: [delete-ops-manager]
     - get: govc
       params:
         globs:
         - "*linux_amd64*"
-      passed: [delete-ops-manager]
+      # passed: [delete-ops-manager]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [delete-ops-manager]
+      # passed: [delete-ops-manager]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [delete-ops-manager]
+      # passed: [delete-ops-manager]
     - get: pivnet-product
       resource: ops-manager
       params:
         globs:
         - "*.ova"
+      trigger: true
     - get: jq
       params:
         globs:
