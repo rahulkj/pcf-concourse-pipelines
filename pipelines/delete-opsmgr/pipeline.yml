@@ -46,16 +46,16 @@ jobs:
   - task: delete-products
     file: pipelines-repo/tasks/delete-products/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: delete-opsmgr
   plan:
@@ -76,7 +76,7 @@ jobs:
   - task: delete-opsman
     file: pipelines-repo/tasks/delete-opsman/task.yml
     params:
-      OPS_MGR_IP: ((om_ip))
+      OPS_MGR_IP: ((ops_mgr_ip))
       GOVC_INSECURE: 1
       GOVC_URL: ((vcenter_host))
       GOVC_USERNAME: ((vcenter_usr))

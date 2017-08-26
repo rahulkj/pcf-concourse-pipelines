@@ -69,7 +69,7 @@ function setPowerOn() {
 function update() {
   rm -rf out.json
 
-  setPropertyMapping ip0 $OM_IP
+  setPropertyMapping ip0 $OPS_MGR_IP
   setPropertyMapping netmask0 $OM_NETMASK
   setPropertyMapping gateway $OM_GATEWAY
   setPropertyMapping DNS $OM_DNS_SERVERS

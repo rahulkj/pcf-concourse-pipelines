@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 if [[ ! -z "$NO_PROXY" ]]; then
-  echo "$OM_IP $OPS_MGR_HOST" >> /etc/hosts
+  echo "$OPS_MGR_IP $OPS_MGR_HOST" >> /etc/hosts
 fi
 
 PIVNET_CLI=`find ./pivnet-cli -name "*linux-amd64*"`

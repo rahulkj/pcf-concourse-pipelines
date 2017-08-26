@@ -60,20 +60,20 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
       NO_PROXY: ((company_proxy_domain))
-      OM_IP: ((om_ip))
+      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product
@@ -97,9 +97,9 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: config-product
@@ -123,9 +123,9 @@ jobs:
     file: pipelines-repo/tasks/config-jmx-bridge/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
       SINGLETON_AZ: ((singleton_az))
       OTHER_AZS: ((other_azs))
@@ -170,9 +170,9 @@ jobs:
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       ERRANDS: ((errands_to_disable))
 
@@ -197,9 +197,9 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: update-metrics-ip-in-bosh
   plan:
@@ -221,9 +221,9 @@ jobs:
   - task: update-metrics-ip
     file: pipelines-repo/tasks/update-metrics-ip/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       NAT_ENABLED: ((nat_enabled))
 
 - name: post-apply-changes
@@ -247,9 +247,9 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: set-upgrade-pipeline
   plan:

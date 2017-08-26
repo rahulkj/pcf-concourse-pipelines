@@ -25,16 +25,16 @@ vcenter_data_center: <VCENTER-DATA-CENTER-TO-DEPLOY>
 # Ops Manager installation meta data
 om_vm_host: <DESIRED-VCENTER-HOST-TO-DEPLOY-OM> # Optional - vCenter host to deploy Ops Manager on
 om_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER> # vCenter datastore name to deploy Ops Manager on
-om_fqdn: <DESIRED-OPS-MANAGER-FQDN> # FQDN to access Ops Manager, ex: opsmgr.example.com
-om_usr: <DESIRED-OPS-MANAGER-USR> # Ops Manager admin username
-om_pwd: <DESIRED-OPS-MANAGER-PWD> # Ops Manager admin password
+ops_mgr_host: <DESIRED-OPS-MANAGER-FQDN> # FQDN to access Ops Manager, ex: opsmgr.example.com
+ops_mgr_usr: <DESIRED-OPS-MANAGER-USR> # Ops Manager admin username
+ops_mgr_pwd: <DESIRED-OPS-MANAGER-PWD> # Ops Manager admin password
 om_ssh_pwd: <DESIRED-OPS-MANAGER-SSH-PWD> # Ops Manager ssh password to user ubuntu
 om_decryption_pwd: <DESIRED-OPS-MANAGER-DECRYPTION-PWD> # Ops Manager decryption password
 om_ntp_servers: <OPS-MANAGER-NTP-SERVERS> # Comma seperated list of NTP Servers
 om_dns_servers: <OPS-MANAGER-DNS-SERVERS> # Comma seperated list of DNS Servers
 om_gateway: <OPS-MANAGER-NETWORK-GATEWAY> # Ops Manager network gateway
 om_netmask: <OPS-MANAGER-NETWORK-MASK> # Ops Manager network netmask
-om_ip: <DESIRED-OPS-MANAGER-IP> # Ops Manager Static IP
+ops_mgr_ip: <DESIRED-OPS-MANAGER-IP> # Ops Manager Static IP
 
 om_vm_network: <OPS-MANAGER-NETWORK-NAME> # vCenter network name to use to deploy Ops Manager on
 om_vm_name: <OPS-MANAGER-VM-NAME> # Ops Manager VM Name
