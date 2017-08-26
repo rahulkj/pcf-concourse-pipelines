@@ -79,6 +79,7 @@ jobs:
         globs:
         - "*om-linux*"
     - get: concourse-trigger-gist
+      trigger: true
     - get: pivnet-product
       resource: ops-manager
       params:
