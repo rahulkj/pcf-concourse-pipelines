@@ -360,7 +360,7 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
   ".properties.networking_poe_ssl_certs": {
     "value": [
       {
-        "name": "generated"
+        "name": "generated",
         "cert_pem": "$SSL_CERT",
         "private_key_pem": "$SSL_PRIVATE_KEY"
       }
@@ -381,7 +381,7 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
   ".properties.networking_poe_ssl_certs": {
     "value": [
       {
-        "name": "generated"
+        "name": "generated",
         "cert_pem": "$SSL_CERT",
         "private_key_pem": "$SSL_PRIVATE_KEY"
       }
