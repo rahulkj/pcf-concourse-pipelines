@@ -358,10 +358,13 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
     "value": "haproxy"
   },
   ".properties.networking_poe_ssl_certs": {
-    "value": {
-      "cert_pem": "$SSL_CERT",
-      "private_key_pem": "$SSL_PRIVATE_KEY"
-    }
+    "value": [
+      {
+        "name": "generated"
+        "cert_pem": "$SSL_CERT",
+        "private_key_pem": "$SSL_PRIVATE_KEY"
+      }
+    ]
   }
 }
 EOF
@@ -376,10 +379,13 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
     "value": "external_ssl"
   },
   ".properties.networking_poe_ssl_certs": {
-    "value": {
-      "cert_pem": "$SSL_CERT",
-      "private_key_pem": "$SSL_PRIVATE_KEY"
-    }
+    "value": [
+      {
+        "name": "generated"
+        "cert_pem": "$SSL_CERT",
+        "private_key_pem": "$SSL_PRIVATE_KEY"
+      }
+    ]
   }
 }
 EOF
