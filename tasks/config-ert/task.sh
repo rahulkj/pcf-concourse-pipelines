@@ -361,8 +361,8 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
     "value": [
       {
         "name": "generated",
-        "cert_pem": "$SSL_CERT",
-        "private_key_pem": "$SSL_PRIVATE_KEY"
+        "cert_chain": "$SSL_CERT",
+        "private_key": "$SSL_PRIVATE_KEY"
       }
     ]
   }
@@ -382,8 +382,8 @@ CF_SSL_TERM_PROPERTIES=$(cat <<-EOF
     "value": [
       {
         "name": "generated",
-        "cert_pem": "$SSL_CERT",
-        "private_key_pem": "$SSL_PRIVATE_KEY"
+        "cert_chain": "$SSL_CERT",
+        "private_key": "$SSL_PRIVATE_KEY"
       }
     ]
   }
