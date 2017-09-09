@@ -108,111 +108,302 @@ dynamic_services_nw_is_service_nw: true # true/false - set if this is a services
 
 ert_singleton_job_az: # AZ to use for deployment of ERT Singleton jobs
 
-loggregator_endpoint_port: # Loggegrator Port. Default is 443
-company_name: # Company Name for Apps Manager
-
-## Syslog endpoint configuration goes here
+network_name:
+ops_mgr_generate_ssl_endpoint:
+cc_api_rate_limit:
+general_limit:
+unauthenticated_limit:
+secure_diego_communication:
+ldap_service_account_user:
+nfs_volume_driver:
+ldap_service_account_user:
+ldap_service_account_password:
+ldap_server_host:
+ldap_server_port:
+ldap_user_fqdn:
+garden_disk_cleanup:
+enable_grootfs:
+logger_endpoint_port:
 syslog_host:
 syslog_port:
 syslog_protocol:
-enable_security_event_logging: true/false
-syslog_drain_buffer_size: 10000
-
-## Wildcard domain certs go here
-ssl_termination_point: "external_ssl/external_non_ssl/haproxy"
-ssl_cert:
-ssl_private_key:
-
-## Get this from the OPS Manager API docs for your release. Possible values are
-## - /api/v0/certificates/generate (for 1.10)
-## - /api/v0/rsa_certificates (for 1.9)
-om_generate_ssl_endpoint:
-
-disable_http_proxy: <true/false>
-security_acknowledgement: "X"
-
-## TCP routing and routing services
-tcp_routing: <enable/disable>
-tcp_routing_ports:
-route_services: <enable/disable>
-ignore_ssl_cert_verification: <true/false>
-garden_network_pool_cidr: 10.254.0.0/22  ## Default value
-garden_network_mtu: 1454  ## Default value
-
-## SMTP configuration goes here
+syslog_tls:
+tls_ca_cert:
+tls_permitted_peer:
+networking_poe_ssl_cert_pem:
+networking_poe_ssl_cert_private_key_pem:
+routing_disable_http:
+routing_minimum_tls_version:
+gorouter_ssl_ciphers:
+haproxy_ssl_ciphers:
+haproxy_max_buffer_size:
+haproxy_forward_tls:
+haproxy_forward_tls_backend_ca:
+tcp_routing:
+tcp_reservable_ports:
+router_forward_client_cert:
+router_backend_max_conn:
+route_services:
+ignore_ssl_cert_verification:
+container_networking_network_cidr:
+container_networking_vtep_port:
+container_networking_log_traffic:
+iptables_denied_logs_per_sec:
+iptables_accepted_udp_logs_per_sec:
+networking_point_of_entry:
+container_networking:
+security_acknowledgement:
+cf_dial_timeout_in_seconds:
+smoke_tests:
+smoke_tests_org_name:
+smoke_tests_space_name:
+smoke_tests_apps_domain:
 smtp_from:
 smtp_address:
 smtp_port:
-smtp_user:
-smtp_pwd:
-smtp_auth_mechanism: # Possible values none, plain or cram-md5
-
-## Authnetication type needed. For SAML please fork this repo and make the changes
-authentication_mode: internal # Possible values internal or ldap
-
-## LDAP Configuration goes here
+smtp_identity:
+smtp_password:
+smtp_enable_starttls_auto:
+smtp_auth_mechanism:
+smtp_crammd5_secret:
+system_blobstore:
+s3_endpoint:
+s3_buildpacks_bucket:
+s3_droplets_bucket:
+s3_packages_bucket:
+s3_resources_bucket:
+s3_access_key:
+s3_secret_key:
+s3_signature_version:
+s3_region:
+s3_encryption:
+gcs_buildpacks_bucket:
+gcs_buildpacks_bucket:
+gcs_packages_bucket:
+gcs_resources_bucket:
+gcs_access_key:
+gcs_secret_key:
+azure_buildpacks_container:
+azure_droplets_container:
+azure_packages_container:
+azure_resources_container:
+azure_account_name:
+azure_access_key:
+system_database:
+external_mysql_host:
+external_mysql_port:
+external_mysql_account_username:
+external_mysql_account_password:
+external_mysql_app_usage_service_username:
+external_mysql_app_usage_service_password:
+external_mysql_autoscale_username:
+external_mysql_autoscale_password:
+external_mysql_ccdb_username:
+external_mysql_ccdb_password:
+external_mysql_diego_username:
+external_mysql_diego_password:
+external_mysql_locket_username:
+external_mysql_locket_password:
+external_mysql_networkpolicyserver_username:
+external_mysql_networkpolicyserver_password:
+external_mysql_nfsvolume_username:
+external_mysql_nfsvolume_password:
+external_mysql_notifications_username:
+external_mysql_notifications_password:
+external_mysql_routing_username:
+external_mysql_routing_password:
+external_mysql_silk_username:
+external_mysql_silk_password:
+mysql_backups:
+mysql_backups_s3_endpoint_url:
+mysql_backups_s3_bucket_name:
+mysql_backups_s3_bucket_path:
+mysql_backups_s3_access_key_id:
+mysql_backups_s3_secret_access_key:
+mysql_backups_s3_cron_schedule:
+mysql_backups_s3_backup_all_masters:
+mysql_backups_s3_region:
+mysql_backups_gcs_service_account_json:
+mysql_backups_gcs_project_id:
+mysql_backups_gcs_bucket_name:
+mysql_backups_gcs_cron_schedule:
+mysql_backups_gcs_backup_all_masters:
+mysql_backups_azure_storage_account:
+mysql_backups_azure_storage_access_key:
+mysql_backups_azure_container:
+mysql_backups_azure_path:
+mysql_backups_azure_cron_schedule:
+mysql_backups_azure_backup_all_masters:
+mysql_backups_scp_server:
+mysql_backups_scp_port:
+mysql_backups_scp_user:
+mysql_backups_scp_key:
+mysql_backups_scp_destination:
+mysql_backups_scp_cron_schedule:
+mysql_backups_scp_backup_all_masters:
+mysql_activity_logging:
+mysql_activity_logging_audit_logging_events:
+uaa_auth:
+password_min_length:
+password_min_uppercase:
+password_min_lowercase:
+password_min_numeric:
+password_min_special:
+password_expires_after_months:
+password_max_retry:
+saml_sso_name:
+saml_display_name:
+saml_sso_url:
+saml_name_id_format:
+saml_sso_xml:
+saml_sign_auth_requests:
+saml_require_signed_assertions:
+saml_email_domains:
+saml_first_name_attribute:
+saml_last_name_attribute:
+saml_email_attribute:
+saml_external_groups_attribute:
+saml_signature_algorithm:
 ldap_url:
-ldap_user:
-ldap_pwd:
-search_base:
-search_filter:
-group_search_base:
-group_search_filter:
-mail_attribute_name:
-first_name_attribute:
-last_name_attribute:
-
-## Deployment domain names
+ldap_identity:
+ldap_password:
+ldap_search_base:
+ldap_search_filter:
+ldap_group_search_base:
+ldap_group_search_filter:
+ldap_server_ssl_cert:
+ldap_server_ssl_cert_alias:
+ldap_mail_attribute_name:
+ldap_email_domains:
+ldap_first_name_attribute:
+ldap_last_name_attribute:
+ldap_ldap_referrals:
+uaa_database:
+uaa_database_host:
+uaa_database_port:
+uaa_database_username:
+uaa_database_password:
+blobstore_internal_access_rules:
+mysql_proxy_static_ips:
+mysql_proxy_service_hostname:
+mysql_proxy_startup_delay:
+mysql_proxy_shutdown_delay:
+mysql_cli_history:
+mysql_cluster_probe_timeout:
+uaa_private_key_pem:
+uaa_cert_pem:
+uaa_private_key_passphrase:
+apps_manager_access_token_lifetime:
+apps_manager_refresh_token_lifetime:
+cf_cli_access_token_lifetime:
+cf_cli_refresh_token_lifetime:
+customize_username_label:
+customize_password_label:
+proxy_ips_regex:
+issuer_uri:
+cloud_controller_encrypt_key:
+max_file_size:
+default_app_memory:
+max_disk_quota_app:
+default_disk_quota_app:
+enable_custom_buildpacks:
 system_domain:
 apps_domain:
-
-skip_cert_verify: false # Disable SSL certificate verification for this environment. Possible values true or false
-
-disable_insecure_cookies: false # Disable insecure cookies on the Router. Possible values true or false
-
-default_quota_memory_limit_mb: 10240  ## Default
-default_quota_max_number_services: 1000  ## Default
-allow_app_ssh_access: <true/false>
-
-router_request_timeout_in_seconds: 900  ## Default
-
-## Static IP's for the following jobs
-ha_proxy_ips:
+default_quota_memory_limit_mb:
+default_quota_max_number_services:
+staging_timeout_in_seconds:
+allow_app_ssh_access:
+default_app_ssh_access:
+security_event_logging_enabled:
+ha_proxy_static_ips:
+skip_cert_verify:
+protected_domains:
+trusted_domain_cidrs:
 router_static_ips:
+disable_insecure_cookies:
+request_timeout_in_seconds:
+drain_wait:
+lb_healthy_threshold:
+enable_zipkin:
+max_idle_connections:
+extra_headers_to_log:
+enable_isolated_routing:
+mysql_monitor_poll_frequency:
+mysql_monitor_write_read_delay:
+mysql_monitor_recipient_email:
+diego_brain_static_ips:
+starting_container_count_maximum:
+executor_disk_capacity:
+executor_memory_capacity:
+insecure_docker_registry_list:
+garden_network_mtu:
+dns_servers:
+message_drain_buffer_size:
 tcp_router_static_ips:
-ssh_static_ips:
-
-## Target email address to receive mysql monitor notifications
-mysql_monitor_email: # Required - Enter a valid email address for the MySQL Monitor job
-mysql_backups: "enable/disable"
-
-## Default resource configuration
-consul_server_instances: 1
-nats_instances: 1
-etcd_tls_server_instances: 1
-nfs_server_instances: 1
-mysql_proxy_instances: 1
-mysql_instances: 1
-backup_prepare_instances: 0
-ccdb_instances: 0
-uaadb_instances: 0
-uaa_instances: 1
-cloud_controller_instances: 1
-ha_proxy_instances: 0
-router_instances: 1
-mysql_monitor_instances: 1
-clock_global_instances: 1
-cloud_controller_worker_instances: 1
-diego_database_instances: 1
-diego_brain_instances: 1
-diego_cell_instances: 3
-doppler_instances: 1
-loggregator_traffic_controller_instances: 1
-tcp_router_instances: 1
-syslog_adapter_instances: 1
-
-## JMX Bridge tile configuration goes here
-jmx_admin_usr:
-jmx_admin_pwd:
-jmx_security_logging: <true/false>
-jmx_use_ssl: <true/false>
+company_name:
+accent_color:
+global_wrapper_bg_color:
+global_wrapper_text_color:
+global_wrapper_header_content:
+global_wrapper_footer_content:
+logo:
+square_logo:
+footer_text:
+footer_links:
+nav_links_name_1:
+nav_links_href_1:
+nav_links_name_2:
+nav_links_href_2:
+nav_links_name_3:
+nav_links_href_3:
+product_name:
+marketplace_name:
+enable_invitations:
+display_plan_prices:
+currency_lookup:
+consul_server_instance_type:
+consul_server_instances:
+consul_server_persistent_disk_size_mb:
+nats_instance_type:
+nats_instances:
+nfs_server_instance_type:
+nfs_server_instances:
+nfs_server_persistent_disk_size_mb:
+mysql_proxy_instance_type:
+mysql_proxy_instances:
+mysql_instance_type:
+mysql_instances:
+mysql_instance_persistent_disk_size_mb:
+backup_prepare_instance_type:
+backup_prepare_instances:
+backup_prepare_persistent_disk_size_mb:
+uaa_instance_type:
+uaa_instances:
+cloud_controller_instance_type:
+cloud_controller_instances:
+ha_proxy_instance_type:
+ha_proxy_instances:
+router_instance_type:
+router_instances:
+mysql_monitor_instance_type:
+mysql_monitor_instances:
+clock_global_instance_type:
+clock_global_instances:
+cloud_controller_worker_instance_type:
+cloud_controller_worker_instances:
+diego_database_instance_type:
+diego_database_instances:
+diego_brain_instance_type:
+diego_brain_instances:
+diego_brain_persistent_disk_size_mb:
+diego_cell_instance_type:
+diego_cell_instances:
+doppler_instance_type:
+doppler_instances:
+loggregator_tc_instance_type:
+loggregator_tc_instances:
+tcp_router_instance_type:
+tcp_router_instances:
+tcp_router_persistent_disk_size_mb:
+syslog_adapter_instance_type:
+syslog_adapter_instances:
