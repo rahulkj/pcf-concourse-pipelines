@@ -1,64 +1,69 @@
 #!/bin/bash -ex
 
 chmod +x om-cli/om-linux
+OM_CMD=./om-cli/om-linux
 
-CMD=./om-cli/om-linux
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
 
 function fn_get_azs {
      local azs_csv=$1
      echo $azs_csv | awk -F "," -v quote='"' -v OFS='", "' '$1=$1 {print quote $0 quote}'
 }
 
-IAAS_CONFIGURATION=$(cat <<-EOF
-{
-  "vcenter_host": "$VCENTER_HOST",
-  "vcenter_username": "$VCENTER_USR",
-  "vcenter_password": "$VCENTER_PWD",
-  "datacenter": "$VCENTER_DATA_CENTER",
-  "disk_type": "$VCENTER_DISK_TYPE",
-  "ephemeral_datastores_string": "$EPHEMERAL_STORAGE_NAMES",
-  "persistent_datastores_string": "$PERSISTENT_STORAGE_NAMES",
-  "bosh_vm_folder": "$BOSH_VM_FOLDER",
-  "bosh_template_folder": "$BOSH_TEMPLATES_FOLDER",
-  "bosh_disk_path": "$BOSH_DISK_PATH"
-}
-EOF
+IAAS_CONFIGURATION=$(
+  echo "{}" |
+  $JQ_CMD -n \
+    --arg vcenter_host "$VCENTER_HOST" \
+    --arg vcenter_username "$VCENTER_USR" \
+    --arg vcenter_password "$VCENTER_PWD" \
+    --arg datacenter "$VCENTER_DATA_CENTER" \
+    --arg disk_type "$VCENTER_DISK_TYPE" \
+    --arg ephemeral_datastores_string "$EPHEMERAL_STORAGE_NAMES" \
+    --arg persistent_datastores_string "$PERSISTENT_STORAGE_NAMES" \
+    --arg bosh_vm_folder "$BOSH_VM_FOLDER" \
+    --arg bosh_template_folder "$BOSH_TEMPLATE_FOLDER" \
+    --arg bosh_disk_path "$BOSH_DISK_PATH" \
+    --argjson ssl_verification_enabled $SSL_VERIFICATION_ENABLED \
+    --argjson nsx_networking_enabled $NSX_NETWORKING_ENABLED \
+    --arg nsx_address "$NSX_ADDRESS" \
+    --arg nsx_username "$NSX_USERNAME" \
+    --arg nsx_password "$NSX_PASSWORD" \
+    --arg nsx_ca_certificate "$NSX_CA_CERTIFICATE" \
+    '
+    . +
+    {
+      "vcenter_host": $vcenter_host,
+      "vcenter_username": $vcenter_username,
+      "vcenter_password": $vcenter_password,
+      "datacenter": $datacenter,
+      "disk_type": $disk_type,
+      "ephemeral_datastores_string": $ephemeral_datastores_string,
+      "persistent_datastores_string": $persistent_datastores_string,
+      "bosh_vm_folder": $bosh_vm_folder,
+      "bosh_template_folder": $bosh_template_folder,
+      "bosh_disk_path": $bosh_disk_path,
+      "nsx_networking_enabled": $nsx_networking_enabled,
+      "ssl_verification_enabled": $ssl_verification_enabled
+    }
+    +
+    if $nsx_networking_enabled == "true" then
+    {
+      "nsx_address": $nsx_address,
+      "nsx_username": $nsx_username,
+      "nsx_password": $nsx_password
+    }
+    else .
+    end
+    +
+    if ($nsx_networking_enabled == "true" and $nsx_ca_certificate != "") then
+    {
+      "nsx_ca_certificate": $nsx_ca_certificate
+    }
+    else .
+    end
+    '
 )
-
-if [[ "$NSX_NETWORKING_ENABLED" == "true" ]]; then
-NSX_IAAS_CONFIGURATION=$(cat <<-EOF
-{
-  "iaas_configuration": {
-    "nsx_networking_enabled": $NSX_NETWORKING_ENABLED,
-    "nsx_address": "$NSX_ADDRESS",
-    "nsx_password": "$NSX_PASSWORD",
-    "nsx_username": "$NSX_USERNAME",
-    "ssl_verification_enabled": $SSL_VERIFICATION_ENABLED
-  }
-}
-EOF
-)
-elif [[ "$NSX_NETWORKING_ENABLED" == "false" ]]; then
-NSX_IAAS_CONFIGURATION=$(cat <<-EOF
-{
-  "iaas_configuration": {
-    "nsx_networking_enabled": $NSX_NETWORKING_ENABLED
-  }
-}
-EOF
-)
-fi
-
-if [[ ! -z "$NSX_CA_CERTIFICATE" ]]; then
-NSX_SSL_IAAS_CONFIGURATION=$(cat <<-EOF
-{
-  "iaas_configuration": {
-    "nsx_ca_certificate": "$NSX_CA_CERTIFICATE"
-  }
-}
-EOF
-)
-fi
 
 AZ_CONFIGURATION=$(cat <<-EOF
 {
@@ -161,145 +166,159 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
 EOF
 )
 
-DIRECTOR_CONFIG=$(cat <<-EOF
-{
-  "ntp_servers_string": "$NTP_SERVERS",
-  "resurrector_enabled": $ENABLE_VM_RESURRECTOR,
-  "metrics_ip": "$METRICS_IP",
-  "opentsdb_ip": "$OPENTSDB_IP",
-  "post_deploy_enabled": $POST_DEPLOY_ENABLED,
-  "bosh_recreate_on_next_deploy": $BOSH_RECREATE_ON_NEXT_DEPLOY,
-  "retry_bosh_deploys": $RETRY_BOSH_DEPLOYS,
-  "keep_unreachable_vms": $KEEP_UNREACHABLE_VMS,
-  "max_threads": $MAX_THREADS,
-  "director_worker_count": "$DIRECTOR_WORKER_COUNT",
-  "director_hostname": "$OPS_DIR_HOSTNAME"
-}
-EOF
-)
-
-if [[ "$PAGER_DUTY_ENABLED" == "true" ]]; then
-PAGER_DUTY_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "hm_pager_duty_options": {
-      "enabled": "$PAGER_DUTY_ENABLED",
-      "service_key": "$PAGER_DUTY_SERVICE_KEY",
-      "http_proxy": "$PAGER_DUTY_HTTP_PROXY"
-    }
-  }
-}
-EOF
-)
-elif [[ "$PAGER_DUTY_ENABLED" == "false" ]]; then
-PAGER_DUTY_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "hm_pager_duty_options": {
-      "enabled": "$PAGER_DUTY_ENABLED"
-    }
-  }
-}
-EOF
-)
-fi
-
-if [[ "$HM_EMAIL_ENABLED" == "true" ]]; then
-SMTP_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
+DIRECTOR_CONFIG=$(
+  echo "{}" |
+  $JQ_CMD -n \
+  --arg ntp_servers "$NTP_SERVERS" \
+  --argjson enable_vm_resurrector $ENABLE_VM_RESURRECTOR \
+  --arg metrics_ip "$METRICS_IP" \
+  --arg opentsdb_ip "$OPENTSDB_IP" \
+  --argjson post_deploy_enabled $POST_DEPLOY_ENABLED \
+  --argjson bosh_recreate_on_next_deploy $BOSH_RECREATE_ON_NEXT_DEPLOY \
+  --argjson retry_bosh_deploys $RETRY_BOSH_DEPLOYS \
+  --argjson keep_unreachable_vms $KEEP_UNREACHABLE_VMS \
+  --argjson max_threads "$MAX_THREADS" \
+  --argjson director_worker_count "$DIRECTOR_WORKER_COUNT" \
+  --arg ops_dir_hostname "$OPS_DIR_HOSTNAME" \
+  --argjson pager_duty_enabled $PAGER_DUTY_ENABLED \
+  --arg pager_duty_service_key "$PAGER_DUTY_SERVICE_KEY" \
+  --arg pager_duty_http_proxy "$PAGER_DUTY_HTTP_PROXY" \
+  --argjson hm_email_enabled $HM_EMAIL_ENABLED \
+  --arg smtp_host "$SMTP_HOST" \
+  --argjson smtp_port "$SMTP_PORT" \
+  --arg smtp_domain "$SMTP_DOMAIN" \
+  --arg from_address "$FROM_ADDRESS" \
+  --arg recipients_address "$RECIPIENTS_ADDRESS" \
+  --arg smtp_user "$SMTP_USER" \
+  --arg smtp_password "$SMTP_PASSWORD" \
+  --argjson smtp_tls_enabled $SMTP_TLS_ENABLED \
+  --arg blobstore_type "$BLOBSTORE_TYPE" \
+  --arg s3_endpoint "$S3_ENDPOINT" \
+  --arg s3_bucket_name "$S3_BUCKET_NAME" \
+  --arg s3_access_key "$S3_ACCESS_KEY" \
+  --arg s3_secret_key "$S3_SECRET_KEY" \
+  --arg s3_signature_version "$S3_SIGNATURE_VERSION" \
+  --arg database_type "$DATABASE_TYPE" \
+  --arg external_mysql_db_host "$EXTERNAL_MYSQL_DB_HOST" \
+  --arg external_mysql_db_port "$EXTERNAL_MYSQL_DB_PORT" \
+  --arg external_mysql_db_user "$EXTERNAL_MYSQL_DB_USER" \
+  --arg external_mysql_db_password "$EXTERNAL_MYSQL_DB_PASSWORD" \
+  --arg external_mysql_db_database "$EXTERNAL_MYSQL_DB_DATABASE" \
+  --argjson syslog_enabled $SYSLOG_ENABLED \
+  --arg syslog_address "$SYSLOG_ADDRESS" \
+  --argjson syslog_port "$SYSLOG_PORT" \
+  --arg syslog_transport_protocol "$SYSLOG_TRANSPORT_PROTOCOL" \
+  --argjson syslog_tls_enabled $SYSLOG_TLS_ENABLED \
+  --arg syslog_permitted_peer "$SYSLOG_PERMITTED_PEER" \
+  --arg syslog_ssl_ca_certificate "$SYSLOG_SSL_CA_CERTIFICATE" \
+  '
+  . +
+  {
+    "ntp_servers_string": $ntp_servers,
+    "resurrector_enabled": $enable_vm_resurrector,
+    "metrics_ip": $metrics_ip,
+    "opentsdb_ip": $opentsdb_ip,
+    "post_deploy_enabled": $post_deploy_enabled,
+    "bosh_recreate_on_next_deploy": $bosh_recreate_on_next_deploy,
+    "retry_bosh_deploys": $retry_bosh_deploys,
+    "keep_unreachable_vms": $keep_unreachable_vms,
+    "max_threads": $max_threads,
+    "director_worker_count": $director_worker_count,
+    "director_hostname": $ops_dir_hostname,
     "hm_emailer_options": {
-      "enabled": "$HM_EMAIL_ENABLED",
-      "host": "$SMTP_HOST",
-      "port": "$SMTP_PORT",
-      "domain": "$SMTP_DOMAIN",
-      "from": "$FROM_ADDRESS",
+      "enabled": $hm_email_enabled
+    },
+    "hm_pager_duty_options": {
+      "enabled": $pager_duty_enabled
+    },
+    "blobstore_type": $blobstore_type,
+    "database_type": $database_type,
+    "syslog_configuration": {
+      "enabled": $syslog_enabled
+    }
+  }
+  +
+  if $pager_duty_enabled == "true" then
+  {
+    "hm_pager_duty_options": {
+      "service_key": $pager_duty_service_key,
+      "http_proxy": $pager_duty_http_proxy
+    }
+  }
+  else .
+  end
+  +
+  if $hm_email_enabled == "true" then
+  {
+    "hm_emailer_options": {
+      "host": $smtp_host,
+      "port": $smtp_port,
+      "domain": $smtp_domain,
+      "from": $from_address,
       "recipients": {
-        "value": "$RECIPIENTS_ADDRESS"
+        "value": $recipients_address
       },
-      "smtp_user": "$SMTP_USER",
-      "smtp_password": "$SMTP_PASSWORD",
-      "tls": "$SMTP_TLS_ENABLED"
+      "smtp_user": $smtp_user,
+      "smtp_password": $smtp_password,
+      "tls": $smtp_tls_enabled
     }
   }
-}
-EOF
-)
-elif [[ "$HM_EMAIL_ENABLED" == "false" ]]; then
-SMTP_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "hm_emailer_options": {
-      "enabled": "$HM_EMAIL_ENABLED"
-    }
-  }
-}
-EOF
-)
-fi
-
-if [[ "$BLOBSTORE_TYPE" == "s3" ]]; then
-BLOBSTORE_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "blobstore_type": "$BLOBSTORE_TYPE",
+  else .
+  end
+  +
+  if $blobstore_type == "s3" then
+  {
     "s3_blobstore_options": {
-      "endpoint": "$S3_ENDPOINT",
-      "bucket_name": "$S3_BUCKET_NAME",
-      "access_key": "$S3_ACCESS_KEY",
-      "secret_key": "$S3_SECRET_KEY",
-      "signature_version": "$S3_SIGNATURE_VERSION"
+      "endpoint": $s3_endpoint,
+      "bucket_name": $s3_bucket_name,
+      "access_key": $s3_access_key,
+      "secret_key": $s3_secret_key,
+      "signature_version": $s3_signature_version
     }
   }
-}
-EOF
-)
-elif [[ "$BLOBSTORE_TYPE" == "internal" ]]; then
-BLOBSTORE_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "blobstore_type": "$BLOBSTORE_TYPE"
-  }
-}
-EOF
-)
-fi
-
-if [[ "$DATABASE_TYPE" == "external" ]]; then
-DATABASE_LOCATION_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "database_type": "$DATABASE_TYPE",
+  else .
+  end
+  +
+  if $database_type == "external" then
+  {
     "external_database_options": {
-      "host": "$EXTERNAL_MYSQL_DB_HOST",
-      "port": "$EXTERNAL_MYSQL_DB_PORT",
-      "user": "$EXTERNAL_MYSQL_DB_USER",
-      "password": "$EXTERNAL_MYSQL_DB_PASSWORD",
-      "database": "$EXTERNAL_MYSQL_DB_DATABASE"
+      "host": $external_mysql_db_host,
+      "port": $external_mysql_db_port,
+      "user": $external_mysql_db_user,
+      "password": $external_mysql_db_password,
+      "database": $external_mysql_db_database
     }
   }
-}
-EOF
-)
-elif [[ "$DATABASE_TYPE" == "internal" ]]; then
-DATABASE_LOCATION_CONFIG=$(cat <<-EOF
-{
-  "director_configuration": {
-    "database_type": "$DATABASE_TYPE"
+  else .
+  end
+  +
+  if $syslog_enabled == "true" then
+  {
+    "syslog_configuration": {
+      "address": $syslog_address,
+      "port": $syslog_port,
+      "transport_protocol": $syslog_transport_protocol
+    }
   }
-}
-EOF
-)
-fi
-
-SECURITY_CONFIG=$(cat <<-EOF
-{
-  "security_configuration": {
-    "generate_vm_passwords": $GENERATE_VM_PASSWORDS,
-    "trusted_certificates": "$TRUSTED_CERTIFICATES"
+  else .
+  end
+  +
+  if ($syslog_enabled == "true" and $syslog_tls_enabled == "true") then
+  {
+    "syslog_configuration": {
+      "tls_enabled": $syslog_tls_enabled,
+      "permitted_peer": $syslog_permitted_peer,
+      "ssl_ca_certificate": $syslog_ssl_ca_certificate
+    }
   }
-}
-EOF
+  else
+  {
+    "syslog_configuration": {
+      "tls_enabled": $syslog_tls_enabled
+    }
+  }
+  end
+  '
 )
 
 NETWORK_ASSIGNMENT=$(cat <<-EOF
@@ -316,110 +335,29 @@ NETWORK_ASSIGNMENT=$(cat <<-EOF
 EOF
 )
 
-if [[ "$SYSLOG_ENABLED" == "true" ]]; then
-SYSLOG_CONFIG=$(cat <<-EOF
+SECURITY_CONFIG=$(cat <<-EOF
 {
-  "syslog_configuration": {
-    "enabled": $SYSLOG_ENABLED,
-    "address": "$SYSLOG_ADDRESS",
-    "port": "$SYSLOG_PORT",
-    "transport_protocol": "$SYSLOG_TRANSPORT_PROTOCOL"
+  "security_configuration": {
+    "generate_vm_passwords": $GENERATE_VM_PASSWORDS,
+    "trusted_certificates": "$TRUSTED_CERTIFICATES"
   }
 }
 EOF
 )
-elif [[ "$SYSLOG_ENABLED" == "false" ]]; then
-SYSLOG_CONFIG=$(cat <<-EOF
-{
-  "syslog_configuration": {
-    "enabled": $SYSLOG_ENABLED
-  }
-}
-EOF
-)
-fi
-
-if [[ "$SYSLOG_ENABLED" == "true" && "$SYSLOG_TLS_ENABLED" == "true" ]]; then
-SYSLOG_TLS_CONFIG=$(cat <<-EOF
-{
-  "syslog_configuration": {
-    "tls_enabled": $SYSLOG_TLS_ENABLED,
-    "permitted_peer": "$SYSLOG_PERMITTED_PEER",
-    "ssl_ca_certificate": "$SYSLOG_SSL_CA_CERTIFICATE"
-  }
-}
-EOF
-)
-elif [[ "$SYSLOG_ENABLED" == "true" && "$SYSLOG_TLS_ENABLED" == "false" ]]; then
-SYSLOG_TLS_CONFIG=$(cat <<-EOF
-{
-  "syslog_configuration": {
-    "tls_enabled": $SYSLOG_TLS_ENABLED
-  }
-}
-EOF
-)
-fi
 
 echo "Configuring IaaS and Director..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
-            -i "$IAAS_CONFIGURATION" \
-            -d "$DIRECTOR_CONFIG"
-
-echo "Configuring NSX..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$NSX_IAAS_CONFIGURATION"
-
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$NSX_SSL_IAAS_CONFIGURATION"
-
-echo "Configuring Pager Duty..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$PAGER_DUTY_CONFIG"
-
-echo "Configuring SMTP..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$SMTP_CONFIG"
-
-echo "Configuring Blobstore..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$BLOBSTORE_CONFIG"
-
-echo "Configuring Database..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$DATABASE_LOCATION_CONFIG"
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
+  -i "$IAAS_CONFIGURATION" \
+  -d "$DIRECTOR_CONFIG"
 
 echo "Configuring availability zones..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/availability_zones" \
-            -x PUT -d "$AZ_CONFIGURATION"
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+  curl -p "/api/v0/staged/director/availability_zones" \
+  -x PUT -d "$AZ_CONFIGURATION"
 
-echo "Configuring networks..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/networks" \
-            -x PUT -d "$NETWORK_CONFIGURATION"
-
-echo "Configuring network assignment..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/network_and_az" \
-            -x PUT -d "$NETWORK_ASSIGNMENT"
-
-echo "Configuring security..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$SECURITY_CONFIG"
-
-echo "Configuring syslog..."
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$SYSLOG_CONFIG"
-
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-            curl -p "/api/v0/staged/director/properties" \
-            -x PUT -d "$SYSLOG_TLS_CONFIG"
+echo "Configuring network, network assignment, security..."
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+  configure-bosh \
+  --networks-configuration "$NETWORK_CONFIGURATION" \
+  --network-assignment "$NETWORK_ASSIGNMENT" \
+  --security-configuration "$SECURITY_CONFIG"

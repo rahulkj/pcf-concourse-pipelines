@@ -70,6 +70,49 @@ ops_dir_hostname: # Optional - Ops Director DNS resolvable name. Should be reach
 enable_vm_resurrector: true # Enable Bosh resurrector, possible values are true or false
 max_threads: 30 # Max Threads count for VM deployment
 
+ntp_servers:
+enable_vm_resurrector:
+metrics_ip:
+opentsdb_ip:
+post_deploy_enabled:
+bosh_recreate_on_next_deploy:
+retry_bosh_deploys:
+keep_unreachable_vms:
+max_threads:
+director_worker_count:
+ops_dir_hostname:
+pager_duty_enabled:
+pager_duty_service_key:
+pager_duty_http_proxy:
+hm_email_enabled:
+smtp_host:
+smtp_port:
+smtp_domain:
+from_address:
+recipients_address:
+smtp_user:
+smtp_password:
+smtp_tls_enabled:
+blobstore_type:
+s3_endpoint:
+s3_bucket_name:
+s3_access_key:
+s3_secret_key:
+s3_signature_version:
+database_type:
+external_mysql_db_host:
+external_mysql_db_port:
+external_mysql_db_user:
+external_mysql_db_password:
+external_mysql_db_database:
+syslog_enabled:
+syslog_address:
+syslog_port:
+syslog_transport_protocol:
+syslog_tls_enabled:
+syslog_permitted_peer:
+syslog_ssl_ca_certificate:
+
 ## Network configuration for Ops Director
 icmp_checks_enabled: true # Configure if ICMP checks are allowed, possible values true or false
 infra_network_name: "INFRASTRUCTURE"

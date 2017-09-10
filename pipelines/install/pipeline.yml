@@ -146,6 +146,11 @@ jobs:
     - get: concourse-trigger-gist
       trigger: true
       passed: [install-ops-manager]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [install-ops-manager]
 
   - task: config-ops-director
     file: pipelines-repo/tasks/config-opsdir/task.yml
@@ -179,11 +184,11 @@ jobs:
       KEEP_UNREACHABLE_VMS: ((keep_unreachable_vms))
       MAX_THREADS: ((max_threads))
       DIRECTOR_WORKER_COUNT: ((director_worker_count))
+      OPS_DIR_HOSTNAME: ((ops_dir_hostname))
       PAGER_DUTY_ENABLED: ((pager_duty_enabled))
       PAGER_DUTY_SERVICE_KEY: ((pager_duty_service_key))
       PAGER_DUTY_HTTP_PROXY: ((pager_duty_http_proxy))
       HM_EMAIL_ENABLED: ((hm_email_enabled))
-      OPS_DIR_HOSTNAME: ((ops_dir_hostname))
       SMTP_HOST: ((smtp_host))
       SMTP_PORT: ((smtp_port))
       SMTP_DOMAIN: ((smtp_domain))
@@ -337,6 +342,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [configure-ops-director]
 
   - task: config-elastic-runtime-tile
     file: pipelines-repo/tasks/config-ert/task.yml
