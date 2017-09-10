@@ -107,7 +107,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
           "dns": "$INFRA_NW_DNS",
           "gateway": "$INFRA_NW_GATEWAY",
-          "availability_zone_names": [
+          "availability_zones": [
             $INFRA_AZS
           ]
         }
@@ -123,7 +123,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
           "dns": "$DEPLOYMENT_NW_DNS",
           "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zone_names": [
+          "availability_zones": [
             $DEPLOYMENT_AZS
           ]
         }
@@ -139,7 +139,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
           "dns": "$SERVICES_NW_DNS",
           "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zone_names": [
+          "availability_zones": [
             $SERVICES_AZS
           ]
         }
@@ -155,7 +155,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
           "dns": "$DYNAMIC_SERVICES_NW_DNS",
           "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zone_names": [
+          "availability_zones": [
             $DYNAMIC_SERVICES_AZS
           ]
         }
@@ -323,8 +323,8 @@ DIRECTOR_CONFIG=$(
 
 NETWORK_ASSIGNMENT=$(cat <<-EOF
 {
-   "network": "$INFRA_NETWORK_NAME",
-   "singleton_availability_zone": "$AZ_1"
+   "singleton_availability_zone": "$AZ_1",
+   "network": "$INFRA_NETWORK_NAME"
 }
 EOF
 )
