@@ -329,7 +329,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      # passed: [upload-elastic-runtime-tile]
+      passed: [upload-elastic-runtime-tile]
     - get: om-cli
       params:
         globs:
@@ -695,7 +695,7 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
 
-- name: pause-install-pipeline
+- name: unpause-reinstall-pipeline
   plan:
   - aggregate:
     - get: pipelines-repo
@@ -710,6 +710,25 @@ jobs:
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))
-      PIPELINE_NAME: ((pipeline_name))
+      PIPELINE_NAME: ((reinstall_pipeline_name))
       TEAM_NAME: ((team_name))
-      PIPELINE_STATE: ((pipeline_state))
+      PIPELINE_STATE: ((reinstall_pipeline_state))
+
+- name: pause-install-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [unpause-reinstall-pipeline]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [unpause-reinstall-pipeline]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_username))
+      CONCOURSE_PASSWD: ((concourse_passwd))
+      ATC_EXTERNAL_URL: ((atc_external_url))
+      PIPELINE_NAME: ((install_pipeline_name))
+      TEAM_NAME: ((team_name))
+      PIPELINE_STATE: ((install_pipeline_state))
