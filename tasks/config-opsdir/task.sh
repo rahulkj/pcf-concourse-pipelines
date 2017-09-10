@@ -99,7 +99,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
   "networks": [
     {
       "name": "$INFRA_NETWORK_NAME",
-      "service_network": "false",
+      "service_network": false,
       "subnets": [
         {
           "iaas_identifier": "$INFRA_VCENTER_NETWORK",
@@ -115,7 +115,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     },
     {
       "name": "$DEPLOYMENT_NETWORK_NAME",
-      "service_network": "false",
+      "service_network": false,
       "subnets": [
         {
           "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
@@ -131,7 +131,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     },
     {
       "name": "$SERVICES_NETWORK_NAME",
-      "service_network": "$SERVICES_NW_IS_SERVICE_NW",
+      "service_network": $SERVICES_NW_IS_SERVICE_NW,
       "subnets": [
         {
           "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
@@ -147,7 +147,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
     },
     {
       "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
-      "service_network": "$DYNAMIC_SERVICES_NW_IS_SERVICE_NW",
+      "service_network": $DYNAMIC_SERVICES_NW_IS_SERVICE_NW,
       "subnets": [
         {
           "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
@@ -323,14 +323,8 @@ DIRECTOR_CONFIG=$(
 
 NETWORK_ASSIGNMENT=$(cat <<-EOF
 {
-  "network_and_az": {
-     "network": {
-       "name": "$INFRA_NETWORK_NAME"
-     },
-     "singleton_availability_zone": {
-       "name": "$AZ_1"
-     }
-  }
+   "network": "$INFRA_NETWORK_NAME",
+   "singleton_availability_zone": "$AZ_1"
 }
 EOF
 )
