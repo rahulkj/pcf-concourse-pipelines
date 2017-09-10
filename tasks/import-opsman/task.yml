@@ -22,7 +22,7 @@ params:
   OM_DNS_SERVERS:
   OM_GATEWAY:
   OM_NETMASK:
-  OM_IP:
+  OPS_MGR_IP:
   OM_VM_NETWORK:
   OM_VM_NAME:
   OM_RESOURCE_POOL:
@@ -30,9 +30,10 @@ params:
   OM_VM_POWER_STATE:
 
 inputs:
-  - name: pivnet-opsman-product
+  - name: pivnet-product
   - name: pipelines-repo
   - name: govc
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/import-opsman/task.sh

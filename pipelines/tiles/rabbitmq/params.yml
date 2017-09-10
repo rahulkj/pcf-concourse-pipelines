@@ -5,10 +5,10 @@ company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
-om_ip: # [O] Ops Manager IP if behind proxy
-om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
-om_usr: # [R] Ops Manager admin user
-om_pwd: # [R] Ops Manager admin password
+ops_mgr_ip: # [O] Ops Manager IP if behind proxy
+ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: # [R] Ops Manager admin user
+ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: pivotal-rabbitmq-service
 product_identifier: p-rabbitmq
@@ -55,6 +55,7 @@ on_demand_broker_azs: # [R] AZ placement - The AZ(s) that the service instance w
 on_demand_broker_vm_type: nano # [R] nano|micro|large|xlarge - RabbitMQ VM Type - refer to the cloud config for this tile to get all the supported vm types
 vm_extensions: # [O] blank or public_ip > Please refer to the Ops Manager documentation for IaaS specific behavior. Log forwarding and backups may require internet access.
 rabbitmq_server_node_disk_size: 51200 # [R] Refer to cloud config for this tile to get the possible values for this section
+errands_to_disable:
 
 rabbitmq_server_instances: # [R] RabbitMQ node instances, integer, 0 or n instances
 rabbitmq_haproxy_instances: # [R] HAProxy for RabbitMQ, integer, 0 or n instances

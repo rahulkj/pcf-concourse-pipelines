@@ -8,10 +8,10 @@ company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
-om_ip: # [O] Ops Manager IP if behind proxy
-om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
-om_usr: # [R] Ops Manager admin user
-om_pwd: # [R] Ops Manager admin password
+ops_mgr_ip: # [O] Ops Manager IP if behind proxy
+ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: # [R] Ops Manager admin user
+ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: apm
 product_identifier: apm
@@ -21,6 +21,7 @@ singleton_job_az:
 other_azs:
 network_name:
 mysql_monitor_email:
+errands_to_disable:
 mysql_logqueue_instance_count: 2
 elasticsearch_logqueue_instance_count: 4
 ingestor_instance_count: 4

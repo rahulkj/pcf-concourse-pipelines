@@ -8,10 +8,10 @@ company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
-om_ip: # [O] Ops Manager IP if behind proxy
-om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
-om_usr: # [R] Ops Manager admin user
-om_pwd: # [R] Ops Manager admin password
+ops_mgr_ip: # [O] Ops Manager IP if behind proxy
+ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: # [R] Ops Manager admin user
+ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: isolation-segment
 product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
@@ -46,3 +46,4 @@ syslog_tls_ca_certificate: # This certificate will ensure that logs get securely
 diego_cell_instances: # [R] Diego Cell instances, integer
 isolated_router_instance_type: micro # [R] micro|nano|small|medium|large - refer to the deployment cloud config for more options
 diego_cell_instance_type: xlarge.disk # [R] small.disk|large.disk|xlarge.disk - refer to the deployment cloud config for more options
+errands_to_disable:

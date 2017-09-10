@@ -12,7 +12,7 @@ params:
   OPS_MGR_PWD:
   PIVNET_API_TOKEN:
   NO_PROXY:
-  OM_IP:
+  OPS_MGR_IP:
   IAAS_TYPE:
 
 inputs:

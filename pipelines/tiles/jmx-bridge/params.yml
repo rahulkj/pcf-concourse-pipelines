@@ -8,10 +8,10 @@ company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
-om_ip: # [O] Ops Manager IP if behind proxy
-om_fqdn: # [R] Ops Manager FQDN, ex: opsmgr.example.com
-om_usr: # [R] Ops Manager admin user
-om_pwd: # [R] Ops Manager admin password
+ops_mgr_ip: # [O] Ops Manager IP if behind proxy
+ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: # [R] Ops Manager admin user
+ops_mgr_pwd: # [R] Ops Manager admin password
 
 ## Get this from the OPS Manager API docs for your release. Possible values are
 ## - /api/v0/certificates/generate (for 1.10)
@@ -44,6 +44,8 @@ jmx_firehose_nozzle_instances: 1
 jmx_firehose_nozzle_persistent_disk_size_mb: 1024
 integration_tests_instance_type: automatic
 integration_tests_instances: 1
+
+errands_to_disable:
 
 concourse_url:
 concourse_user:

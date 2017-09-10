@@ -1,0 +1,734 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: govc
+  type: github-release
+  source:
+    user: vmware
+    repository: govmomi
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: ops-manager
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ops-manager
+    product_version: ((opsman_product_version))
+
+- name: elastic-runtime
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: elastic-runtime
+    product_version: ((ert_product_version))
+
+- name: concourse-trigger-gist
+  type: git
+  source:
+    uri: ((gist_url))
+    branch: master
+    username: ((github_username))
+    password: ((github_token))
+
+jobs:
+
+- name: install-ops-manager
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: govc
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+    - get: concourse-trigger-gist
+      trigger: true
+    - get: pivnet-product
+      resource: ops-manager
+      params:
+        globs:
+        - "*.ova"
+      trigger: true
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+
+  - task: deploy-ops-manager
+    file: pipelines-repo/tasks/import-opsman/task.yml
+    params:
+      GOVC_INSECURE: 1
+      GOVC_URL: ((vcenter_host))
+      GOVC_USERNAME: ((vcenter_usr))
+      GOVC_PASSWORD: ((vcenter_pwd))
+      GOVC_DATACENTER: ((vcenter_data_center))
+      GOVC_DATASTORE: ((om_data_store))
+      GOVC_NETWORK: ((om_vm_network))
+      GOVC_RESOURCE_POOL: ((om_resource_pool))
+      GOVC_HOST: ((om_vm_host))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_SSH_PWD: ((om_ssh_pwd))
+      OM_NTP_SERVERS: ((om_ntp_servers))
+      OM_DNS_SERVERS: ((om_dns_servers))
+      OM_GATEWAY: ((om_gateway))
+      OM_NETMASK: ((om_netmask))
+      OPS_MGR_IP: ((ops_mgr_ip))
+      OM_VM_NETWORK: ((om_vm_network))
+      OM_VM_NAME: ((om_vm_name))
+      OM_RESOURCE_POOL: ((om_resource_pool))
+      OM_DISK_TYPE: ((om_disk_type))
+      OM_VM_POWER_STATE: ((om_vm_power_state))
+
+  - task: config-ops-manager
+    file: pipelines-repo/tasks/config-opsman/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OM_DECRYPTION_PWD: ((om_decryption_pwd))
+
+  - task: bump-timestamp
+    file: pipelines-repo/tasks/gist-update/task.yml
+    params:
+      CI_USERNAME: ((ci_username))
+      CI_EMAIL_ADDRESS: ((ci_email_address))
+
+  - put: concourse-trigger-gist
+    params: {repository: updated-concourse-trigger-gist}
+
+- name: configure-ops-director
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [install-ops-manager]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [install-ops-manager]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [install-ops-manager]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [install-ops-manager]
+
+  - task: config-ops-director
+    file: pipelines-repo/tasks/config-opsdir/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      VCENTER_HOST: ((vcenter_host))
+      VCENTER_USR: ((vcenter_usr))
+      VCENTER_PWD: ((vcenter_pwd))
+      VCENTER_DATA_CENTER: ((vcenter_data_center))
+      VCENTER_DISK_TYPE: ((vcenter_disk_type))
+      EPHEMERAL_STORAGE_NAMES: ((ephemeral_storage_names))
+      PERSISTENT_STORAGE_NAMES: ((persistent_storage_names))
+      BOSH_VM_FOLDER: ((bosh_vm_folder))
+      BOSH_TEMPLATES_FOLDER: ((bosh_templates_folder))
+      BOSH_DISK_PATH: ((bosh_disk_path))
+      NSX_NETWORKING_ENABLED: ((nsx_networking_enabled))
+      NSX_ADDRESS: ((nsx_address))
+      NSX_PASSWORD: ((nsx_password))
+      NSX_USERNAME: ((nsx_username))
+      NSX_CA_CERTIFICATE: ((nsx_ca_certificate))
+      SSL_VERIFICATION_ENABLED: ((ssl_verification_enabled))
+      NTP_SERVERS: ((ntp_servers))
+      ENABLE_VM_RESURRECTOR: ((enable_vm_resurrector))
+      METRICS_IP: ((metrics_ip))
+      OPENTSDB_IP: ((opentsdb_ip))
+      POST_DEPLOY_ENABLED: ((post_deploy_enabled))
+      BOSH_RECREATE_ON_NEXT_DEPLOY: ((bosh_recreate_on_next_deploy))
+      RETRY_BOSH_DEPLOYS: ((retry_bosh_deploys))
+      KEEP_UNREACHABLE_VMS: ((keep_unreachable_vms))
+      MAX_THREADS: ((max_threads))
+      DIRECTOR_WORKER_COUNT: ((director_worker_count))
+      OPS_DIR_HOSTNAME: ((ops_dir_hostname))
+      PAGER_DUTY_ENABLED: ((pager_duty_enabled))
+      PAGER_DUTY_SERVICE_KEY: ((pager_duty_service_key))
+      PAGER_DUTY_HTTP_PROXY: ((pager_duty_http_proxy))
+      HM_EMAIL_ENABLED: ((hm_email_enabled))
+      SMTP_HOST: ((smtp_host))
+      SMTP_PORT: ((smtp_port))
+      SMTP_DOMAIN: ((smtp_domain))
+      FROM_ADDRESS: ((from_address))
+      RECIPIENTS_ADDRESS: ((recipients_address))
+      SMTP_USER: ((smtp_user))
+      SMTP_PASSWORD: ((smtp_password))
+      SMTP_TLS_ENABLED: ((smtp_tls_enabled))
+      BLOBSTORE_TYPE: ((blobstore_type))
+      S3_ENDPOINT: ((s3_endpoint))
+      S3_BUCKET_NAME: ((s3_bucket_name))
+      S3_ACCESS_KEY: ((s3_access_key))
+      S3_SECRET_KEY: ((s3_secret_key))
+      S3_SIGNATURE_VERSION: ((s3_signature_version))
+      DATABASE_TYPE: ((database_type))
+      EXTERNAL_MYSQL_DB_HOST: ((external_mysql_db_host))
+      EXTERNAL_MYSQL_DB_PORT: ((external_mysql_db_port))
+      EXTERNAL_MYSQL_DB_USER: ((external_mysql_db_user))
+      EXTERNAL_MYSQL_DB_PASSWORD: ((external_mysql_db_password))
+      EXTERNAL_MYSQL_DB_DATABASE: ((external_mysql_db_database))
+      SYSLOG_ENABLED: ((syslog_enabled))
+      SYSLOG_ADDRESS: ((syslog_address))
+      SYSLOG_PORT: ((syslog_port))
+      SYSLOG_TRANSPORT_PROTOCOL: ((syslog_transport_protocol))
+      SYSLOG_TLS_ENABLED: ((syslog_tls_enabled))
+      SYSLOG_PERMITTED_PEER: ((syslog_permitted_peer))
+      SYSLOG_SSL_CA_CERTIFICATE: ((syslog_ssl_ca_certificate))
+      ICMP_CHECKS_ENABLED: ((icmp_checks_enabled))
+      INFRA_NETWORK_NAME: ((infra_network_name))
+      INFRA_VCENTER_NETWORK: ((infra_vcenter_network))
+      INFRA_NW_CIDR: ((infra_nw_cidr))
+      INFRA_EXCLUDED_RANGE: ((infra_excluded_range))
+      INFRA_NW_DNS: ((infra_nw_dns))
+      INFRA_NW_GATEWAY: ((infra_nw_gateway))
+      INFRA_NW_AZS: ((infra_nw_azs))
+      DEPLOYMENT_NETWORK_NAME: ((deployment_network_name))
+      DEPLOYMENT_VCENTER_NETWORK: ((deployment_vcenter_network))
+      DEPLOYMENT_NW_CIDR: ((deployment_nw_cidr))
+      DEPLOYMENT_EXCLUDED_RANGE: ((deployment_excluded_range))
+      DEPLOYMENT_NW_DNS: ((deployment_nw_dns))
+      DEPLOYMENT_NW_GATEWAY: ((deployment_nw_gateway))
+      DEPLOYMENT_NW_AZS: ((deployment_nw_azs))
+      SERVICES_NETWORK_NAME: ((services_network_name))
+      SERVICES_NW_IS_SERVICE_NW: ((services_nw_is_service_nw))
+      SERVICES_VCENTER_NETWORK: ((services_vcenter_network))
+      SERVICES_NW_CIDR: ((services_nw_cidr))
+      SERVICES_EXCLUDED_RANGE: ((services_excluded_range))
+      SERVICES_NW_DNS: ((services_nw_dns))
+      SERVICES_NW_GATEWAY: ((services_nw_gateway))
+      SERVICES_NW_AZS: ((services_nw_azs))
+      DYNAMIC_SERVICES_NETWORK_NAME: ((dynamic_services_network_name))
+      DYNAMIC_SERVICES_NW_IS_SERVICE_NW: ((dynamic_services_nw_is_service_nw))
+      DYNAMIC_SERVICES_VCENTER_NETWORK: ((dynamic_services_vcenter_network))
+      DYNAMIC_SERVICES_NW_CIDR: ((dynamic_services_nw_cidr))
+      DYNAMIC_SERVICES_EXCLUDED_RANGE: ((dynamic_services_excluded_range))
+      DYNAMIC_SERVICES_NW_DNS: ((dynamic_services_nw_dns))
+      DYNAMIC_SERVICES_NW_GATEWAY: ((dynamic_services_nw_gateway))
+      DYNAMIC_SERVICES_NW_AZS: ((dynamic_services_nw_azs))
+      AZ_1: ((az_1))
+      AZ_1_CUSTER_NAME: ((az_1_custer_name))
+      AZ_1_RP_NAME: ((az_1_rp_name))
+      AZ_2: ((az_2))
+      AZ_2_CUSTER_NAME: ((az_2_custer_name))
+      AZ_2_RP_NAME: ((az_2_rp_name))
+      AZ_3: ((az_3))
+      AZ_3_CUSTER_NAME: ((az_3_custer_name))
+      AZ_3_RP_NAME: ((az_3_rp_name))
+      TRUSTED_CERTIFICATES: ((trusted_certificates))
+      GENERATE_VM_PASSWORDS: ((generate_vm_passwords))
+
+- name: ops-director-apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [configure-ops-director]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [configure-ops-director]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [configure-ops-director]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+
+- name: upload-elastic-runtime-tile
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [ops-director-apply-changes]
+    - get: pivnet-product
+      resource: elastic-runtime
+      trigger: true
+      params:
+        globs:
+        - "*.pivotal"
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [ops-director-apply-changes]
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [ops-director-apply-changes]
+
+  - task: upload-elastic-runtime-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OPS_MGR_IP: ((ops_mgr_ip))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OPS_MGR_IP: ((ops_mgr_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: config-elastic-runtime-tile
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-elastic-runtime-tile]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [upload-elastic-runtime-tile]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [upload-elastic-runtime-tile]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [configure-ops-director]
+
+  - task: config-elastic-runtime-tile
+    file: pipelines-repo/tasks/config-ert/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      ERT_SINGLETON_JOB_AZ: ((ert_singleton_job_az))
+      DEPLOYMENT_NW_AZS: ((deployment_nw_azs))
+      NETWORK_NAME: ((network_name))
+      OPS_MGR_GENERATE_SSL_ENDPOINT: ((ops_mgr_generate_ssl_endpoint))
+      CC_API_RATE_LIMIT: ((cc_api_rate_limit))
+      GENERAL_LIMIT: ((general_limit))
+      UNAUTHENTICATED_LIMIT: ((unauthenticated_limit))
+      SECURE_DIEGO_COMMUNICATION: ((secure_diego_communication))
+      NFS_VOLUME_DRIVER: ((nfs_volume_driver))
+      LDAP_SERVICE_ACCOUNT_USER: ((ldap_service_account_user))
+      LDAP_SERVICE_ACCOUNT_PASSWORD: ((ldap_service_account_password))
+      LDAP_SERVER_HOST: ((ldap_server_host))
+      LDAP_SERVER_PORT: ((ldap_server_port))
+      LDAP_USER_FQDN: ((ldap_user_fqdn))
+      GARDEN_DISK_CLEANUP: ((garden_disk_cleanup))
+      ENABLE_GROOTFS: ((enable_grootfs))
+      LOGGER_ENDPOINT_PORT: ((logger_endpoint_port))
+      SYSLOG_HOST: ((syslog_host))
+      SYSLOG_PORT: ((syslog_port))
+      SYSLOG_PROTOCOL: ((syslog_protocol))
+      SYSLOG_TLS: ((syslog_tls))
+      TLS_CA_CERT: ((tls_ca_cert))
+      TLS_PERMITTED_PEER: ((tls_permitted_peer))
+      NETWORKING_POE_SSL_CERT_PEM: ((networking_poe_ssl_cert_pem))
+      NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM: ((networking_poe_ssl_cert_private_key_pem))
+      ROUTING_DISABLE_HTTP: ((routing_disable_http))
+      ROUTING_MINIMUM_TLS_VERSION: ((routing_minimum_tls_version))
+      GOROUTER_SSL_CIPHERS: ((gorouter_ssl_ciphers))
+      HAPROXY_SSL_CIPHERS: ((haproxy_ssl_ciphers))
+      HAPROXY_MAX_BUFFER_SIZE: ((haproxy_max_buffer_size))
+      HAPROXY_FORWARD_TLS: ((haproxy_forward_tls))
+      HAPROXY_FORWARD_TLS_BACKEND_CA: ((haproxy_forward_tls_backend_ca))
+      TCP_ROUTING: ((tcp_routing))
+      TCP_RESERVABLE_PORTS: ((tcp_reservable_ports))
+      ROUTER_FORWARD_CLIENT_CERT: ((router_forward_client_cert))
+      ROUTER_BACKEND_MAX_CONN: ((router_backend_max_conn))
+      ROUTE_SERVICES: ((route_services))
+      IGNORE_SSL_CERT_VERIFICATION: ((ignore_ssl_cert_verification))
+      CONTAINER_NETWORKING_NETWORK_CIDR: ((container_networking_network_cidr))
+      CONTAINER_NETWORKING_VTEP_PORT: ((container_networking_vtep_port))
+      CONTAINER_NETWORKING_LOG_TRAFFIC: ((container_networking_log_traffic))
+      IPTABLES_DENIED_LOGS_PER_SEC: ((iptables_denied_logs_per_sec))
+      IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC: ((iptables_accepted_udp_logs_per_sec))
+      NETWORKING_POINT_OF_ENTRY: ((networking_point_of_entry))
+      CONTAINER_NETWORKING: ((container_networking))
+      SECURITY_ACKNOWLEDGEMENT: ((security_acknowledgement))
+      CF_DIAL_TIMEOUT_IN_SECONDS: ((cf_dial_timeout_in_seconds))
+      SMOKE_TESTS: ((smoke_tests))
+      SMOKE_TESTS_ORG_NAME: ((smoke_tests_org_name))
+      SMOKE_TESTS_SPACE_NAME: ((smoke_tests_space_name))
+      SMOKE_TESTS_APPS_DOMAIN: ((smoke_tests_apps_domain))
+      SMTP_FROM: ((smtp_from))
+      SMTP_ADDRESS: ((smtp_address))
+      SMTP_PORT: ((smtp_port))
+      SMTP_IDENTITY: ((smtp_identity))
+      SMTP_PASSWORD: ((smtp_password))
+      SMTP_ENABLE_STARTTLS_AUTO: ((smtp_enable_starttls_auto))
+      SMTP_AUTH_MECHANISM: ((smtp_auth_mechanism))
+      SMTP_CRAMMD5_SECRET: ((smtp_crammd5_secret))
+      SYSTEM_BLOBSTORE: ((system_blobstore))
+      S3_ENDPOINT: ((s3_endpoint))
+      S3_BUILDPACKS_BUCKET: ((s3_buildpacks_bucket))
+      S3_DROPLETS_BUCKET: ((s3_droplets_bucket))
+      S3_PACKAGES_BUCKET: ((s3_packages_bucket))
+      S3_RESOURCES_BUCKET: ((s3_resources_bucket))
+      S3_ACCESS_KEY: ((s3_access_key))
+      S3_SECRET_KEY: ((s3_secret_key))
+      S3_SIGNATURE_VERSION: ((s3_signature_version))
+      S3_REGION: ((s3_region))
+      S3_ENCRYPTION: ((s3_encryption))
+      GCS_BUILDPACKS_BUCKET: ((gcs_buildpacks_bucket))
+      GCS_BUILDPACKS_BUCKET: ((gcs_buildpacks_bucket))
+      GCS_PACKAGES_BUCKET: ((gcs_packages_bucket))
+      GCS_RESOURCES_BUCKET: ((gcs_resources_bucket))
+      GCS_ACCESS_KEY: ((gcs_access_key))
+      GCS_SECRET_KEY: ((gcs_secret_key))
+      AZURE_BUILDPACKS_CONTAINER: ((azure_buildpacks_container))
+      AZURE_DROPLETS_CONTAINER: ((azure_droplets_container))
+      AZURE_PACKAGES_CONTAINER: ((azure_packages_container))
+      AZURE_RESOURCES_CONTAINER: ((azure_resources_container))
+      AZURE_ACCOUNT_NAME: ((azure_account_name))
+      AZURE_ACCESS_KEY: ((azure_access_key))
+      SYSTEM_DATABASE: ((system_database))
+      EXTERNAL_MYSQL_HOST: ((external_mysql_host))
+      EXTERNAL_MYSQL_PORT: ((external_mysql_port))
+      EXTERNAL_MYSQL_ACCOUNT_USERNAME: ((external_mysql_account_username))
+      EXTERNAL_MYSQL_ACCOUNT_PASSWORD: ((external_mysql_account_password))
+      EXTERNAL_MYSQL_APP_USAGE_SERVICE_USERNAME: ((external_mysql_app_usage_service_username))
+      EXTERNAL_MYSQL_APP_USAGE_SERVICE_PASSWORD: ((external_mysql_app_usage_service_password))
+      EXTERNAL_MYSQL_AUTOSCALE_USERNAME: ((external_mysql_autoscale_username))
+      EXTERNAL_MYSQL_AUTOSCALE_PASSWORD: ((external_mysql_autoscale_password))
+      EXTERNAL_MYSQL_CCDB_USERNAME: ((external_mysql_ccdb_username))
+      EXTERNAL_MYSQL_CCDB_PASSWORD: ((external_mysql_ccdb_password))
+      EXTERNAL_MYSQL_DIEGO_USERNAME: ((external_mysql_diego_username))
+      EXTERNAL_MYSQL_DIEGO_PASSWORD: ((external_mysql_diego_password))
+      EXTERNAL_MYSQL_LOCKET_USERNAME: ((external_mysql_locket_username))
+      EXTERNAL_MYSQL_LOCKET_PASSWORD: ((external_mysql_locket_password))
+      EXTERNAL_MYSQL_NETWORKPOLICYSERVER_USERNAME: ((external_mysql_networkpolicyserver_username))
+      EXTERNAL_MYSQL_NETWORKPOLICYSERVER_PASSWORD: ((external_mysql_networkpolicyserver_password))
+      EXTERNAL_MYSQL_NFSVOLUME_USERNAME: ((external_mysql_nfsvolume_username))
+      EXTERNAL_MYSQL_NFSVOLUME_PASSWORD: ((external_mysql_nfsvolume_password))
+      EXTERNAL_MYSQL_NOTIFICATIONS_USERNAME: ((external_mysql_notifications_username))
+      EXTERNAL_MYSQL_NOTIFICATIONS_PASSWORD: ((external_mysql_notifications_password))
+      EXTERNAL_MYSQL_ROUTING_USERNAME: ((external_mysql_routing_username))
+      EXTERNAL_MYSQL_ROUTING_PASSWORD: ((external_mysql_routing_password))
+      EXTERNAL_MYSQL_SILK_USERNAME: ((external_mysql_silk_username))
+      EXTERNAL_MYSQL_SILK_PASSWORD: ((external_mysql_silk_password))
+      MYSQL_BACKUPS: ((mysql_backups))
+      MYSQL_BACKUPS_S3_ENDPOINT_URL: ((mysql_backups_s3_endpoint_url))
+      MYSQL_BACKUPS_S3_BUCKET_NAME: ((mysql_backups_s3_bucket_name))
+      MYSQL_BACKUPS_S3_BUCKET_PATH: ((mysql_backups_s3_bucket_path))
+      MYSQL_BACKUPS_S3_ACCESS_KEY_ID: ((mysql_backups_s3_access_key_id))
+      MYSQL_BACKUPS_S3_SECRET_ACCESS_KEY: ((mysql_backups_s3_secret_access_key))
+      MYSQL_BACKUPS_S3_CRON_SCHEDULE: ((mysql_backups_s3_cron_schedule))
+      MYSQL_BACKUPS_S3_BACKUP_ALL_MASTERS: ((mysql_backups_s3_backup_all_masters))
+      MYSQL_BACKUPS_S3_REGION: ((mysql_backups_s3_region))
+      MYSQL_BACKUPS_GCS_SERVICE_ACCOUNT_JSON: ((mysql_backups_gcs_service_account_json))
+      MYSQL_BACKUPS_GCS_PROJECT_ID: ((mysql_backups_gcs_project_id))
+      MYSQL_BACKUPS_GCS_BUCKET_NAME: ((mysql_backups_gcs_bucket_name))
+      MYSQL_BACKUPS_GCS_CRON_SCHEDULE: ((mysql_backups_gcs_cron_schedule))
+      MYSQL_BACKUPS_GCS_BACKUP_ALL_MASTERS: ((mysql_backups_gcs_backup_all_masters))
+      MYSQL_BACKUPS_AZURE_STORAGE_ACCOUNT: ((mysql_backups_azure_storage_account))
+      MYSQL_BACKUPS_AZURE_STORAGE_ACCESS_KEY: ((mysql_backups_azure_storage_access_key))
+      MYSQL_BACKUPS_AZURE_CONTAINER: ((mysql_backups_azure_container))
+      MYSQL_BACKUPS_AZURE_PATH: ((mysql_backups_azure_path))
+      MYSQL_BACKUPS_AZURE_CRON_SCHEDULE: ((mysql_backups_azure_cron_schedule))
+      MYSQL_BACKUPS_AZURE_BACKUP_ALL_MASTERS: ((mysql_backups_azure_backup_all_masters))
+      MYSQL_BACKUPS_SCP_SERVER: ((mysql_backups_scp_server))
+      MYSQL_BACKUPS_SCP_PORT: ((mysql_backups_scp_port))
+      MYSQL_BACKUPS_SCP_USER: ((mysql_backups_scp_user))
+      MYSQL_BACKUPS_SCP_KEY: ((mysql_backups_scp_key))
+      MYSQL_BACKUPS_SCP_DESTINATION: ((mysql_backups_scp_destination))
+      MYSQL_BACKUPS_SCP_CRON_SCHEDULE: ((mysql_backups_scp_cron_schedule))
+      MYSQL_BACKUPS_SCP_BACKUP_ALL_MASTERS: ((mysql_backups_scp_backup_all_masters))
+      MYSQL_ACTIVITY_LOGGING: ((mysql_activity_logging))
+      MYSQL_ACTIVITY_LOGGING_AUDIT_LOGGING_EVENTS: ((mysql_activity_logging_audit_logging_events))
+      UAA_AUTH: ((uaa_auth))
+      PASSWORD_MIN_LENGTH: ((password_min_length))
+      PASSWORD_MIN_UPPERCASE: ((password_min_uppercase))
+      PASSWORD_MIN_LOWERCASE: ((password_min_lowercase))
+      PASSWORD_MIN_NUMERIC: ((password_min_numeric))
+      PASSWORD_MIN_SPECIAL: ((password_min_special))
+      PASSWORD_EXPIRES_AFTER_MONTHS: ((password_expires_after_months))
+      PASSWORD_MAX_RETRY: ((password_max_retry))
+      SAML_SSO_NAME: ((saml_sso_name))
+      SAML_DISPLAY_NAME: ((saml_display_name))
+      SAML_SSO_URL: ((saml_sso_url))
+      SAML_NAME_ID_FORMAT: ((saml_name_id_format))
+      SAML_SSO_XML: ((saml_sso_xml))
+      SAML_SIGN_AUTH_REQUESTS: ((saml_sign_auth_requests))
+      SAML_REQUIRE_SIGNED_ASSERTIONS: ((saml_require_signed_assertions))
+      SAML_EMAIL_DOMAINS: ((saml_email_domains))
+      SAML_FIRST_NAME_ATTRIBUTE: ((saml_first_name_attribute))
+      SAML_LAST_NAME_ATTRIBUTE: ((saml_last_name_attribute))
+      SAML_EMAIL_ATTRIBUTE: ((saml_email_attribute))
+      SAML_EXTERNAL_GROUPS_ATTRIBUTE: ((saml_external_groups_attribute))
+      SAML_SIGNATURE_ALGORITHM: ((saml_signature_algorithm))
+      LDAP_URL: ((ldap_url))
+      LDAP_IDENTITY: ((ldap_identity))
+      LDAP_PASSWORD: ((ldap_password))
+      LDAP_SEARCH_BASE: ((ldap_search_base))
+      LDAP_SEARCH_FILTER: ((ldap_search_filter))
+      LDAP_GROUP_SEARCH_BASE: ((ldap_group_search_base))
+      LDAP_GROUP_SEARCH_FILTER: ((ldap_group_search_filter))
+      LDAP_SERVER_SSL_CERT: ((ldap_server_ssl_cert))
+      LDAP_SERVER_SSL_CERT_ALIAS: ((ldap_server_ssl_cert_alias))
+      LDAP_MAIL_ATTRIBUTE_NAME: ((ldap_mail_attribute_name))
+      LDAP_EMAIL_DOMAINS: ((ldap_email_domains))
+      LDAP_FIRST_NAME_ATTRIBUTE: ((ldap_first_name_attribute))
+      LDAP_LAST_NAME_ATTRIBUTE: ((ldap_last_name_attribute))
+      LDAP_LDAP_REFERRALS: ((ldap_ldap_referrals))
+      UAA_DATABASE: ((uaa_database))
+      UAA_DATABASE_HOST: ((uaa_database_host))
+      UAA_DATABASE_PORT: ((uaa_database_port))
+      UAA_DATABASE_USERNAME: ((uaa_database_username))
+      UAA_DATABASE_PASSWORD: ((uaa_database_password))
+      BLOBSTORE_INTERNAL_ACCESS_RULES: ((blobstore_internal_access_rules))
+      MYSQL_PROXY_STATIC_IPS: ((mysql_proxy_static_ips))
+      MYSQL_PROXY_SERVICE_HOSTNAME: ((mysql_proxy_service_hostname))
+      MYSQL_PROXY_STARTUP_DELAY: ((mysql_proxy_startup_delay))
+      MYSQL_PROXY_SHUTDOWN_DELAY: ((mysql_proxy_shutdown_delay))
+      MYSQL_CLI_HISTORY: ((mysql_cli_history))
+      MYSQL_CLUSTER_PROBE_TIMEOUT: ((mysql_cluster_probe_timeout))
+      UAA_PRIVATE_KEY_PEM: ((uaa_private_key_pem))
+      UAA_CERT_PEM: ((uaa_cert_pem))
+      UAA_PRIVATE_KEY_PASSPHRASE: ((uaa_private_key_passphrase))
+      APPS_MANAGER_ACCESS_TOKEN_LIFETIME: ((apps_manager_access_token_lifetime))
+      APPS_MANAGER_REFRESH_TOKEN_LIFETIME: ((apps_manager_refresh_token_lifetime))
+      CF_CLI_ACCESS_TOKEN_LIFETIME: ((cf_cli_access_token_lifetime))
+      CF_CLI_REFRESH_TOKEN_LIFETIME: ((cf_cli_refresh_token_lifetime))
+      CUSTOMIZE_USERNAME_LABEL: ((customize_username_label))
+      CUSTOMIZE_PASSWORD_LABEL: ((customize_password_label))
+      PROXY_IPS_REGEX: ((proxy_ips_regex))
+      ISSUER_URI: ((issuer_uri))
+      CLOUD_CONTROLLER_ENCRYPT_KEY: ((cloud_controller_encrypt_key))
+      MAX_FILE_SIZE: ((max_file_size))
+      DEFAULT_APP_MEMORY: ((default_app_memory))
+      MAX_DISK_QUOTA_APP: ((max_disk_quota_app))
+      DEFAULT_DISK_QUOTA_APP: ((default_disk_quota_app))
+      ENABLE_CUSTOM_BUILDPACKS: ((enable_custom_buildpacks))
+      SYSTEM_DOMAIN: ((system_domain))
+      APPS_DOMAIN: ((apps_domain))
+      DEFAULT_QUOTA_MEMORY_LIMIT_MB: ((default_quota_memory_limit_mb))
+      DEFAULT_QUOTA_MAX_NUMBER_SERVICES: ((default_quota_max_number_services))
+      STAGING_TIMEOUT_IN_SECONDS: ((staging_timeout_in_seconds))
+      ALLOW_APP_SSH_ACCESS: ((allow_app_ssh_access))
+      DEFAULT_APP_SSH_ACCESS: ((default_app_ssh_access))
+      SECURITY_EVENT_LOGGING_ENABLED: ((security_event_logging_enabled))
+      HA_PROXY_STATIC_IPS: ((ha_proxy_static_ips))
+      SKIP_CERT_VERIFY: ((skip_cert_verify))
+      PROTECTED_DOMAINS: ((protected_domains))
+      TRUSTED_DOMAIN_CIDRS: ((trusted_domain_cidrs))
+      ROUTER_STATIC_IPS: ((router_static_ips))
+      DISABLE_INSECURE_COOKIES: ((disable_insecure_cookies))
+      REQUEST_TIMEOUT_IN_SECONDS: ((request_timeout_in_seconds))
+      DRAIN_WAIT: ((drain_wait))
+      LB_HEALTHY_THRESHOLD: ((lb_healthy_threshold))
+      ENABLE_ZIPKIN: ((enable_zipkin))
+      MAX_IDLE_CONNECTIONS: ((max_idle_connections))
+      EXTRA_HEADERS_TO_LOG: ((extra_headers_to_log))
+      ENABLE_ISOLATED_ROUTING: ((enable_isolated_routing))
+      MYSQL_MONITOR_POLL_FREQUENCY: ((mysql_monitor_poll_frequency))
+      MYSQL_MONITOR_WRITE_READ_DELAY: ((mysql_monitor_write_read_delay))
+      MYSQL_MONITOR_RECIPIENT_EMAIL: ((mysql_monitor_recipient_email))
+      DIEGO_BRAIN_STATIC_IPS: ((diego_brain_static_ips))
+      STARTING_CONTAINER_COUNT_MAXIMUM: ((starting_container_count_maximum))
+      EXECUTOR_DISK_CAPACITY: ((executor_disk_capacity))
+      EXECUTOR_MEMORY_CAPACITY: ((executor_memory_capacity))
+      INSECURE_DOCKER_REGISTRY_LIST: ((insecure_docker_registry_list))
+      GARDEN_NETWORK_MTU: ((garden_network_mtu))
+      DNS_SERVERS: ((dns_servers))
+      MESSAGE_DRAIN_BUFFER_SIZE: ((message_drain_buffer_size))
+      TCP_ROUTER_STATIC_IPS: ((tcp_router_static_ips))
+      COMPANY_NAME: ((company_name))
+      ACCENT_COLOR: ((accent_color))
+      GLOBAL_WRAPPER_BG_COLOR: ((global_wrapper_bg_color))
+      GLOBAL_WRAPPER_TEXT_COLOR: ((global_wrapper_text_color))
+      GLOBAL_WRAPPER_HEADER_CONTENT: ((global_wrapper_header_content))
+      GLOBAL_WRAPPER_FOOTER_CONTENT: ((global_wrapper_footer_content))
+      LOGO: ((logo))
+      SQUARE_LOGO: ((square_logo))
+      FOOTER_TEXT: ((footer_text))
+      FOOTER_LINKS: ((footer_links))
+      NAV_LINKS_NAME_1: ((nav_links_name_1))
+      NAV_LINKS_HREF_1: ((nav_links_href_1))
+      NAV_LINKS_NAME_2: ((nav_links_name_2))
+      NAV_LINKS_HREF_2: ((nav_links_href_2))
+      NAV_LINKS_NAME_3: ((nav_links_name_3))
+      NAV_LINKS_HREF_3: ((nav_links_href_3))
+      PRODUCT_NAME: ((product_name))
+      MARKETPLACE_NAME: ((marketplace_name))
+      ENABLE_INVITATIONS: ((enable_invitations))
+      DISPLAY_PLAN_PRICES: ((display_plan_prices))
+      CURRENCY_LOOKUP: ((currency_lookup))
+      CONSUL_SERVER_INSTANCE_TYPE: ((consul_server_instance_type))
+      CONSUL_SERVER_INSTANCES: ((consul_server_instances))
+      CONSUL_SERVER_PERSISTENT_DISK_SIZE_MB: ((consul_server_persistent_disk_size_mb))
+      NATS_INSTANCE_TYPE: ((nats_instance_type))
+      NATS_INSTANCES: ((nats_instances))
+      NFS_SERVER_INSTANCE_TYPE: ((nfs_server_instance_type))
+      NFS_SERVER_INSTANCES: ((nfs_server_instances))
+      NFS_SERVER_PERSISTENT_DISK_SIZE_MB: ((nfs_server_persistent_disk_size_mb))
+      MYSQL_PROXY_INSTANCE_TYPE: ((mysql_proxy_instance_type))
+      MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
+      MYSQL_INSTANCE_TYPE: ((mysql_instance_type))
+      MYSQL_INSTANCES: ((mysql_instances))
+      MYSQL_INSTANCE_PERSISTENT_DISK_SIZE_MB: ((mysql_instance_persistent_disk_size_mb))
+      BACKUP_PREPARE_INSTANCE_TYPE: ((backup_prepare_instance_type))
+      BACKUP_PREPARE_INSTANCES: ((backup_prepare_instances))
+      BACKUP_PREPARE_PERSISTENT_DISK_SIZE_MB: ((backup_prepare_persistent_disk_size_mb))
+      UAA_INSTANCE_TYPE: ((uaa_instance_type))
+      UAA_INSTANCES: ((uaa_instances))
+      CLOUD_CONTROLLER_INSTANCE_TYPE: ((cloud_controller_instance_type))
+      CLOUD_CONTROLLER_INSTANCES: ((cloud_controller_instances))
+      HA_PROXY_INSTANCE_TYPE: ((ha_proxy_instance_type))
+      HA_PROXY_INSTANCES: ((ha_proxy_instances))
+      ROUTER_INSTANCE_TYPE: ((router_instance_type))
+      ROUTER_INSTANCES: ((router_instances))
+      MYSQL_MONITOR_INSTANCE_TYPE: ((mysql_monitor_instance_type))
+      MYSQL_MONITOR_INSTANCES: ((mysql_monitor_instances))
+      CLOCK_GLOBAL_INSTANCE_TYPE: ((clock_global_instance_type))
+      CLOCK_GLOBAL_INSTANCES: ((clock_global_instances))
+      CLOUD_CONTROLLER_WORKER_INSTANCE_TYPE: ((cloud_controller_worker_instance_type))
+      CLOUD_CONTROLLER_WORKER_INSTANCES: ((cloud_controller_worker_instances))
+      DIEGO_DATABASE_INSTANCE_TYPE: ((diego_database_instance_type))
+      DIEGO_DATABASE_INSTANCES: ((diego_database_instances))
+      DIEGO_BRAIN_INSTANCE_TYPE: ((diego_brain_instance_type))
+      DIEGO_BRAIN_INSTANCES: ((diego_brain_instances))
+      DIEGO_BRAIN_PERSISTENT_DISK_SIZE_MB: ((diego_brain_persistent_disk_size_mb))
+      DIEGO_CELL_INSTANCE_TYPE: ((diego_cell_instance_type))
+      DIEGO_CELL_INSTANCES: ((diego_cell_instances))
+      DOPPLER_INSTANCE_TYPE: ((doppler_instance_type))
+      DOPPLER_INSTANCES: ((doppler_instances))
+      LOGGREGATOR_TC_INSTANCE_TYPE: ((loggregator_tc_instance_type))
+      LOGGREGATOR_TC_INSTANCES: ((loggregator_tc_instances))
+      TCP_ROUTER_INSTANCE_TYPE: ((tcp_router_instance_type))
+      TCP_ROUTER_INSTANCES: ((tcp_router_instances))
+      TCP_ROUTER_PERSISTENT_DISK_SIZE_MB: ((tcp_router_persistent_disk_size_mb))
+      SYSLOG_ADAPTER_INSTANCE_TYPE: ((syslog_adapter_instance_type))
+      SYSLOG_ADAPTER_INSTANCES: ((syslog_adapter_instances))
+
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-elastic-runtime-tile]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-elastic-runtime-tile]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [config-elastic-runtime-tile]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      ERRANDS: ((errands_to_disable))
+
+- name: elastic-runtime-apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [disable-errands]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [disable-errands]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [disable-errands]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+
+- name: unpause-reinstall-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [elastic-runtime-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [elastic-runtime-apply-changes]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_username))
+      CONCOURSE_PASSWD: ((concourse_passwd))
+      ATC_EXTERNAL_URL: ((atc_external_url))
+      PIPELINE_NAME: ((reinstall_pipeline_name))
+      TEAM_NAME: ((team_name))
+      PIPELINE_STATE: ((reinstall_pipeline_state))
+
+- name: pause-install-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [unpause-reinstall-pipeline]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [unpause-reinstall-pipeline]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+    params:
+      CONCOURSE_USERNAME: ((concourse_username))
+      CONCOURSE_PASSWD: ((concourse_passwd))
+      ATC_EXTERNAL_URL: ((atc_external_url))
+      PIPELINE_NAME: ((install_pipeline_name))
+      TEAM_NAME: ((team_name))
+      PIPELINE_STATE: ((install_pipeline_state))

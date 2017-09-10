@@ -3,13 +3,16 @@
 gunzip ./govc/govc_linux_amd64.gz
 chmod +x ./govc/govc_linux_amd64
 
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
+
 CMD=./govc/govc_linux_amd64
 
 function setPropertyMapping() {
   if [ -e out.json ]; then
     mv out.json in.json
   fi
-  jq --arg key $1 \
+  $JQ_CMD --arg key $1 \
      --arg value $2 \
      '(.PropertyMapping[] | select(.Key == $key)).Value = $value' \
                 in.json >out.json
@@ -19,7 +22,7 @@ function setNetworkMapping() {
   if [ -e out.json ]; then
     mv out.json in.json
   fi
-  jq --arg value $1 \
+  $JQ_CMD --arg value $1 \
      '(.NetworkMapping[]).Network = $value' \
                 in.json >out.json
 }
@@ -29,7 +32,7 @@ function removeUnwantedNodes() {
     mv out.json in.json
   fi
 
-  jq 'del(.Deployment)' in.json >out.json
+  $JQ_CMD 'del(.Deployment)' in.json >out.json
 }
 
 function setVMName() {
@@ -37,7 +40,7 @@ function setVMName() {
     mv out.json in.json
   fi
 
-  jq --arg value $1 \
+  $JQ_CMD --arg value $1 \
      '(.).Name = $value' \
                 in.json >out.json
 }
@@ -47,7 +50,7 @@ function setDiskProvision() {
     mv out.json in.json
   fi
 
-  jq --arg value $1 \
+  $JQ_CMD --arg value $1 \
      '(.).DiskProvisioning = $value' \
                 in.json >out.json
 }
@@ -58,7 +61,7 @@ function setPowerOn() {
   fi
 
   if [ $1 ]; then
-    jq '(.).PowerOn = true' \
+    $JQ_CMD '(.).PowerOn = true' \
                   in.json >out.json
   fi
 }
@@ -66,7 +69,7 @@ function setPowerOn() {
 function update() {
   rm -rf out.json
 
-  setPropertyMapping ip0 $OM_IP
+  setPropertyMapping ip0 $OPS_MGR_IP
   setPropertyMapping netmask0 $OM_NETMASK
   setPropertyMapping gateway $OM_GATEWAY
   setPropertyMapping DNS $OM_DNS_SERVERS
@@ -83,7 +86,7 @@ function update() {
   cat out.json
 }
 
-FILE_PATH=`find ./pivnet-opsman-product/ -name *.ova`
+FILE_PATH=`find ./pivnet-product/ -name *.ova`
 
 echo $FILE_PATH
 

@@ -1,0 +1,21 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  CONCOURSE_USERNAME:
+  CONCOURSE_PASSWD:
+  ATC_EXTERNAL_URL:
+  PIPELINE_NAME:
+  TEAM_NAME:
+  PIPELINE_STATE:
+
+inputs:
+  - name: pipelines-repo
+
+run:
+  path: pipelines-repo/tasks/change-pipeline-state/task.sh

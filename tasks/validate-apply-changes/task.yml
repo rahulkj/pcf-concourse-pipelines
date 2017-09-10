@@ -10,15 +10,11 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
-  PIVNET_API_TOKEN:
-  NO_PROXY:
-  OPS_MGR_IP:
+  PRODUCT_IDENTIFIER:
 
 inputs:
-  - name: pivnet-product
   - name: pipelines-repo
   - name: om-cli
-  - name: pivnet-cli
 
 run:
-  path: pipelines-repo/tasks/upload-product/task.sh
+  path: pipelines-repo/tasks/validate-apply-changes/task.sh

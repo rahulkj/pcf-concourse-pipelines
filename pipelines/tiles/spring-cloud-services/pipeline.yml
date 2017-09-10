@@ -60,20 +60,20 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
       NO_PROXY: ((company_proxy_domain))
-      OM_IP: ((om_ip))
+      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product
@@ -97,9 +97,9 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: config-product
@@ -123,9 +123,9 @@ jobs:
     file: pipelines-repo/tasks/config-spring-cloud-services/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
       SINGLETON_JOB_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
@@ -135,12 +135,32 @@ jobs:
       APP_PUSH_TIMEOUT: ((app_push_timeout))
       ENABLE_GLOBAL_ACCESS: ((enable_global_access))
 
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-product]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      ERRANDS: ((errands_to_disable))
+
 - name: apply-changes
   plan:
   - aggregate:
     - get: pipelines-repo
       trigger: true
-      passed: [config-product]
+      passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -152,14 +172,22 @@ jobs:
       params:
         globs:
         - "*-linux"
-      passed: [config-product]
+      passed: [disable-errands]
+
+  - task: validate-apply-changes
+    file: pipelines-repo/tasks/validate-apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
-      OPS_MGR_HOST: ((om_fqdn))
-      OPS_MGR_USR: ((om_usr))
-      OPS_MGR_PWD: ((om_pwd))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: set-upgrade-pipeline
   plan:

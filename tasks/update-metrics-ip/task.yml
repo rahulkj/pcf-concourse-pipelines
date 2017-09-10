@@ -10,6 +10,7 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
+  NAT_ENABLED:
 
 inputs:
   - name: pipelines-repo
