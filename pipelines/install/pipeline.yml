@@ -287,7 +287,6 @@ jobs:
       passed: [ops-director-apply-changes]
     - get: pivnet-product
       resource: elastic-runtime
-      trigger: true
       params:
         globs:
         - "*.pivotal"
