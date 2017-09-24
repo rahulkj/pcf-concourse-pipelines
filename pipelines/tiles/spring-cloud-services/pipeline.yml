@@ -140,6 +140,7 @@ jobs:
   - aggregate:
     - get: pipelines-repo
       passed: [config-product]
+      trigger: true
     - get: om-cli
       params:
         globs:
