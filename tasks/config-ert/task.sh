@@ -711,7 +711,7 @@ CF_PROPERTIES=$(
       ".push-apps-manager.footer_text":{"value":$footer_text}
     }
     +
-    if $$nav_links_name_1 != "" then
+    if $nav_links_name_1 != "" then
     {
       ".push-apps-manager.nav_links":{
         "value":[
