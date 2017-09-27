@@ -315,7 +315,7 @@ CF_PROPERTIES=$(
     --arg nav_links_href_2 "$NAV_LINKS_HREF_2" \
     --arg nav_links_name_3 "$NAV_LINKS_NAME_3" \
     --arg nav_links_href_3 "$NAV_LINKS_HREF_3" \
-    --arg product_name "$PRODUCT_NAME" \
+    --arg apps_manager_product_name "$APPS_MANAGER_PRODUCT_NAME" \
     --arg marketplace_name "$MARKETPLACE_NAME" \
     --arg enable_invitations "$ENABLE_INVITATIONS" \
     --arg display_plan_prices "$DISPLAY_PLAN_PRICES" \
@@ -708,7 +708,11 @@ CF_PROPERTIES=$(
       ".push-apps-manager.global_wrapper_footer_content":{"value":$global_wrapper_footer_content},
       ".push-apps-manager.logo":{"value":$logo},
       ".push-apps-manager.square_logo":{"value":$square_logo},
-      ".push-apps-manager.footer_text":{"value":$footer_text},
+      ".push-apps-manager.footer_text":{"value":$footer_text}
+    }
+    +
+    if $$nav_links_name_1 != "" then
+    {
       ".push-apps-manager.nav_links":{
         "value":[
           {
@@ -723,8 +727,12 @@ CF_PROPERTIES=$(
             "name":{"value":$nav_links_name_3},
             "href":{"value":$nav_links_href_3}
           }]
-      },
-      ".push-apps-manager.product_name":{"value":$product_name},
+      }
+    else .
+    end
+    +
+    {
+      ".push-apps-manager.product_name":{"value":$apps_manager_product_name},
       ".push-apps-manager.marketplace_name":{"value":$marketplace_name},
       ".push-apps-manager.enable_invitations":{"value":$enable_invitations},
       ".push-apps-manager.display_plan_prices":{"value":$display_plan_prices},

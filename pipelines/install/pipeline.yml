@@ -598,7 +598,7 @@ jobs:
       NAV_LINKS_HREF_2: ((nav_links_href_2))
       NAV_LINKS_NAME_3: ((nav_links_name_3))
       NAV_LINKS_HREF_3: ((nav_links_href_3))
-      PRODUCT_NAME: ((product_name))
+      APPS_MANAGER_PRODUCT_NAME: ((apps_manager_product_name))
       MARKETPLACE_NAME: ((marketplace_name))
       ENABLE_INVITATIONS: ((enable_invitations))
       DISPLAY_PLAN_PRICES: ((display_plan_prices))
