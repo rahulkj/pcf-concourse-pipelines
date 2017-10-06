@@ -728,6 +728,7 @@ CF_PROPERTIES=$(
             "href":{"value":$nav_links_href_3}
           }]
       }
+    }
     else .
     end
     +
