@@ -255,9 +255,7 @@ DIRECTOR_CONFIG=$(
       "port": $smtp_port,
       "domain": $smtp_domain,
       "from": $from_address,
-      "recipients": {
-        "value": $recipients_address
-      },
+      "recipients": $recipients_address,
       "smtp_user": $smtp_user,
       "smtp_password": $smtp_password,
       "tls": $smtp_tls_enabled
