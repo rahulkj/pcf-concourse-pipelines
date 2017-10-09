@@ -238,7 +238,7 @@ DIRECTOR_CONFIG=$(
     }
   }
   +
-  if $pager_duty_enabled == "true" then
+  if $pager_duty_enabled == true then
   {
     "hm_pager_duty_options": {
       "service_key": $pager_duty_service_key,
@@ -248,7 +248,7 @@ DIRECTOR_CONFIG=$(
   else .
   end
   +
-  if $hm_email_enabled == "true" then
+  if $hm_email_enabled == true then
   {
     "hm_emailer_options": {
       "host": $smtp_host,
