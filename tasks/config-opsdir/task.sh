@@ -292,20 +292,12 @@ DIRECTOR_CONFIG=$(
   else .
   end
   +
-  if $syslog_enabled == "true" then
+  if $syslog_enabled == true and $syslog_tls_enabled == true then
   {
     "syslog_configuration": {
       "address": $syslog_address,
       "port": $syslog_port,
-      "transport_protocol": $syslog_transport_protocol
-    }
-  }
-  else .
-  end
-  +
-  if ($syslog_enabled == "true" and $syslog_tls_enabled == "true") then
-  {
-    "syslog_configuration": {
+      "transport_protocol": $syslog_transport_protocol,
       "tls_enabled": $syslog_tls_enabled,
       "permitted_peer": $syslog_permitted_peer,
       "ssl_ca_certificate": $syslog_ssl_ca_certificate
@@ -314,6 +306,9 @@ DIRECTOR_CONFIG=$(
   else
   {
     "syslog_configuration": {
+      "address": $syslog_address,
+      "port": $syslog_port,
+      "transport_protocol": $syslog_transport_protocol,
       "tls_enabled": $syslog_tls_enabled
     }
   }
