@@ -26,6 +26,7 @@ IAAS_CONFIGURATION=$(
     --arg bosh_disk_path "$BOSH_DISK_PATH" \
     --argjson ssl_verification_enabled $SSL_VERIFICATION_ENABLED \
     --argjson nsx_networking_enabled $NSX_NETWORKING_ENABLED \
+    --arg nsx_mode "$NSX_MODE" \
     --arg nsx_address "$NSX_ADDRESS" \
     --arg nsx_username "$NSX_USERNAME" \
     --arg nsx_password "$NSX_PASSWORD" \
@@ -49,6 +50,7 @@ IAAS_CONFIGURATION=$(
     +
     if $nsx_networking_enabled == "true" then
     {
+      "nsx_mode": $nsx_mode,
       "nsx_address": $nsx_address,
       "nsx_username": $nsx_username,
       "nsx_password": $nsx_password
@@ -332,6 +334,21 @@ SECURITY_CONFIG=$(cat <<-EOF
 EOF
 )
 
+RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "director": {
+    "instance_type": {"id": "$DIRECTOR_INSTANCE_TYPE"},
+    "instances" : $DIRECTOR_INSTANCES,
+    "persistent_disk": { "size_mb": "$DIRECTOR_PERSISTENT_DISK_SIZE_MB" }
+  },
+  "compilation": {
+    "instance_type": {"id": "$COMPILATION_INSTANCE_TYPE"},
+    "instances" : $COMPILATION_INSTANCES
+  }
+}
+EOF
+)
+
 echo "Configuring IaaS and Director..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
   -i "$IAAS_CONFIGURATION" \
@@ -347,4 +364,5 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   configure-bosh \
   --networks-configuration "$NETWORK_CONFIGURATION" \
   --network-assignment "$NETWORK_ASSIGNMENT" \
-  --security-configuration "$SECURITY_CONFIG"
+  --security-configuration "$SECURITY_CONFIG" \
+  --resource-configuration "$RESOURCE_CONFIG"

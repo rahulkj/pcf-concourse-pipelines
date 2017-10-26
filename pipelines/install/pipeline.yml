@@ -169,6 +169,7 @@ jobs:
       BOSH_TEMPLATES_FOLDER: ((bosh_templates_folder))
       BOSH_DISK_PATH: ((bosh_disk_path))
       NSX_NETWORKING_ENABLED: ((nsx_networking_enabled))
+      NSX_MODE: ((nsx_mode))
       NSX_ADDRESS: ((nsx_address))
       NSX_PASSWORD: ((nsx_password))
       NSX_USERNAME: ((nsx_username))
@@ -258,6 +259,13 @@ jobs:
       AZ_3_RP_NAME: ((az_3_rp_name))
       TRUSTED_CERTIFICATES: ((trusted_certificates))
       GENERATE_VM_PASSWORDS: ((generate_vm_passwords))
+      TRUSTED_CERTIFICATES: ((trusted_certificates))
+      GENERATE_VM_PASSWORDS: ((generate_vm_passwords))
+      DIRECTOR_INSTANCE_TYPE: ((director_instance_type))
+      DIRECTOR_INSTANCES: ((director_instances))
+      DIRECTOR_PERSISTENT_DISK_SIZE_MB: ((director_persistent_disk_size_mb))
+      COMPILATION_INSTANCE_TYPE: ((compilation_instance_type))
+      COMPILATION_INSTANCES: ((compilation_instances))
 
 - name: ops-director-apply-changes
   plan:
@@ -289,7 +297,7 @@ jobs:
       resource: elastic-runtime
       params:
         globs:
-        - "*.pivotal"
+        - "cf-*.pivotal"
     - get: om-cli
       params:
         globs:
@@ -356,7 +364,12 @@ jobs:
       CC_API_RATE_LIMIT: ((cc_api_rate_limit))
       GENERAL_LIMIT: ((general_limit))
       UNAUTHENTICATED_LIMIT: ((unauthenticated_limit))
-      SECURE_DIEGO_COMMUNICATION: ((secure_diego_communication))
+      CREDHUB_DATABASE: ((credhub_database))
+      CREDHUB_DATABASE_EXTERNAL_HOST: ((credhub_database_external_host))
+      CREDHUB_DATABASE_EXTERNAL_PORT: ((credhub_database_external_port))
+      CREDHUB_DATABASE_EXTERNAL_USERNAME: ((credhub_database_external_username))
+      CREDHUB_DATABASE_EXTERNAL_PASSWORD: ((credhub_database_external_password))
+      CREDHUB_DATABASE_EXTERNAL_TLS_CA: ((credhub_database_external_tls_ca))
       NFS_VOLUME_DRIVER: ((nfs_volume_driver))
       LDAP_SERVICE_ACCOUNT_USER: ((ldap_service_account_user))
       LDAP_SERVICE_ACCOUNT_PASSWORD: ((ldap_service_account_password))
@@ -579,7 +592,6 @@ jobs:
       EXECUTOR_MEMORY_CAPACITY: ((executor_memory_capacity))
       INSECURE_DOCKER_REGISTRY_LIST: ((insecure_docker_registry_list))
       GARDEN_NETWORK_MTU: ((garden_network_mtu))
-      DNS_SERVERS: ((dns_servers))
       MESSAGE_DRAIN_BUFFER_SIZE: ((message_drain_buffer_size))
       TCP_ROUTER_STATIC_IPS: ((tcp_router_static_ips))
       COMPANY_NAME: ((company_name))
