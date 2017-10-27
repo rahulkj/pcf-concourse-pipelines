@@ -496,6 +496,7 @@ CF_PROPERTIES=$(
     +
     if $system_blobstore == "s3" then
     {
+      ".properties.system_blobstore":{"value":"external"},
       ".properties.system_blobstore.external.endpoint":{"value":$s3_endpoint},
       ".properties.system_blobstore.external.buildpacks_bucket":{"value":$s3_buildpacks_bucket},
       ".properties.system_blobstore.external.droplets_bucket":{"value":$s3_droplets_bucket},
@@ -509,6 +510,7 @@ CF_PROPERTIES=$(
     }
     elif $system_blobstore == "gcs" then
     {
+      ".properties.system_blobstore":{"value":"external_gcs"},
       ".properties.system_blobstore.external_gcs.buildpacks_bucket":{"value":$gcs_buildpacks_bucket},
       ".properties.system_blobstore.external_gcs.buildpacks_bucket":{"value":$gcs_buildpacks_bucket},
       ".properties.system_blobstore.external_gcs.packages_bucket":{"value":$gcs_packages_bucket},
@@ -518,6 +520,7 @@ CF_PROPERTIES=$(
     }
     elif $system_blobstore == "azure" then
     {
+      ".properties.system_blobstore":{"value":"external_azure"},
       ".properties.system_blobstore.external_azure.buildpacks_container":{"value":$azure_buildpacks_container},
       ".properties.system_blobstore.external_azure.droplets_container":{"value":$azure_droplets_container},
       ".properties.system_blobstore.external_azure.packages_container":{"value":$azure_packages_container},

@@ -9,82 +9,68 @@ github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines githu
 github_branch: master
 github_username: # [R] Your github username
 
-opsman_product_version: ^1\.11\..*$
-ert_product_version: ^1\.11\..*$
+opsman_product_version: ^2\.0\..*$
+ert_product_version: ^2\.0\..*$
 iaas_type: vsphere
 
-# Enter vCenter details
+ci_username: # [R] Username used to push to your gist_url
+ci_email_address: # [R] Email used to push to your gist_url
+
 vcenter_host: <VCENTER-HOST-OR-IP>
 vcenter_usr: <VCENTER-SERVICE-USR> # If user is tied to a domain, then escape the \, example `domain\\user`
 vcenter_pwd: <VCENTER-SERVICE-USR-PWD>
 vcenter_data_center: <VCENTER-DATA-CENTER-TO-DEPLOY>
-
-# Ops Manager installation meta data
-om_vm_host: <DESIRED-VCENTER-HOST-TO-DEPLOY-OM> # Optional - vCenter host to deploy Ops Manager on
-om_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER> # vCenter datastore name to deploy Ops Manager on
+ops_mgr_data_store: <DATA-STORE-TO-DEPLOY-OPS-MANAGER> # vCenter datastore name to deploy Ops Manager on
+ops_mgr_vm_host: <DESIRED-VCENTER-HOST-TO-DEPLOY-OM> # Optional - vCenter host to deploy Ops Manager on
+ops_mgr_ip: <DESIRED-OPS-MANAGER-IP> # Ops Manager Static IP
 ops_mgr_host: <DESIRED-OPS-MANAGER-FQDN> # FQDN to access Ops Manager, ex: opsmgr.example.com
 ops_mgr_usr: <DESIRED-OPS-MANAGER-USR> # Ops Manager admin username
 ops_mgr_pwd: <DESIRED-OPS-MANAGER-PWD> # Ops Manager admin password
-om_ssh_pwd: <DESIRED-OPS-MANAGER-SSH-PWD> # Ops Manager ssh password to user ubuntu
-om_decryption_pwd: <DESIRED-OPS-MANAGER-DECRYPTION-PWD> # Ops Manager decryption password
-om_ntp_servers: <OPS-MANAGER-NTP-SERVERS> # Comma seperated list of NTP Servers
-om_dns_servers: <OPS-MANAGER-DNS-SERVERS> # Comma seperated list of DNS Servers
-om_gateway: <OPS-MANAGER-NETWORK-GATEWAY> # Ops Manager network gateway
-om_netmask: <OPS-MANAGER-NETWORK-MASK> # Ops Manager network netmask
-ops_mgr_ip: <DESIRED-OPS-MANAGER-IP> # Ops Manager Static IP
-
-om_vm_network: <OPS-MANAGER-NETWORK-NAME> # vCenter network name to use to deploy Ops Manager on
-om_vm_name: <OPS-MANAGER-VM-NAME> # Ops Manager VM Name
+ops_mgr_ssh_pwd: <DESIRED-OPS-MANAGER-SSH-PWD> # Ops Manager ssh password to user ubuntu
+ops_mgr_decryption_pwd: <DESIRED-OPS-MANAGER-DECRYPTION-PWD> # Ops Manager decryption password
+ops_mgr_ntp_servers: <OPS-MANAGER-NTP-SERVERS> # Comma seperated list of NTP Servers
+ops_mgr_dns_servers: <OPS-MANAGER-DNS-SERVERS> # Comma seperated list of DNS Servers
+ops_mgr_gateway: <OPS-MANAGER-NETWORK-GATEWAY> # Ops Manager network gateway
+ops_mgr_netmask: <OPS-MANAGER-NETWORK-MASK> # Ops Manager network netmask
+ops_mgr_vm_network: <OPS-MANAGER-NETWORK-NAME> # vCenter network name to use to deploy Ops Manager on
+ops_mgr_vm_name: <OPS-MANAGER-VM-NAME> # Ops Manager VM Name
 
 # vCenter Cluster or Resource Pool to use to deploy Ops Manager.
 # The format is
 # - `/<Data Center Name>/host/<Cluster Name>/Resources/<Resource Pool Name>`
 # - or `/<Data Center Name>/host/<Cluster Name>`
-om_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH>
+ops_mgr_resource_pool: <OPS-MANAGER-RESOURCE-POOL-PATH>
+ops_mgr_disk_type: "thick" # Ops Manager VM Disk type, enter thick or thin
+ops_mgr_vm_power_state: true # Power on Ops Manager VM after creation. Possible values true/false
 
-om_disk_type: "thin" # Ops Manager VM Disk type, enter thick or thin
-om_vm_power_state: true # Power on Ops Manager VM after creation. Possible values true/false
-
+vcenter_disk_type: "thick" # BOSH provisioned VM Disk type, enter thick or thin
 ephemeral_storage_names: <PCF-EPHEMERAL-STORAGE-NAMES> # Ephemeral Storage names from vCenter for use by PCF
 persistent_storage_names: <PCF-PERSISTENT-STORAGE-NAMES> # Persistent Storage names from vCenter for use by PCF
-
-trusted_certificates: # Trusted certificates to be deployed along with all VM's provisioned by BOSH
-generate_vm_passwords: true # Allow BOSH to generate random passwords for each job. Possible values true or false
-vm_disk_type: "thick" # BOSH provisioned VM Disk type, enter thick or thin
-
-## AZ configuration for Ops Director
-az_1_name: <az1-name> # AZ1 logical name. No spaces or special characters
-az_1_cluster_name: <vcenter-az1-cluster-name> # vCenter Cluster name for AZ1
-az_1_rp_name: <vcenter-az1-resource-pool-name> # vCenter Resource Pool name for AZ1
-
-az_2_name: <az2-name> # AZ2 logical name. No spaces or special characters
-az_2_cluster_name: <vcenter-az2-cluster-name> # vCenter Cluster name for AZ2
-az_2_rp_name: <vcenter-az2-resource-pool-name> # vCenter Resource Pool name for AZ2
-
-az_3_name: <az3-name> # AZ3 logical name. No spaces or special characters
-az_3_cluster_name: <vcenter-az3-cluster-name> # vCenter Cluster name for AZ3
-az_3_rp_name: <vcenter-az3-resource-pool-name> # vCenter Resource Pool name for AZ3
-
-ntp_servers: # Comma Seperated NTP Servers for use for VM's deployed by BOSH
-ops_dir_hostname: # Optional - Ops Director DNS resolvable name. Should be reachable from all networks
-enable_vm_resurrector: true # Enable Bosh resurrector, possible values are true or false
-max_threads: 30 # Max Threads count for VM deployment
-
+bosh_vm_folder:
+bosh_templates_folder:
+bosh_disk_path:
+nsx_networking_enabled: # true or false
+nsx_mode: # [O] nsx-v or nsx-t
+nsx_address:
+nsx_password:
+nsx_username:
+nsx_ca_certificate:
+ssl_verification_enabled: # true or false
 ntp_servers:
-enable_vm_resurrector:
+enable_vm_resurrector: # true or false
 metrics_ip:
 opentsdb_ip:
-post_deploy_enabled:
-bosh_recreate_on_next_deploy:
-retry_bosh_deploys:
-keep_unreachable_vms:
-max_threads:
+post_deploy_enabled: # true or false
+bosh_recreate_on_next_deploy: # true or false
+retry_bosh_deploys: # true or false
+keep_unreachable_vms: # true or false
+max_threads: 8
 director_worker_count:
 ops_dir_hostname:
 pager_duty_enabled:
 pager_duty_service_key:
 pager_duty_http_proxy:
-hm_email_enabled:
+hm_email_enabled: # true or false
 smtp_host:
 smtp_port:
 smtp_domain:
@@ -93,23 +79,23 @@ recipients_address:
 smtp_user:
 smtp_password:
 smtp_tls_enabled:
-blobstore_type:
+blobstore_type: # local or s3
 s3_endpoint:
 s3_bucket_name:
 s3_access_key:
 s3_secret_key:
 s3_signature_version:
-database_type:
+database_type: # internal or external
 external_mysql_db_host:
 external_mysql_db_port:
 external_mysql_db_user:
 external_mysql_db_password:
 external_mysql_db_database:
-syslog_enabled:
+syslog_enabled: # true or false
 syslog_address:
 syslog_port:
 syslog_transport_protocol:
-syslog_tls_enabled:
+syslog_tls_enabled: # true or false
 syslog_permitted_peer:
 syslog_ssl_ca_certificate:
 
@@ -149,493 +135,79 @@ dynamic_services_nw_gateway: # Dynamic Services network Gateway
 dynamic_services_nw_azs: # Comma seperated list of AZ's to be associated with this network
 dynamic_services_nw_is_service_nw: true # true/false - set if this is a services network
 
-ert_singleton_job_az: # AZ to use for deployment of ERT Singleton jobs
+## AZ configuration for Ops Director
+az_1_name: <az1-name> # AZ1 logical name. No spaces or special characters
+az_1_cluster_name: <vcenter-az1-cluster-name> # vCenter Cluster name for AZ1
+az_1_rp_name: <vcenter-az1-resource-pool-name> # vCenter Resource Pool name for AZ1
 
-network_name:
-ops_mgr_generate_ssl_endpoint:
-cc_api_rate_limit:
-general_limit:
-unauthenticated_limit:
-secure_diego_communication:
-ldap_service_account_user:
-nfs_volume_driver:
-ldap_service_account_user:
-ldap_service_account_password:
-ldap_server_host:
-ldap_server_port:
-ldap_user_fqdn:
-garden_disk_cleanup:
-enable_grootfs:
-logger_endpoint_port:
-syslog_host:
-syslog_port:
-syslog_protocol:
-syslog_tls:
-tls_ca_cert:
-tls_permitted_peer:
-networking_poe_ssl_cert_pem:
-networking_poe_ssl_cert_private_key_pem:
-routing_disable_http:
-routing_minimum_tls_version:
-gorouter_ssl_ciphers:
-haproxy_ssl_ciphers:
-haproxy_max_buffer_size:
-haproxy_forward_tls:
-haproxy_forward_tls_backend_ca:
-tcp_routing:
-tcp_reservable_ports:
-router_forward_client_cert:
-router_backend_max_conn:
-route_services:
-ignore_ssl_cert_verification:
-container_networking_network_cidr:
-container_networking_vtep_port:
-container_networking_log_traffic:
-iptables_denied_logs_per_sec:
-iptables_accepted_udp_logs_per_sec:
-networking_point_of_entry:
-container_networking:
-security_acknowledgement:
-cf_dial_timeout_in_seconds:
-smoke_tests:
-smoke_tests_org_name:
-smoke_tests_space_name:
-smoke_tests_apps_domain:
-smtp_from:
-smtp_address:
-smtp_port:
-smtp_identity:
-smtp_password:
-smtp_enable_starttls_auto:
-smtp_auth_mechanism:
-smtp_crammd5_secret:
-system_blobstore:
-s3_endpoint:
-s3_buildpacks_bucket:
-s3_droplets_bucket:
-s3_packages_bucket:
-s3_resources_bucket:
-s3_access_key:
-s3_secret_key:
-s3_signature_version:
-s3_region:
-s3_encryption:
-gcs_buildpacks_bucket:
-gcs_buildpacks_bucket:
-gcs_packages_bucket:
-gcs_resources_bucket:
-gcs_access_key:
-gcs_secret_key:
-azure_buildpacks_container:
-azure_droplets_container:
-azure_packages_container:
-azure_resources_container:
-azure_account_name:
-azure_access_key:
-system_database:
-external_mysql_host:
-external_mysql_port:
-external_mysql_account_username:
-external_mysql_account_password:
-external_mysql_app_usage_service_username:
-external_mysql_app_usage_service_password:
-external_mysql_autoscale_username:
-external_mysql_autoscale_password:
-external_mysql_ccdb_username:
-external_mysql_ccdb_password:
-external_mysql_diego_username:
-external_mysql_diego_password:
-external_mysql_locket_username:
-external_mysql_locket_password:
-external_mysql_networkpolicyserver_username:
-external_mysql_networkpolicyserver_password:
-external_mysql_nfsvolume_username:
-external_mysql_nfsvolume_password:
-external_mysql_notifications_username:
-external_mysql_notifications_password:
-external_mysql_routing_username:
-external_mysql_routing_password:
-external_mysql_silk_username:
-external_mysql_silk_password:
-mysql_backups:
-mysql_backups_s3_endpoint_url:
-mysql_backups_s3_bucket_name:
-mysql_backups_s3_bucket_path:
-mysql_backups_s3_access_key_id:
-mysql_backups_s3_secret_access_key:
-mysql_backups_s3_cron_schedule:
-mysql_backups_s3_backup_all_masters:
-mysql_backups_s3_region:
-mysql_backups_gcs_service_account_json:
-mysql_backups_gcs_project_id:
-mysql_backups_gcs_bucket_name:
-mysql_backups_gcs_cron_schedule:
-mysql_backups_gcs_backup_all_masters:
-mysql_backups_azure_storage_account:
-mysql_backups_azure_storage_access_key:
-mysql_backups_azure_container:
-mysql_backups_azure_path:
-mysql_backups_azure_cron_schedule:
-mysql_backups_azure_backup_all_masters:
-mysql_backups_scp_server:
-mysql_backups_scp_port:
-mysql_backups_scp_user:
-mysql_backups_scp_key:
-mysql_backups_scp_destination:
-mysql_backups_scp_cron_schedule:
-mysql_backups_scp_backup_all_masters:
-mysql_activity_logging:
-mysql_activity_logging_audit_logging_events:
-uaa_auth:
-password_min_length:
-password_min_uppercase:
-password_min_lowercase:
-password_min_numeric:
-password_min_special:
-password_expires_after_months:
-password_max_retry:
-saml_sso_name:
-saml_display_name:
-saml_sso_url:
-saml_name_id_format:
-saml_sso_xml:
-saml_sign_auth_requests:
-saml_require_signed_assertions:
-saml_email_domains:
-saml_first_name_attribute:
-saml_last_name_attribute:
-saml_email_attribute:
-saml_external_groups_attribute:
-saml_signature_algorithm:
-ldap_url:
-ldap_identity:
-ldap_password:
-ldap_search_base:
-ldap_search_filter:
-ldap_group_search_base:
-ldap_group_search_filter:
-ldap_server_ssl_cert:
-ldap_server_ssl_cert_alias:
-ldap_mail_attribute_name:
-ldap_email_domains:
-ldap_first_name_attribute:
-ldap_last_name_attribute:
-ldap_ldap_referrals:
-uaa_database:
-uaa_database_host:
-uaa_database_port:
-uaa_database_username:
-uaa_database_password:
-blobstore_internal_access_rules:
-mysql_proxy_static_ips:
-mysql_proxy_service_hostname:
-mysql_proxy_startup_delay:
-mysql_proxy_shutdown_delay:
-mysql_cli_history:
-mysql_cluster_probe_timeout:
-uaa_private_key_pem:
-uaa_cert_pem:
-uaa_private_key_passphrase:
-apps_manager_access_token_lifetime:
-apps_manager_refresh_token_lifetime:
-cf_cli_access_token_lifetime:
-cf_cli_refresh_token_lifetime:
-customize_username_label:
-customize_password_label:
-proxy_ips_regex:
-issuer_uri:
-cloud_controller_encrypt_key:
-max_file_size:
-default_app_memory:
-max_disk_quota_app:
-default_disk_quota_app:
-enable_custom_buildpacks:
-system_domain:
-apps_domain:
-default_quota_memory_limit_mb:
-default_quota_max_number_services:
-staging_timeout_in_seconds:
-allow_app_ssh_access:
-default_app_ssh_access:
-security_event_logging_enabled:
-ha_proxy_static_ips:
-skip_cert_verify:
-protected_domains:
-trusted_domain_cidrs:
-router_static_ips:
-disable_insecure_cookies:
-request_timeout_in_seconds:
-drain_wait:
-lb_healthy_threshold:
-enable_zipkin:
-max_idle_connections:
-extra_headers_to_log:
-enable_isolated_routing:
-mysql_monitor_poll_frequency:
-mysql_monitor_write_read_delay:
-mysql_monitor_recipient_email:
-diego_brain_static_ips:
-starting_container_count_maximum:
-executor_disk_capacity:
-executor_memory_capacity:
-insecure_docker_registry_list:
-garden_network_mtu:
-dns_servers:
-message_drain_buffer_size:
-tcp_router_static_ips:
-company_name:
-accent_color:
-global_wrapper_bg_color:
-global_wrapper_text_color:
-global_wrapper_header_content:
-global_wrapper_footer_content:
-logo:
-square_logo:
-footer_text:
-footer_links:
-nav_links_name_1:
-nav_links_href_1:
-nav_links_name_2:
-nav_links_href_2:
-nav_links_name_3:
-nav_links_href_3:
-apps_manager_product_name:
-marketplace_name:
-enable_invitations:
-display_plan_prices:
-currency_lookup:
-consul_server_instance_type:
-consul_server_instances:
-consul_server_persistent_disk_size_mb:
-nats_instance_type:
-nats_instances:
-nfs_server_instance_type:
-nfs_server_instances:
-nfs_server_persistent_disk_size_mb:
-mysql_proxy_instance_type:
-mysql_proxy_instances:
-mysql_instance_type:
-mysql_instances:
-mysql_instance_persistent_disk_size_mb:
-backup_prepare_instance_type:
-backup_prepare_instances:
-backup_prepare_persistent_disk_size_mb:
-uaa_instance_type:
-uaa_instances:
-cloud_controller_instance_type:
-cloud_controller_instances:
-ha_proxy_instance_type:
-ha_proxy_instances:
-router_instance_type:
-router_instances:
-mysql_monitor_instance_type:
-mysql_monitor_instances:
-clock_global_instance_type:
-clock_global_instances:
-cloud_controller_worker_instance_type:
-cloud_controller_worker_instances:
-diego_database_instance_type:
-diego_database_instances:
-diego_brain_instance_type:
-diego_brain_instances:
-diego_brain_persistent_disk_size_mb:
-diego_cell_instance_type:
-diego_cell_instances:
-doppler_instance_type:
-doppler_instances:
-loggregator_tc_instance_type:
-loggregator_tc_instances:
-tcp_router_instance_type:
-tcp_router_instances:
-tcp_router_persistent_disk_size_mb:
-syslog_adapter_instance_type:
-syslog_adapter_instances:
+az_2_name: <az2-name> # AZ2 logical name. No spaces or special characters
+az_2_cluster_name: <vcenter-az2-cluster-name> # vCenter Cluster name for AZ2
+az_2_rp_name: <vcenter-az2-resource-pool-name> # vCenter Resource Pool name for AZ2
 
+az_3_name: <az3-name> # AZ3 logical name. No spaces or special characters
+az_3_cluster_name: <vcenter-az3-cluster-name> # vCenter Cluster name for AZ3
+az_3_rp_name: <vcenter-az3-resource-pool-name> # vCenter Resource Pool name for AZ3
 
---------
-ci_username:
-ci_email_address:
-
-
-vcenter_host:
-vcenter_usr:
-vcenter_pwd:
-vcenter_data_center:
-ops_mgr_data_store:
-ops_mgr_vm_network:
-ops_mgr_resource_pool:
-ops_mgr_vm_host:
-ops_mgr_ip:
-ops_mgr_host:
-ops_mgr_usr:
-ops_mgr_pwd:
-ops_mgr_ssh_pwd:
-ops_mgr_ntp_servers:
-ops_mgr_dns_servers:
-ops_mgr_gateway:
-ops_mgr_netmask:
-ops_mgr_vm_network:
-ops_mgr_vm_name:
-ops_mgr_resource_pool:
-ops_mgr_disk_type:
-ops_mgr_vm_power_state:
-ops_mgr_decryption_pwd:
-
-vcenter_disk_type:
-ephemeral_storage_names:
-persistent_storage_names:
-bosh_vm_folder:
-bosh_templates_folder:
-bosh_disk_path:
-nsx_networking_enabled:
-nsx_mode:
-nsx_address:
-nsx_password:
-nsx_username:
-nsx_ca_certificate:
-ssl_verification_enabled:
-ntp_servers:
-enable_vm_resurrector:
-metrics_ip:
-opentsdb_ip:
-post_deploy_enabled:
-bosh_recreate_on_next_deploy:
-retry_bosh_deploys:
-keep_unreachable_vms:
-max_threads:
-director_worker_count:
-ops_dir_hostname:
-pager_duty_enabled:
-pager_duty_service_key:
-pager_duty_http_proxy:
-hm_email_enabled:
-smtp_host:
-smtp_port:
-smtp_domain:
-from_address:
-recipients_address:
-smtp_user:
-smtp_password:
-smtp_tls_enabled:
-blobstore_type:
-s3_endpoint:
-s3_bucket_name:
-s3_access_key:
-s3_secret_key:
-s3_signature_version:
-database_type:
-external_mysql_db_host:
-external_mysql_db_port:
-external_mysql_db_user:
-external_mysql_db_password:
-external_mysql_db_database:
-syslog_enabled:
-syslog_address:
-syslog_port:
-syslog_transport_protocol:
-syslog_tls_enabled:
-syslog_permitted_peer:
-syslog_ssl_ca_certificate:
-icmp_checks_enabled:
-infra_network_name:
-infra_vcenter_network:
-infra_nw_cidr:
-infra_excluded_range:
-infra_nw_dns:
-infra_nw_gateway:
-infra_nw_azs:
-deployment_network_name:
-deployment_vcenter_network:
-deployment_nw_cidr:
-deployment_excluded_range:
-deployment_nw_dns:
-deployment_nw_gateway:
-deployment_nw_azs:
-services_network_name:
-services_nw_is_service_nw:
-services_vcenter_network:
-services_nw_cidr:
-services_excluded_range:
-services_nw_dns:
-services_nw_gateway:
-services_nw_azs:
-dynamic_services_network_name:
-dynamic_services_nw_is_service_nw:
-dynamic_services_vcenter_network:
-dynamic_services_nw_cidr:
-dynamic_services_excluded_range:
-dynamic_services_nw_dns:
-dynamic_services_nw_gateway:
-dynamic_services_nw_azs:
-az_1:
-az_1_custer_name:
-az_1_rp_name:
-az_2:
-az_2_custer_name:
-az_2_rp_name:
-az_3:
-az_3_custer_name:
-az_3_rp_name:
 trusted_certificates:
 generate_vm_passwords:
-director_instance_type:
-director_instances:
-director_persistent_disk_size_mb:
-compilation_instance_type:
-compilation_instances:
+director_instance_type: 1
+director_instances: large.disk
+director_persistent_disk_size_mb: 51200
+compilation_instance_type: large.cpu
+compilation_instances: 4
 
-ert_singleton_job_az:
+ert_singleton_job_az: # AZ to use for deployment of ERT Singleton jobs
 deployment_nw_azs:
 network_name:
 ops_mgr_generate_ssl_endpoint:
 cc_api_rate_limit:
 general_limit:
 unauthenticated_limit:
-credhub_key_encryption_password:
-credhub_database:
+credhub_key_encryption_password: # Should be 12 characters or more
+credhub_database: # external or internal_mysql
 credhub_database_external_host:
 credhub_database_external_port:
 credhub_database_external_username:
 credhub_database_external_password:
 credhub_database_external_tls_ca:
-nfs_volume_driver:
+nfs_volume_driver: # enable or disable
 ldap_service_account_user:
 ldap_service_account_password:
 ldap_server_host:
 ldap_server_port:
 ldap_user_fqdn:
 garden_disk_cleanup:
-enable_grootfs:
+enable_grootfs: # true or false
 logger_endpoint_port:
 syslog_host:
 syslog_port:
 syslog_protocol:
-syslog_tls:
+syslog_tls: # enabled or disabled
 tls_ca_cert:
 tls_permitted_peer:
 networking_poe_ssl_cert_pem:
 networking_poe_ssl_cert_private_key_pem:
-routing_disable_http:
-routing_minimum_tls_version:
-gorouter_ssl_ciphers:
-haproxy_ssl_ciphers:
+routing_disable_http: # true or false
+routing_minimum_tls_version: # tls_v1_0 or tls_v1_1 or tls_v1_2
+gorouter_ssl_ciphers: # ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
+haproxy_ssl_ciphers: # DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
 haproxy_max_buffer_size:
 haproxy_forward_tls:
 haproxy_forward_tls_backend_ca:
-tcp_routing:
+tcp_routing: # enable or disable
 tcp_reservable_ports:
 router_forward_client_cert:
 router_backend_max_conn:
 route_services:
-ignore_ssl_cert_verification:
+ignore_ssl_cert_verification: # true or false
 container_networking_network_cidr:
 container_networking_vtep_port:
 container_networking_log_traffic:
 iptables_denied_logs_per_sec:
 iptables_accepted_udp_logs_per_sec:
 networking_point_of_entry:
-container_networking:
-security_acknowledgement:
+container_networking: # enable or disable
+security_acknowledgement: X
 cf_dial_timeout_in_seconds:
 smoke_tests:
 smoke_tests_org_name:
@@ -649,7 +221,7 @@ smtp_password:
 smtp_enable_starttls_auto:
 smtp_auth_mechanism:
 smtp_crammd5_secret:
-system_blobstore:
+system_blobstore: # internal or s3 or azure or gcs
 s3_endpoint:
 s3_buildpacks_bucket:
 s3_droplets_bucket:
@@ -672,7 +244,7 @@ azure_packages_container:
 azure_resources_container:
 azure_account_name:
 azure_access_key:
-system_database:
+system_database: # internal_mysql or external
 external_mysql_host:
 external_mysql_port:
 external_mysql_account_username:
@@ -697,7 +269,7 @@ external_mysql_routing_username:
 external_mysql_routing_password:
 external_mysql_silk_username:
 external_mysql_silk_password:
-mysql_backups:
+mysql_backups: # enable or disable
 mysql_backups_s3_endpoint_url:
 mysql_backups_s3_bucket_name:
 mysql_backups_s3_bucket_path:
@@ -724,9 +296,9 @@ mysql_backups_scp_key:
 mysql_backups_scp_destination:
 mysql_backups_scp_cron_schedule:
 mysql_backups_scp_backup_all_masters:
-mysql_activity_logging:
-mysql_activity_logging_audit_logging_events:
-uaa_auth:
+mysql_activity_logging: # enable or disable
+mysql_activity_logging_audit_logging_events: connect,query
+uaa_auth: # internal or ldap or saml
 password_min_length:
 password_min_uppercase:
 password_min_lowercase:
@@ -766,7 +338,7 @@ uaa_database_host:
 uaa_database_port:
 uaa_database_username:
 uaa_database_password:
-blobstore_internal_access_rules:
+blobstore_internal_access_rules: "allow 10.0.0.0/8;,allow 172.16.0.0/12;,allow 192.168.0.0/16;"
 mysql_proxy_static_ips:
 mysql_proxy_service_hostname:
 mysql_proxy_startup_delay:
@@ -797,20 +369,20 @@ default_quota_max_number_services:
 staging_timeout_in_seconds:
 allow_app_ssh_access:
 default_app_ssh_access:
-security_event_logging_enabled:
+security_event_logging_enabled: # true or false
 ha_proxy_static_ips:
-skip_cert_verify:
+skip_cert_verify: # true or false
 protected_domains:
 trusted_domain_cidrs:
 router_static_ips:
-disable_insecure_cookies:
+disable_insecure_cookies: # true or false
 request_timeout_in_seconds:
 drain_wait:
 lb_healthy_threshold:
-enable_zipkin:
+enable_zipkin: # true or false
 max_idle_connections:
-extra_headers_to_log:
-enable_isolated_routing:
+extra_headers_to_log: # true or false
+enable_isolated_routing: # true or false
 mysql_monitor_poll_frequency:
 mysql_monitor_write_read_delay:
 mysql_monitor_recipient_email:
@@ -889,3 +461,5 @@ tcp_router_instances:
 tcp_router_persistent_disk_size_mb:
 syslog_adapter_instance_type:
 syslog_adapter_instances:
+credhub_instance_type:
+credhub_instances:
