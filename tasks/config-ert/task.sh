@@ -781,7 +781,7 @@ CF_PROPERTIES=$(
 
 CF_RESOURCES=$(cat <<-EOF
 {
-  "database": {
+  "consul_server": {
     "instance_type": {"id": "$CONSUL_SERVER_INSTANCE_TYPE"},
     "instances" : $CONSUL_SERVER_INSTANCES,
     "persistent_disk": { "size_mb": "$CONSUL_SERVER_PERSISTENT_DISK_SIZE_MB" }
@@ -866,6 +866,10 @@ CF_RESOURCES=$(cat <<-EOF
   "syslog_adapter": {
     "instance_type": {"id": "$SYSLOG_ADAPTER_INSTANCE_TYPE"},
     "instances" : $SYSLOG_ADAPTER_INSTANCES
+  },
+  "credhub": {
+    "instance_type": {"id": "$CREDHUB_INSTANCE_TYPE"},
+    "instances" : $CREDHUB_INSTANCES
   }
 }
 EOF
