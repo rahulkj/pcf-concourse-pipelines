@@ -591,6 +591,7 @@ ops_mgr_generate_ssl_endpoint:
 cc_api_rate_limit:
 general_limit:
 unauthenticated_limit:
+credhub_key_encryption_password:
 credhub_database:
 credhub_database_external_host:
 credhub_database_external_port:
