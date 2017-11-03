@@ -718,7 +718,7 @@ jobs:
       trigger: true
       passed: [elastic-runtime-apply-changes]
 
-  - task: apply-changes
+  - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
       CONCOURSE_USERNAME: ((concourse_username))
@@ -737,7 +737,7 @@ jobs:
       trigger: true
       passed: [unpause-reinstall-pipeline]
 
-  - task: apply-changes
+  - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
       CONCOURSE_USERNAME: ((concourse_username))
