@@ -25,19 +25,19 @@ PRODUCT_PROPERTIES=$(
     . +
     {
       ".deploy-service-broker.broker_max_instances": {
-        "value": $BROKER_MAX_INSTANCES
+        "value": $broker_max_instances
       },
       ".deploy-service-broker.buildpack": {
-        "value": $BUILDPACK
+        "value": $buildpack
       },
       ".deploy-service-broker.disable_cert_check": {
-        "value": $DISABLE_CERT_CHECK
+        "value": $disable_cert_check
       },
       ".deploy-service-broker.instances_app_push_timeout": {
-        "value": $INSTANCES_APP_PUSH_TIMEOUT
+        "value": $instances_app_push_timeout
       },
       ".register-service-broker.enable_global_access": {
-        "value": $ENABLE_GLOBAL_ACCESS
+        "value": $enable_global_access
       }
     }
     '
