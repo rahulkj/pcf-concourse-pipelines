@@ -22,9 +22,9 @@ other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 
 broken_max_instances: 100
-buildpack_name: java_buildpack
+buildpack_name: ""
 disable_cert_check: false
-instances_app_push_timeout: 300
+instances_app_push_timeout:
 enable_global_access: true
 
 errands_to_disable:
