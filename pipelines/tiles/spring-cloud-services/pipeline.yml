@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -118,6 +125,10 @@ jobs:
         globs:
         - "*-linux"
       passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: config-tile
     file: pipelines-repo/tasks/config-spring-cloud-services/task.yml
@@ -132,7 +143,7 @@ jobs:
       BROKER_MAX_INSTANCES: ((broken_max_instances))
       BUILDPACK: ((buildpack_name))
       DISABLE_CERT_CHECK: ((disable_cert_check))
-      APP_PUSH_TIMEOUT: ((app_push_timeout))
+      INSTANCES_APP_PUSH_TIMEOUT: ((instances_app_push_timeout))
       ENABLE_GLOBAL_ACCESS: ((enable_global_access))
 
 - name: disable-errands
