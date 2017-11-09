@@ -83,6 +83,7 @@ PRODUCT_PROPERTIES=$(
     {
       ".properties.enable_nat_support": {
         "value": $nat_enabled
+      }
     }
     +
     if $nat_enabled == "option_enabled" then
