@@ -6,13 +6,6 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-function fn_other_azs {
-  local azs_csv=$1
-  echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
-}
-
-BALANCE_JOB_AZS=$(fn_other_azs $OTHER_AZS)
-
 PRODUCT_PROPERTIES=$(
   echo "{}" |
   $JQ_CMD -n \
@@ -403,23 +396,21 @@ PRODUCT_PROPERTIES=$(
 PRODUCT_NETWORK_CONFIG=$(
   echo "{}" |
   $JQ_CMD -n \
-    --arg SINGLETON_JOBS_AZ "$SINGLETON_JOBS_AZ" \
-    --arg BALANCE_JOB_AZS "$BALANCE_JOB_AZS" \
-    --arg NETWORK_NAME "$NETWORK_NAME" \
-    --arg SERVICES_NETWORK_NAME "$SERVICES_NETWORK_NAME" \
+    --arg singleton_jobs_az "$SINGLETON_JOBS_AZ" \
+    --arg other_azs "$OTHER_AZS" \
+    --arg network_name "$NETWORK_NAME" \
+    --arg services_network_name "$SERVICES_NETWORK_NAME" \
     '. +
     {
       "singleton_availability_zone": {
-        "name": $SINGLETON_JOBS_AZ
+        "name": $singleton_jobs_az
       },
-      "other_availability_zones": [
-        $BALANCE_JOB_AZS
-      ],
+      "other_availability_zones": ($other_azs | split(",") | map({name: .})),
       "network": {
-        "name": $NETWORK_NAME
+        "name": $network_name
       },
       "service_network": {
-        "name": $SERVICES_NETWORK_NAME
+        "name": $services_network_name
       }
     }
     '
@@ -428,31 +419,31 @@ PRODUCT_NETWORK_CONFIG=$(
 PRODUCT_RESOURCE_CONFIG=$(
   echo "{}" |
   $JQ_CMD -n \
-    --arg REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE "$REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE" \
-    --argjson REDIS_ON_DEMAND_BROKER_INSTANCES "$REDIS_ON_DEMAND_BROKER_INSTANCES" \
-    --arg REDIS_ON_DEMAND_BROKER_DISK_SIZE "$REDIS_ON_DEMAND_BROKER_DISK_SIZE" \
-    --arg CF_REDIS_BROKER_INSTANCE_TYPE "$CF_REDIS_BROKER_INSTANCE_TYPE" \
-    --argjson CF_REDIS_BROKER_INSTANCES "$CF_REDIS_BROKER_INSTANCES" \
-    --arg CF_REDIS_BROKER_DISK_SIZE "$CF_REDIS_BROKER_DISK_SIZE" \
-    --arg DEDICATED_NODE_INSTANCE_TYPE "$DEDICATED_NODE_INSTANCE_TYPE" \
-    --argjson DEDICATED_NODE_INSTANCES "$DEDICATED_NODE_INSTANCES" \
-    --arg DEDICATED_NODE_DISK_SIZE "$DEDICATED_NODE_DISK_SIZE" \
+    --arg redis_on_demand_broker_instance_type "$REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE" \
+    --argjson redis_on_demand_broker_instances "$REDIS_ON_DEMAND_BROKER_INSTANCES" \
+    --arg redis_on_demand_broker_disk_size "$REDIS_ON_DEMAND_BROKER_DISK_SIZE" \
+    --arg cf_redis_broker_instance_type "$CF_REDIS_BROKER_INSTANCE_TYPE" \
+    --argjson cf_redis_broker_instances "$CF_REDIS_BROKER_INSTANCES" \
+    --arg cf_redis_broker_disk_size "$CF_REDIS_BROKER_DISK_SIZE" \
+    --arg dedicated_node_instance_type "$DEDICATED_NODE_INSTANCE_TYPE" \
+    --argjson dedicated_node_instances "$DEDICATED_NODE_INSTANCES" \
+    --arg dedicated_node_disk_size "$DEDICATED_NODE_DISK_SIZE" \
     '. +
     {
       "redis-on-demand-broker": {
-        "instance_type": {"id": $REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE},
-        "instances": $REDIS_ON_DEMAND_BROKER_INSTANCES,
-        "persistent_disk": {"size_mb": $REDIS_ON_DEMAND_BROKER_DISK_SIZE}
+        "instance_type": {"id": $redis_on_demand_broker_instance_type},
+        "instances": $redis_on_demand_broker_instances,
+        "persistent_disk": {"size_mb": $redis_on_demand_broker_disk_size}
       },
       "cf-redis-broker": {
-        "instance_type": {"id": $CF_REDIS_BROKER_INSTANCE_TYPE},
-        "instances": $CF_REDIS_BROKER_INSTANCES,
-        "persistent_disk": {"size_mb": $CF_REDIS_BROKER_DISK_SIZE}
+        "instance_type": {"id": $cf_redis_broker_instance_type},
+        "instances": $cf_redis_broker_instances,
+        "persistent_disk": {"size_mb": $cf_redis_broker_disk_size}
       },
       "dedicated-node": {
-        "instance_type": {"id": $DEDICATED_NODE_INSTANCE_TYPE},
-        "instances": $DEDICATED_NODE_INSTANCES,
-        "persistent_disk": {"size_mb": $DEDICATED_NODE_DISK_SIZE}
+        "instance_type": {"id": $dedicated_node_instance_type},
+        "instances": $dedicated_node_instances,
+        "persistent_disk": {"size_mb": $dedicated_node_disk_size}
       }
     }'
 )
