@@ -21,89 +21,96 @@ singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 service_network_name:
-metrics_polling_interval:
-on_demand_service_instance_limit:
-redis_broker_service_instance_limit:
-redis_max_memory:
-vm_extensions:
-syslog_selector:
+
+syslog_selector: # (No|Yes without encryption|Yes with TLS encryption)
 syslog_address:
 syslog_port:
-syslog_protocol:
-backup_selector:
-s3_access_key_id:
-s3_secret_access_key:
-s3_endpoint_url:
-s3_region:
-s3_signature_version:
-s3_bucket_name:
-s3_path:
-s3_cron_schedule:
-s3_bg_save_timeout:
-scp_server:
-scp_username:
-scp_ssh_key:
-scp_path:
-scp_port:
-scp_cron_schedule:
-scp_bg_save_timeout:
-scp_fingerprint:
-azure_account:
-azure_storage_access_key:
-azure_path:
-azure_cron_schedule:
-azure_bg_save_timeout:
-azure_container:
-azure_blob_store_base_url:
-gcs_project_id:
-gcs_bucket_name:
-gcs_service_account_json:
-gcs_cron_schedule:
-gcs_bg_save_timeout:
-small_plan_selector:
-small_plan_name:
-small_plan_description:
-small_plan_service_access:
-small_plan_az:
-small_plan_vm_type:
-small_plan_disk_size:
-small_plan_timeout:
-small_plan_tcp_keep_alive:
-small_plan_max_clients:
-small_plan_lua_scripting:
-small_plan_instance_limit:
-medium_plan_selector:
-medium_plan_name:
-medium_plan_description:
-medium_plan_service_access:
-medium_plan_az:
-medium_plan_vm_type:
-medium_plan_disk_type:
-medium_plan_timeout:
-medium_plan_tcp_keep_alive:
-medium_plan_max_clients:
-medium_plan_lua_scripting:
-medium_plan_instance_limit:
-large_plan_selector:
-large_plan_name:
-large_plan_description:
-large_plan_service_access:
-large_plan_az:
-large_plan_vm_type:
-large_plan_disk_size:
-large_plan_timeout:
-large_plan_keep_alive:
-large_plan_max_clients:
-large_plan_lua_scripting:
-large_plan_instance_limit:
-redis_on_demand_broker_instances:
-redis_on_demand_broker_disk_size:
-cf_redis_broker_instances:
-cf_redis_broker_disk_size:
-dedicate_node_instances:
-dedicated_node_disk_size:
+syslog_transport: # (tcp|udp|relp)
+syslog_format: # (rfc5424|job_index_id)
+syslog_permitted_peer:
+syslog_ca_cert:
+metrics_polling_interval:
+small_plan_selector: # (Plan Inactive|Plan Active)
+small_plan_selector_name:
+small_plan_selector_description:
+small_plan_selector_cf_service_access: # (enable|disable|manual)
+small_plan_selector_az_single_select:
+small_plan_selector_vm_type: #(nano|micro|micro.ram|etc)
+small_plan_selector_disk_size: #(1024|2048|5120|etc)
+small_plan_selector_timeout: 3600
+small_plan_selector_tcp_keepalive: 60
+small_plan_selector_maxclients: 1000
+small_plan_selector_lua_scripting: false
+small_plan_selector_instance_limit: 20
+medium_plan_selector: # (Plan Inactive|Plan Active)
+medium_plan_selector_name:
+medium_plan_selector_description:
+medium_plan_selector_cf_service_access: # (enable|disable|manual)
+medium_plan_selector_az_single_select:
+medium_plan_selector_vm_type: #(nano|micro|micro.ram|etc)
+medium_plan_selector_disk_size: # (1024|2048|5120|etc)
+medium_plan_selector_timeout: 3600
+medium_plan_selector_tcp_keepalive: 60
+medium_plan_selector_maxclients: 5000
+medium_plan_selector_lua_scripting: false
+medium_plan_selector_instance_limit: 20
+large_plan_selector: # (Plan Inactive|Plan Active)
+large_plan_selector_name:
+large_plan_selector_description: This plan provides a large dedicated Redis instance, tailored for caching use-cases with persistence to disk enabled
+large_plan_selector_cf_service_access: # (enable|disable|manual)
+large_plan_selector_az_single_select:
+large_plan_selector_vm_type: #(nano|micro|micro.ram|etc)
+large_plan_selector_disk_size: # (1024|2048|5120|etc)
+large_plan_selector_timeout: 3600
+large_plan_selector_tcp_keepalive: 60
+large_plan_selector_maxclients: 5000
+large_plan_selector_lua_scripting: false
+large_plan_selector_instance_limit: 20
+backups_selector: # (No Backups|S3 Backups|SCP Backups|Azure Backups|Google Cloud Storage Backups)
+backups_selector_s3_access_key_id:
+backups_selector_s3_secret_access_key:
+backups_selector_s3_endpoint_url:
+backups_selector_s3_region:
+backups_selector_s3_signature_version: 4
+backups_selector_s3_bucket_name:
+backups_selector_s3_path:
+backups_selector_s3_cron_schedule: 0 0 * * *
+backups_selector_s3_bg_save_timeout: 10
+backups_selector_scp_server:
+backups_selector_scp_user:
+backups_selector_scp_key:
+backups_selector_scp_path:
+backups_selector_scp_port: 22
+backups_selector_scp_cron_schedule: 0 0 * * *
+backups_selector_scp_bg_save_timeout: 10
+backups_selector_scp_fingerprint:
+backups_selector_azure_account:
+backups_selector_azure_storage_access_key:
+backups_selector_azure_path:
+backups_selector_azure_cron_schedule: 0 0 * * *
+backups_selector_azure_bg_save_timeout: 10
+backups_selector_azure_container:
+backups_selector_azure_blob_store_base_url:
+backups_selector_gcs_project_id:
+backups_selector_gcs_bucket_name:
+backups_selector_gcs_service_account_json:
+backups_selector_gcs_cron_schedule: 0 0 * * *
+backups_selector_gcs_bg_save_timeout: 10
+redis_on_demand_broker_service_instance_limit: 20
+redis_on_demand_broker_vm_extensions: # (public_ip)
+cf_redis_broker_service_instance_limit: 5
+cf_redis_broker_redis_maxmemory: 512MB
+redis_on_demand_broker_instance_type: medium
+redis_on_demand_broker_instances: 1
+redis_on_demand_broker_disk_size: 10240
+cf_redis_broker_instance_type: medium
+cf_redis_broker_instances: 1
+cf_redis_broker_disk_size: 10240
+dedicated_node_instance_type: micro.ram
+dedicated_node_instances: 5
+dedicated_node_disk_size: 5120
 
-errands_to_disable:
+errands_to_disable: "broker-registrar,smoke-tests,register-on-demand-broker,on-demand-broker-smoke-tests,upgrade-all-service-instances,broker-deregistrar,delete-all-service-instances-and-deregister-broker"
 
 concourse_user:
 concourse_pwd:
