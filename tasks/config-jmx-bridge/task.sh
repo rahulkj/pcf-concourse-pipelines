@@ -25,7 +25,7 @@ PRODUCT_NETWORK=$(
   $JQ_CMD -n \
     --arg singleton_jobs_az "$SINGLETON_JOBS_AZ" \
     --arg other_azs "$OTHER_AZS" \
-    --arg network_name "$NETWORK_NAME"
+    --arg network_name "$NETWORK_NAME" \
     '. +
     {
       "singleton_availability_zone": {
@@ -48,7 +48,9 @@ PRODUCT_RESOURCES=$(
     --argjson jmx_firehose_nozzle_instances $JMX_FIREHOSE_NOZZLE_INSTANCES \
     --arg jmx_firehose_nozzle_persistent_disk_size_mb $JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB \
     --arg integration_tests_instance_type $INTEGRATION_TESTS_INSTANCE_TYPE \
-    '{
+    '
+    . +
+    {
       "maximus": {
         "instance_type": {"id": $maximus_instance_type},
         "persistent_disk_mb": $maximus_persistent_disk_size_mb
@@ -61,7 +63,8 @@ PRODUCT_RESOURCES=$(
       "integration-tests": {
         "instance_type": {"id": $integration_tests_instance_type}
       }
-    }'
+    }
+    '
 )
 
 PRODUCT_PROPERTIES=$(
@@ -126,4 +129,4 @@ PRODUCT_PROPERTIES=$(
     '
 )
 
-$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PROPERTIES" -pn "$NETWORK" -pr "$RESOURCES"
+$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -p "$PRODUCT_PROPERTIES" -pn "$PRODUCT_NETWORK" -pr "$PRODUCT_RESOURCES"
