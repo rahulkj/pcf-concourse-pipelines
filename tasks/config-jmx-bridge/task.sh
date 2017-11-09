@@ -69,15 +69,15 @@ PRODUCT_RESOURCES=$(
 
 PRODUCT_PROPERTIES=$(
   echo "{}" | $JQ_CMD -n \
-    --argjson nat_enabled "$NAT_ENABLED" \
-    --arg nat_jmx_bridge_ip "$NAT_JMX_BRIDGE_IP" \
-    --arg jmx_admin_usr "$JMX_ADMIN_USR" \
-    --arg jmx_admin_pwd "$JMX_ADMIN_PWD" \
-    --arg security_logging_enabled "$SECURITY_LOGGING_ENABLED" \
-    --arg jmx_use_ssl "$JMX_USE_SSL" \
+    --arg nat_enabled $NAT_ENABLED \
+    --arg nat_jmx_bridge_ip $NAT_JMX_BRIDGE_IP \
+    --arg jmx_admin_usr $JMX_ADMIN_USR \
+    --arg jmx_admin_pwd $JMX_ADMIN_PWD \
+    --arg security_logging_enabled $SECURITY_LOGGING_ENABLED \
+    --arg jmx_use_ssl $JMX_USE_SSL \
     --arg ssl_cert "$SSL_CERT" \
     --arg ssl_private_key "$SSL_PRIVATE_KEY" \
-    --arg use_metric_prefix "$USE_METRIC_PREFIX"
+    --arg use_metric_prefix $USE_METRIC_PREFIX
     '
     . +
     {
