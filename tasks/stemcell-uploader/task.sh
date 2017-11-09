@@ -17,7 +17,9 @@ STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-esxi-ubuntu-trusty-go_agent.t
 DIAGNOSTIC_REPORT=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/diagnostic_report)
 STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | jq -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
 
-if [[ ! $STEMCELL_EXISTS ]]; then
+if [[ $STEMCELL_EXISTS ]]; then
+  echo "Stemcell already exists with Ops Manager, hence skipping this step"
+else
   echo "Downloading stemcell $SC_VERSION"
   $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
 
@@ -41,6 +43,4 @@ if [[ ! $STEMCELL_EXISTS ]]; then
     echo "Removing downloaded stemcell $SC_VERSION"
     rm $SC_FILE_PATH
   fi
-else
-  echo "Stemcell already exists with Ops Manager, hence skipping this step"
 fi
