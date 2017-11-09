@@ -423,7 +423,6 @@ PRODUCT_RESOURCE_CONFIG=$(
     --argjson redis_on_demand_broker_instances "$REDIS_ON_DEMAND_BROKER_INSTANCES" \
     --arg redis_on_demand_broker_disk_size "$REDIS_ON_DEMAND_BROKER_DISK_SIZE" \
     --arg cf_redis_broker_instance_type "$CF_REDIS_BROKER_INSTANCE_TYPE" \
-    --argjson cf_redis_broker_instances "$CF_REDIS_BROKER_INSTANCES" \
     --arg cf_redis_broker_disk_size "$CF_REDIS_BROKER_DISK_SIZE" \
     --arg dedicated_node_instance_type "$DEDICATED_NODE_INSTANCE_TYPE" \
     --argjson dedicated_node_instances "$DEDICATED_NODE_INSTANCES" \
@@ -437,7 +436,6 @@ PRODUCT_RESOURCE_CONFIG=$(
       },
       "cf-redis-broker": {
         "instance_type": {"id": $cf_redis_broker_instance_type},
-        "instances": $cf_redis_broker_instances,
         "persistent_disk": {"size_mb": $cf_redis_broker_disk_size}
       },
       "dedicated-node": {
