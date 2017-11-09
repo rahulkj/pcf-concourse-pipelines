@@ -14,26 +14,35 @@ STEMCELL_VERSION=`cat ./pivnet-product/metadata.json | jq '.Dependencies[] | sel
 
 SC_VERSION=`echo $STEMCELL_VERSION | tr -d '"'`
 
-echo "Downloading stemcell $SC_VERSION"
-$PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
+STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-esxi-ubuntu-trusty-go_agent.tgz
 
-set +e
-RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $SC_VERSION`
-set -e
+DIAGNOSTIC_REPORT=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/diagnostic_report)
+STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | jq -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains(["$STEMCELL_NAME"])')
 
-if [[ -z "$RESPONSE" ]]; then
-  wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/bosh-stemcell-$SC_VERSION-$IAAS_TYPE-esxi-ubuntu-trusty-go_agent.tgz
+if [[ ! $STEMCELL_EXISTS ]]; then
+  echo "Downloading stemcell $SC_VERSION"
+  $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
+
+  set +e
+  RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $SC_VERSION`
+  set -e
+
+  if [[ -z "$RESPONSE" ]]; then
+    wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/$STEMCELL_NAME
+  else
+    $PIVNET_CLI download-product-files -p stemcells -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
+  fi
+
+  SC_FILE_PATH=`find ./ -name *.tgz`
+
+  $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
+
+  if [ ! -f "$SC_FILE_PATH" ]; then
+      echo "Stemcell file not found!"
+  else
+    echo "Removing downloaded stemcell $SC_VERSION"
+    rm $SC_FILE_PATH
+  fi
 else
-  $PIVNET_CLI download-product-files -p stemcells -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
-fi
-
-SC_FILE_PATH=`find ./ -name *.tgz`
-
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
-
-if [ ! -f "$SC_FILE_PATH" ]; then
-    echo "Stemcell file not found!"
-else
-  echo "Removing downloaded stemcell $SC_VERSION"
-  rm $SC_FILE_PATH
+  echo "Stemcell already exists with Ops Manager, hence skipping this step"
 fi
