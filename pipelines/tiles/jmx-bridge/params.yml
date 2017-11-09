@@ -20,36 +20,35 @@ om_generate_ssl_endpoint:
 
 product_name: p-metrics
 product_identifier: p-metrics # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
-product_version: 1.9.1
+product_version: ^1\.9\..*$
 
-singleton_az: # [R] Place singleton jobs in an AZ
+singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: AZ1,AZ2 # [R] AZ's to balance other jobs
 network_name:  # [R] Tile network name
 jmx_admin_usr:
 jmx_admin_pwd:
-jmx_use_ssl: false #true|false
-nat_enabled: option_disabled  #option_disabled|option_enabled
+jmx_use_ssl: false # (true|false)
+nat_enabled: option_disabled  # (option_disabled|option_enabled)
 nat_jmx_bridge_ip:
-jmx_security_logging_enabled: true #true|false
-jmx_use_ssl: false #true|false
+jmx_security_logging_enabled: true # (true|false)
+jmx_use_ssl: false # (true|false)
 ssl_cert:
 ssl_private_key:
 jmx_domain:
-use_metric_prefix: true #true|false
-maximus_instance_type: automatic
-maximus_instances: 1
+use_metric_prefix: true # (true|false)
+maximus_instance_type: medium
 maximus_persistent_disk_size_mb: 1024
-jmx_firehose_nozzle_instance_type: automatic
+jmx_firehose_nozzle_instance_type: medium
 jmx_firehose_nozzle_instances: 1
 jmx_firehose_nozzle_persistent_disk_size_mb: 1024
-integration_tests_instance_type: automatic
-integration_tests_instances: 1
+integration_tests_instance_type: medium.cpu
 
-errands_to_disable:
+errands_to_disable: integration-tests
 
 concourse_url:
 concourse_user:
 concourse_pwd:
+
 pipeline-name:
 team-name:
 upgrade-pipeline-name:
