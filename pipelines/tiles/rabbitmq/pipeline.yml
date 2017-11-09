@@ -123,65 +123,94 @@ jobs:
     file: pipelines-repo/tasks/config-rabbitmq/task.yml
     params:
       PRODUCT_IDENTIFIER: ((product_identifier))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
-      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      OPS_MGR_GENERATE_SSL_ENDPOINT: ((ops_mgr_generate_ssl_endpoint))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
-      NETWORK_NAME: ((deployment_nw))
-      SERVICES_NETWORK: ((services_nw))
+      NETWORK_NAME: ((network_name))
+      SERVICES_NETWORK_NAME: ((services_network_name))
+      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
       SYSLOG_SELECTOR: ((syslog_selector))
-      SYSLOG_ADDRESS: ((syslog_address))
-      SYSLOG_PORT: ((syslog_port))
+      SYSLOG_SELECTOR_ADDRESS: ((syslog_selector_address))
+      SYSLOG_SELECTOR_PORT: ((syslog_selector_port))
+      SYSLOG_SELECTOR_SYSLOG_TRANSPORT: ((syslog_selector_syslog_transport))
+      SYSLOG_SELECTOR_SYSLOG_FORMAT: ((syslog_selector_syslog_format))
+      SYSLOG_SELECTOR_SYSLOG_TLS: ((syslog_selector_syslog_tls))
+      SYSLOG_SELECTOR_SYSLOG_PERMITTED_PEER: ((syslog_selector_syslog_permitted_peer))
+      SYSLOG_SELECTOR_SYSLOG_CA_CERT: ((syslog_selector_syslog_ca_cert))
+      ON_DEMAND_BROKER_VM_EXTENSIONS: ((on_demand_broker_vm_extensions))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_CF_SERVICE_ACCESS: ((on_demand_broker_dedicated_single_node_plan_cf_service_access))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_NAME: ((on_demand_broker_dedicated_single_node_plan_name))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DESCRIPTION: ((on_demand_broker_dedicated_single_node_plan_description))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_INSTANCE_QUOTA: ((on_demand_broker_dedicated_single_node_plan_instance_quota))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_FEATURES: ((on_demand_broker_dedicated_single_node_plan_features))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_AZ_PLACEMENT: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_VM_TYPE: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_PERSISTENT_DISK_TYPE: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type))
+      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DISK_LIMIT_ACKNOWLEDGEMENT: ((on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR: ((on_demand_broker_dedicated_cluster_plan_selector))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_CF_SERVICE_ACCESS: ((on_demand_broker_dedicated_cluster_plan_selector_cf_service_access))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_NAME: ((on_demand_broker_dedicated_cluster_plan_selector_name))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_DESCRIPTION: ((on_demand_broker_dedicated_cluster_plan_selector_description))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_FEATURES: ((on_demand_broker_dedicated_cluster_plan_selector_features))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_INSTANCE_QUOTA: ((on_demand_broker_dedicated_cluster_plan_selector_instance_quota))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_PERSISTENT_DISK_TYPE: ((on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_persistent_disk_type))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_NUMBER_OF_NODES: ((on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_number_of_nodes))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY: ((on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_cluster_partition_handling_strategy))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_AZ_PLACEMENT: ((on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_VM_TYPE: ((on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_vm_type))
+      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_DISK_LIMIT_ACKNOWLEDGEMENT: ((on_demand_broker_dedicated_cluster_plan_selector_disk_limit_acknowledgement))
       DISK_ALARM_THRESHOLD: ((disk_alarm_threshold))
-      RMQ_SERVER_INSTANCES: ((rabbitmq_server_instances))
-      RMQ_HAPROXY_INSTANCES: ((rabbitmq_haproxy_instances))
-      RMQ_BROKER_INSTANCES: ((rabbitmq_broker_instances))
-      RMQ_ONDEMAND_INSTANCES: ((rabbitmq_ondemand_instances))
-      RMQ_PLUGINS: ((rabbitmq_server_plugins))
-      RMQ_SSL_CERT: ((rabbitmq_ssl_certificate))
-      RMQ_PRIVATE_CERT: ((rabbitmq_private_certificate))
-      RMQ_CA_CERT: ((rabbitmq_ca_certificate))
+      SERVER_ADMIN_USERNAME: ((server_admin_username))
+      SERVER_ADMIN_PASSWORD: ((server_admin_password))
+      RABBITMQ_SERVER_PLUGINS: ((rabbitmq_server_plugins))
+      SSL_CERT_PEM: ((ssl_cert_pem))
+      SSL_PRIVATE_KEY_PEM: ((ssl_private_key_pem))
+      SSL_CACERT: ((ssl_cacert))
       SSL_VERIFY: ((ssl_verify))
       SSL_VERIFICATION_DEPTH: ((ssl_verification_depth))
       SSL_FAIL_IF_NO_PEER_CERT: ((ssl_fail_if_no_peer_cert))
-      ERLANG_COOKIE_NAME: ((erlang_cookie_name))
-      RMQ_SERVER_CONFIG: ((rabbitmq_server_config))
-      RMQ_SECURITY_OPTION: ((rabbitmq_security_option))
-      RMQ_NW_PARTITION_HANDLING: ((rabbitmq_network_partition_handling))
-      RMQ_SERVER_PORTS: ((rabbitmq_server_ports))
-      RMQ_HAPROXY_STATIC_IPS: ((rabbitmq_haproxy_static_ips))
-      RMQ_SERVER_STATIC_IPS: ((rabbitmq_server_static_ips))
-      RMQ_ADMIN_USERNAME: ((rabbitmq_admin_username))
-      RMQ_ADMIN_PASSWORD: ((rabbitmq_admin_password))
-      RMQ_LOADBALANCER_DNS: ((rabbitmq_loadbalancer_dns_name))
-      IS_RMQ_POLICY_ENABLED: ((rabbitmq_policy_enabled))
-      RMQ_POLICY_DEFINITION: ((rabbitmq_policy_definition))
-      ENABLE_SINGLE_NODE_PLAN: ((enable_single_node_plan))
-      PLAN_NAME: ((plan_name))
-      PLAN_DESCRIPTION: ((plan_description))
-      PCF_MARKETPLACE_PRODUCT_IDENTIFIER: ((marketplace_identifier))
-      SERVICE_INSTANCE_COUNT: ((single_node_service_instance_quota))
+      RABBITMQ_SERVER_COOKIE: ((rabbitmq_server_cookie))
+      RABBITMQ_SERVER_CONFIG: ((rabbitmq_server_config))
+      SSL_VERSIONS: ((ssl_versions))
+      CLUSTER_PARTITION_HANDLING: ((cluster_partition_handling))
+      RABBITMQ_SERVER_PORTS: ((rabbitmq_server_ports))
+      RABBITMQ_SERVER_STATIC_IPS: ((rabbitmq_server_static_ips))
+      RABBITMQ_HAPROXY_STATIC_IPS: ((rabbitmq_haproxy_static_ips))
+      RABBITMQ_BROKER_DNS_HOST: ((rabbitmq_broker_dns_host))
+      OPERATOR_SET_POLICY_ENABLED: ((operator_set_policy_enabled))
+      POLICY_DEFINITION: ((policy_definition))
       GLOBAL_SERVICE_INSTANCE_QUOTA: ((global_service_instance_quota))
-      SINGLE_NODE_PERSISTENT_DISK_TYPE: ((single_node_persistent_disk_type))
-      ON_DEMAND_BROKER_AZS: ((on_demand_broker_azs))
-      ON_DEMAND_BROKER_VM_TYPE: ((on_demand_broker_vm_type))
-      VM_EXTENSIONS: ((vm_extensions))
-      RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE: ((rabbitmq_server_node_disk_size))
+      RMQ_SERVER_INSTANCE_TYPE: ((rmq_server_instance_type))
+      RMQ_SERVER_INSTANCES: ((rmq_server_instances))
+      RMQ_SERVER_NODE_PERSISTENT_DISK_SIZE: ((rmq_server_node_persistent_disk_size))
+      RMQ_HAPROXY_INSTANCE_TYPE: ((rmq_haproxy_instance_type))
+      RMQ_HAPROXY_INSTANCES: ((rmq_haproxy_instances))
+      RMQ_BROKER_INSTANCE_TYPE: ((rmq_broker_instance_type))
+      RMQ_BROKER_INSTANCES: ((rmq_broker_instances))
+      RMQ_ONDEMAND_INSTANCE_TYPE: ((rmq_ondemand_instance_type))
+      RMQ_ONDEMAND_INSTANCES: ((rmq_ondemand_instances))
+      RMQ_ONDEMAND_PERSISTENT_DISK_SIZE: ((rmq_ondemand_persistent_disk_size))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
       passed: [config-product]
-      trigger: true
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -196,14 +225,13 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [config-product]
+      passed: [disable-errands]
       trigger: true
     - get: om-cli
       params:
@@ -230,8 +258,14 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [apply-changes]
+      trigger: true
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
