@@ -219,6 +219,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [upload-product-mysql]
     - get: pivnet-product
       resource: mysql-product
       params:
@@ -230,11 +231,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [upload-product-mysql]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
-
+      passed: [upload-product-mysql]
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
@@ -304,6 +306,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [upload-product-spring-cloud-services]
     - get: pivnet-product
       resource: spring-cloud-services-product
       params:
@@ -315,10 +318,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [upload-product-spring-cloud-services]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
+      passed: [upload-product-spring-cloud-services]
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -389,6 +394,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [upload-product-redis]
     - get: pivnet-product
       resource: redis-product
       params:
@@ -400,10 +406,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [upload-product-redis]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
+      passed: [upload-product-redis]
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -474,6 +482,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [upload-product-jmx-bridge]
     - get: pivnet-product
       resource: jmx-bridge-product
       params:
@@ -485,10 +494,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [upload-product-jmx-bridge]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
+      passed: [upload-product-jmx-bridge]
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -559,6 +570,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [upload-product-pcf-metrics]
     - get: pivnet-product
       resource: pcf-metrics-product
       params:
@@ -570,10 +582,12 @@ jobs:
       params:
         globs:
         - "*-linux"
+      passed: [upload-product-pcf-metrics]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
+      passed: [upload-product-pcf-metrics]
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
