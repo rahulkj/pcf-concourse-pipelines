@@ -410,16 +410,16 @@ PRODUCT_NETWORK_CONFIG=$(
     '. +
     {
       "singleton_availability_zone": {
-        "name": "$SINGLETON_JOBS_AZ"
+        "name": $SINGLETON_JOBS_AZ
       },
       "other_availability_zones": [
         $BALANCE_JOB_AZS
       ],
       "network": {
-        "name": "$NETWORK_NAME"
+        "name": $NETWORK_NAME
       },
       "service_network": {
-        "name": "$SERVICES_NETWORK_NAME"
+        "name": $SERVICES_NETWORK_NAME
       }
     }
     '
@@ -442,17 +442,17 @@ PRODUCT_RESOURCE_CONFIG=$(
       "redis-on-demand-broker": {
         "instance_type": {"id": $REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE},
         "instances": $REDIS_ON_DEMAND_BROKER_INSTANCES,
-        "persistent_disk": {"size_mb":"$REDIS_ON_DEMAND_BROKER_DISK_SIZE"}
+        "persistent_disk": {"size_mb": $REDIS_ON_DEMAND_BROKER_DISK_SIZE}
       },
       "cf-redis-broker": {
         "instance_type": {"id": $CF_REDIS_BROKER_INSTANCE_TYPE},
         "instances": $CF_REDIS_BROKER_INSTANCES,
-        "persistent_disk": {"size_mb":"$CF_REDIS_BROKER_DISK_SIZE"}
+        "persistent_disk": {"size_mb": $CF_REDIS_BROKER_DISK_SIZE}
       },
       "dedicated-node": {
         "instance_type": {"id": $DEDICATED_NODE_INSTANCE_TYPE},
         "instances": $DEDICATED_NODE_INSTANCES,
-        "persistent_disk": {"size_mb":"$DEDICATED_NODE_DISK_SIZE"}
+        "persistent_disk": {"size_mb": $DEDICATED_NODE_DISK_SIZE}
       }
     }'
 )
