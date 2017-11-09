@@ -137,7 +137,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOB_AZ: ((singleton_jobs_az))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
       BROKER_MAX_INSTANCES: ((broken_max_instances))
