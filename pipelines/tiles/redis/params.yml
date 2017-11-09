@@ -104,7 +104,6 @@ redis_on_demand_broker_instance_type: medium
 redis_on_demand_broker_instances: 1
 redis_on_demand_broker_disk_size: 10240
 cf_redis_broker_instance_type: medium
-cf_redis_broker_instances: 1
 cf_redis_broker_disk_size: 10240
 dedicated_node_instance_type: micro.ram
 dedicated_node_instances: 5

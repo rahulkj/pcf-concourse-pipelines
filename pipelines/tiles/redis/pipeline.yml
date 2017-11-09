@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -118,6 +125,10 @@ jobs:
         globs:
         - "*-linux"
       passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: config-tile
     file: pipelines-repo/tasks/config-redis/task.yml
@@ -126,7 +137,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOB_AZ: ((singleton_job_az))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
       SERVICES_NETWORK_NAME: ((services_network_name))
@@ -212,7 +223,6 @@ jobs:
       REDIS_ON_DEMAND_BROKER_INSTANCES: ((redis_on_demand_broker_instances))
       REDIS_ON_DEMAND_BROKER_DISK_SIZE: ((redis_on_demand_broker_disk_size))
       CF_REDIS_BROKER_INSTANCE_TYPE: ((cf_redis_broker_instance_type))
-      CF_REDIS_BROKER_INSTANCES: ((cf_redis_broker_instances))
       CF_REDIS_BROKER_DISK_SIZE: ((cf_redis_broker_disk_size))
       DEDICATED_NODE_INSTANCE_TYPE: ((dedicated_node_instance_type))
       DEDICATED_NODE_INSTANCES: ((dedicated_node_instances))
@@ -223,12 +233,18 @@ jobs:
   - aggregate:
     - get: pipelines-repo
       passed: [config-product]
-      trigger: true
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -243,14 +259,13 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [config-product]
+      passed: [disable-errands]
       trigger: true
     - get: om-cli
       params:
@@ -277,8 +292,14 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [apply-changes]
+      trigger: true
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
