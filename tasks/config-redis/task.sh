@@ -118,6 +118,7 @@ PRODUCT_PROPERTIES=$(
       }
     }
     elif $syslog_selector == "Yes with TLS encryption" then
+    {
       ".properties.syslog_selector.active_with_tls.syslog_address": {
         "value": $syslog_address
       },
@@ -402,14 +403,14 @@ PRODUCT_PROPERTIES=$(
 PRODUCT_NETWORK_CONFIG=$(
   echo "{}" |
   $JQ_CMD -n \
-    --arg SINGLETON_JOB_AZ "$SINGLETON_JOB_AZ" \
+    --arg SINGLETON_JOBS_AZ "$SINGLETON_JOBS_AZ" \
     --arg BALANCE_JOB_AZS "$BALANCE_JOB_AZS" \
     --arg NETWORK_NAME "$NETWORK_NAME" \
     --arg SERVICES_NETWORK_NAME "$SERVICES_NETWORK_NAME" \
     '. +
     {
       "singleton_availability_zone": {
-        "name": "$SINGLETON_JOB_AZ"
+        "name": "$SINGLETON_JOBS_AZ"
       },
       "other_availability_zones": [
         $BALANCE_JOB_AZS
