@@ -97,8 +97,8 @@ PRODUCT_PROPERTIES=$(
     {
       ".maximus.credentials": {
         "value": {
-          "identity": "$jmx_admin_usr",
-          "password": "$jmx_admin_pwd"
+          "identity": $jmx_admin_usr,
+          "password": $jmx_admin_pwd
         }
       },
       ".maximus.security_logging": {
@@ -113,8 +113,8 @@ PRODUCT_PROPERTIES=$(
     {
       ".maximus.ssl_rsa_certificate": {
         "value": {
-          "cert_pem": "$ssl_cert",
-          "private_key_pem": "$ssl_private_key"
+          "cert_pem": $ssl_cert,
+          "private_key_pem": $ssl_private_key
         }
       }
     }
