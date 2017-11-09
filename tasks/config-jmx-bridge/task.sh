@@ -77,7 +77,7 @@ PRODUCT_PROPERTIES=$(
     --arg jmx_use_ssl $JMX_USE_SSL \
     --arg ssl_cert "$SSL_CERT" \
     --arg ssl_private_key "$SSL_PRIVATE_KEY" \
-    --arg use_metric_prefix $USE_METRIC_PREFIX
+    --arg use_metric_prefix $USE_METRIC_PREFIX \
     '
     . +
     {
