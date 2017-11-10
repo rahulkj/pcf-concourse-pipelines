@@ -14,7 +14,7 @@ product_name: pivotal-rabbitmq-service
 product_identifier: p-rabbitmq
 product_version: ^1\.10\..*$
 
-om_generate_ssl_endpoint: /api/v0/certificates/generate
+ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
@@ -52,7 +52,7 @@ on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_cluster_partition_hand
 on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement:
 on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_vm_type:
 on_demand_broker_dedicated_cluster_plan_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
-disk_alarm_threshold:
+disk_alarm_threshold: # (fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0)
 server_admin_username:
 server_admin_password:
 rabbitmq_server_plugins: "rabbitmq_amqp1_0,rabbitmq_auth_backend_ldap,rabbitmq_auth_mechanism_ssl,rabbitmq_consistent_hash_exchange,rabbitmq_federation,rabbitmq_federation_management,rabbitmq_management,rabbitmq_management_visualiser,rabbitmq_mqtt,rabbitmq_shovel,rabbitmq_shovel_management,rabbitmq_stomp,rabbitmq_tracing,rabbitmq_web_stomp,rabbitmq_web_stomp_examples,rabbitmq_event_exchange,rabbitmq_jms_topic_exchange"
@@ -70,7 +70,7 @@ rabbitmq_server_ports: "15672, 5672, 5671, 1883, 8883, 61613, 61614, 15674"
 rabbitmq_server_static_ips:
 rabbitmq_haproxy_static_ips:
 rabbitmq_broker_dns_host:
-operator_set_policy_enabled:
+operator_set_policy_enabled: false # (true|false)
 policy_definition:
 global_service_instance_quota: 20
 
@@ -85,4 +85,11 @@ rmq_ondemand_instance_type: micro
 rmq_ondemand_instances: 1 # (0|1)
 rmq_ondemand_persistent_disk_size: 1024
 
-errands_to_disable:
+errands_to_disable: # (broker-registrar|multitenant-smoke-tests|register-on-demand-service-broker|dedicated-instance-smoke-tests|upgrade-all-service-instances)
+
+concourse_user:
+concourse_pwd:
+concourse_url:
+pipeline-name:
+team-name:
+upgrade-pipeline-name:

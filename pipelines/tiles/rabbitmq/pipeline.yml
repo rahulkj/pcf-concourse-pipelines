@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -118,6 +125,10 @@ jobs:
         globs:
         - "*-linux"
       passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: config-tile
     file: pipelines-repo/tasks/config-rabbitmq/task.yml
