@@ -91,7 +91,7 @@ PRODUCT_RESOURCE=$(
       },
       "mysql": {
         "instance_type": {"id": $mysql_instance_type},
-        "persistent_disk": $mysql_persistent_disk_size
+        "persistent_disk": {"size_mb": $mysql_persistent_disk_size}
       }
     }'
 )
