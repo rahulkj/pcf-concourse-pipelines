@@ -10,18 +10,19 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
-  SINGLETON_JOB_AZ:
+  SINGLETON_JOBS_AZ:
   OTHER_AZS:
   NETWORK_NAME:
   BROKER_MAX_INSTANCES:
   BUILDPACK:
   DISABLE_CERT_CHECK:
-  APP_PUSH_TIMEOUT:
+  INSTANCES_APP_PUSH_TIMEOUT:
   ENABLE_GLOBAL_ACCESS:
 
 inputs:
   - name: pipelines-repo
   - name: om-cli
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/config-spring-cloud-services/task.sh

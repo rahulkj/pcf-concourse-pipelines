@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -118,6 +125,10 @@ jobs:
         globs:
         - "*-linux"
       passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: config-tile
     file: pipelines-repo/tasks/config-pcf-metrics/task.yml
@@ -126,36 +137,44 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOB_AZ: ((singleton_job_az))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      MYSQL_MONITOR_EMAIL: ((mysql_monitor_email))
       MYSQL_LOGQUEUE_INSTANCE_COUNT: ((mysql_logqueue_instance_count))
       ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((elasticsearch_logqueue_instance_count))
       INGESTOR_INSTANCE_COUNT: ((ingestor_instance_count))
+      SERVER_INSTANCE_COUNT: ((server_instance_count))
+      LOGS_RETENTION_WINDOW: ((logs_retention_window))
+      METRICS_RETENTION_WINDOW: ((metrics_retention_window))
       ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
       ELASTICSEARCH_MASTER_INSTANCES: ((elasticsearch_master_instances))
       ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE: ((elasticsearch_master_persistent_disk_size))
       ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
       ELASTICSEARCH_DATA_INSTANCES: ((elasticsearch_data_instances))
       ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE: ((elasticsearch_data_persistent_disk_size))
-      MYSQL_SERVER_INSTANCE_TYPE: ((mysql_server_instance_type))
-      MYSQL_SERVER_INSTANCES: ((mysql_server_instances))
-      MYSQL_SERVER_PERSISTENT_DISK_SIZE: ((mysql_server_persistent_disk_size))
-      MYSQL_PROXY_INSTANCE_TYPE: ((mysql_proxy_instance_type))
-      MYSQL_PROXY_INSTANCES: ((mysql_proxy_instances))
+      REDIS_INSTANCE_TYPE: ((redis_instance_type))
+      REDIS_INSTANCES: ((redis_instances))
+      REDIS_DISK_SIZE: ((redis_disk_size))
+      MYSQL_INSTANCE_TYPE: ((mysql_instance_type))
+      MYSQL_PERSISTENT_DISK_SIZE: ((mysql_persistent_disk_size))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
       passed: [config-product]
-      trigger: true
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [config-product]
+      trigger: true
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -170,14 +189,13 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs:
         - "*.pivotal"
-      passed: [config-product]
+      passed: [disable-errands]
       trigger: true
     - get: om-cli
       params:
@@ -204,8 +222,14 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [apply-changes]
+      trigger: true
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml

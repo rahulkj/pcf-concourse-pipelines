@@ -12,52 +12,84 @@ ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: pivotal-rabbitmq-service
 product_identifier: p-rabbitmq
+product_version: ^1\.10\..*$
 
-om_generate_ssl_endpoint: /api/v0/certificates/generate
+ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
-deployment_nw: # [R] Tile network name
-services_nw: # [R] Services network name
+network_name: # [R] Tile network name
+services_network_name: # [R] Services network name
 
-metrics_polling_interval: 30 # [R] Metrics polling interval  min: 10
-syslog_selector: disabled # [O] enabled|disabled - Syslog enabled
-syslog_address: # [O] Syslog address, required if syslog is enabled
-syslog_port: # [O] Syslog port, required if syslog is enabled
-disk_alarm_threshold: fixed_50_mb # [R] fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0 - Disk free alarm limit
-rabbitmq_server_plugins: "\"rabbitmq_amqp1_0\",\"rabbitmq_auth_backend_ldap\",\"rabbitmq_auth_mechanism_ssl\",\"rabbitmq_consistent_hash_exchange\",\"rabbitmq_federation\",\"rabbitmq_federation_management\",\"rabbitmq_management\",\"rabbitmq_management_visualiser\",\"rabbitmq_mqtt\",\"rabbitmq_shovel\",\"rabbitmq_shovel_management\",\"rabbitmq_stomp\",\"rabbitmq_tracing\",\"rabbitmq_web_stomp\",\"rabbitmq_web_stomp_examples\",\"rabbitmq_event_exchange\",\"rabbitmq_jms_topic_exchange\""
-rabbitmq_ssl_certificate: # [O] RabbitMQ server RSA public certificate
-rabbitmq_private_certificate: # [O] RabbitMQ server RSA private key certificate
-rabbitmq_ca_certificate: # [O] RabbitMQ server CA certificate
-ssl_verify: false # [R] true|false Enable 'verify_peer' SSL certificate verification (default is 'verify_none')
-ssl_verification_depth: 5 # [R] SSL certificate verification depth  min: 1, max: 32
-ssl_fail_if_no_peer_cert: false #true|false
-erlang_cookie_name: # [O] Erlang cookie used by RabbitMQ nodes and rabbitmqctl
-rabbitmq_server_config: # [O] RabbitMQ configuration
-rabbitmq_security_option: # [O] blank|enable_tls1_0 RabbitMQ TLS 1.0 Support
-rabbitmq_network_partition_handling: pause_minority # [R] pause_minority|autoheal Select the network partition behavior of the RabbitMQ cluster
-rabbitmq_server_ports: 15672,5672,5671,1883,8883,61613,61614,15674 # [R] RabbitMQ cluster HAproxy ports
-rabbitmq_haproxy_static_ips: # [O] HAProxy Static IPs
-rabbitmq_server_static_ips: # [O] RabbitMQ Server Static IPs
-rabbitmq_admin_username: # [R] RabbitMQ admin user credentials
-rabbitmq_admin_password: # [R] RabbitMQ admin user credentials
-rabbitmq_loadbalancer_dns_name: # [O] External load balancer DNS name
-rabbitmq_policy_enabled: false # [O] true|false Enable custom policy on new instances
-rabbitmq_policy_definition: # [O] If the above attribute is enabled, then this policy will be applied to all new instances.
-enable_single_node_plan: false # [O] true|false Enable Single Node Plan
-plan_name: solo # [O] Single Node Plan name
-plan_description: "Single node RabbitMQ dedicated instance" # [O] Single Node Plan description
-marketplace_identifier: "RabbitMQ 3.6.9" # [O] Single Node Plan features
-single_node_service_instance_quota: 5 # [R] Set the total number of dedicated service instances which can be deployed (max = 50)
-global_service_instance_quota: 20 # [R] Set the total number of dedicated service instances which can be deployed (max = 50)
-single_node_persistent_disk_type: 51200 # [R] Persistent disk type - refer to the cloud config for this tile to get all the supported disk types
-on_demand_broker_azs: # [R] AZ placement - The AZ(s) that the service instance will be deployed into
-on_demand_broker_vm_type: nano # [R] nano|micro|large|xlarge - RabbitMQ VM Type - refer to the cloud config for this tile to get all the supported vm types
-vm_extensions: # [O] blank or public_ip > Please refer to the Ops Manager documentation for IaaS specific behavior. Log forwarding and backups may require internet access.
-rabbitmq_server_node_disk_size: 51200 # [R] Refer to cloud config for this tile to get the possible values for this section
-errands_to_disable:
+metrics_polling_interval: 30 # min: 10
+syslog_selector: disabled # (enabled|disabled)
+syslog_selector_address:
+syslog_selector_port:
+syslog_selector_syslog_transport: tcp # (tcp|udp|relp)
+syslog_selector_syslog_format: rfc5424 # (rfc5424|job_index_id)
+syslog_selector_syslog_tls: false # (true|false)
+syslog_selector_syslog_permitted_peer:
+syslog_selector_syslog_ca_cert:
+on_demand_broker_vm_extensions:
+on_demand_broker_dedicated_single_node_plan_cf_service_access: "disable" #(enable|disable)
+on_demand_broker_dedicated_single_node_plan_name: "solo"
+on_demand_broker_dedicated_single_node_plan_description: "Single node RabbitMQ dedicated instance"
+on_demand_broker_dedicated_single_node_plan_instance_quota: 0
+on_demand_broker_dedicated_single_node_plan_features: "RabbitMQ"
+on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement:
+on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type:
+on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type:
+on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_dedicated_cluster_plan_selector: "disabled" #(enabled|disabled)
+on_demand_broker_dedicated_cluster_plan_selector_cf_service_access: "enable" #(enable|disable)
+on_demand_broker_dedicated_cluster_plan_selector_name: "cluster"
+on_demand_broker_dedicated_cluster_plan_selector_description: "RabbitMQ dedicated cluster"
+on_demand_broker_dedicated_cluster_plan_selector_features: "RabbitMQ"
+on_demand_broker_dedicated_cluster_plan_selector_instance_quota: 0
+on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_persistent_disk_type:
+on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_number_of_nodes: 3
+on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|autoheal)
+on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement:
+on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_vm_type:
+on_demand_broker_dedicated_cluster_plan_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+disk_alarm_threshold: # (fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0)
+server_admin_username:
+server_admin_password:
+rabbitmq_server_plugins: "rabbitmq_amqp1_0,rabbitmq_auth_backend_ldap,rabbitmq_auth_mechanism_ssl,rabbitmq_consistent_hash_exchange,rabbitmq_federation,rabbitmq_federation_management,rabbitmq_management,rabbitmq_management_visualiser,rabbitmq_mqtt,rabbitmq_shovel,rabbitmq_shovel_management,rabbitmq_stomp,rabbitmq_tracing,rabbitmq_web_stomp,rabbitmq_web_stomp_examples,rabbitmq_event_exchange,rabbitmq_jms_topic_exchange"
+ssl_cert_pem:
+ssl_private_key_pem:
+ssl_cacert:
+ssl_verify: false # (true|false)
+ssl_verification_depth: 5
+ssl_fail_if_no_peer_cert: false # (true|false)
+rabbitmq_server_cookie:
+rabbitmq_server_config:
+ssl_versions: tlsv1.1,tlsv1.2 # (tlsv1.0,tlsv1.1,tlsv1.2)
+cluster_partition_handling: pause_minority #(pause_minority|autoheal)
+rabbitmq_server_ports: "15672, 5672, 5671, 1883, 8883, 61613, 61614, 15674"
+rabbitmq_server_static_ips:
+rabbitmq_haproxy_static_ips:
+rabbitmq_broker_dns_host:
+operator_set_policy_enabled: false # (true|false)
+policy_definition:
+global_service_instance_quota: 20
 
-rabbitmq_server_instances: # [R] RabbitMQ node instances, integer, 0 or n instances
-rabbitmq_haproxy_instances: # [R] HAProxy for RabbitMQ, integer, 0 or n instances
-rabbitmq_broker_instances: 1 # [R] RabbitMQ service broker, integer, 0 or 1 instance only
-rabbitmq_ondemand_instances: 1 # [R] RabbitMQ on-demand broker, integer, 0 or 1 instance only
+rmq_server_instance_type: large
+rmq_server_instances: 3
+rmq_server_node_persistent_disk_size: 30720
+rmq_haproxy_instance_type: small
+rmq_haproxy_instances: 1
+rmq_broker_instance_type: small
+rmq_broker_instances: 1 # (0|1)
+rmq_ondemand_instance_type: micro
+rmq_ondemand_instances: 1 # (0|1)
+rmq_ondemand_persistent_disk_size: 1024
+
+errands_to_disable: # (broker-registrar|multitenant-smoke-tests|register-on-demand-service-broker|dedicated-instance-smoke-tests|upgrade-all-service-instances)
+
+concourse_user:
+concourse_pwd:
+concourse_url:
+pipeline-name:
+team-name:
+upgrade-pipeline-name:

@@ -15,16 +15,16 @@ ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: p-spring-cloud-services # Product slug from pivnet
 product_identifier: p-spring-cloud-services # Product identifier from OpsManager using om cli
-product_version: ^1\.4\..*$ # [O] Replicated Tile Name, ex: abc
+product_version: ^1\.4\..*$
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 
 broken_max_instances: 100
-buildpack_name:
+buildpack_name: ""
 disable_cert_check: false
-app_push_timeout:
+instances_app_push_timeout:
 enable_global_access: true
 
 errands_to_disable:

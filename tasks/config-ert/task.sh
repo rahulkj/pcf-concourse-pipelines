@@ -74,7 +74,13 @@ CF_PROPERTIES=$(
     --arg cc_api_rate_limit "$CC_API_RATE_LIMIT" \
     --arg general_limit "$GENERAL_LIMIT" \
     --arg unauthenticated_limit "$UNAUTHENTICATED_LIMIT" \
-    --arg secure_diego_communication "$SECURE_DIEGO_COMMUNICATION" \
+    --arg credhub_key_encryption_password "$CREDHUB_KEY_ENCRYPTION_PASSWORD" \
+    --arg credhub_database "$CREDHUB_DATABASE" \
+    --arg credhub_database_external_host "$CREDHUB_DATABASE_EXTERNAL_HOST" \
+    --arg credhub_database_external_port "$CREDHUB_DATABASE_EXTERNAL_PORT" \
+    --arg credhub_database_external_username "$CREDHUB_DATABASE_EXTERNAL_USERNAME" \
+    --arg credhub_database_external_password "$CREDHUB_DATABASE_EXTERNAL_PASSWORD" \
+    --arg credhub_database_external_tls_ca "$CREDHUB_DATABASE_EXTERNAL_TLS_CA" \
     --arg nfs_volume_driver "$NFS_VOLUME_DRIVER" \
     --arg ldap_service_account_user "$LDAP_SERVICE_ACCOUNT_USER" \
     --arg ldap_service_account_password "$LDAP_SERVICE_ACCOUNT_PASSWORD" \
@@ -297,7 +303,6 @@ CF_PROPERTIES=$(
     --arg executor_memory_capacity "$EXECUTOR_MEMORY_CAPACITY" \
     --arg insecure_docker_registry_list "$INSECURE_DOCKER_REGISTRY_LIST" \
     --arg garden_network_mtu "$GARDEN_NETWORK_MTU" \
-    --arg dns_servers "$DNS_SERVERS" \
     --arg message_drain_buffer_size "$MESSAGE_DRAIN_BUFFER_SIZE" \
     --arg tcp_router_static_ips "$TCP_ROUTER_STATIC_IPS" \
     --arg company_name "$COMPANY_NAME" \
@@ -315,7 +320,7 @@ CF_PROPERTIES=$(
     --arg nav_links_href_2 "$NAV_LINKS_HREF_2" \
     --arg nav_links_name_3 "$NAV_LINKS_NAME_3" \
     --arg nav_links_href_3 "$NAV_LINKS_HREF_3" \
-    --arg product_name "$PRODUCT_NAME" \
+    --arg apps_manager_product_name "$APPS_MANAGER_PRODUCT_NAME" \
     --arg marketplace_name "$MARKETPLACE_NAME" \
     --arg enable_invitations "$ENABLE_INVITATIONS" \
     --arg display_plan_prices "$DISPLAY_PLAN_PRICES" \
@@ -335,7 +340,40 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.secure_diego_communication":{"value":$secure_diego_communication},
+      ".properties.credhub_key_encryption_password": {
+        "value": {
+          "secret": $credhub_key_encryption_password
+        }
+      }
+    }
+    +
+    if $credhub_database == "external" then
+    {
+      ".properties.credhub_database": {
+        "value": "$credhub_database"
+      },
+      ".properties.credhub_database.external.host": {
+        "value": $credhub_database_external_host
+      },
+      ".properties.credhub_database.external.port": {
+        "value": $credhub_database_external_port
+      },
+      ".properties.credhub_database.external.username": {
+        "value": $credhub_database_external_username
+      },
+      ".properties.credhub_database.external.password": {
+        "value": {
+          "secret": $credhub_database_external_password
+        }
+      },
+      ".properties.credhub_database.external.tls_ca": {
+        "value": $credhub_database_external_tls_ca
+      }
+    }
+    else .
+    end
+    +
+    {
       ".properties.nfs_volume_driver":{"value":$nfs_volume_driver}
     }
     +
@@ -458,6 +496,7 @@ CF_PROPERTIES=$(
     +
     if $system_blobstore == "s3" then
     {
+      ".properties.system_blobstore":{"value":"external"},
       ".properties.system_blobstore.external.endpoint":{"value":$s3_endpoint},
       ".properties.system_blobstore.external.buildpacks_bucket":{"value":$s3_buildpacks_bucket},
       ".properties.system_blobstore.external.droplets_bucket":{"value":$s3_droplets_bucket},
@@ -471,6 +510,7 @@ CF_PROPERTIES=$(
     }
     elif $system_blobstore == "gcs" then
     {
+      ".properties.system_blobstore":{"value":"external_gcs"},
       ".properties.system_blobstore.external_gcs.buildpacks_bucket":{"value":$gcs_buildpacks_bucket},
       ".properties.system_blobstore.external_gcs.buildpacks_bucket":{"value":$gcs_buildpacks_bucket},
       ".properties.system_blobstore.external_gcs.packages_bucket":{"value":$gcs_packages_bucket},
@@ -480,6 +520,7 @@ CF_PROPERTIES=$(
     }
     elif $system_blobstore == "azure" then
     {
+      ".properties.system_blobstore":{"value":"external_azure"},
       ".properties.system_blobstore.external_azure.buildpacks_container":{"value":$azure_buildpacks_container},
       ".properties.system_blobstore.external_azure.droplets_container":{"value":$azure_droplets_container},
       ".properties.system_blobstore.external_azure.packages_container":{"value":$azure_packages_container},
@@ -697,7 +738,6 @@ CF_PROPERTIES=$(
       ".diego_cell.executor_memory_capacity":{"value":$executor_memory_capacity},
       ".diego_cell.insecure_docker_registry_list":{"value":$insecure_docker_registry_list},
       ".diego_cell.garden_network_mtu":{"value":$garden_network_mtu},
-      ".diego_cell.dns_servers":{"value":$dns_servers},
       ".doppler.message_drain_buffer_size":{"value":$message_drain_buffer_size},
       ".tcp_router.static_ips":{"value":$tcp_router_static_ips},
       ".push-apps-manager.company_name":{"value":$company_name},
@@ -708,7 +748,11 @@ CF_PROPERTIES=$(
       ".push-apps-manager.global_wrapper_footer_content":{"value":$global_wrapper_footer_content},
       ".push-apps-manager.logo":{"value":$logo},
       ".push-apps-manager.square_logo":{"value":$square_logo},
-      ".push-apps-manager.footer_text":{"value":$footer_text},
+      ".push-apps-manager.footer_text":{"value":$footer_text}
+    }
+    +
+    if $nav_links_name_1 != "" then
+    {
       ".push-apps-manager.nav_links":{
         "value":[
           {
@@ -723,8 +767,13 @@ CF_PROPERTIES=$(
             "name":{"value":$nav_links_name_3},
             "href":{"value":$nav_links_href_3}
           }]
-      },
-      ".push-apps-manager.product_name":{"value":$product_name},
+      }
+    }
+    else .
+    end
+    +
+    {
+      ".push-apps-manager.product_name":{"value":$apps_manager_product_name},
       ".push-apps-manager.marketplace_name":{"value":$marketplace_name},
       ".push-apps-manager.enable_invitations":{"value":$enable_invitations},
       ".push-apps-manager.display_plan_prices":{"value":$display_plan_prices},
@@ -820,6 +869,10 @@ CF_RESOURCES=$(cat <<-EOF
   "syslog_adapter": {
     "instance_type": {"id": "$SYSLOG_ADAPTER_INSTANCE_TYPE"},
     "instances" : $SYSLOG_ADAPTER_INSTANCES
+  },
+  "credhub": {
+    "instance_type": {"id": "$CREDHUB_INSTANCE_TYPE"},
+    "instances" : $CREDHUB_INSTANCES
   }
 }
 EOF

@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -118,6 +125,10 @@ jobs:
         globs:
         - "*-linux"
       passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: config-tile
     file: pipelines-repo/tasks/config-jmx-bridge/task.yml
@@ -127,7 +138,7 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       OPS_MGR_GENERATE_SSL_ENDPOINT: ((om_generate_ssl_endpoint))
-      SINGLETON_AZ: ((singleton_az))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
       JMX_ADMIN_USR: ((jmx_admin_usr))
@@ -141,24 +152,16 @@ jobs:
       JMX_DOMAIN: ((jmx_domain))
       USE_METRIC_PREFIX: ((use_metric_prefix))
       MAXIMUS_INSTANCE_TYPE: ((maximus_instance_type))
-      MAXIMUS_INSTANCES: ((maximus_instances))
       MAXIMUS_PERSISTENT_DISK_SIZE_MB: ((maximus_persistent_disk_size_mb))
       JMX_FIREHOSE_NOZZLE_INSTANCE_TYPE: ((jmx_firehose_nozzle_instance_type))
       JMX_FIREHOSE_NOZZLE_INSTANCES: ((jmx_firehose_nozzle_instances))
       JMX_FIREHOSE_NOZZLE_PERSISTENT_DISK_SIZE_MB: ((jmx_firehose_nozzle_persistent_disk_size_mb))
       INTEGRATION_TESTS_INSTANCE_TYPE: ((integration_tests_instance_type))
-      INTEGRATION_TESTS_INSTANCES: ((integration_tests_instances))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [config-product]
-      trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
       passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -167,6 +170,11 @@ jobs:
         - "*.pivotal"
       passed: [config-product]
       trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-product]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -194,6 +202,14 @@ jobs:
         globs:
         - "*-linux"
       passed: [disable-errands]
+
+  - task: validate-apply-changes
+    file: pipelines-repo/tasks/validate-apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml

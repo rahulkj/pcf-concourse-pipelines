@@ -26,6 +26,7 @@ IAAS_CONFIGURATION=$(
     --arg bosh_disk_path "$BOSH_DISK_PATH" \
     --argjson ssl_verification_enabled $SSL_VERIFICATION_ENABLED \
     --argjson nsx_networking_enabled $NSX_NETWORKING_ENABLED \
+    --arg nsx_mode "$NSX_MODE" \
     --arg nsx_address "$NSX_ADDRESS" \
     --arg nsx_username "$NSX_USERNAME" \
     --arg nsx_password "$NSX_PASSWORD" \
@@ -49,6 +50,7 @@ IAAS_CONFIGURATION=$(
     +
     if $nsx_networking_enabled == "true" then
     {
+      "nsx_mode": $nsx_mode,
       "nsx_address": $nsx_address,
       "nsx_username": $nsx_username,
       "nsx_password": $nsx_password
@@ -238,7 +240,7 @@ DIRECTOR_CONFIG=$(
     }
   }
   +
-  if $pager_duty_enabled == "true" then
+  if $pager_duty_enabled == true then
   {
     "hm_pager_duty_options": {
       "service_key": $pager_duty_service_key,
@@ -248,16 +250,14 @@ DIRECTOR_CONFIG=$(
   else .
   end
   +
-  if $hm_email_enabled == "true" then
+  if $hm_email_enabled == true then
   {
     "hm_emailer_options": {
       "host": $smtp_host,
       "port": $smtp_port,
       "domain": $smtp_domain,
       "from": $from_address,
-      "recipients": {
-        "value": $recipients_address
-      },
+      "recipients": $recipients_address,
       "smtp_user": $smtp_user,
       "smtp_password": $smtp_password,
       "tls": $smtp_tls_enabled
@@ -292,20 +292,12 @@ DIRECTOR_CONFIG=$(
   else .
   end
   +
-  if $syslog_enabled == "true" then
+  if $syslog_enabled == true and $syslog_tls_enabled == true then
   {
     "syslog_configuration": {
       "address": $syslog_address,
       "port": $syslog_port,
-      "transport_protocol": $syslog_transport_protocol
-    }
-  }
-  else .
-  end
-  +
-  if ($syslog_enabled == "true" and $syslog_tls_enabled == "true") then
-  {
-    "syslog_configuration": {
+      "transport_protocol": $syslog_transport_protocol,
       "tls_enabled": $syslog_tls_enabled,
       "permitted_peer": $syslog_permitted_peer,
       "ssl_ca_certificate": $syslog_ssl_ca_certificate
@@ -314,6 +306,9 @@ DIRECTOR_CONFIG=$(
   else
   {
     "syslog_configuration": {
+      "address": $syslog_address,
+      "port": $syslog_port,
+      "transport_protocol": $syslog_transport_protocol,
       "tls_enabled": $syslog_tls_enabled
     }
   }
@@ -339,6 +334,21 @@ SECURITY_CONFIG=$(cat <<-EOF
 EOF
 )
 
+RESOURCE_CONFIG=$(cat <<-EOF
+{
+  "director": {
+    "instance_type": {"id": "$DIRECTOR_INSTANCE_TYPE"},
+    "instances" : $DIRECTOR_INSTANCES,
+    "persistent_disk": { "size_mb": "$DIRECTOR_PERSISTENT_DISK_SIZE_MB" }
+  },
+  "compilation": {
+    "instance_type": {"id": "$COMPILATION_INSTANCE_TYPE"},
+    "instances" : $COMPILATION_INSTANCES
+  }
+}
+EOF
+)
+
 echo "Configuring IaaS and Director..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
   -i "$IAAS_CONFIGURATION" \
@@ -354,4 +364,5 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   configure-bosh \
   --networks-configuration "$NETWORK_CONFIGURATION" \
   --network-assignment "$NETWORK_ASSIGNMENT" \
-  --security-configuration "$SECURITY_CONFIG"
+  --security-configuration "$SECURITY_CONFIG" \
+  --resource-configuration "$RESOURCE_CONFIG"
