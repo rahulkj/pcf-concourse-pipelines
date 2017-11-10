@@ -375,17 +375,17 @@ PRODUCT_RESOURCE=$(
   echo "{}" |
   $JQ_CMD -n \
     --arg mysql_server_instance_type "$MYSQL_SERVER_INSTANCE_TYPE" \
-    --arg mysql_server_instances $MYSQL_SERVER_INSTANCES \
+    --argjson mysql_server_instances $MYSQL_SERVER_INSTANCES \
     --arg mysql_persistent_disk_mb "$MYSQL_PERSISTENT_DISK_MB" \
     --arg backup_prepare_instance_type "$BACKUP_PREPARE_INSTANCE_TYPE" \
-    --arg backup_prepare_instances $BACKUP_PREPARE_INSTANCES \
+    --argjson backup_prepare_instances $BACKUP_PREPARE_INSTANCES \
     --arg backup_prepare_persistent_disk_mb "$BACKUP_PREPARE_PERSISTENT_DISK_MB" \
     --arg mysql_proxy_instance_type "$MYSQL_PROXY_INSTANCE_TYPE" \
-    --arg mysql_proxy_instances $MYSQL_PROXY_INSTANCES \
+    --argjson mysql_proxy_instances $MYSQL_PROXY_INSTANCES \
     --arg monitoring_instance_type "$MONITORING_INSTANCE_TYPE" \
-    --arg monitoring_instances $MONITORING_INSTANCES \
+    --argjson monitoring_instances $MONITORING_INSTANCES \
     --arg mysql_broker_instance_type "$MYSQL_BROKER_INSTANCE_TYPE" \
-    --arg mysql_broker_instances $MYSQL_BROKER_INSTANCES \
+    --argjson mysql_broker_instances $MYSQL_BROKER_INSTANCES \
     '. +
     {
       "mysql": {
