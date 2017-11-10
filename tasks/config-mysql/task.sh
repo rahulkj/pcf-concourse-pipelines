@@ -271,13 +271,25 @@ PRODUCT_PROPERTIES=$(
     {
       ".properties.buffer_pool_size": {
         "value": $buffer_pool_size
-      },
+      }
+    }
+    +
+    if $buffer_pool_size == "percent" then
+    {
       ".properties.buffer_pool_size.percent.buffer_pool_size_percent": {
         "value": $buffer_pool_size_percent
-      },
+      }
+    }
+    elif $buffer_pool_size == "bytes" then
+    {
       ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes": {
         "value": $buffer_pool_size_bytes
-      },
+      }
+    }
+    else .
+    end
+    +
+    {
       ".mysql.roadmin_password": {
         "value": {
           "secret": $mysql_roadmin_password
