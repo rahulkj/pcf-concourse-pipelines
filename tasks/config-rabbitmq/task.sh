@@ -144,7 +144,7 @@ PRODUCT_PROPERTIES=$(
         "value": $on_demand_broker_dedicated_single_node_plan_features
       },
       ".properties.on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement": {
-        "value": $on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement
+        "value": ($on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement | split(",") | map(.))
       },
       ".properties.on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type": {
         "value": $on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type
@@ -187,7 +187,7 @@ PRODUCT_PROPERTIES=$(
         "value": $on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_cluster_partition_handling_strategy
       },
       ".properties.on_demand_broker_dedicated_cluster_plan_selector.enabled.rabbitmq_az_placement": {
-        "value": $on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement
+        "value": ($on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement | split(",") | map(.))
       },
       ".properties.on_demand_broker_dedicated_cluster_plan_selector.enabled.rabbitmq_vm_type": {
         "value": $on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_vm_type
