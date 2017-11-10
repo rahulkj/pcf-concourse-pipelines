@@ -45,8 +45,8 @@ PRODUCT_PROPERTIES=$(
     --arg syslog_selector_syslog_ca_cert "$SYSLOG_SELECTOR_SYSLOG_CA_CERT" \
     --arg on_demand_broker_vm_extensions $ON_DEMAND_BROKER_VM_EXTENSIONS \
     --arg on_demand_broker_dedicated_single_node_plan_cf_service_access $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_CF_SERVICE_ACCESS \
-    --arg on_demand_broker_dedicated_single_node_plan_name $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_NAME \
-    --arg on_demand_broker_dedicated_single_node_plan_description $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DESCRIPTION \
+    --arg on_demand_broker_dedicated_single_node_plan_name "$ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_NAME" \
+    --arg on_demand_broker_dedicated_single_node_plan_description "$ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DESCRIPTION" \
     --argjson on_demand_broker_dedicated_single_node_plan_instance_quota $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_INSTANCE_QUOTA \
     --arg on_demand_broker_dedicated_single_node_plan_features $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_FEATURES \
     --arg on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_AZ_PLACEMENT \
@@ -55,8 +55,8 @@ PRODUCT_PROPERTIES=$(
     --arg on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement $ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DISK_LIMIT_ACKNOWLEDGEMENT \
     --arg on_demand_broker_dedicated_cluster_plan_selector "$ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR" \
     --arg on_demand_broker_dedicated_cluster_plan_selector_cf_service_access $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_CF_SERVICE_ACCESS \
-    --arg on_demand_broker_dedicated_cluster_plan_selector_name $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_NAME \
-    --arg on_demand_broker_dedicated_cluster_plan_selector_description $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_DESCRIPTION \
+    --arg on_demand_broker_dedicated_cluster_plan_selector_name "$ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_NAME" \
+    --arg on_demand_broker_dedicated_cluster_plan_selector_description "$ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_DESCRIPTION" \
     --arg on_demand_broker_dedicated_cluster_plan_selector_features $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_FEATURES \
     --argjson on_demand_broker_dedicated_cluster_plan_selector_instance_quota $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_INSTANCE_QUOTA \
     --arg on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_persistent_disk_type $ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_RABBITMQ_PERSISTENT_DISK_TYPE \
@@ -70,7 +70,7 @@ PRODUCT_PROPERTIES=$(
     --arg server_admin_password $SERVER_ADMIN_PASSWORD \
     --arg rabbitmq_server_plugins $RABBITMQ_SERVER_PLUGINS \
     --arg ssl_cert_pem "$SSL_CERT_PEM" \
-    --arg ssl_private_key_pem $SSL_PRIVATE_KEY_PEM \
+    --arg ssl_private_key_pem "$SSL_PRIVATE_KEY_PEM" \
     --arg ssl_cacert "$SSL_CACERT" \
     --argjson ssl_verify $SSL_VERIFY \
     --argjson ssl_verification_depth $SSL_VERIFICATION_DEPTH \
