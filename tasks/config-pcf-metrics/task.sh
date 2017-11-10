@@ -75,23 +75,23 @@ PRODUCT_RESOURCE=$(
     '. +
     {
       "elasticsearch_master": {
-        "instance_type": {"id": $ELASTICSEARCH_MASTER_INSTANCE_TYPE},
-        "instances": $ELASTICSEARCH_MASTER_INSTANCES,
-        "persistent_disk": {"size_mb": $ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE}
+        "instance_type": {"id": $elasticsearch_master_instance_type},
+        "instances": $elasticsearch_master_instances,
+        "persistent_disk": {"size_mb": $elasticsearch_master_persistent_disk_size}
       },
       "elasticsearch_data": {
-        "instance_type": {"id": $ELASTICSEARCH_DATA_INSTANCE_TYPE},
-        "instances": $ELASTICSEARCH_DATA_INSTANCES,
-        "persistent_disk": {"size_mb": $ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE}
+        "instance_type": {"id": $elasticsearch_data_instance_type},
+        "instances": $elasticsearch_data_instances,
+        "persistent_disk": {"size_mb": $elasticsearch_data_persistent_disk_size}
       },
       "redis": {
-        "instance_type": {"id": $REDIS_INSTANCE_TYPE},
-        "instances": $REDIS_INSTANCES,
-        "persistent_disk": {"size_mb": $REDIS_DISK_SIZE}
+        "instance_type": {"id": $redis_instance_type},
+        "instances": $redis_instances,
+        "persistent_disk": {"size_mb": $redis_disk_size}
       },
       "mysql": {
-        "instance_type": {"id": $MYSQL_INSTANCE_TYPE},
-        "persistent_disk": $MYSQL_PERSISTENT_DISK_SIZE
+        "instance_type": {"id": $mysql_instance_type},
+        "persistent_disk": $mysql_persistent_disk_size
       }
     }'
 )
