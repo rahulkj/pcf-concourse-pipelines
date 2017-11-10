@@ -23,16 +23,15 @@ Now you can execute the following commands:
 Supported pipelines
 -------------------
 
--	[New Install of PCF (OM/ERT)](./pipelines/new-setup)
+-	[New Install of PCF (OM/ERT)](./pipelines/install)
 -	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
--	[Isolation Segments Installation](./pipelines/tiles/isolation-segments)
+-	[Isolation Segments Installation](./pipelines/tiles/isolation-segments) - **WIP**
 -	[RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 -	[Redis Installation](./pipelines/tiles/redis)
 -	[Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
 -	[MySQL Installation](./pipelines/tiles/mysql)
--	[Logsearch Installation](./pipelines/tiles/logsearch)
 -	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
 -	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
--	[Single Signon Installation](./pipelines/tiles/single-signon)
+-	[Single Signon Installation](./pipelines/tiles/single-signon) **WIP**
 -	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 -	[Upgrade Tile](./pipelines/upgrade-tile)
