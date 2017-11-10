@@ -280,7 +280,7 @@ PRODUCT_PROPERTIES=$(
       },
       ".mysql.roadmin_password": {
         "value": {
-          "secret": $mysql_roadmin_password"
+          "secret": $mysql_roadmin_password
         }
       },
       ".mysql.skip_name_resolve": {
