@@ -183,20 +183,19 @@ PRODUCT_PROPERTIES=$(
     +
     {
       ".properties.plan_collection.name": {
-          "value": $plan_collection_name
-        },
-        ".properties.plan_collection.description": {
-          "value": $plan_collection_description
-        },
-        ".properties.plan_collection.max_storage_mb": {
-          "value": $plan_collection_max_storage_mb
-        },
-        ".properties.plan_collection.max_user_connections": {
-          "value": $plan_collection_max_user_connections
-        },
-        ".properties.plan_collection.private": {
-          "value": $plan_collection_private
-        }
+        "value": $plan_collection_name
+      },
+      ".properties.plan_collection.description": {
+        "value": $plan_collection_description
+      },
+      ".properties.plan_collection.max_storage_mb": {
+        "value": $plan_collection_max_storage_mb
+      },
+      ".properties.plan_collection.max_user_connections": {
+        "value": $plan_collection_max_user_connections
+      },
+      ".properties.plan_collection.private": {
+        "value": $plan_collection_private
       },
       ".properties.optional_protections": {
         "value": $optional_protections
