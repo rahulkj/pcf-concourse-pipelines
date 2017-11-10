@@ -20,65 +20,80 @@ product_version: ^1\.9\..*$
 singleton_jobs_az:
 other_azs:
 network_name:
-plan_name: 100mb
-plan_description: "100MB default"
-plan_max_storage_mb: 100
-plan_max_user_connections: 40
-plan_private: false
-metrics_polling_frequency: 30
-cluster_probe_timeout: 10
-tmp_table_size: 33554432
-table_open_cache: 2000
-table_definition_cache: 8192
-max_connections: 1500
-binlog_expire_days: 7
-cluster_name: cf-mariadb-galera-cluster
-innodb_strict_mode: true
-allow_cli_history: true
-allow_remote_admin_access: false
-readonly_admin_password:
-mysql_start_timeout:
-backup_enable: disable
-cron_schedule:
-backup_all_masters: false
-backup_destination: none #none|s3|azure|gcs
-s3_endpoint:
-s3_bucket_name:
-s3_bucket_path:
-s3_access_key_id:
-s3_secret_key:
-scp_user:
-scp_server:
-scp_destination_dir:
-scp_private_key:
-scp_port: 22
-azure_storage_account:
-azure_storage_access_key:
-azure_container:
-azure_base_url:
-gcs_service_account_json:
-gcs_project_id:
-gcs_bucket_name:
-syslog_enabled: enabled
-syslog_address:
-syslog_port: 6514
-server_activity_logging: enable
+
+backup_options: "disable" # (enable|disable)
+backup_options_cron_schedule:
+backup_options_backup_all_masters: true # (true|false)
+backups: "disable" # (enable|disable|azure|gcs|scp)
+backups_s3_endpoint_url:
+backups_s3_bucket_name:
+backups_s3_bucket_path:
+backups_s3_access_key_id:
+backups_s3_secret_access_key:
+backups_s3_region:
+backups_azure_storage_account:
+backups_azure_storage_access_key:
+backup_options_backup_all_masters:
+backups_azure_container:
+backups_azure_container_path:
+backups_azure_base_url:
+backups_gcs_service_account_json:
+backups_gcs_project_id:
+backups_gcs_bucket_name:
+backups_scp_user:
+backups_scp_server:
+backups_scp_destination:
+backups_scp_scp_key:
+backups_scp_port: 22
+plan_collection_name: "100mb"
+plan_collection_description: "100MB default"
+plan_collection_max_storage_mb: 100
+plan_collection_max_user_connections: 40
+plan_collection_private: false
+optional_protections: "enable" # (enable|disable)
+optional_protections_recipient_email:
+optional_protections_prevent_auto_rejoin: false # (true|false)
+optional_protections_replication_canary: true # (true|false)
+optional_protections_notify_only: false # (true|false)
+optional_protections_canary_poll_frequency: 30
+optional_protections_canary_write_read_delay: 20
+innodb_flush_log_at_trx_commit: "two" # (zero|one|two)
+server_activity_logging: "enable" # (enable|disable)
 audit_logging_events: "connect,query"
 server_audit_excluded_users_csv:
-buffer_pool_size: percent #percent|bytes
+syslog: "enabled" # (enabled|disabled)
+syslog_address:
+syslog_port: 6514
+buffer_pool_size: "percent"
 buffer_pool_size_percent: 50
 buffer_pool_size_bytes:
-optional_protections: enable
-recepient_email:
-prevent_auto_join: true
-replication_canary: true
-notify_only: false
-canary_poll_frequency: 30
-canary_write_read_delay: 20
+mysql_roadmin_password:
+mysql_skip_name_resolve: true # (true|false)
+mysql_innodb_large_prefix_enabled: true # (true|false)
+mysql_mysql_start_timeout: 60
+mysql_metrics_polling_frequency: 30
+mysql_cluster_probe_timeout: 10
+mysql_tmp_table_size: 33554432
+mysql_table_open_cache: 2000
+mysql_table_definition_cache: 8192
+mysql_max_connections: 1500
+mysql_binlog_expire_days: 7
+mysql_cluster_name: "cf-mariadb-galera-cluster"
+mysql_innodb_strict_mode: true # (true|false)
+mysql_cli_history: true # (true|false)
+mysql_allow_remote_admin_access: false # (true|false)
+mysql_allow_local_infile: true # (true|false)
+proxy_static_ips:
+proxy_shutdown_delay: 0
+proxy_startup_delay: 0
+cf_mysql_broker_quota_enforcer_pause: 30
+cf_mysql_broker_allow_table_locks: true # (true|false)
+cf_mysql_broker_bind_hostname:
+
 mysql_server_instance_type: large.disk
 mysql_server_instances: 3
 mysql_persistent_disk_mb: 102400
-backup_prepare_instance_type: micro.ram
+backup_prepare_instance_type: large.cpu
 backup_prepare_instances: 0
 backup_prepare_persistent_disk_mb: 204800
 mysql_proxy_instance_type: small.disk
@@ -87,4 +102,13 @@ monitoring_instance_type: micro
 monitoring_instances: 1
 mysql_broker_instance_type: small.disk
 mysql_broker_instances: 2
-errands_to_disable:
+
+errands_to_disable: "broker-registrar,smoke-tests"
+
+concourse_url:
+concourse_user:
+concourse_pwd:
+
+pipeline-name:
+team-name:
+upgrade-pipeline-name:
