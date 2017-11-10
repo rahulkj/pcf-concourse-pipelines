@@ -28,7 +28,7 @@ PRODUCT_PROPERTIES=$(
     --arg backups_gcs_service_account_json "$BACKUPS_GCS_SERVICE_ACCOUNT_JSON" \
     --arg backups_gcs_project_id "$BACKUPS_GCS_PROJECT_ID" \
     --arg backups_gcs_bucket_name "$BACKUPS_GCS_BUCKET_NAME" \
-    --arg backups_scp "$BACKUPS_SCP_USER" \
+    --arg backups_scp_user "$BACKUPS_SCP_USER" \
     --arg backups_scp_server "$BACKUPS_SCP_SERVER" \
     --arg backups_scp_destination "$BACKUPS_SCP_DESTINATION" \
     --arg backups_scp_scp_key "$BACKUPS_SCP_SCP_KEY" \
