@@ -419,8 +419,11 @@ CF_PROPERTIES=$(
       ".properties.networking_poe_ssl_certs":{
         "value": [
           {
-            "cert_pem":$networking_poe_ssl_cert_pem,
-            "private_key_pem":$networking_poe_ssl_cert_private_key_pem
+            "name": $networking_poe_ssl_name,
+            "certificate": {
+              "cert_pem":$networking_poe_ssl_cert_pem,
+              "private_key_pem":$networking_poe_ssl_cert_private_key_pem
+            }
           }
         ]
       },
