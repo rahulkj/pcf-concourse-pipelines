@@ -186,6 +186,7 @@ syslog_protocol:
 syslog_tls: # enabled or disabled
 tls_ca_cert:
 tls_permitted_peer:
+networking_poe_ssl_name:
 networking_poe_ssl_cert_pem:
 networking_poe_ssl_cert_private_key_pem:
 routing_custom_ca_certificates:
@@ -199,7 +200,6 @@ haproxy_forward_tls:
 haproxy_forward_tls_backend_ca:
 tcp_routing: # enable or disable
 tcp_reservable_ports:
-router_forward_client_cert:
 router_backend_max_conn: 500
 route_services:
 ignore_ssl_cert_verification: # true or false
@@ -208,7 +208,6 @@ container_networking_vtep_port:
 container_networking_log_traffic:
 iptables_denied_logs_per_sec:
 iptables_accepted_udp_logs_per_sec:
-networking_point_of_entry:
 container_networking: # enable or disable
 container_networking_interface_plugin: silk # (silk|external)
 cf_networking_enable_space_developer_self_service: false
