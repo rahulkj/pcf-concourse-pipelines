@@ -260,7 +260,7 @@ CF_PROPERTIES=$(
     --arg mysql_proxy_startup_delay "$MYSQL_PROXY_STARTUP_DELAY" \
     --arg mysql_proxy_shutdown_delay "$MYSQL_PROXY_SHUTDOWN_DELAY" \
     --arg mysql_cli_history "$MYSQL_CLI_HISTORY" \
-    --argjson mysql_cluster_probe_timeout "$MYSQL_CLUSTER_PROBE_TIMEOUT" \
+    --arg mysql_cluster_probe_timeout "$MYSQL_CLUSTER_PROBE_TIMEOUT" \
     --argjson prevent_node_auto_rejoin "$PREVENT_NODE_AUTO_REJOIN" \
     --arg remote_admin_access "$REMOTE_ADMIN_ACCESS" \
     --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
