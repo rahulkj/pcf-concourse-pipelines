@@ -164,6 +164,7 @@ cc_api_rate_limit:
 general_limit:
 unauthenticated_limit:
 credhub_key_encryption_password: # Should be 12 characters or more
+secure_service_instance_credentials: false # (true|false)
 credhub_database: # external or internal_mysql
 credhub_database_external_host:
 credhub_database_external_port:
@@ -187,8 +188,10 @@ tls_ca_cert:
 tls_permitted_peer:
 networking_poe_ssl_cert_pem:
 networking_poe_ssl_cert_private_key_pem:
+routing_custom_ca_certificates:
 routing_disable_http: # true or false
 routing_minimum_tls_version: # tls_v1_0 or tls_v1_1 or tls_v1_2
+routing_tls_termination: load_balancer # (load_balancer|ha_proxy|router)
 gorouter_ssl_ciphers: # ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
 haproxy_ssl_ciphers: # DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
 haproxy_max_buffer_size:
@@ -197,7 +200,7 @@ haproxy_forward_tls_backend_ca:
 tcp_routing: # enable or disable
 tcp_reservable_ports:
 router_forward_client_cert:
-router_backend_max_conn:
+router_backend_max_conn: 500
 route_services:
 ignore_ssl_cert_verification: # true or false
 container_networking_network_cidr:
@@ -207,6 +210,8 @@ iptables_denied_logs_per_sec:
 iptables_accepted_udp_logs_per_sec:
 networking_point_of_entry:
 container_networking: # enable or disable
+container_networking_interface_plugin: silk # (silk|external)
+cf_networking_enable_space_developer_self_service: false
 security_acknowledgement: X
 cf_dial_timeout_in_seconds:
 smoke_tests:
@@ -345,6 +350,8 @@ mysql_proxy_startup_delay:
 mysql_proxy_shutdown_delay:
 mysql_cli_history:
 mysql_cluster_probe_timeout:
+prevent_node_auto_rejoin: false #(true|false)
+remote_admin_access: false #(true|false)
 uaa_private_key_pem:
 uaa_cert_pem:
 uaa_private_key_passphrase:
@@ -377,6 +384,7 @@ trusted_domain_cidrs:
 router_static_ips:
 disable_insecure_cookies: # true or false
 request_timeout_in_seconds:
+frontend_idle_timeout: 900
 drain_wait:
 lb_healthy_threshold:
 enable_zipkin: # true or false
