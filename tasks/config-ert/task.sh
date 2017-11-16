@@ -48,6 +48,7 @@ EOF
 
   CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
+  export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
   export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
   export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`
 
@@ -97,6 +98,7 @@ CF_PROPERTIES=$(
     --arg syslog_tls "$SYSLOG_TLS" \
     --arg tls_ca_cert "$TLS_CA_CERT" \
     --arg tls_permitted_peer "$TLS_PERMITTED_PEER" \
+    --arg networking_poe_ssl_name "$NETWORKING_POE_SSL_NAME" \
     --arg networking_poe_ssl_cert_pem "$NETWORKING_POE_SSL_CERT_PEM" \
     --arg networking_poe_ssl_cert_private_key_pem "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" \
     --arg routing_custom_ca_certificates "$ROUTING_CUSTOM_CA_CERTIFICATES" \
