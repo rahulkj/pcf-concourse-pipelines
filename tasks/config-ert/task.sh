@@ -110,7 +110,6 @@ CF_PROPERTIES=$(
     --arg haproxy_forward_tls_backend_ca "$HAPROXY_FORWARD_TLS_BACKEND_CA" \
     --arg tcp_routing "$TCP_ROUTING" \
     --arg reservable_ports "$TCP_RESERVABLE_PORTS" \
-    --arg router_forward_client_cert "$ROUTER_FORWARD_CLIENT_CERT" \
     --arg router_backend_max_conn "$ROUTER_BACKEND_MAX_CONN" \
     --arg route_services "$ROUTE_SERVICES" \
     --arg ignore_ssl_cert_verification "$IGNORE_SSL_CERT_VERIFICATION" \
@@ -119,7 +118,6 @@ CF_PROPERTIES=$(
     --arg container_networking_log_traffic "$CONTAINER_NETWORKING_LOG_TRAFFIC" \
     --arg iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
     --arg iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
-    --arg networking_point_of_entry "$NETWORKING_POINT_OF_ENTRY" \
     --arg container_networking "$CONTAINER_NETWORKING" \
     --argjson cf_networking_enable_space_developer_self_service "$CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE" \
     --arg container_networking_interface_plugin "$CONTAINER_NETWORKING_INTERFACE_PLUGIN" \
@@ -418,7 +416,7 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.networking_poe_ssl_cert":{
+      ".properties.networking_poe_ssl_certs":{
         "value": [
           {
             "cert_pem":$networking_poe_ssl_cert_pem,
@@ -455,7 +453,6 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.router_forward_client_cert":{"value":$router_forward_client_cert},
       ".properties.router_backend_max_conn":{"value":$router_backend_max_conn},
       ".properties.route_services":{"value":$route_services}
     }
@@ -482,7 +479,6 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.networking_point_of_entry":{"value":$networking_point_of_entry},
       ".properties.container_networking":{"value":$container_networking},
       ".properties.container_networking_interface_plugin":{"value":$container_networking_interface_plugin},
       ".properties.cf_networking_enable_space_developer_self_service":{"value":$cf_networking_enable_space_developer_self_service},
