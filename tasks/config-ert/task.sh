@@ -354,7 +354,7 @@ CF_PROPERTIES=$(
         "value": [
           {
             "name": $credhub_key_encryption_name,
-            "key.secret": $credhub_key_encryption_secret,
+            "key" : { "secret": $credhub_key_encryption_secret },
             "primary": $credhub_key_encryption_is_primary
           }
         ]
