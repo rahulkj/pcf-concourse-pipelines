@@ -79,7 +79,6 @@ jobs:
         globs:
         - "*om-linux*"
     - get: concourse-trigger-gist
-      trigger: true
     - get: pivnet-product
       resource: ops-manager
       params:
@@ -404,13 +403,16 @@ jobs:
       ROUTER_BACKEND_MAX_CONN: ((router_backend_max_conn))
       ROUTE_SERVICES: ((route_services))
       IGNORE_SSL_CERT_VERIFICATION: ((ignore_ssl_cert_verification))
-      CONTAINER_NETWORKING_NETWORK_CIDR: ((container_networking_network_cidr))
-      CONTAINER_NETWORKING_VTEP_PORT: ((container_networking_vtep_port))
-      CONTAINER_NETWORKING_LOG_TRAFFIC: ((container_networking_log_traffic))
-      IPTABLES_DENIED_LOGS_PER_SEC: ((iptables_denied_logs_per_sec))
-      IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC: ((iptables_accepted_udp_logs_per_sec))
       CONTAINER_NETWORKING: ((container_networking))
       CONTAINER_NETWORKING_INTERFACE_PLUGIN: ((container_networking_interface_plugin))
+      CONTAINER_NETWORKING_NETWORK_MTU: ((container_networking_network_mtu))
+      CONTAINER_NETWORKING_NETWORK_CIDR: ((container_networking_network_cidr))
+      CONTAINER_NETWORKING_VTEP_PORT: ((container_networking_vtep_port))
+      IPTABLES_DENIED_LOGS_PER_SEC: ((iptables_denied_logs_per_sec))
+      IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC: ((iptables_accepted_udp_logs_per_sec))
+      ENABLE_LOG_TRAFFIC: ((enable_log_traffic))
+      IPTABLES_DENIED_LOGS_PER_SEC: ((iptables_denied_logs_per_sec))
+      IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC: ((iptables_accepted_udp_logs_per_sec))
       CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE: ((cf_networking_enable_space_developer_self_service))
       SECURITY_ACKNOWLEDGEMENT: ((security_acknowledgement))
       CF_DIAL_TIMEOUT_IN_SECONDS: ((cf_dial_timeout_in_seconds))

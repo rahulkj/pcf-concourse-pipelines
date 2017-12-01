@@ -203,13 +203,14 @@ tcp_reservable_ports:
 router_backend_max_conn: 500
 route_services:
 ignore_ssl_cert_verification: # true or false
-container_networking_network_cidr:
-container_networking_vtep_port:
-container_networking_log_traffic:
-iptables_denied_logs_per_sec:
-iptables_accepted_udp_logs_per_sec:
 container_networking: # enable or disable
 container_networking_interface_plugin: silk # (silk|external)
+container_networking_network_mtu: 1454
+container_networking_network_cidr: ""
+container_networking_vtep_port: 4789
+iptables_denied_logs_per_sec: 1
+iptables_accepted_udp_logs_per_sec: 100
+enable_log_traffic: false
 cf_networking_enable_space_developer_self_service: false
 security_acknowledgement: X
 cf_dial_timeout_in_seconds:
@@ -398,7 +399,6 @@ starting_container_count_maximum:
 executor_disk_capacity:
 executor_memory_capacity:
 insecure_docker_registry_list:
-garden_network_mtu:
 message_drain_buffer_size:
 tcp_router_static_ips:
 company_name:

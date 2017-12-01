@@ -115,14 +115,15 @@ CF_PROPERTIES=$(
     --arg router_backend_max_conn "$ROUTER_BACKEND_MAX_CONN" \
     --arg route_services "$ROUTE_SERVICES" \
     --arg ignore_ssl_cert_verification "$IGNORE_SSL_CERT_VERIFICATION" \
+    --arg container_networking "$CONTAINER_NETWORKING" \
+    --arg container_networking_interface_plugin "$CONTAINER_NETWORKING_INTERFACE_PLUGIN" \
+    --arg container_networking_network_mtu "$CONTAINER_NETWORKING_NETWORK_MTU" \
     --arg container_networking_network_cidr "$CONTAINER_NETWORKING_NETWORK_CIDR" \
     --arg container_networking_vtep_port "$CONTAINER_NETWORKING_VTEP_PORT" \
-    --arg container_networking_log_traffic "$CONTAINER_NETWORKING_LOG_TRAFFIC" \
     --arg iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
     --arg iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
-    --arg container_networking "$CONTAINER_NETWORKING" \
+    --arg enable_log_traffic "$ENABLE_LOG_TRAFFIC" \
     --argjson cf_networking_enable_space_developer_self_service "$CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE" \
-    --arg container_networking_interface_plugin "$CONTAINER_NETWORKING_INTERFACE_PLUGIN" \
     --arg security_acknowledgement "$SECURITY_ACKNOWLEDGEMENT" \
     --arg cf_dial_timeout_in_seconds "$CF_DIAL_TIMEOUT_IN_SECONDS" \
     --arg smoke_tests "$SMOKE_TESTS" \
@@ -310,7 +311,6 @@ CF_PROPERTIES=$(
     --arg executor_disk_capacity "$EXECUTOR_DISK_CAPACITY" \
     --arg executor_memory_capacity "$EXECUTOR_MEMORY_CAPACITY" \
     --arg insecure_docker_registry_list "$INSECURE_DOCKER_REGISTRY_LIST" \
-    --argjson garden_network_mtu "$GARDEN_NETWORK_MTU" \
     --argjson message_drain_buffer_size "$MESSAGE_DRAIN_BUFFER_SIZE" \
     --arg tcp_router_static_ips "$TCP_ROUTER_STATIC_IPS" \
     --arg company_name "$COMPANY_NAME" \
@@ -470,22 +470,23 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.container_networking_network_cidr":{"value":$container_networking_network_cidr},
-      ".properties.container_networking_vtep_port":{"value":$container_networking_vtep_port},
-      ".properties.container_networking_log_traffic":{"value":$container_networking_log_traffic}
+      ".properties.container_networking": { "value": $container_networking },
+      ".properties.container_networking_interface_plugin": { "value": $container_networking_interface_plugin }
     }
     +
-    if $container_networking_log_traffic == "enable" then
+    if $container_networking_interface_plugin == "silk" then
     {
-      ".properties.container_networking_log_traffic.enable.iptables_denied_logs_per_sec":{"value":$iptables_denied_logs_per_sec},
-      ".properties.container_networking_log_traffic.enable.iptables_accepted_udp_logs_per_sec":{"value":$iptables_accepted_udp_logs_per_sec}
+      ".properties.container_networking_interface_plugin.silk.network_mtu": { "value": $container_networking_network_mtu },
+      ".properties.container_networking_interface_plugin.silk.network_cidr": { "value": $container_networking_network_cidr },
+      ".properties.container_networking_interface_plugin.silk.vtep_port": { "value": $container_networking_vtep_port },
+      ".properties.container_networking_interface_plugin.silk.iptables_denied_logs_per_sec": { "value": $iptables_denied_logs_per_sec },
+      ".properties.container_networking_interface_plugin.silk.iptables_accepted_udp_logs_per_sec": { "value": $iptables_accepted_udp_logs_per_sec },
+      ".properties.container_networking_interface_plugin.silk.enable_log_traffic": { "value": $enable_log_traffic }
     }
     else .
     end
     +
     {
-      ".properties.container_networking":{"value":$container_networking},
-      ".properties.container_networking_interface_plugin":{"value":$container_networking_interface_plugin},
       ".properties.cf_networking_enable_space_developer_self_service":{"value":$cf_networking_enable_space_developer_self_service},
       ".properties.security_acknowledgement":{"value":$security_acknowledgement},
       ".properties.cf_dial_timeout_in_seconds":{"value":$cf_dial_timeout_in_seconds},
@@ -758,7 +759,6 @@ CF_PROPERTIES=$(
       ".diego_cell.executor_disk_capacity":{"value":$executor_disk_capacity},
       ".diego_cell.executor_memory_capacity":{"value":$executor_memory_capacity},
       ".diego_cell.insecure_docker_registry_list":{"value":$insecure_docker_registry_list},
-      ".diego_cell.garden_network_mtu":{"value":$garden_network_mtu},
       ".doppler.message_drain_buffer_size":{"value":$message_drain_buffer_size},
       ".tcp_router.static_ips":{"value":$tcp_router_static_ips},
       ".properties.push_apps_manager_company_name":{"value":$company_name},
