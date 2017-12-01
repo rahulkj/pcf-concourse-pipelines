@@ -163,7 +163,9 @@ ops_mgr_generate_ssl_endpoint:
 cc_api_rate_limit:
 general_limit:
 unauthenticated_limit:
-credhub_key_encryption_password: # Should be 12 characters or more
+credhub_key_encryption_name:
+credhub_key_encryption_secret: # Should be 12 characters or more
+credhub_key_encryption_is_primary: true # (true|false)
 secure_service_instance_credentials: false # (true|false)
 credhub_database: # external or internal_mysql
 credhub_database_external_host:

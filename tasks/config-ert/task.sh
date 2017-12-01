@@ -75,7 +75,9 @@ CF_PROPERTIES=$(
     --arg cc_api_rate_limit "$CC_API_RATE_LIMIT" \
     --arg general_limit "$GENERAL_LIMIT" \
     --arg unauthenticated_limit "$UNAUTHENTICATED_LIMIT" \
-    --arg credhub_key_encryption_password "$CREDHUB_KEY_ENCRYPTION_PASSWORD" \
+    --arg credhub_key_encryption_name "$CREDHUB_KEY_ENCRYPTION_NAME" \
+    --arg credhub_key_encryption_secret "$CREDHUB_KEY_ENCRYPTION_SECRET" \
+    --argjson credhub_key_encryption_is_primary "$CREDHUB_KEY_ENCRYPTION_IS_PRIMARY" \
     --argjson secure_service_instance_credentials "$SECURE_SERVICE_INSTANCE_CREDENTIALS" \
     --arg credhub_database "$CREDHUB_DATABASE" \
     --arg credhub_database_external_host "$CREDHUB_DATABASE_EXTERNAL_HOST" \
@@ -117,12 +119,12 @@ CF_PROPERTIES=$(
     --arg ignore_ssl_cert_verification "$IGNORE_SSL_CERT_VERIFICATION" \
     --arg container_networking "$CONTAINER_NETWORKING" \
     --arg container_networking_interface_plugin "$CONTAINER_NETWORKING_INTERFACE_PLUGIN" \
-    --arg container_networking_network_mtu "$CONTAINER_NETWORKING_NETWORK_MTU" \
+    --argjson container_networking_network_mtu "$CONTAINER_NETWORKING_NETWORK_MTU" \
     --arg container_networking_network_cidr "$CONTAINER_NETWORKING_NETWORK_CIDR" \
-    --arg container_networking_vtep_port "$CONTAINER_NETWORKING_VTEP_PORT" \
-    --arg iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
-    --arg iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
-    --arg enable_log_traffic "$ENABLE_LOG_TRAFFIC" \
+    --argjson container_networking_vtep_port "$CONTAINER_NETWORKING_VTEP_PORT" \
+    --argjson iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
+    --argjson iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
+    --argjson enable_log_traffic "$ENABLE_LOG_TRAFFIC" \
     --argjson cf_networking_enable_space_developer_self_service "$CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE" \
     --arg security_acknowledgement "$SECURITY_ACKNOWLEDGEMENT" \
     --arg cf_dial_timeout_in_seconds "$CF_DIAL_TIMEOUT_IN_SECONDS" \
@@ -348,10 +350,14 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.credhub_key_encryption_password": {
-        "value": {
-          "secret": $credhub_key_encryption_password
-        }
+      ".properties.credhub_key_encryption_passwords": {
+        "value": [
+          {
+            "name": $credhub_key_encryption_name,
+            "key.secret": $credhub_key_encryption_secret,
+            "primary": $credhub_key_encryption_is_primary
+          }
+        ]
       },
       ".properties.secure_service_instance_credentials": {
         "value": $secure_service_instance_credentials

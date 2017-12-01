@@ -335,7 +335,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-elastic-runtime-tile]
+      # passed: [upload-elastic-runtime-tile]
     - get: om-cli
       params:
         globs:
@@ -363,7 +363,9 @@ jobs:
       CC_API_RATE_LIMIT: ((cc_api_rate_limit))
       GENERAL_LIMIT: ((general_limit))
       UNAUTHENTICATED_LIMIT: ((unauthenticated_limit))
-      CREDHUB_KEY_ENCRYPTION_PASSWORD: ((credhub_key_encryption_password))
+      CREDHUB_KEY_ENCRYPTION_NAME: ((credhub_key_encryption_name))
+      CREDHUB_KEY_ENCRYPTION_SECRET: ((credhub_key_encryption_secret))
+      CREDHUB_KEY_ENCRYPTION_IS_PRIMARY: ((credhub_key_encryption_is_primary))
       SECURE_SERVICE_INSTANCE_CREDENTIALS: ((secure_service_instance_credentials))
       CREDHUB_DATABASE: ((credhub_database))
       CREDHUB_DATABASE_EXTERNAL_HOST: ((credhub_database_external_host))
