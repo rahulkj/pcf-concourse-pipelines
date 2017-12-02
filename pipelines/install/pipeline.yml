@@ -335,7 +335,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      # passed: [upload-elastic-runtime-tile]
+      passed: [upload-elastic-runtime-tile]
     - get: om-cli
       params:
         globs:
