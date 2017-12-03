@@ -897,6 +897,10 @@ CF_RESOURCES=$(cat <<-EOF
     "instance_type": {"id": "$SYSLOG_ADAPTER_INSTANCE_TYPE"},
     "instances" : $SYSLOG_ADAPTER_INSTANCES
   },
+  "syslog_scheduler": {
+    "instance_type": {"id": "$SYSLOG_SCHEDULER_INSTANCE_TYPE"},
+    "instances" : $SYSLOG_SCHEDULER_INSTANCES
+  },
   "credhub": {
     "instance_type": {"id": "$CREDHUB_INSTANCE_TYPE"},
     "instances" : $CREDHUB_INSTANCES

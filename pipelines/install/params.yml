@@ -470,5 +470,7 @@ tcp_router_instances:
 tcp_router_persistent_disk_size_mb:
 syslog_adapter_instance_type:
 syslog_adapter_instances:
+syslog_scheduler_instance_type:
+syslog_scheduler_instances:
 credhub_instance_type:
 credhub_instances:

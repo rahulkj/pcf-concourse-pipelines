@@ -673,6 +673,8 @@ jobs:
       TCP_ROUTER_PERSISTENT_DISK_SIZE_MB: ((tcp_router_persistent_disk_size_mb))
       SYSLOG_ADAPTER_INSTANCE_TYPE: ((syslog_adapter_instance_type))
       SYSLOG_ADAPTER_INSTANCES: ((syslog_adapter_instances))
+      SYSLOG_SCHEDULER_INSTANCE_TYPE: ((syslog_scheduler_instance_type))
+      SYSLOG_SCHEDULER_INSTANCES: ((syslog_scheduler_instances))
       CREDHUB_INSTANCE_TYPE: ((credhub_instance_type))
       CREDHUB_INSTANCES: ((credhub_instances))
 
