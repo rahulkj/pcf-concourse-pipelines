@@ -48,6 +48,7 @@ EOF
 
   CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "$OPS_MGR_GENERATE_SSL_ENDPOINT" -x POST -d "$DOMAINS"`
 
+  export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
   export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
   export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`
 
@@ -74,7 +75,10 @@ CF_PROPERTIES=$(
     --arg cc_api_rate_limit "$CC_API_RATE_LIMIT" \
     --arg general_limit "$GENERAL_LIMIT" \
     --arg unauthenticated_limit "$UNAUTHENTICATED_LIMIT" \
-    --arg credhub_key_encryption_password "$CREDHUB_KEY_ENCRYPTION_PASSWORD" \
+    --arg credhub_key_encryption_name "$CREDHUB_KEY_ENCRYPTION_NAME" \
+    --arg credhub_key_encryption_secret "$CREDHUB_KEY_ENCRYPTION_SECRET" \
+    --argjson credhub_key_encryption_is_primary "$CREDHUB_KEY_ENCRYPTION_IS_PRIMARY" \
+    --argjson secure_service_instance_credentials "$SECURE_SERVICE_INSTANCE_CREDENTIALS" \
     --arg credhub_database "$CREDHUB_DATABASE" \
     --arg credhub_database_external_host "$CREDHUB_DATABASE_EXTERNAL_HOST" \
     --arg credhub_database_external_port "$CREDHUB_DATABASE_EXTERNAL_PORT" \
@@ -96,10 +100,13 @@ CF_PROPERTIES=$(
     --arg syslog_tls "$SYSLOG_TLS" \
     --arg tls_ca_cert "$TLS_CA_CERT" \
     --arg tls_permitted_peer "$TLS_PERMITTED_PEER" \
+    --arg networking_poe_ssl_name "$NETWORKING_POE_SSL_NAME" \
     --arg networking_poe_ssl_cert_pem "$NETWORKING_POE_SSL_CERT_PEM" \
     --arg networking_poe_ssl_cert_private_key_pem "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" \
+    --arg routing_custom_ca_certificates "$ROUTING_CUSTOM_CA_CERTIFICATES" \
     --arg routing_disable_http "$ROUTING_DISABLE_HTTP" \
     --arg routing_minimum_tls_version "$ROUTING_MINIMUM_TLS_VERSION" \
+    --arg routing_tls_termination "$ROUTING_TLS_TERMINATION" \
     --arg gorouter_ssl_ciphers "$GOROUTER_SSL_CIPHERS" \
     --arg haproxy_ssl_ciphers "$HAPROXY_SSL_CIPHERS" \
     --arg haproxy_max_buffer_size "$HAPROXY_MAX_BUFFER_SIZE" \
@@ -107,17 +114,18 @@ CF_PROPERTIES=$(
     --arg haproxy_forward_tls_backend_ca "$HAPROXY_FORWARD_TLS_BACKEND_CA" \
     --arg tcp_routing "$TCP_ROUTING" \
     --arg reservable_ports "$TCP_RESERVABLE_PORTS" \
-    --arg router_forward_client_cert "$ROUTER_FORWARD_CLIENT_CERT" \
     --arg router_backend_max_conn "$ROUTER_BACKEND_MAX_CONN" \
     --arg route_services "$ROUTE_SERVICES" \
     --arg ignore_ssl_cert_verification "$IGNORE_SSL_CERT_VERIFICATION" \
-    --arg container_networking_network_cidr "$CONTAINER_NETWORKING_NETWORK_CIDR" \
-    --arg container_networking_vtep_port "$CONTAINER_NETWORKING_VTEP_PORT" \
-    --arg container_networking_log_traffic "$CONTAINER_NETWORKING_LOG_TRAFFIC" \
-    --arg iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
-    --arg iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
-    --arg networking_point_of_entry "$NETWORKING_POINT_OF_ENTRY" \
     --arg container_networking "$CONTAINER_NETWORKING" \
+    --arg container_networking_interface_plugin "$CONTAINER_NETWORKING_INTERFACE_PLUGIN" \
+    --argjson container_networking_network_mtu "$CONTAINER_NETWORKING_NETWORK_MTU" \
+    --arg container_networking_network_cidr "$CONTAINER_NETWORKING_NETWORK_CIDR" \
+    --argjson container_networking_vtep_port "$CONTAINER_NETWORKING_VTEP_PORT" \
+    --argjson iptables_denied_logs_per_sec "$IPTABLES_DENIED_LOGS_PER_SEC" \
+    --argjson iptables_accepted_udp_logs_per_sec "$IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
+    --argjson enable_log_traffic "$ENABLE_LOG_TRAFFIC" \
+    --argjson cf_networking_enable_space_developer_self_service "$CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE" \
     --arg security_acknowledgement "$SECURITY_ACKNOWLEDGEMENT" \
     --arg cf_dial_timeout_in_seconds "$CF_DIAL_TIMEOUT_IN_SECONDS" \
     --arg smoke_tests "$SMOKE_TESTS" \
@@ -256,6 +264,8 @@ CF_PROPERTIES=$(
     --arg mysql_proxy_shutdown_delay "$MYSQL_PROXY_SHUTDOWN_DELAY" \
     --arg mysql_cli_history "$MYSQL_CLI_HISTORY" \
     --arg mysql_cluster_probe_timeout "$MYSQL_CLUSTER_PROBE_TIMEOUT" \
+    --argjson prevent_node_auto_rejoin "$PREVENT_NODE_AUTO_REJOIN" \
+    --arg remote_admin_access "$REMOTE_ADMIN_ACCESS" \
     --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
     --arg uaa_cert_pem "$UAA_CERT_PEM" \
     --arg uaa_private_key_passphrase "$UAA_PRIVATE_KEY_PASSPHRASE" \
@@ -287,23 +297,23 @@ CF_PROPERTIES=$(
     --arg trusted_domain_cidrs "$TRUSTED_DOMAIN_CIDRS" \
     --arg router_static_ips "$ROUTER_STATIC_IPS" \
     --arg disable_insecure_cookies "$DISABLE_INSECURE_COOKIES" \
-    --arg request_timeout_in_seconds "$REQUEST_TIMEOUT_IN_SECONDS" \
-    --arg drain_wait "$DRAIN_WAIT" \
-    --arg lb_healthy_threshold "$LB_HEALTHY_THRESHOLD" \
-    --arg enable_zipkin "$ENABLE_ZIPKIN" \
-    --arg max_idle_connections "$MAX_IDLE_CONNECTIONS" \
+    --argjson request_timeout_in_seconds "$REQUEST_TIMEOUT_IN_SECONDS" \
+    --argjson frontend_idle_timeout "$FRONTEND_IDLE_TIMEOUT" \
+    --argjson drain_wait "$DRAIN_WAIT" \
+    --argjson lb_healthy_threshold "$LB_HEALTHY_THRESHOLD" \
+    --argjson enable_zipkin "$ENABLE_ZIPKIN" \
+    --argjson max_idle_connections "$MAX_IDLE_CONNECTIONS" \
     --arg extra_headers_to_log "$EXTRA_HEADERS_TO_LOG" \
     --arg enable_isolated_routing "$ENABLE_ISOLATED_ROUTING" \
-    --arg mysql_monitor_poll_frequency "$MYSQL_MONITOR_POLL_FREQUENCY" \
-    --arg mysql_monitor_write_read_delay "$MYSQL_MONITOR_WRITE_READ_DELAY" \
+    --argjson mysql_monitor_poll_frequency "$MYSQL_MONITOR_POLL_FREQUENCY" \
+    --argjson mysql_monitor_write_read_delay "$MYSQL_MONITOR_WRITE_READ_DELAY" \
     --arg mysql_monitor_recipient_email "$MYSQL_MONITOR_RECIPIENT_EMAIL" \
     --arg diego_brain_static_ips "$DIEGO_BRAIN_STATIC_IPS" \
-    --arg starting_container_count_maximum "$STARTING_CONTAINER_COUNT_MAXIMUM" \
+    --argjson starting_container_count_maximum "$STARTING_CONTAINER_COUNT_MAXIMUM" \
     --arg executor_disk_capacity "$EXECUTOR_DISK_CAPACITY" \
     --arg executor_memory_capacity "$EXECUTOR_MEMORY_CAPACITY" \
     --arg insecure_docker_registry_list "$INSECURE_DOCKER_REGISTRY_LIST" \
-    --arg garden_network_mtu "$GARDEN_NETWORK_MTU" \
-    --arg message_drain_buffer_size "$MESSAGE_DRAIN_BUFFER_SIZE" \
+    --argjson message_drain_buffer_size "$MESSAGE_DRAIN_BUFFER_SIZE" \
     --arg tcp_router_static_ips "$TCP_ROUTER_STATIC_IPS" \
     --arg company_name "$COMPANY_NAME" \
     --arg accent_color "$ACCENT_COLOR" \
@@ -340,10 +350,17 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.credhub_key_encryption_password": {
-        "value": {
-          "secret": $credhub_key_encryption_password
-        }
+      ".properties.credhub_key_encryption_passwords": {
+        "value": [
+          {
+            "name": $credhub_key_encryption_name,
+            "key" : { "secret": $credhub_key_encryption_secret },
+            "primary": $credhub_key_encryption_is_primary
+          }
+        ]
+      },
+      ".properties.secure_service_instance_credentials": {
+        "value": $secure_service_instance_credentials
       }
     }
     +
@@ -407,14 +424,21 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.networking_poe_ssl_cert":{
-        "value":{
-          "cert_pem":$networking_poe_ssl_cert_pem,
-          "private_key_pem":$networking_poe_ssl_cert_private_key_pem
+      ".properties.networking_poe_ssl_certs":{
+        "value": [
+          {
+            "name": $networking_poe_ssl_name,
+            "certificate": {
+              "cert_pem":$networking_poe_ssl_cert_pem,
+              "private_key_pem":$networking_poe_ssl_cert_private_key_pem
+            }
           }
-        },
+        ]
+      },
+      ".properties.routing_custom_ca_certificates":{"value":$routing_custom_ca_certificates},
       ".properties.routing_disable_http":{"value":$routing_disable_http},
       ".properties.routing_minimum_tls_version":{"value":$routing_minimum_tls_version},
+      ".properties.routing_tls_termination":{"value":$routing_tls_termination},
       ".properties.gorouter_ssl_ciphers":{"value":$gorouter_ssl_ciphers},
       ".properties.haproxy_ssl_ciphers":{"value":$haproxy_ssl_ciphers},
       ".properties.haproxy_max_buffer_size":{"value":$haproxy_max_buffer_size},
@@ -440,7 +464,6 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.router_forward_client_cert":{"value":$router_forward_client_cert},
       ".properties.router_backend_max_conn":{"value":$router_backend_max_conn},
       ".properties.route_services":{"value":$route_services}
     }
@@ -453,22 +476,24 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".properties.container_networking_network_cidr":{"value":$container_networking_network_cidr},
-      ".properties.container_networking_vtep_port":{"value":$container_networking_vtep_port},
-      ".properties.container_networking_log_traffic":{"value":$container_networking_log_traffic}
+      ".properties.container_networking": { "value": $container_networking },
+      ".properties.container_networking_interface_plugin": { "value": $container_networking_interface_plugin }
     }
     +
-    if $container_networking_log_traffic == "enable" then
+    if $container_networking_interface_plugin == "silk" then
     {
-      ".properties.container_networking_log_traffic.enable.iptables_denied_logs_per_sec":{"value":$iptables_denied_logs_per_sec},
-      ".properties.container_networking_log_traffic.enable.iptables_accepted_udp_logs_per_sec":{"value":$iptables_accepted_udp_logs_per_sec}
+      ".properties.container_networking_interface_plugin.silk.network_mtu": { "value": $container_networking_network_mtu },
+      ".properties.container_networking_interface_plugin.silk.network_cidr": { "value": $container_networking_network_cidr },
+      ".properties.container_networking_interface_plugin.silk.vtep_port": { "value": $container_networking_vtep_port },
+      ".properties.container_networking_interface_plugin.silk.iptables_denied_logs_per_sec": { "value": $iptables_denied_logs_per_sec },
+      ".properties.container_networking_interface_plugin.silk.iptables_accepted_udp_logs_per_sec": { "value": $iptables_accepted_udp_logs_per_sec },
+      ".properties.container_networking_interface_plugin.silk.enable_log_traffic": { "value": $enable_log_traffic }
     }
     else .
     end
     +
     {
-      ".properties.networking_point_of_entry":{"value":$networking_point_of_entry},
-      ".properties.container_networking":{"value":$container_networking},
+      ".properties.cf_networking_enable_space_developer_self_service":{"value":$cf_networking_enable_space_developer_self_service},
       ".properties.security_acknowledgement":{"value":$security_acknowledgement},
       ".properties.cf_dial_timeout_in_seconds":{"value":$cf_dial_timeout_in_seconds},
       ".properties.smoke_tests":{"value":$smoke_tests}
@@ -649,7 +674,7 @@ CF_PROPERTIES=$(
       ".properties.uaa.saml.last_name_attribute":{"value":$saml_last_name_attribute},
       ".properties.uaa.saml.email_attribute":{"value":$saml_email_attribute},
       ".properties.uaa.saml.external_groups_attribute":{"value":$saml_external_groups_attribute},
-      ".properties.uaa.saml.signature_algorithm":{"value":$saml_signature_algorithm}
+      ".properties.saml_signature_algorithm":{"value":$saml_signature_algorithm}
     }
     elif $uaa_auth == "ldap" then
     {
@@ -692,6 +717,8 @@ CF_PROPERTIES=$(
       ".mysql_proxy.shutdown_delay":{"value":$mysql_proxy_shutdown_delay},
       ".mysql.cli_history":{"value":$mysql_cli_history},
       ".mysql.cluster_probe_timeout":{"value":$mysql_cluster_probe_timeout},
+      ".mysql.prevent_node_auto_rejoin":{"value":$prevent_node_auto_rejoin},
+      ".mysql.remote_admin_access":{"value":$remote_admin_access},
       ".uaa.service_provider_key_credentials":{"value":{"private_key_pem":$uaa_private_key_pem,"cert_pem":$uaa_cert_pem}},
       ".uaa.service_provider_key_password":{"value":{"secret":$uaa_private_key_passphrase}},
       ".uaa.apps_manager_access_token_lifetime":{"value":$apps_manager_access_token_lifetime},
@@ -723,6 +750,7 @@ CF_PROPERTIES=$(
       ".router.static_ips":{"value":$router_static_ips},
       ".router.disable_insecure_cookies":{"value":$disable_insecure_cookies},
       ".router.request_timeout_in_seconds":{"value":$request_timeout_in_seconds},
+      ".router.frontend_idle_timeout":{"value":$frontend_idle_timeout},
       ".router.drain_wait":{"value":$drain_wait},
       ".router.lb_healthy_threshold":{"value":$lb_healthy_threshold},
       ".router.enable_zipkin":{"value":$enable_zipkin},
@@ -737,35 +765,34 @@ CF_PROPERTIES=$(
       ".diego_cell.executor_disk_capacity":{"value":$executor_disk_capacity},
       ".diego_cell.executor_memory_capacity":{"value":$executor_memory_capacity},
       ".diego_cell.insecure_docker_registry_list":{"value":$insecure_docker_registry_list},
-      ".diego_cell.garden_network_mtu":{"value":$garden_network_mtu},
       ".doppler.message_drain_buffer_size":{"value":$message_drain_buffer_size},
       ".tcp_router.static_ips":{"value":$tcp_router_static_ips},
-      ".push-apps-manager.company_name":{"value":$company_name},
-      ".push-apps-manager.accent_color":{"value":$accent_color},
-      ".push-apps-manager.global_wrapper_bg_color":{"value":$global_wrapper_bg_color},
-      ".push-apps-manager.global_wrapper_text_color":{"value":$global_wrapper_text_color},
-      ".push-apps-manager.global_wrapper_header_content":{"value":$global_wrapper_header_content},
-      ".push-apps-manager.global_wrapper_footer_content":{"value":$global_wrapper_footer_content},
-      ".push-apps-manager.logo":{"value":$logo},
-      ".push-apps-manager.square_logo":{"value":$square_logo},
-      ".push-apps-manager.footer_text":{"value":$footer_text}
+      ".properties.push_apps_manager_company_name":{"value":$company_name},
+      ".properties.push_apps_manager_accent_color":{"value":$accent_color},
+      ".properties.push_apps_manager_global_wrapper_bg_color":{"value":$global_wrapper_bg_color},
+      ".properties.push_apps_manager_global_wrapper_text_color":{"value":$global_wrapper_text_color},
+      ".properties.push_apps_manager_global_wrapper_header_content":{"value":$global_wrapper_header_content},
+      ".properties.push_apps_manager_global_wrapper_footer_content":{"value":$global_wrapper_footer_content},
+      ".properties.push_apps_manager_logo":{"value":$logo},
+      ".properties.push_apps_manager_square_logo":{"value":$square_logo},
+      ".properties.push_apps_manager_footer_text":{"value":$footer_text}
     }
     +
     if $nav_links_name_1 != "" then
     {
-      ".push-apps-manager.nav_links":{
+      ".properties.push_apps_manager_nav_links":{
         "value":[
           {
-            "name":{"value":$nav_links_name_1},
-            "href":{"value":$nav_links_href_1}
+            "name": $nav_links_name_1,
+            "href": $nav_links_href_1
           },
           {
-            "name":{"value":$nav_links_name_2},
-            "href":{"value":$nav_links_href_2}
+            "name": $nav_links_name_2,
+            "href": $nav_links_href_2
           },
           {
-            "name":{"value":$nav_links_name_3},
-            "href":{"value":$nav_links_href_3}
+            "name": $nav_links_name_3,
+            "href": $nav_links_href_3
           }]
       }
     }
@@ -773,11 +800,11 @@ CF_PROPERTIES=$(
     end
     +
     {
-      ".push-apps-manager.product_name":{"value":$apps_manager_product_name},
-      ".push-apps-manager.marketplace_name":{"value":$marketplace_name},
-      ".push-apps-manager.enable_invitations":{"value":$enable_invitations},
-      ".push-apps-manager.display_plan_prices":{"value":$display_plan_prices},
-      ".push-apps-manager.currency_lookup":{"value":$currency_lookup}
+      ".properties.push_apps_manager_product_name":{"value":$apps_manager_product_name},
+      ".properties.push_apps_manager_marketplace_name":{"value":$marketplace_name},
+      ".properties.push_apps_manager_enable_invitations":{"value":$enable_invitations},
+      ".properties.push_apps_manager_display_plan_prices":{"value":$display_plan_prices},
+      ".properties.push_apps_manager_currency_lookup":{"value":$currency_lookup}
     }
     '
 )
@@ -869,6 +896,10 @@ CF_RESOURCES=$(cat <<-EOF
   "syslog_adapter": {
     "instance_type": {"id": "$SYSLOG_ADAPTER_INSTANCE_TYPE"},
     "instances" : $SYSLOG_ADAPTER_INSTANCES
+  },
+  "syslog_scheduler": {
+    "instance_type": {"id": "$SYSLOG_SCHEDULER_INSTANCE_TYPE"},
+    "instances" : $SYSLOG_SCHEDULER_INSTANCES
   },
   "credhub": {
     "instance_type": {"id": "$CREDHUB_INSTANCE_TYPE"},

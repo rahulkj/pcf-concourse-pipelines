@@ -1,0 +1,154 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+- name: time-schedule
+  type: time
+  source: {interval: 24h}
+
+jobs:
+- name: scheduler
+  plan:
+  - get: time-schedule
+    trigger: true
+  - get: pivnet-product
+    params:
+      globs: []
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      params:
+        globs:
+        - ((product_glob))
+      trigger: true
+      passed: [scheduler]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+- name: upload-stemcell
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      params:
+        globs:
+        - ((product_glob))
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+      passed: [upload-product]
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      NO_PROXY: ((company_proxy_domain))
+      OPS_MGR_IP: ((ops_mgr_ip))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-stemcell]
+    - get: pivnet-product
+      params:
+        globs:
+        - ((product_glob))
+      passed: [upload-stemcell]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-stemcell]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      trigger: true
+      passed: [stage-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
