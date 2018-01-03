@@ -84,6 +84,7 @@ jobs:
       params:
         globs:
         - "*.ova"
+        save: true
       trigger: true
     - get: jq
       params:
@@ -297,6 +298,7 @@ jobs:
       params:
         globs:
         - "cf-*.pivotal"
+        save: true
     - get: om-cli
       params:
         globs:

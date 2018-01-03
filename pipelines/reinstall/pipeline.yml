@@ -61,6 +61,7 @@ jobs:
     - get: ops-manager
       params:
         globs: []
+        save: true
       trigger: true
 
   - task: delete-products
