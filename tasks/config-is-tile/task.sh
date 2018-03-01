@@ -279,7 +279,7 @@ additional_properties_config=$($JQ_CMD -n \
 resources_config="{
   \"isolated_ha_proxy\": {\"instances\": $ISOLATED_HA_PROXY_INSTANCES},
   \"isolated_router\": {\"instances\": $ISOLATED_ROUTER_INSTANCES},
-  \"isolated_diego_cell\": {\"instances\": $ISOLATED_DIEGO_CELL_INSTANCES},
+  \"isolated_diego_cell\": {\"instances\": $ISOLATED_DIEGO_CELL_INSTANCES}
 }"
 else
 additional_properties_config=$(cat <<-EOF
