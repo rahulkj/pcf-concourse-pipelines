@@ -285,52 +285,52 @@ else
 additional_properties_config=$(cat <<-EOF
 {
   ".isolated_ha_proxy_$REPLICATOR_NAME.static_ips": {
-    "value": $HA_PROXY_STATIC_IPS
+    "value": "$HA_PROXY_STATIC_IPS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.internal_only_domains": {
-    "value": $INTERNAL_ONLY_DOMAINS
+    "value": "$INTERNAL_ONLY_DOMAINS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.trusted_domain_cidrs": {
-    "value": $TRUSTED_DOMAIN_CIDRS
+    "value": "$TRUSTED_DOMAIN_CIDRS"
   },
   ".isolated_router_$REPLICATOR_NAME.static_ips": {
-    "value": $ROUTER_STATIC_IPS
+    "value": "$ROUTER_STATIC_IPS"
   },
   ".isolated_router_$REPLICATOR_NAME.disable_insecure_cookies": {
-    "value": $DISABLE_INSECURE_COOKIES
+    "value": "$DISABLE_INSECURE_COOKIES"
   },
   ".isolated_router_$REPLICATOR_NAME.enable_zipkin": {
-    "value": $ENABLE_ZIPKIN
+    "value": "$ENABLE_ZIPKIN"
   },
   ".isolated_router_$REPLICATOR_NAME.enable_write_access_logs": {
-    "value": $ENABLE_WRITE_ACCESS_LOGS
+    "value": "$ENABLE_WRITE_ACCESS_LOGS"
   },
   ".isolated_router_$REPLICATOR_NAME.request_timeout_in_seconds": {
-    "value": $REQUEST_TIMEOUT_IN_SECONDS
+    "value": "$REQUEST_TIMEOUT_IN_SECONDS"
   },
   ".isolated_router_$REPLICATOR_NAME.max_idle_connections": {
-    "value": $MAX_IDLE_CONNECTIONS
+    "value": "$MAX_IDLE_CONNECTIONS"
   },
   ".isolated_router_$REPLICATOR_NAME.extra_headers_to_log": {
-    "value": $EXTRA_HEADERS_TO_LOG
+    "value": "$EXTRA_HEADERS_TO_LOG"
   },
   ".isolated_router_$REPLICATOR_NAME.drain_wait": {
-    "value": $DRAIN_WAIT
+    "value": "$DRAIN_WAIT"
   },
   ".isolated_router_$REPLICATOR_NAME.lb_healthy_threshold": {
-    "value": $LB_HEALTHY_THRESHOLD
+    "value": "$LB_HEALTHY_THRESHOLD"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.executor_disk_capacity": {
-    "value": $EXECUTOR_DISK_CAPACITY
+    "value": "$EXECUTOR_DISK_CAPACITY"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
-    "value": $EXECUTOR_MEMORY_CAPACITY
+    "value": "$EXECUTOR_MEMORY_CAPACITY"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.insecure_docker_registry_list": {
-    "value": $INSECURE_DOCKER_REGISTRY_LIST
+    "value": "$INSECURE_DOCKER_REGISTRY_LIST"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.placement_tag": {
-    "value": $PLACEMENT_TAG
+    "value": "$PLACEMENT_TAG"
   }
 }
 EOF
