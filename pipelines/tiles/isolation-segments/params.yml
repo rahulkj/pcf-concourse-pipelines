@@ -16,8 +16,10 @@ ops_mgr_pwd: # [R] Ops Manager admin password
 ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate # Do not change
 
 product_name: isolation-segment
-product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
+product_version: ^2\.0\..*$
+
 replicator_name: "" # [O] Replicated Tile Name, ex: abc
+product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: AZ1,AZ2 # [R] AZ's to balance other jobs
