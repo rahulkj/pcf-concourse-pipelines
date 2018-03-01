@@ -27,41 +27,41 @@ else
 fi
 
 common_properties_config=$($JQ_CMD -n \
-  --arg container_networking $CONTAINER_NETWORKING \
-  --arg enable_grootfs $ENABLE_GROOTFS \
-  --arg garden_disk_cleanup $GARDEN_DISK_CLEANUP \
-  --arg gorouter_ssl_ciphers $GOROUTER_SSL_CIPHERS \
-  --arg haproxy_forward_tls $HAPROXY_FORWARD_TLS \
-  --arg backend_ca $BACKEND_CA \
-  --arg haproxy_max_buffer_size $HAPROXY_MAX_BUFFER_SIZE \
-  --arg haproxy_ssl_ciphers $HAPROXY_SSL_CIPHERS \
-  --arg networking_poe_ssl_name $NETWORKING_POE_SSL_NAME \
-  --arg networking_poe_ssl_cert_pem $NETWORKING_POE_SSL_CERT_PEM \
-  --arg networking_poe_ssl_cert_private_key_pem $NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM \
-  --arg networking_point_of_entry $NETWORKING_POINT_OF_ENTRY \
-  --arg nfs_volume_driver $NFS_VOLUME_DRIVER \
-  --arg ldap_server_host $LDAP_SERVER_HOST \
-  --arg ldap_server_port $LDAP_SERVER_PORT \
-  --arg ldap_service_account_password $LDAP_SERVICE_ACCOUNT_PASSWORD \
-  --arg ldap_service_account_user $LDAP_SERVICE_ACCOUNT_USER \
-  --arg ldap_user_fqdn $LDAP_USER_FQDN \
-  --arg router_backend_max_conn $ROUTER_BACKEND_MAX_CONN \
-  --arg router_client_cert_validation $ROUTER_CLIENT_CERT_VALIDATION \
-  --arg routing_custom_ca_certificates $ROUTING_CUSTOM_CA_CERTIFICATES \
-  --arg routing_disable_http $ROUTING_DISABLE_HTTP \
-  --arg routing_minimum_tls_version $ROUTING_MINIMUM_TLS_VERSION \
-  --arg routing_table_sharding_mode $ROUTING_TABLE_SHARDING_MODE \
-  --arg routing_tls_termination $ROUTING_TLS_TERMINATION \
-  --arg skip_cert_verify $SKIP_CERT_VERIFY \
-  --arg system_logging $SYSTEM_LOGGING \
-  --arg syslog_host $SYSLOG_HOST \
-  --arg syslog_port $SYSLOG_PORT \
-  --arg syslog_protocol $SYSLOG_PROTOCOL \
-  --arg syslog_rule $SYSLOG_RULE \
-  --arg syslog_tls_ca_cert $SYSLOG_TLS_CA_CERT \
-  --arg syslog_tls_enabled $SYSLOG_TLS_ENABLED \
-  --arg syslog_tls_permitted_peer $SYSLOG_TLS_PERMITTED_PEER \
-  --arg syslog_use_tcp_for_file_forwarding_local_transport $SYSLOG_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT \
+  --arg container_networking "$CONTAINER_NETWORKING" \
+  --arg enable_grootfs "$ENABLE_GROOTFS" \
+  --arg garden_disk_cleanup "$GARDEN_DISK_CLEANUP" \
+  --arg gorouter_ssl_ciphers "$GOROUTER_SSL_CIPHERS" \
+  --arg haproxy_forward_tls "$HAPROXY_FORWARD_TLS" \
+  --arg backend_ca "$BACKEND_CA" \
+  --arg haproxy_max_buffer_size "$HAPROXY_MAX_BUFFER_SIZE" \
+  --arg haproxy_ssl_ciphers "$HAPROXY_SSL_CIPHERS" \
+  --arg networking_poe_ssl_name "$NETWORKING_POE_SSL_NAME" \
+  --arg networking_poe_ssl_cert_pem "$NETWORKING_POE_SSL_CERT_PEM" \
+  --arg networking_poe_ssl_cert_private_key_pem "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" \
+  --arg networking_point_of_entry "$NETWORKING_POINT_OF_ENTRY" \
+  --arg nfs_volume_driver "$NFS_VOLUME_DRIVER" \
+  --arg ldap_server_host "$LDAP_SERVER_HOST" \
+  --arg ldap_server_port "$LDAP_SERVER_PORT" \
+  --arg ldap_service_account_password "$LDAP_SERVICE_ACCOUNT_PASSWORD" \
+  --arg ldap_service_account_user "$LDAP_SERVICE_ACCOUNT_USER" \
+  --arg ldap_user_fqdn "$LDAP_USER_FQDN" \
+  --arg router_backend_max_conn "$ROUTER_BACKEND_MAX_CONN" \
+  --arg router_client_cert_validation "$ROUTER_CLIENT_CERT_VALIDATION" \
+  --arg routing_custom_ca_certificates "$ROUTING_CUSTOM_CA_CERTIFICATES" \
+  --arg routing_disable_http "$ROUTING_DISABLE_HTTP" \
+  --arg routing_minimum_tls_version "$ROUTING_MINIMUM_TLS_VERSION" \
+  --arg routing_table_sharding_mode "$ROUTING_TABLE_SHARDING_MODE" \
+  --arg routing_tls_termination "$ROUTING_TLS_TERMINATION" \
+  --arg skip_cert_verify "$SKIP_CERT_VERIFY" \
+  --arg system_logging "$SYSTEM_LOGGING" \
+  --arg syslog_host "$SYSLOG_HOST" \
+  --arg syslog_port "$SYSLOG_PORT" \
+  --arg syslog_protocol "$SYSLOG_PROTOCOL" \
+  --arg syslog_rule "$SYSLOG_RULE" \
+  --arg syslog_tls_ca_cert "$SYSLOG_TLS_CA_CERT" \
+  --arg syslog_tls_enabled "$SYSLOG_TLS_ENABLED" \
+  --arg syslog_tls_permitted_peer "$SYSLOG_TLS_PERMITTED_PEER" \
+  --arg syslog_use_tcp_for_file_forwarding_local_transport "$SYSLOG_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT" \
 '{
   ".properties.nfs_volume_driver": {
     "value": $nfs_volume_driver
@@ -204,22 +204,22 @@ common_properties_config=$($JQ_CMD -n \
 
 if [[ -z "$REPLICATOR_NAME" ]]; then
 additional_properties_config=$($JQ_CMD -n \
-  --arg ha_proxy_static_ips $HA_PROXY_STATIC_IPS \
-  --arg internal_only_domains $INTERNAL_ONLY_DOMAINS \
-  --arg trusted_domain_cidrs $TRUSTED_DOMAIN_CIDRS \
-  --arg router_static_ips $ROUTER_STATIC_IPS \
-  --arg disable_insecure_cookies $DISABLE_INSECURE_COOKIES \
-  --arg enable_zipkin $ENABLE_ZIPKIN \
-  --arg enable_write_access_logs $ENABLE_WRITE_ACCESS_LOGS \
-  --arg request_timeout_in_seconds $REQUEST_TIMEOUT_IN_SECONDS \
-  --arg max_idle_connections $MAX_IDLE_CONNECTIONS \
-  --arg extra_headers_to_log $EXTRA_HEADERS_TO_LOG \
-  --arg drain_wait $DRAIN_WAIT \
-  --arg lb_healthy_threshold $LB_HEALTHY_THRESHOLD \
-  --arg executor_disk_capacity $EXECUTOR_DISK_CAPACITY \
-  --arg executor_memory_capacity $EXECUTOR_MEMORY_CAPACITY \
-  --arg insecure_docker_registry_list $INSECURE_DOCKER_REGISTRY_LIST \
-  --arg placement_tag $PLACEMENT_TAG \
+  --arg ha_proxy_static_ips "$HA_PROXY_STATIC_IPS" \
+  --arg internal_only_domains "$INTERNAL_ONLY_DOMAINS" \
+  --arg trusted_domain_cidrs "$TRUSTED_DOMAIN_CIDRS" \
+  --arg router_static_ips "$ROUTER_STATIC_IPS" \
+  --arg disable_insecure_cookies "$DISABLE_INSECURE_COOKIES" \
+  --arg enable_zipkin "$ENABLE_ZIPKIN" \
+  --arg enable_write_access_logs "$ENABLE_WRITE_ACCESS_LOGS" \
+  --arg request_timeout_in_seconds "$REQUEST_TIMEOUT_IN_SECONDS" \
+  --arg max_idle_connections "$MAX_IDLE_CONNECTIONS" \
+  --arg extra_headers_to_log "$EXTRA_HEADERS_TO_LOG" \
+  --arg drain_wait "$DRAIN_WAIT" \
+  --arg lb_healthy_threshold "$LB_HEALTHY_THRESHOLD" \
+  --arg executor_disk_capacity "$EXECUTOR_DISK_CAPACITY" \
+  --arg executor_memory_capacity "$EXECUTOR_MEMORY_CAPACITY" \
+  --arg insecure_docker_registry_list "$INSECURE_DOCKER_REGISTRY_LIST" \
+  --arg placement_tag "$PLACEMENT_TAG" \
   '
   {
     ".isolated_ha_proxy.static_ips": {
