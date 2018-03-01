@@ -201,7 +201,7 @@ common_properties_config=$($JQ_CMD -n \
       "value": $networking_point_of_entry
     }
   }
-}'
+  '
 )
 
 if [[ -z "$REPLICATOR_NAME" ]]; then
