@@ -62,9 +62,11 @@ common_properties_config=$($JQ_CMD -n \
   --arg syslog_tls_enabled "$SYSLOG_TLS_ENABLED" \
   --arg syslog_tls_permitted_peer "$SYSLOG_TLS_PERMITTED_PEER" \
   --arg syslog_use_tcp_for_file_forwarding_local_transport "$SYSLOG_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT" \
-'{
-  ".properties.nfs_volume_driver": {
-    "value": $nfs_volume_driver
+  '
+  {
+    ".properties.nfs_volume_driver": {
+      "value": $nfs_volume_driver
+    }
   }
   +
   if $nfs_volume_driver == "enable" then
