@@ -4,7 +4,7 @@ github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines githu
 github_branch: master
 github_username: # [R] Your github username
 
-company_proxy_domain: # [O] proxy domain
+company_proxy_domain: "" # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
@@ -13,37 +13,71 @@ ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
 ops_mgr_usr: # [R] Ops Manager admin user
 ops_mgr_pwd: # [R] Ops Manager admin password
 
+ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate # Do not change
+
 product_name: isolation-segment
+product_version: ^2\.0\..*$
+
+replicator_name: "" # [O] Replicated Tile Name, ex: abc
 product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
-replicator_name: # [O] Replicated Tile Name, ex: abc
 
-om_generate_ssl_endpoint: /api/v0/certificates/generate
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs: # [R] Balance other jobs in AZ's
-deployment_nw: # [R] Tile network name
-isolation_segment_domain: # [R] Isolation segment domain. ex: cfis.example.com
-ssl_termination_point: terminate_at_router # [R] terminate_at_router|terminate_at_router_ert_cert|terminate_before_router
-ssl_rsa_certificate: # [O] TLS Termination Public Certificates
-ssl_private_key: # [O] TLS Termination Private Certificates
-router_ssl_cipher: # [O] Router ciphers are read in Golang and should use underscores instead of dashes in their names e.g. TLS_RSA_WITH_RC4_128_SHA:TLS_RSA_WITH_AES_128_CBC_SHA
-router_static_ips: # [O] Enter static IP address(es) for the Router(s), which must be within the subnet CIDR block that you defined in the Ops Manager network configuration. If you have a load balancer, configure it to point to these IPs.
-cell_disk_capacity: # [O] Cell Disk Capacity (MB)
-cell_memory_capacity: # [O] Cell Memory Capacity (MB)
-dns_servers: # [O] List of DNS Servers
-application_network_cidr: 10.254.0.0/22 # [R] Applications Subnet (Only change this if you need to avoid address collision with a third-party service on the same subnet.)
-application_network_mtu: 1454 # [R] Applications Network Maximum Transmission Unit (MTU) (in bytes)
-insecure_docker_registry_list: # [O] Private Docker Insecure Registry Whitelist
-isolation_segment_name: # [R] Segment Name
-router_instances: # [R] Router instances, integer
-logging_enabled: disabled # [R] enabled|disabled
-syslog_host:
-syslog_port:
-syslog_protocol: #tcp|relp|udp
-syslog_tls_enabled: #true|false
-syslog_tls_permitted_peer: # Either the accepted fingerprint (SHA1) or name of remote peer, e.g. *.example.com
-syslog_tls_ca_certificate: # This certificate will ensure that logs get securely transported to the syslog destination
+other_azs: AZ1,AZ2 # [R] AZ's to balance other jobs
+network_name:  # [R] Tile network name
 
-diego_cell_instances: # [R] Diego Cell instances, integer
-isolated_router_instance_type: micro # [R] micro|nano|small|medium|large - refer to the deployment cloud config for more options
-diego_cell_instance_type: xlarge.disk # [R] small.disk|large.disk|xlarge.disk - refer to the deployment cloud config for more options
-errands_to_disable:
+isolation_segment_domains: "[\"*.cfis.example.com\",\"*.cfis.example1.com\"]"
+container_networking: enable # enable|disable
+enable_grootfs: true # true|false
+garden_disk_cleanup: "threshold" # never|routine|threshold
+gorouter_ssl_ciphers: "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"
+haproxy_forward_tls: disable # enable|disable
+backend_ca: ""
+haproxy_max_buffer_size: 16384
+haproxy_ssl_ciphers: "DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"
+networking_poe_ssl_name: ""
+networking_poe_ssl_cert_pem: ""
+networking_poe_ssl_cert_private_key_pem: ""
+networking_point_of_entry: terminate_at_router
+nfs_volume_driver: disable # enable|disable
+ldap_server_host: ""
+ldap_server_port: ""
+ldap_service_account_password: ""
+ldap_service_account_user: ""
+ldap_user_fqdn: ""
+router_backend_max_conn: 500
+router_client_cert_validation: request # none|request|require
+routing_custom_ca_certificates: ""
+routing_disable_http: false # true|false
+routing_minimum_tls_version: tls_v1_2 # tls_v1_0|tls_v1_1|tls_v1_2
+routing_table_sharding_mode: isolation_segment_only # isolation_segment_only|no_isolation_segment
+routing_tls_termination: load_balancer # load_balancer|ha_proxy|router
+skip_cert_verify: true # true|false
+system_logging: disabled # enabled|disabled
+syslog_host: ""
+syslog_port: ""
+suslog_protocol: ""
+syslog_rule: ""
+syslog_tls_ca_cert: ""
+syslog_tls_enabled: false # true|false
+syslog_tls_permitted_peer: ""
+syslog_use_tcp_for_file_forwarding_local_transport: false # true|false
+ha_proxy_static_ips: ""
+internal_only_domains: ""
+trusted_domain_cidrs: ""
+router_static_ips: ""
+disable_insecure_cookies: false # true|false
+enable_zipkin: true # true|false
+enable_write_access_logs: true # true|false
+request_timeout_in_seconds: 900
+max_idle_connections: 0
+extra_headers_to_log: ""
+drain_wait: 20
+lb_healthy_threshold: 20
+executor_disk_capacity: ""
+executor_memory_capacity: ""
+insecure_docker_registry_list: ""
+placement_tag: CHANGEME
+
+isolated_ha_proxy_instances: 3
+isolated_router_instances: 3
+isolated_diego_cell_instances: 3
