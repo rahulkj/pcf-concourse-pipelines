@@ -339,7 +339,7 @@ EOF
 resources_config="{
   \"isolated_ha_proxy_$REPLICATOR_NAME\": {\"instances\": $ISOLATED_HA_PROXY_INSTANCES},
   \"isolated_router_$REPLICATOR_NAME\": {\"instances\": $ISOLATED_ROUTER_INSTANCES},
-  \"isolated_diego_cell_$REPLICATOR_NAME\": {\"instances\": $ISOLATED_DIEGO_CELL_INSTANCES},
+  \"isolated_diego_cell_$REPLICATOR_NAME\": {\"instances\": $ISOLATED_DIEGO_CELL_INSTANCES}
 }"
 fi
 
