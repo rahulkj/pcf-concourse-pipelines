@@ -8,7 +8,7 @@ JQ_CMD=./jq/jq-linux64
 
 if [[ -z "$NETWORKING_POE_SSL_CERT_PEM" ]]; then
 DOMAINS=$(cat <<-EOF
-  {"domains": "$ISOLATION_SEGMENT_DOMAINS" }
+  {"domains": $ISOLATION_SEGMENT_DOMAINS }
 EOF
 )
 
