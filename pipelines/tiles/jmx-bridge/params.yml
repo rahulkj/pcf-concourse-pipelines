@@ -31,7 +31,6 @@ jmx_use_ssl: false # (true|false)
 nat_enabled: option_disabled  # (option_disabled|option_enabled)
 nat_jmx_bridge_ip:
 jmx_security_logging_enabled: true # (true|false)
-jmx_use_ssl: false # (true|false)
 ssl_cert:
 ssl_private_key:
 jmx_domain:
