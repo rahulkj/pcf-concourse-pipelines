@@ -45,7 +45,7 @@ on_demand_broker_plan_1_disk_limit_acknowledgement: "non-existant-value" #(ackno
 on_demand_broker_plan_2_selector: "disabled" #(enabled|disabled)
 on_demand_broker_plan_2_selector_cf_service_access: "enable" #(enable|disable)
 on_demand_broker_plan_2_selector_name: "cluster"
-on_demand_broker_plan_2_selector_description: "RabbitMQ dedicated cluster"
+on_demand_broker_plan_2_selector_description: "This plan provides a preconfigured dedicated cluster of RabbitMQ nodes"
 on_demand_broker_plan_2_selector_features: "RabbitMQ"
 on_demand_broker_plan_2_selector_instance_quota: 0
 on_demand_broker_plan_2_selector_rabbitmq_persistent_disk_type:
@@ -56,8 +56,8 @@ on_demand_broker_plan_2_selector_rabbitmq_vm_type:
 on_demand_broker_plan_2_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
 on_demand_broker_plan_3_selector: "disabled" #(enabled|disabled)
 on_demand_broker_plan_3_selector_cf_service_access: "enable" #(enable|disable)
-on_demand_broker_plan_3_selector_name: "cluster"
-on_demand_broker_plan_3_selector_description: "RabbitMQ dedicated cluster"
+on_demand_broker_plan_3_selector_name:
+on_demand_broker_plan_3_selector_description:
 on_demand_broker_plan_3_selector_features: "RabbitMQ"
 on_demand_broker_plan_3_selector_instance_quota: 0
 on_demand_broker_plan_3_selector_rabbitmq_persistent_disk_type:
@@ -68,8 +68,8 @@ on_demand_broker_plan_3_selector_rabbitmq_vm_type:
 on_demand_broker_plan_3_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
 on_demand_broker_plan_4_selector: "disabled" #(enabled|disabled)
 on_demand_broker_plan_4_selector_cf_service_access: "enable" #(enable|disable)
-on_demand_broker_plan_4_selector_name: "cluster"
-on_demand_broker_plan_4_selector_description: "RabbitMQ dedicated cluster"
+on_demand_broker_plan_4_selector_name:
+on_demand_broker_plan_4_selector_description:
 on_demand_broker_plan_4_selector_features: "RabbitMQ"
 on_demand_broker_plan_4_selector_instance_quota: 0
 on_demand_broker_plan_4_selector_rabbitmq_persistent_disk_type:
@@ -80,8 +80,8 @@ on_demand_broker_plan_4_selector_rabbitmq_vm_type:
 on_demand_broker_plan_4_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
 on_demand_broker_plan_5_selector: "disabled" #(enabled|disabled)
 on_demand_broker_plan_5_selector_cf_service_access: "enable" #(enable|disable)
-on_demand_broker_plan_5_selector_name: "cluster"
-on_demand_broker_plan_5_selector_description: "RabbitMQ dedicated cluster"
+on_demand_broker_plan_5_selector_name:
+on_demand_broker_plan_5_selector_description:
 on_demand_broker_plan_5_selector_features: "RabbitMQ"
 on_demand_broker_plan_5_selector_instance_quota: 0
 on_demand_broker_plan_5_selector_rabbitmq_persistent_disk_type:
