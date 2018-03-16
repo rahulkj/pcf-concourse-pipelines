@@ -140,7 +140,7 @@ jobs:
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      BROKER_MAX_INSTANCES: ((broken_max_instances))
+      BROKER_MAX_INSTANCES: ((broker_max_instances))
       BUILDPACK: ((buildpack_name))
       DISABLE_CERT_CHECK: ((disable_cert_check))
       INSTANCES_APP_PUSH_TIMEOUT: ((instances_app_push_timeout))
