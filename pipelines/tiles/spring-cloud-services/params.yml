@@ -28,7 +28,7 @@ instances_app_push_timeout: ""
 persistence_store_service: "" #[R]
 persistence_store_service_plan: "" # [R]
 message_bus_service: "p-rabbitmq"
-message_service_bus_plan: "standard"
+message_bus_service_plan: "standard"
 enable_global_access: true
 secure_credentials: false
 
