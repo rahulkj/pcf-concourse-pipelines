@@ -43,7 +43,6 @@ PRODUCT_PROPERTIES=$(
       ".deploy-service-broker.message_bus_service": {
         "value": $message_bus_service
       },
-      },
       ".deploy-service-broker.message_bus_service_plan": {
         "value": $message_bus_service_plan
       },
