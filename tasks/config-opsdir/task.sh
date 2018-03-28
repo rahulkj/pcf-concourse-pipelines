@@ -77,29 +77,29 @@ AZ_CONFIGURATION=$(
     {
       "availability_zones": [
         {
-          "name": "$az_1",
+          "name": $az_1,
           "clusters": [
             {
-              "cluster": "$az_1_custer_name",
-              "resource_pool": "$az_1_rp_name"
+              "cluster": $az_1_custer_name,
+              "resource_pool": $az_1_rp_name
             }
           ]
         },
         {
-          "name": "$az_2",
+          "name": $az_2,
           "clusters": [
             {
-              "cluster": "$az_2_custer_name",
-              "resource_pool": "$az_2_rp_name"
+              "cluster": $az_2_custer_name,
+              "resource_pool": $az_2_rp_name
             }
           ]
         },
         {
-          "name": "$az_3",
+          "name": $az_3,
           "clusters": [
             {
-              "cluster": "$az_3_custer_name",
-              "resource_pool": "$az_3_rp_name"
+              "cluster": $az_3_custer_name,
+              "resource_pool": $az_3_rp_name
             }
           ]
         }
@@ -144,53 +144,53 @@ NETWORK_CONFIGURATION=$(
     "icmp_checks_enabled": $icmp_checks_enabled,
     "networks": [
       {
-        "name": "$infra_network_name",
+        "name": $infra_network_name,
         "subnets": [
           {
-            "iaas_identifier": "$infra_vcenter_network",
-            "cidr": "$infra_nw_cidr",
-            "reserved_ip_ranges": "$infra_excluded_range",
-            "dns": "$infra_nw_dns",
-            "gateway": "$infra_nw_gateway",
+            "iaas_identifier": $infra_vcenter_network,
+            "cidr": $infra_nw_cidr,
+            "reserved_ip_ranges": $infra_excluded_range,
+            "dns": $infra_nw_dns,
+            "gateway": $infra_nw_gateway,
             "availability_zones": ($infra_nw_azs | split(","))
           }
         ]
       },
       {
-        "name": "$deployment_network_name",
+        "name": $deployment_network_name,
         "subnets": [
           {
-            "iaas_identifier": "$deployment_vcenter_network",
-            "cidr": "$deployment_nw_cidr",
-            "reserved_ip_ranges": "$deployment_excluded_range",
-            "dns": "$deployment_nw_dns",
-            "gateway": "$deployment_nw_gateway",
+            "iaas_identifier": $deployment_vcenter_network,
+            "cidr": $deployment_nw_cidr,
+            "reserved_ip_ranges": $deployment_excluded_range,
+            "dns": $deployment_nw_dns,
+            "gateway": $deployment_nw_gateway,
             "availability_zones": ($deployment_nw_azs | split(","))
           }
         ]
       },
       {
-        "name": "$services_network_name",
+        "name": $services_network_name,
         "subnets": [
           {
-            "iaas_identifier": "$services_vcenter_network",
-            "cidr": "$services_nw_cidr",
-            "reserved_ip_ranges": "$services_excluded_range",
-            "dns": "$services_nw_dns",
-            "gateway": "$services_nw_gateway",
+            "iaas_identifier": $services_vcenter_network,
+            "cidr": $services_nw_cidr,
+            "reserved_ip_ranges": $services_excluded_range,
+            "dns": $services_nw_dns,
+            "gateway": $services_nw_gateway,
             "availability_zones": ($services_nw_azs | split(","))
           }
         ]
       },
       {
-        "name": "$dynamic_services_network_name",
+        "name": $dynamic_services_network_name,
         "subnets": [
           {
-            "iaas_identifier": "$dynamic_services_vcenter_network",
-            "cidr": "$dynamic_services_nw_cidr",
-            "reserved_ip_ranges": "$dynamic_services_excluded_range",
-            "dns": "$dynamic_services_nw_dns",
-            "gateway": "$dynamic_services_nw_gateway",
+            "iaas_identifier": $dynamic_services_vcenter_network,
+            "cidr": $dynamic_services_nw_cidr,
+            "reserved_ip_ranges": $dynamic_services_excluded_range,
+            "dns": $dynamic_services_nw_dns,
+            "gateway": $dynamic_services_nw_gateway,
             "availability_zones": ($dynamic_services_nw_azs | split(","))
           }
         ]
