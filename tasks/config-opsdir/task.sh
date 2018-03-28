@@ -110,7 +110,7 @@ AZ_CONFIGURATION=$(
 
 NETWORK_CONFIGURATION=$(
   $JQ_CMD -n \
-  --arg icmp_checks_enabled "$ICMP_CHECKS_ENABLED" \
+  --argjson icmp_checks_enabled "$ICMP_CHECKS_ENABLED" \
   --arg infra_network_name "$INFRA_NETWORK_NAME" \
   --arg infra_vcenter_network "$INFRA_VCENTER_NETWORK" \
   --arg infra_nw_cidr "$INFRA_NW_CIDR" \
