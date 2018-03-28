@@ -8,7 +8,7 @@ JQ_CMD=./jq/jq-linux64
 
 IAAS_CONFIGURATION=$(
   echo "{}" |
-  $JQ_CMD -n \
+    $JQ_CMD -n \
     --arg vcenter_host "$VCENTER_HOST" \
     --arg vcenter_username "$VCENTER_USR" \
     --arg vcenter_password "$VCENTER_PWD" \
@@ -62,94 +62,142 @@ IAAS_CONFIGURATION=$(
     '
 )
 
-AZ_CONFIGURATION=$(cat <<-EOF
-{
-  "availability_zones": [
+AZ_CONFIGURATION=$(
+  $JQ_CMD -n \
+    --arg az_1 "$AZ_1" \
+    --arg az_1_custer_name "$AZ_1_CUSTER_NAME" \
+    --arg az_1_rp_name "$AZ_1_RP_NAME" \
+    --arg az_2 "$AZ_2" \
+    --arg az_2_custer_name "$AZ_2_CUSTER_NAME" \
+    --arg az_2_rp_name "$AZ_2_RP_NAME" \
+    --arg az_3 "$AZ_3" \
+    --arg az_3_custer_name "$AZ_3_CUSTER_NAME" \
+    --arg az_3_rp_name "$AZ_3_RP_NAME" \
+    '
     {
-      "name": "$AZ_1",
-      "clusters": [{
-        "cluster": "$AZ_1_CUSTER_NAME",
-        "resource_pool": "$AZ_1_RP_NAME"
-      }]
-    },
-    {
-      "name": "$AZ_2",
-      "clusters": [{
-        "cluster": "$AZ_2_CUSTER_NAME",
-        "resource_pool": "$AZ_2_RP_NAME"
-      }]
-    },
-    {
-      "name": "$AZ_3",
-      "clusters": [{
-        "cluster": "$AZ_3_CUSTER_NAME",
-        "resource_pool": "$AZ_3_RP_NAME"
-      }]
+      "availability_zones": [
+        {
+          "name": "$az_1",
+          "clusters": [
+            {
+              "cluster": "$az_1_custer_name",
+              "resource_pool": "$az_1_rp_name"
+            }
+          ]
+        },
+        {
+          "name": "$az_2",
+          "clusters": [
+            {
+              "cluster": "$az_2_custer_name",
+              "resource_pool": "$az_2_rp_name"
+            }
+          ]
+        },
+        {
+          "name": "$az_3",
+          "clusters": [
+            {
+              "cluster": "$az_3_custer_name",
+              "resource_pool": "$az_3_rp_name"
+            }
+          ]
+        }
+      ]
     }
-  ]
-}
-EOF
+    '
 )
 
-NETWORK_CONFIGURATION=$(cat <<-EOF
-{
-  "icmp_checks_enabled": $ICMP_CHECKS_ENABLED,
-  "networks": [
-    {
-      "name": "$INFRA_NETWORK_NAME",
-      "subnets": [
-        {
-          "iaas_identifier": "$INFRA_VCENTER_NETWORK",
-          "cidr": "$INFRA_NW_CIDR",
-          "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
-          "dns": "$INFRA_NW_DNS",
-          "gateway": "$INFRA_NW_GATEWAY",
-          "availability_zones": ($INFRA_NW_AZS | split(","))
-        }
-      ]
-    },
-    {
-      "name": "$DEPLOYMENT_NETWORK_NAME",
-      "subnets": [
-        {
-          "iaas_identifier": "$DEPLOYMENT_VCENTER_NETWORK",
-          "cidr": "$DEPLOYMENT_NW_CIDR",
-          "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
-          "dns": "$DEPLOYMENT_NW_DNS",
-          "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zones": ($DEPLOYMENT_NW_AZS | split(","))
-        }
-      ]
-    },
-    {
-      "name": "$SERVICES_NETWORK_NAME",
-      "subnets": [
-        {
-          "iaas_identifier": "$SERVICES_VCENTER_NETWORK",
-          "cidr": "$SERVICES_NW_CIDR",
-          "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
-          "dns": "$SERVICES_NW_DNS",
-          "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zones": ($SERVICES_NW_AZS | split(","))
-        }
-      ]
-    },
-    {
-      "name": "$DYNAMIC_SERVICES_NETWORK_NAME",
-      "subnets": [
-        {
-          "iaas_identifier": "$DYNAMIC_SERVICES_VCENTER_NETWORK",
-          "cidr": "$DYNAMIC_SERVICES_NW_CIDR",
-          "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
-          "dns": "$DYNAMIC_SERVICES_NW_DNS",
-          "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zones": ($DYNAMIC_SERVICES_NW_AZS | split(","))
-        }
-      ]
-    }
-  ]
-}
-EOF
+NETWORK_CONFIGURATION=$(
+  $JQ_CMD -n \
+  --arg icmp_checks_enabled "$ICMP_CHECKS_ENABLED" \
+  --arg infra_network_name "$INFRA_NETWORK_NAME" \
+  --arg infra_vcenter_network "$INFRA_VCENTER_NETWORK" \
+  --arg infra_nw_cidr "$INFRA_NW_CIDR" \
+  --arg infra_excluded_range "$INFRA_EXCLUDED_RANGE" \
+  --arg infra_nw_dns "$INFRA_NW_DNS" \
+  --arg infra_nw_gateway "$INFRA_NW_GATEWAY" \
+  --arg infra_nw_azs "$INFRA_NW_AZS" \
+  --arg deployment_network_name "$DEPLOYMENT_NETWORK_NAME" \
+  --arg deployment_vcenter_network "$DEPLOYMENT_VCENTER_NETWORK" \
+  --arg deployment_nw_cidr "$DEPLOYMENT_NW_CIDR" \
+  --arg deployment_excluded_range "$DEPLOYMENT_EXCLUDED_RANGE" \
+  --arg deployment_nw_dns "$DEPLOYMENT_NW_DNS" \
+  --arg deployment_nw_gateway "$DEPLOYMENT_NW_GATEWAY" \
+  --arg deployment_nw_azs "$DEPLOYMENT_NW_AZS" \
+  --arg services_network_name "$SERVICES_NETWORK_NAME" \
+  --arg services_vcenter_network "$SERVICES_VCENTER_NETWORK" \
+  --arg services_nw_cidr "$SERVICES_NW_CIDR" \
+  --arg services_excluded_range "$SERVICES_EXCLUDED_RANGE" \
+  --arg services_nw_dns "$SERVICES_NW_DNS" \
+  --arg services_nw_gateway "$SERVICES_NW_GATEWAY" \
+  --arg services_nw_azs "$SERVICES_NW_AZS" \
+  --arg dynamic_services_network_name "$DYNAMIC_SERVICES_NETWORK_NAME" \
+  --arg dynamic_services_vcenter_network "$DYNAMIC_SERVICES_VCENTER_NETWORK" \
+  --arg dynamic_services_nw_cidr "$DYNAMIC_SERVICES_NW_CIDR" \
+  --arg dynamic_services_excluded_range "$DYNAMIC_SERVICES_EXCLUDED_RANGE" \
+  --arg dynamic_services_nw_dns "$DYNAMIC_SERVICES_NW_DNS" \
+  --arg dynamic_services_nw_gateway "$DYNAMIC_SERVICES_NW_GATEWAY" \
+  --arg dynamic_services_nw_azs "$DYNAMIC_SERVICES_NW_AZS" \
+  '
+  {
+    "icmp_checks_enabled": $icmp_checks_enabled,
+    "networks": [
+      {
+        "name": "$infra_network_name",
+        "subnets": [
+          {
+            "iaas_identifier": "$infra_vcenter_network",
+            "cidr": "$infra_nw_cidr",
+            "reserved_ip_ranges": "$infra_excluded_range",
+            "dns": "$infra_nw_dns",
+            "gateway": "$infra_nw_gateway",
+            "availability_zones": ($infra_nw_azs | split(","))
+          }
+        ]
+      },
+      {
+        "name": "$deployment_network_name",
+        "subnets": [
+          {
+            "iaas_identifier": "$deployment_vcenter_network",
+            "cidr": "$deployment_nw_cidr",
+            "reserved_ip_ranges": "$deployment_excluded_range",
+            "dns": "$deployment_nw_dns",
+            "gateway": "$deployment_nw_gateway",
+            "availability_zones": ($deployment_nw_azs | split(","))
+          }
+        ]
+      },
+      {
+        "name": "$services_network_name",
+        "subnets": [
+          {
+            "iaas_identifier": "$services_vcenter_network",
+            "cidr": "$services_nw_cidr",
+            "reserved_ip_ranges": "$services_excluded_range",
+            "dns": "$services_nw_dns",
+            "gateway": "$services_nw_gateway",
+            "availability_zones": ($services_nw_azs | split(","))
+          }
+        ]
+      },
+      {
+        "name": "$dynamic_services_network_name",
+        "subnets": [
+          {
+            "iaas_identifier": "$dynamic_services_vcenter_network",
+            "cidr": "$dynamic_services_nw_cidr",
+            "reserved_ip_ranges": "$dynamic_services_excluded_range",
+            "dns": "$dynamic_services_nw_dns",
+            "gateway": "$dynamic_services_nw_gateway",
+            "availability_zones": ($DYNAMIC_SERVICES_NW_AZS | split(","))
+          }
+        ]
+      }
+    ]
+  }
+  '
 )
 
 DIRECTOR_CONFIG=$(
