@@ -91,11 +91,6 @@ AZ_CONFIGURATION=$(cat <<-EOF
 EOF
 )
 
-INFRA_AZS=$(fn_get_azs $INFRA_NW_AZS)
-DEPLOYMENT_AZS=$(fn_get_azs $DEPLOYMENT_NW_AZS)
-SERVICES_AZS=$(fn_get_azs $SERVICES_NW_AZS)
-DYNAMIC_SERVICES_AZS=$(fn_get_azs $DYNAMIC_SERVICES_NW_AZS)
-
 NETWORK_CONFIGURATION=$(cat <<-EOF
 {
   "icmp_checks_enabled": $ICMP_CHECKS_ENABLED,
@@ -109,7 +104,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
           "dns": "$INFRA_NW_DNS",
           "gateway": "$INFRA_NW_GATEWAY",
-          "availability_zones": ($INFRA_AZS | split(","))
+          "availability_zones": ($INFRA_NW_AZS | split(","))
         }
       ]
     },
@@ -122,7 +117,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
           "dns": "$DEPLOYMENT_NW_DNS",
           "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zones": ($DEPLOYMENT_AZS | split(","))
+          "availability_zones": ($DEPLOYMENT_NW_AZS | split(","))
         }
       ]
     },
@@ -135,7 +130,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
           "dns": "$SERVICES_NW_DNS",
           "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zones": ($SERVICES_AZS | split(","))
+          "availability_zones": ($SERVICES_NW_AZS | split(","))
         }
       ]
     },
@@ -148,7 +143,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
           "dns": "$DYNAMIC_SERVICES_NW_DNS",
           "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zones": ($DYNAMIC_SERVICES_AZS | split(","))
+          "availability_zones": ($DYNAMIC_SERVICES_NW_AZS | split(","))
         }
       ]
     }
