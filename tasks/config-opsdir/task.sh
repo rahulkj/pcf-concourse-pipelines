@@ -152,7 +152,7 @@ NETWORK_CONFIGURATION=$(
             "reserved_ip_ranges": $infra_excluded_range,
             "dns": $infra_nw_dns,
             "gateway": $infra_nw_gateway,
-            "availability_zones": ($infra_nw_azs | split(","))
+            "availability_zone_names": ($infra_nw_azs | split(","))
           }
         ]
       },
@@ -165,7 +165,7 @@ NETWORK_CONFIGURATION=$(
             "reserved_ip_ranges": $deployment_excluded_range,
             "dns": $deployment_nw_dns,
             "gateway": $deployment_nw_gateway,
-            "availability_zones": ($deployment_nw_azs | split(","))
+            "availability_zone_names": ($deployment_nw_azs | split(","))
           }
         ]
       },
@@ -178,7 +178,7 @@ NETWORK_CONFIGURATION=$(
             "reserved_ip_ranges": $services_excluded_range,
             "dns": $services_nw_dns,
             "gateway": $services_nw_gateway,
-            "availability_zones": ($services_nw_azs | split(","))
+            "availability_zone_names": ($services_nw_azs | split(","))
           }
         ]
       },
@@ -191,7 +191,7 @@ NETWORK_CONFIGURATION=$(
             "reserved_ip_ranges": $dynamic_services_excluded_range,
             "dns": $dynamic_services_nw_dns,
             "gateway": $dynamic_services_nw_gateway,
-            "availability_zones": ($dynamic_services_nw_azs | split(","))
+            "availability_zone_names": ($dynamic_services_nw_azs | split(","))
           }
         ]
       }
@@ -391,10 +391,15 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   curl -p "/api/v0/staged/director/availability_zones" \
   -x PUT -d "$AZ_CONFIGURATION"
 
-echo "Configuring network, network assignment, security..."
+
+echo "Configuring network..."
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+  curl -p "/api/v0/staged/director/networks" \
+  -x PUT -d "$NETWORK_CONFIGURATION"
+
+echo "Configuring network assignment, security..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   configure-bosh \
-  --networks-configuration "$NETWORK_CONFIGURATION" \
   --network-assignment "$NETWORK_ASSIGNMENT" \
   --security-configuration "$SECURITY_CONFIG" \
   --resource-configuration "$RESOURCE_CONFIG"
