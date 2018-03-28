@@ -6,11 +6,6 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-function fn_get_azs {
-     local azs_csv=$1
-     echo $azs_csv | awk -F "," -v quote='"' -v OFS='", "' '$1=$1 {print quote $0 quote}'
-}
-
 IAAS_CONFIGURATION=$(
   echo "{}" |
   $JQ_CMD -n \
@@ -72,18 +67,24 @@ AZ_CONFIGURATION=$(cat <<-EOF
   "availability_zones": [
     {
       "name": "$AZ_1",
-      "cluster": "$AZ_1_CUSTER_NAME",
-      "resource_pool": "$AZ_1_RP_NAME"
+      "clusters": {
+        "cluster": "$AZ_1_CUSTER_NAME",
+        "resource_pool": "$AZ_1_RP_NAME"
+      }
     },
     {
       "name": "$AZ_2",
-      "cluster": "$AZ_2_CUSTER_NAME",
-      "resource_pool": "$AZ_2_RP_NAME"
+      "clusters": {
+        "cluster": "$AZ_2_CUSTER_NAME",
+        "resource_pool": "$AZ_2_RP_NAME"
+      }
     },
     {
       "name": "$AZ_3",
-      "cluster": "$AZ_3_CUSTER_NAME",
-      "resource_pool": "$AZ_3_RP_NAME"
+      "clusters": {
+        "cluster": "$AZ_3_CUSTER_NAME",
+        "resource_pool": "$AZ_3_RP_NAME"
+      }
     }
   ]
 }
@@ -108,9 +109,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$INFRA_EXCLUDED_RANGE",
           "dns": "$INFRA_NW_DNS",
           "gateway": "$INFRA_NW_GATEWAY",
-          "availability_zones": [
-            $INFRA_AZS
-          ]
+          "availability_zones": ($INFRA_AZS | split(","))
         }
       ]
     },
@@ -123,9 +122,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DEPLOYMENT_EXCLUDED_RANGE",
           "dns": "$DEPLOYMENT_NW_DNS",
           "gateway": "$DEPLOYMENT_NW_GATEWAY",
-          "availability_zones": [
-            $DEPLOYMENT_AZS
-          ]
+          "availability_zones": ($DEPLOYMENT_AZS | split(","))
         }
       ]
     },
@@ -138,9 +135,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$SERVICES_EXCLUDED_RANGE",
           "dns": "$SERVICES_NW_DNS",
           "gateway": "$SERVICES_NW_GATEWAY",
-          "availability_zones": [
-            $SERVICES_AZS
-          ]
+          "availability_zones": ($SERVICES_AZS | split(","))
         }
       ]
     },
@@ -153,9 +148,7 @@ NETWORK_CONFIGURATION=$(cat <<-EOF
           "reserved_ip_ranges": "$DYNAMIC_SERVICES_EXCLUDED_RANGE",
           "dns": "$DYNAMIC_SERVICES_NW_DNS",
           "gateway": "$DYNAMIC_SERVICES_NW_GATEWAY",
-          "availability_zones": [
-            $DYNAMIC_SERVICES_AZS
-          ]
+          "availability_zones": ($DYNAMIC_SERVICES_AZS | split(","))
         }
       ]
     }
