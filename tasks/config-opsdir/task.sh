@@ -191,7 +191,7 @@ NETWORK_CONFIGURATION=$(
             "reserved_ip_ranges": "$dynamic_services_excluded_range",
             "dns": "$dynamic_services_nw_dns",
             "gateway": "$dynamic_services_nw_gateway",
-            "availability_zones": ($DYNAMIC_SERVICES_NW_AZS | split(","))
+            "availability_zones": ($dynamic_services_nw_azs | split(","))
           }
         ]
       }
