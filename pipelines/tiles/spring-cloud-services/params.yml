@@ -1,6 +1,6 @@
 pivnet_token: # [R] PivNet Access Token
 github_token: # [R] Your github token
-github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
 github_branch: master
 github_username: # [R] Your github username
 
@@ -15,16 +15,21 @@ ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: p-spring-cloud-services # Product slug from pivnet
 product_identifier: p-spring-cloud-services # Product identifier from OpsManager using om cli
-product_version: ^1\.4\..*$
+product_version: ^1\.5\..*$
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 
-broken_max_instances: 100
+broker_max_instances: 100
 buildpack_name: ""
 disable_cert_check: false
-instances_app_push_timeout:
+instances_app_push_timeout: ""
+persistence_store_service: "" #[R]
+persistence_store_service_plan: "" # [R]
+message_bus_service: "p-rabbitmq"
+message_bus_service_plan: "standard"
 enable_global_access: true
+secure_credentials: false
 
 errands_to_disable:

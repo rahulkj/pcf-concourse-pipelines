@@ -140,11 +140,16 @@ jobs:
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      BROKER_MAX_INSTANCES: ((broken_max_instances))
+      BROKER_MAX_INSTANCES: ((broker_max_instances))
       BUILDPACK: ((buildpack_name))
       DISABLE_CERT_CHECK: ((disable_cert_check))
       INSTANCES_APP_PUSH_TIMEOUT: ((instances_app_push_timeout))
+      PERSISTENCE_STORE_SERVICE: ((persistence_store_service))
+      PERSISTENCE_STORE_SERVICE_PLAN: ((persistence_store_service_plan))
+      MESSAGE_BUS_SERVICE: ((message_bus_service))
+      MESSAGE_BUS_SERVICE_PLAN: ((message_bus_service_plan))
       ENABLE_GLOBAL_ACCESS: ((enable_global_access))
+      SECURE_CREDENTIALS: ((secure_credentials))
 
 - name: disable-errands
   plan:
