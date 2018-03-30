@@ -65,13 +65,13 @@ IAAS_CONFIGURATION=$(
 AZ_CONFIGURATION=$(
   $JQ_CMD -n \
     --arg az_1 "$AZ_1" \
-    --arg az_1_custer_name "$AZ_1_CUSTER_NAME" \
+    --arg az_1_custer_name "$AZ_1_CLUSTER_NAME" \
     --arg az_1_rp_name "$AZ_1_RP_NAME" \
     --arg az_2 "$AZ_2" \
-    --arg az_2_custer_name "$AZ_2_CUSTER_NAME" \
+    --arg az_2_custer_name "$AZ_2_CLUSTER_NAME" \
     --arg az_2_rp_name "$AZ_2_RP_NAME" \
     --arg az_3 "$AZ_3" \
-    --arg az_3_custer_name "$AZ_3_CUSTER_NAME" \
+    --arg az_3_custer_name "$AZ_3_CLUSTER_NAME" \
     --arg az_3_rp_name "$AZ_3_RP_NAME" \
     '
     {
