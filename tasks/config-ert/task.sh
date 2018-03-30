@@ -1398,75 +1398,75 @@ resources_config=$(
       "persistent_disk": { "size_mb": $mysql_instance_persistent_disk_size_mb }
     },
     "backup-prepare": {
-      "instance_type": {"id": $BACKUP_PREPARE_INSTANCE_TYPE},
-      "instances" : $BACKUP_PREPARE_INSTANCES,
-      "persistent_disk": { "size_mb": $BACKUP_PREPARE_PERSISTENT_DISK_SIZE_MB }
+      "instance_type": {"id": $backup_prepare_instance_type},
+      "instances" : $backup_prepare_instances,
+      "persistent_disk": { "size_mb": $backup_prepare_persistent_disk_size_mb }
     },
     "uaa": {
-      "instance_type": {"id": $UAA_INSTANCE_TYPE},
-      "instances" : $UAA_INSTANCES
+      "instance_type": {"id": $uaa_instance_type},
+      "instances" : $uaa_instances
     },
     "cloud_controller": {
-      "instance_type": {"id": $CLOUD_CONTROLLER_INSTANCE_TYPE},
-      "instances" : $CLOUD_CONTROLLER_INSTANCES
+      "instance_type": {"id": $cloud_controller_instance_type},
+      "instances" : $cloud_controller_instances
     },
     "ha_proxy": {
-      "instance_type": {"id": $HA_PROXY_INSTANCE_TYPE},
-      "instances" : $HA_PROXY_INSTANCES
+      "instance_type": {"id": $ha_proxy_instance_type},
+      "instances" : $ha_proxy_instances
     },
     "router": {
-      "instance_type": {"id": $ROUTER_INSTANCE_TYPE},
-      "instances" : $ROUTER_INSTANCES
+      "instance_type": {"id": $router_instance_type},
+      "instances" : $router_instances
     },
     "mysql_monitor": {
-      "instance_type": {"id": $MYSQL_MONITOR_INSTANCE_TYPE},
-      "instances" : $MYSQL_MONITOR_INSTANCES
+      "instance_type": {"id": $mysql_monitor_instance_type},
+      "instances" : $mysql_monitor_instances
     },
     "clock_global": {
-      "instance_type": {"id": $CLOCK_GLOBAL_INSTANCE_TYPE},
-      "instances" : $CLOCK_GLOBAL_INSTANCES
+      "instance_type": {"id": $clock_global_instance_type},
+      "instances" : $clock_global_instances
     },
     "cloud_controller_worker": {
-      "instance_type": {"id": $CLOUD_CONTROLLER_WORKER_INSTANCE_TYPE},
-      "instances" : $CLOUD_CONTROLLER_WORKER_INSTANCES
+      "instance_type": {"id": $cloud_controller_worker_instance_type},
+      "instances" : $cloud_controller_worker_instances
     },
     "diego_database": {
-      "instance_type": {"id": $DIEGO_DATABASE_INSTANCE_TYPE},
-      "instances" : $DIEGO_DATABASE_INSTANCES
+      "instance_type": {"id": $diego_database_instance_type},
+      "instances" : $diego_database_instances
     },
     "diego_brain": {
-      "instance_type": {"id": $DIEGO_BRAIN_INSTANCE_TYPE},
-      "instances" : $DIEGO_BRAIN_INSTANCES,
-      "persistent_disk": { "size_mb": $DIEGO_BRAIN_PERSISTENT_DISK_SIZE_MB}
+      "instance_type": {"id": $diego_brain_instance_type},
+      "instances" : $diego_brain_instances,
+      "persistent_disk": { "size_mb": $diego_brain_persistent_disk_size_mb}
     },
     "diego_cell": {
-      "instance_type": {"id": $DIEGO_CELL_INSTANCE_TYPE},
-      "instances" : $DIEGO_CELL_INSTANCES
+      "instance_type": {"id": $diego_cell_instance_type},
+      "instances" : $diego_cell_instances
     },
     "doppler": {
-      "instance_type": {"id": $DOPPLER_INSTANCE_TYPE},
-      "instances" : $DOPPLER_INSTANCES
+      "instance_type": {"id": $doppler_instance_type},
+      "instances" : $doppler_instances
     },
     "loggregator_trafficcontroller": {
-      "instance_type": {"id": $LOGGREGATOR_TC_INSTANCE_TYPE},
-      "instances" : $LOGGREGATOR_TC_INSTANCES
+      "instance_type": {"id": $loggregator_tc_instance_type},
+      "instances" : $loggregator_tc_instances
     },
     "tcp_router": {
-      "instance_type": {"id": $TCP_ROUTER_INSTANCE_TYPE},
-      "instances" : $TCP_ROUTER_INSTANCES,
-      "persistent_disk": { "size_mb": $TCP_ROUTER_PERSISTENT_DISK_SIZE_MB}
+      "instance_type": {"id": $tcp_router_instance_type},
+      "instances" : $tcp_router_instances,
+      "persistent_disk": { "size_mb": $tcp_router_persistent_disk_size_mb}
     },
     "syslog_adapter": {
-      "instance_type": {"id": $SYSLOG_ADAPTER_INSTANCE_TYPE},
-      "instances" : $SYSLOG_ADAPTER_INSTANCES
+      "instance_type": {"id": $syslog_adapter_instance_type},
+      "instances" : $syslog_adapter_instances
     },
     "syslog_scheduler": {
-      "instance_type": {"id": $SYSLOG_SCHEDULER_INSTANCE_TYPE},
-      "instances" : $SYSLOG_SCHEDULER_INSTANCES
+      "instance_type": {"id": $syslog_scheduler_instance_type},
+      "instances" : $syslog_scheduler_instances
     },
     "credhub": {
-      "instance_type": {"id": $CREDHUB_INSTANCE_TYPE},
-      "instances" : $CREDHUB_INSTANCES
+      "instance_type": {"id": $credhub_instance_type},
+      "instances" : $credhub_instances
     }
   }
   '
@@ -1476,17 +1476,17 @@ network_config=$($JQ_CMD -n \
   --arg network_name "$NETWORK_NAME" \
   --arg other_azs "$OTHER_AZS" \
   --arg singleton_az "$SINGLETON_JOBS_AZ" \
-'
-  {
-    "network": {
-      "name": $network_name
-    },
-    "other_availability_zones": ($other_azs | split(",") | map({name: .})),
-    "singleton_availability_zone": {
-      "name": $singleton_az
+  '
+    {
+      "network": {
+        "name": $network_name
+      },
+      "other_availability_zones": ($other_azs | split(",") | map({name: .})),
+      "singleton_availability_zone": {
+        "name": $singleton_az
+      }
     }
-  }
-'
+  '
 )
 
 om-linux \
