@@ -112,7 +112,7 @@ config=$(
   --argjson credhub_hsm_provider_client_private_key "$CREDHUB_HSM_PROVIDER_CLIENT_PRIVATE_KEY" \
   --argjson credhub_hsm_provider_partition "$CREDHUB_HSM_PROVIDER_PARTITION" \
   --argjson credhub_hsm_provider_partition_password "$CREDHUB_HSM_PROVIDER_PARTITION_PASSWORD" \
-  --arg credhub_hsm_provider_servers "$CREDHUB_HSM_PROVIDER_SERVERS" \
+  --argjson credhub_hsm_provider_servers "$CREDHUB_HSM_PROVIDER_SERVERS" \
   --arg credhub_key_encryption_name "$CREDHUB_KEY_ENCRYPTION_NAME" \
   --arg credhub_key_encryption_secret "$CREDHUB_KEY_ENCRYPTION_SECRET" \
   --arg credhub_key_encryption_is_primary "$CREDHUB_KEY_ENCRYPTION_IS_PRIMARY" \
@@ -173,7 +173,7 @@ config=$(
   --arg routing_disable_http "$ROUTING_DISABLE_HTTP" \
   --arg routing_minimum_tls_version "$ROUTING_MINIMUM_TLS_VERSION" \
   --arg routing_tls_termination "$ROUTING_TLS_TERMINATION" \
-  --arg saml_entity_id_override "$SAML_ENTITY_ID_OVERRIDE" \
+  --argjson saml_entity_id_override "$SAML_ENTITY_ID_OVERRIDE" \
   --arg saml_signature_algorithm "$SAML_SIGNATURE_ALGORITHM" \
   --arg secure_service_instance_credentials "$SECURE_SERVICE_INSTANCE_CREDENTIALS" \
   --arg security_acknowledgement "$SECURITY_ACKNOWLEDGEMENT" \
@@ -268,7 +268,7 @@ config=$(
   --arg uaa_internal_password_min_uppercase "$UAA_INTERNAL_PASSWORD_MIN_UPPERCASE" \
   --arg uaa_ldap_identity "$UAA_LDAP_IDENTITY" \
   --arg uaa_ldap_password "$UAA_LDAP_PASSWORD" \
-  --arg uaa_ldap_email_domains "$UAA_LDAP_EMAIL_DOMAINS" \
+  --argjson uaa_ldap_email_domains "$UAA_LDAP_EMAIL_DOMAINS" \
   --arg uaa_ldap_first_name_attribute "$UAA_LDAP_FIRST_NAME_ATTRIBUTE" \
   --arg uaa_ldap_group_search_base "$UAA_LDAP_GROUP_SEARCH_BASE" \
   --arg uaa_ldap_group_search_filter "$UAA_LDAP_GROUP_SEARCH_FILTER" \
