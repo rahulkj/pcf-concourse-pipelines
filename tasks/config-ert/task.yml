@@ -342,4 +342,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-cf/task.sh
+  path: pipelines-repo/tasks/config-ert/task.sh
