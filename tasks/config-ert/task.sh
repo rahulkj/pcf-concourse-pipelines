@@ -1107,6 +1107,7 @@ properties_config=$($JQ_CMD -n \
       "value": $uaa_database
     }
   }
+  +
   if $uaa_database == "external" then
   {
     ".properties.uaa_database.external.host": {
