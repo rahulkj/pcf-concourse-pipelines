@@ -1359,7 +1359,7 @@ resources_config=$(
   --arg uaa_instance_type $UAA_INSTANCE_TYPE \
   --arg uaa_instances $UAA_INSTANCES \
   --arg cloud_controller_instance_type $CLOUD_CONTROLLER_INSTANCE_TYPE \
-  --arg cloud_controller_instances "$CLOUD_CONTROLLER_INSTANCES \
+  --arg cloud_controller_instances $CLOUD_CONTROLLER_INSTANCES \
   --arg ha_proxy_instance_type $HA_PROXY_INSTANCE_TYPE \
   --arg ha_proxy_instances $HA_PROXY_INSTANCES \
   --arg router_instance_type $ROUTER_INSTANCE_TYPE \
