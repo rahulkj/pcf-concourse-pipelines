@@ -360,6 +360,7 @@ properties_config=$($JQ_CMD -n \
       "value": $container_networking_interface_plugin
     }
   }
+  +
   if $container_networking_interface_plugin == "silk" then
   {
     ".properties.container_networking_interface_plugin.silk.network_mtu": {
