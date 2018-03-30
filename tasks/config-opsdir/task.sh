@@ -240,7 +240,7 @@ DIRECTOR_CONFIG=$(
   --arg external_mysql_db_database "$EXTERNAL_MYSQL_DB_DATABASE" \
   --argjson syslog_enabled $SYSLOG_ENABLED \
   --arg syslog_address "$SYSLOG_ADDRESS" \
-  --argjson syslog_port "$SYSLOG_PORT" \
+  --argjson syslog_port $SYSLOG_PORT \
   --arg syslog_transport_protocol "$SYSLOG_TRANSPORT_PROTOCOL" \
   --argjson syslog_tls_enabled $SYSLOG_TLS_ENABLED \
   --arg syslog_permitted_peer "$SYSLOG_PERMITTED_PEER" \
