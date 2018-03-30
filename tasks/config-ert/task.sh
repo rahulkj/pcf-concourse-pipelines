@@ -609,16 +609,16 @@ config=$(
     ".properties.push_apps_manager_nav_links": {
       "value": [
         {
-          "name": push_apps_manager_nav_link_name_1,
-          "href": push_apps_manager_nav_link_href_1
+          "name": $push_apps_manager_nav_link_name_1,
+          "href": $push_apps_manager_nav_link_href_1
         },
         {
-          "name": push_apps_manager_nav_link_name_2,
-          "href": push_apps_manager_nav_link_href_2
+          "name": $push_apps_manager_nav_link_name_2,
+          "href": $push_apps_manager_nav_link_href_2
         },
         {
-          "name": push_apps_manager_nav_link_name_3,
-          "href": push_apps_manager_nav_link_href_3
+          "name": $push_apps_manager_nav_link_name_3,
+          "href": $push_apps_manager_nav_link_href_3
         }
       ]
     },
