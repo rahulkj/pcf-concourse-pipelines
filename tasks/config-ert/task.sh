@@ -83,7 +83,7 @@ config=$(
   --arg mysql_proxy_shutdown_delay $MYSQL_PROXY_SHUTDOWN_DELAY \
   --arg mysql_proxy_startup_delay $MYSQL_PROXY_STARTUP_DELAY \
   --arg mysql_proxy_static_ips $MYSQL_PROXY_STATIC_IPS \
-  --arg nfs_server_blobstore_internal_access_rules $NFS_SERVER_BLOBSTORE_INTERNAL_ACCESS_RULES \
+  --arg nfs_server_blobstore_internal_access_rules "$NFS_SERVER_BLOBSTORE_INTERNAL_ACCESS_RULES" \
   --arg autoscale_api_instance_count $AUTOSCALE_API_INSTANCE_COUNT \
   --arg autoscale_instance_count $AUTOSCALE_INSTANCE_COUNT \
   --arg autoscale_metric_bucket_count $AUTOSCALE_METRIC_BUCKET_COUNT \
