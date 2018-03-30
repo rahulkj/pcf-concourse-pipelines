@@ -99,7 +99,7 @@ config=$(
   --arg container_networking_interface_plugin_silk_enable_log_traffic "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_ENABLE_LOG_TRAFFIC" \
   --arg container_networking_interface_plugin_silk_iptables_accepted_udp_logs_per_sec "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC" \
   --arg container_networking_interface_plugin_silk_iptables_denied_logs_per_sec "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_IPTABLES_DENIED_LOGS_PER_SEC" \
-  --argjson container_networking_interface_plugin_silk_network_cidr "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_CIDR" \
+  --arg container_networking_interface_plugin_silk_network_cidr "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_CIDR" \
   --arg container_networking_interface_plugin_silk_network_mtu "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_MTU" \
   --arg container_networking_interface_plugin_silk_vtep_port "$CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_VTEP_PORT" \
   --arg credhub_database "$CREDHUB_DATABASE" \
