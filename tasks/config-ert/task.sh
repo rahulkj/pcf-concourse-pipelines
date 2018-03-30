@@ -154,7 +154,12 @@ config=$(
   --arg push_apps_manager_global_wrapper_text_color "$PUSH_APPS_MANAGER_GLOBAL_WRAPPER_TEXT_COLOR" \
   --arg push_apps_manager_logo "$PUSH_APPS_MANAGER_LOGO" \
   --arg push_apps_manager_marketplace_name "$PUSH_APPS_MANAGER_MARKETPLACE_NAME" \
-  --arg push_apps_manager_nav_links $PUSH_APPS_MANAGER_NAV_LINKS \
+  --arg push_apps_manager_nav_link_name_1 "$PUSH_APPS_MANAGER_NAV_LINK_NAME_1" \
+  --arg push_apps_manager_nav_link_href_1 "$PUSH_APPS_MANAGER_NAV_LINK_HREF_1" \
+  --arg push_apps_manager_nav_link_name_2 "$PUSH_APPS_MANAGER_NAV_LINK_NAME_2" \
+  --arg push_apps_manager_nav_link_href_2 "$PUSH_APPS_MANAGER_NAV_LINK_HREF_2" \
+  --arg push_apps_manager_nav_link_name_3 "$PUSH_APPS_MANAGER_NAV_LINK_NAME_3" \
+  --arg push_apps_manager_nav_link_href_3 "$PUSH_APPS_MANAGER_NAV_LINK_HREF_3" \
   --arg push_apps_manager_product_name "$PUSH_APPS_MANAGER_PRODUCT_NAME" \
   --arg push_apps_manager_square_logo "$PUSH_APPS_MANAGER_SQUARE_LOGO" \
   --arg rep_proxy_enabled "$REP_PROXY_ENABLED" \
