@@ -46,7 +46,8 @@ else
   export UAA_PRIVATE_KEY_PEM=$(echo "$UAA_PRIVATE_KEY_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
 fi
 
-properties_config=$($JQ_CMD -n \
+properties_config=$(
+  echo "{}" | $JQ_CMD -n \
   --arg cloud_controller_allow_app_ssh_access "$CLOUD_CONTROLLER_ALLOW_APP_SSH_ACCESS" \
   --arg cloud_controller_apps_domain "$CLOUD_CONTROLLER_APPS_DOMAIN" \
   --arg cloud_controller_default_app_memory "$CLOUD_CONTROLLER_DEFAULT_APP_MEMORY" \
@@ -316,7 +317,8 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
   --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password "$UAA_SERVICE_PROVIDER_KEY_PASSWORD" \
-  '{
+  '
+  {
     ".properties.autoscale_api_instance_count": {
       "value": $autoscale_api_instance_count
     },
