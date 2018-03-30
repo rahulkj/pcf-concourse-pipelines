@@ -318,6 +318,7 @@ properties_config=$(
   --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password "$UAA_SERVICE_PROVIDER_KEY_PASSWORD" \
   '
+  . +
   {
     ".properties.autoscale_api_instance_count": {
       "value": $autoscale_api_instance_count
