@@ -46,7 +46,7 @@ else
   export UAA_PRIVATE_KEY_PEM=$(echo "$UAA_PRIVATE_KEY_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
 fi
 
-properties_config=$(jq -n \
+properties_config=$($JQ_CMD -n \
   --arg cloud_controller_allow_app_ssh_access $CLOUD_CONTROLLER_ALLOW_APP_SSH_ACCESS \
   --arg cloud_controller_apps_domain $CLOUD_CONTROLLER_APPS_DOMAIN \
   --arg cloud_controller_default_app_memory $CLOUD_CONTROLLER_DEFAULT_APP_MEMORY \
@@ -1466,7 +1466,7 @@ resources_config=$(
   '
 )
 
-network_config=$(jq -n \
+network_config=$($JQ_CMD -n \
   --arg network_name "$NETWORK_NAME" \
   --arg other_azs "$OTHER_AZS" \
   --arg singleton_az "$SINGLETON_JOBS_AZ" \
