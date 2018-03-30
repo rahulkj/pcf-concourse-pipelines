@@ -1374,7 +1374,6 @@ resources_config=$(
   --argjson diego_database_instances $DIEGO_DATABASE_INSTANCES \
   --arg diego_brain_instance_type $DIEGO_BRAIN_INSTANCE_TYPE \
   --argjson diego_brain_instances $DIEGO_BRAIN_INSTANCES \
-  --arg diego_brain_persistent_disk_size_mb $DIEGO_BRAIN_PERSISTENT_DISK_SIZE_MB \
   --arg diego_cell_instance_type $DIEGO_CELL_INSTANCE_TYPE \
   --argjson diego_cell_instances $DIEGO_CELL_INSTANCES \
   --arg doppler_instance_type $DOPPLER_INSTANCE_TYPE \
@@ -1454,8 +1453,7 @@ resources_config=$(
     },
     "diego_brain": {
       "instance_type": {"id": $diego_brain_instance_type},
-      "instances" : $diego_brain_instances,
-      "persistent_disk": { "size_mb": $diego_brain_persistent_disk_size_mb}
+      "instances" : $diego_brain_instances
     },
     "diego_cell": {
       "instance_type": {"id": $diego_cell_instance_type},
