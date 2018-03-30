@@ -132,8 +132,8 @@ config=$(
   --arg mysql_activity_logging $MYSQL_ACTIVITY_LOGGING \
   --arg mysql_activity_logging_enable_audit_logging_events $MYSQL_ACTIVITY_LOGGING_ENABLE_AUDIT_LOGGING_EVENTS \
   --arg networking_poe_ssl_name $NETWORKING_POE_SSL_NAME \
-  --arg networking_poe_ssl_cert_pem $NETWORKING_POE_SSL_CERT_PEM \
-  --arg networking_poe_ssl_cert_private_key_pem $NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM \
+  --arg networking_poe_ssl_cert_pem "$NETWORKING_POE_SSL_CERT_PEM" \
+  --arg networking_poe_ssl_cert_private_key_pem "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" \
   --arg nfs_volume_driver $NFS_VOLUME_DRIVER \
   --arg nfs_volume_driver_enable_ldap_server_host $NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_HOST \
   --arg nfs_volume_driver_enable_ldap_server_port $NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_PORT \
@@ -319,8 +319,8 @@ config=$(
   --arg uaa_customize_username_label $UAA_CUSTOMIZE_USERNAME_LABEL \
   --arg uaa_issuer_uri $UAA_ISSUER_URI \
   --arg uaa_proxy_ips_regex $UAA_PROXY_IPS_REGEX \
-  --arg uaa_private_key_pem $UAA_PRIVATE_KEY_PEM \
-  --arg uaa_cert_pem $UAA_CERT_PEM \
+  --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
+  --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password $UAA_SERVICE_PROVIDER_KEY_PASSWORD \
   '
   . +
