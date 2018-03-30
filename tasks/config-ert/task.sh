@@ -1341,55 +1341,55 @@ config=$(
 resources_config=$(
   $JQ_CMD -n \
   --arg consul_server_instance_type $CONSUL_SERVER_INSTANCE_TYPE \
-  --arg consul_server_instances $CONSUL_SERVER_INSTANCES \
+  --argjson consul_server_instances $CONSUL_SERVER_INSTANCES \
   --arg consul_server_persistent_disk_size_mb $CONSUL_SERVER_PERSISTENT_DISK_SIZE_MB \
   --arg nats_instance_type $NATS_INSTANCE_TYPE \
-  --arg nats_instances $NATS_INSTANCES \
+  --argjson nats_instances $NATS_INSTANCES \
   --arg nfs_server_instance_type $NFS_SERVER_INSTANCE_TYPE \
-  --arg nfs_server_instances $NFS_SERVER_INSTANCES \
+  --argjson nfs_server_instances $NFS_SERVER_INSTANCES \
   --arg nfs_server_persistent_disk_size_mb $NFS_SERVER_PERSISTENT_DISK_SIZE_MB \
   --arg mysql_proxy_instance_type $MYSQL_PROXY_INSTANCE_TYPE \
-  --arg mysql_proxy_instances $MYSQL_PROXY_INSTANCES \
+  --argjson mysql_proxy_instances $MYSQL_PROXY_INSTANCES \
   --arg mysql_instance_type $MYSQL_INSTANCE_TYPE \
-  --arg mysql_instances $MYSQL_INSTANCES \
+  --argjson mysql_instances $MYSQL_INSTANCES \
   --arg mysql_instance_persistent_disk_size_mb $MYSQL_INSTANCE_PERSISTENT_DISK_SIZE_MB \
   --arg backup_prepare_instance_type $BACKUP_PREPARE_INSTANCE_TYPE \
-  --arg backup_prepare_instances $BACKUP_PREPARE_INSTANCES \
+  --argjson backup_prepare_instances $BACKUP_PREPARE_INSTANCES \
   --arg backup_prepare_persistent_disk_size_mb $BACKUP_PREPARE_PERSISTENT_DISK_SIZE_MB \
   --arg uaa_instance_type $UAA_INSTANCE_TYPE \
-  --arg uaa_instances $UAA_INSTANCES \
+  --argjson uaa_instances $UAA_INSTANCES \
   --arg cloud_controller_instance_type $CLOUD_CONTROLLER_INSTANCE_TYPE \
-  --arg cloud_controller_instances $CLOUD_CONTROLLER_INSTANCES \
+  --argjson cloud_controller_instances $CLOUD_CONTROLLER_INSTANCES \
   --arg ha_proxy_instance_type $HA_PROXY_INSTANCE_TYPE \
-  --arg ha_proxy_instances $HA_PROXY_INSTANCES \
+  --argjson ha_proxy_instances $HA_PROXY_INSTANCES \
   --arg router_instance_type $ROUTER_INSTANCE_TYPE \
-  --arg router_instances $ROUTER_INSTANCES \
+  --argjson router_instances $ROUTER_INSTANCES \
   --arg mysql_monitor_instance_type $MYSQL_MONITOR_INSTANCE_TYPE \
-  --arg mysql_monitor_instances $MYSQL_MONITOR_INSTANCES \
+  --argjson mysql_monitor_instances $MYSQL_MONITOR_INSTANCES \
   --arg clock_global_instance_type $CLOCK_GLOBAL_INSTANCE_TYPE \
-  --arg clock_global_instances $CLOCK_GLOBAL_INSTANCES \
+  --argjson clock_global_instances $CLOCK_GLOBAL_INSTANCES \
   --arg cloud_controller_worker_instance_type $CLOUD_CONTROLLER_WORKER_INSTANCE_TYPE \
   --arg cloud_controller_worker_instances $CLOUD_CONTROLLER_WORKER_INSTANCES \
   --arg diego_database_instance_type $DIEGO_DATABASE_INSTANCE_TYPE \
-  --arg diego_database_instances $DIEGO_DATABASE_INSTANCES \
+  --argjson diego_database_instances $DIEGO_DATABASE_INSTANCES \
   --arg diego_brain_instance_type $DIEGO_BRAIN_INSTANCE_TYPE \
-  --arg diego_brain_instances $DIEGO_BRAIN_INSTANCES \
+  --argjson diego_brain_instances $DIEGO_BRAIN_INSTANCES \
   --arg diego_brain_persistent_disk_size_mb $DIEGO_BRAIN_PERSISTENT_DISK_SIZE_MB \
   --arg diego_cell_instance_type $DIEGO_CELL_INSTANCE_TYPE \
-  --arg diego_cell_instances $DIEGO_CELL_INSTANCES \
+  --argjson diego_cell_instances $DIEGO_CELL_INSTANCES \
   --arg doppler_instance_type $DOPPLER_INSTANCE_TYPE \
-  --arg doppler_instances $DOPPLER_INSTANCES \
+  --argjson doppler_instances $DOPPLER_INSTANCES \
   --arg loggregator_tc_instance_type $LOGGREGATOR_TC_INSTANCE_TYPE \
-  --arg loggregator_tc_instances $LOGGREGATOR_TC_INSTANCES \
+  --argjson loggregator_tc_instances $LOGGREGATOR_TC_INSTANCES \
   --arg tcp_router_instance_type $TCP_ROUTER_INSTANCE_TYPE \
-  --arg tcp_router_instances $TCP_ROUTER_INSTANCES \
+  --argjson tcp_router_instances $TCP_ROUTER_INSTANCES \
   --arg tcp_router_persistent_disk_size_mb $TCP_ROUTER_PERSISTENT_DISK_SIZE_MB \
   --arg syslog_adapter_instance_type $SYSLOG_ADAPTER_INSTANCE_TYPE \
-  --arg syslog_adapter_instances $SYSLOG_ADAPTER_INSTANCES \
+  --argjson syslog_adapter_instances $SYSLOG_ADAPTER_INSTANCES \
   --arg syslog_scheduler_instance_type $SYSLOG_SCHEDULER_INSTANCE_TYPE \
-  --arg syslog_scheduler_instances $SYSLOG_SCHEDULER_INSTANCES \
+  --argjson syslog_scheduler_instances $SYSLOG_SCHEDULER_INSTANCES \
   --arg credhub_instance_type $CREDHUB_INSTANCE_TYPE \
-  --arg credhub_instances $CREDHUB_INSTANCES \
+  --argjson credhub_instances $CREDHUB_INSTANCES \
   '
   {
     "consul_server": {
