@@ -154,6 +154,7 @@ config=$(
   --arg push_apps_manager_global_wrapper_text_color "$PUSH_APPS_MANAGER_GLOBAL_WRAPPER_TEXT_COLOR" \
   --arg push_apps_manager_logo "$PUSH_APPS_MANAGER_LOGO" \
   --arg push_apps_manager_marketplace_name "$PUSH_APPS_MANAGER_MARKETPLACE_NAME" \
+  --arg push_apps_manager_nav_links "$PUSH_APPS_MANAGER_NAV_LINKS" \
   --arg push_apps_manager_nav_link_name_1 "$PUSH_APPS_MANAGER_NAV_LINK_NAME_1" \
   --arg push_apps_manager_nav_link_href_1 "$PUSH_APPS_MANAGER_NAV_LINK_HREF_1" \
   --arg push_apps_manager_nav_link_name_2 "$PUSH_APPS_MANAGER_NAV_LINK_NAME_2" \
