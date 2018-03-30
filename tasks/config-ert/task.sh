@@ -1369,7 +1369,7 @@ resources_config=$(
   --arg clock_global_instance_type $CLOCK_GLOBAL_INSTANCE_TYPE \
   --argjson clock_global_instances $CLOCK_GLOBAL_INSTANCES \
   --arg cloud_controller_worker_instance_type $CLOUD_CONTROLLER_WORKER_INSTANCE_TYPE \
-  --arg cloud_controller_worker_instances $CLOUD_CONTROLLER_WORKER_INSTANCES \
+  --argjson cloud_controller_worker_instances $CLOUD_CONTROLLER_WORKER_INSTANCES \
   --arg diego_database_instance_type $DIEGO_DATABASE_INSTANCE_TYPE \
   --argjson diego_database_instances $DIEGO_DATABASE_INSTANCES \
   --arg diego_brain_instance_type $DIEGO_BRAIN_INSTANCE_TYPE \
