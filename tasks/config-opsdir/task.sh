@@ -356,14 +356,19 @@ NETWORK_ASSIGNMENT=$(cat <<-EOF
 EOF
 )
 
-SECURITY_CONFIG=$(cat <<-EOF
-{
-  "security_configuration": {
-    "generate_vm_passwords": $GENERATE_VM_PASSWORDS,
-    "trusted_certificates": "$TRUSTED_CERTIFICATES"
+SECURITY_CONFIG=$(
+  $JQ_CMD -n \
+  --argjson generate_vm_passwords ${GENERATE_VM_PASSWORDS:-true} \
+  --arg TRUSTED_CERTIFICATES ${TRUSTED_CERTIFICATES:-""} \
+  '
+  .+
+  {
+    "security_configuration": {
+      "generate_vm_passwords": $generate_vm_passwords,
+      "trusted_certificates": "$TRUSTED_CERTIFICATES"
+    }
   }
-}
-EOF
+  '
 )
 
 RESOURCE_CONFIG=$(cat <<-EOF
