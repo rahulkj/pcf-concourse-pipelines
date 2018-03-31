@@ -15,8 +15,8 @@ Refer to the /pipelines [README](./pipelines/README.md) for more instructions
 Now you can execute the following commands:
 
 -	`fly -t lite login -c https://<CONCOURSE-URL>:8080`
--	`fly -t lite set-pipeline -p pcf -c ./pipelines/new-setup/pipeline.yml -l ./pipelines/new-setup/params.yml`
--	`fly -t lite unpause-pipeline -p pcf`
+-	`fly -t lite set-pipeline -p install-pcf -c ./pipelines/install/pipeline.yml -l ./pipelines/install/params.yml`
+-	`fly -t lite unpause-pipeline -p install-pcf`
 
 ![](./pipelines/images/pipeline_new.png)
 
@@ -25,13 +25,14 @@ Supported pipelines
 
 -	[New Install of PCF (OM/ERT)](./pipelines/install)
 -	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
--	[Isolation Segments Installation](./pipelines/tiles/isolation-segments) - **WIP**
+-	[Isolation Segments Installation](./pipelines/tiles/isolation-segments)
 -	[RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 -	[Redis Installation](./pipelines/tiles/redis)
 -	[Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
--	[MySQL Installation](./pipelines/tiles/mysql)
+-	[MySQL-v1 Installation](./pipelines/tiles/mysql)
 -	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
 -	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
+- [Healthwatch](./pipelines/tiles/healthwatch)
 -	[Single Signon Installation](./pipelines/tiles/single-signon) **WIP**
 -	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 -	[Upgrade Tile](./pipelines/upgrade-tile)
