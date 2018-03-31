@@ -365,7 +365,7 @@ SECURITY_CONFIG=$(
   {
     "security_configuration": {
       "generate_vm_passwords": $generate_vm_passwords,
-      "trusted_certificates": "$TRUSTED_CERTIFICATES"
+      "trusted_certificates": $trusted_certificates
     }
   }
   '
