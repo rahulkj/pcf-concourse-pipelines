@@ -359,7 +359,7 @@ EOF
 SECURITY_CONFIG=$(
   $JQ_CMD -n \
   --argjson generate_vm_passwords ${GENERATE_VM_PASSWORDS:-true} \
-  --arg TRUSTED_CERTIFICATES ${TRUSTED_CERTIFICATES:-""} \
+  --arg trusted_certificates ${TRUSTED_CERTIFICATES:-""} \
   '
   .+
   {
