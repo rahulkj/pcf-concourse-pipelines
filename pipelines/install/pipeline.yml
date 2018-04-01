@@ -699,7 +699,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      pas_product_identifier: ((pas_product_identifier))
+      PRODUCT_IDENTIFIER: ((pas_product_identifier))
       ERRANDS: ((errands_to_disable))
 
 - name: pas-product-apply-changes
