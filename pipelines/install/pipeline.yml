@@ -692,6 +692,11 @@ jobs:
     - get: concourse-trigger-gist
       trigger: true
       passed: [config-pas-product-tile]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-pas-product-tile]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
