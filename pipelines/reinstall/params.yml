@@ -11,6 +11,8 @@ github_username: # [R] Your github username
 
 gist_url: ((gist_url))
 
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
 opsman_product_version: ^2\.1\..*$
 
 # Enter vCenter details
