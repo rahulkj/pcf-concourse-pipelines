@@ -22,7 +22,7 @@ other_azs: # [R] Balance other jobs in AZ's
 network_name: # [R] Tile network name
 service_network_name:
 
-syslog_selector: # (No|Yes without encryption|Yes with TLS encryption)
+syslog_selector: # ("No"|Yes without encryption|Yes with TLS encryption)
 syslog_address:
 syslog_port:
 syslog_transport: # (tcp|udp|relp)
@@ -97,7 +97,7 @@ backups_selector_gcs_service_account_json:
 backups_selector_gcs_cron_schedule: 0 0 * * *
 backups_selector_gcs_bg_save_timeout: 10
 redis_on_demand_broker_service_instance_limit: 20
-redis_on_demand_broker_vm_extensions: # (public_ip)
+redis_on_demand_broker_vm_extensions: # (""|public_ip)
 cf_redis_broker_service_instance_limit: 5
 cf_redis_broker_redis_maxmemory: 512MB
 redis_on_demand_broker_instance_type: medium
