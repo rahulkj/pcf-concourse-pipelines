@@ -1,4 +1,10 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+if [[ $DEBUG == true ]]; then
+  set -ex
+else
+  set -e
+fi
 
 PIVNET_CLI=`find ./pivnet-cli -name "*linux-amd64*"`
 chmod +x $PIVNET_CLI

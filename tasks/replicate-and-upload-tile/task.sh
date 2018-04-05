@@ -1,4 +1,10 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+if [[ $DEBUG == true ]]; then
+  set -ex
+else
+  set -e
+fi
 
 chmod +x replicator/replicator-linux
 CMD=./replicator/replicator-linux

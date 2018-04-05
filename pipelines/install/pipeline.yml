@@ -94,6 +94,7 @@ jobs:
   - task: deploy-ops-manager
     file: pipelines-repo/tasks/import-opsman/task.yml
     params:
+      DEBUG: ((debug))
       GOVC_INSECURE: 1
       GOVC_URL: ((vcenter_host))
       GOVC_USERNAME: ((vcenter_usr))
@@ -119,6 +120,7 @@ jobs:
   - task: config-ops-manager
     file: pipelines-repo/tasks/config-opsman/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -155,6 +157,7 @@ jobs:
   - task: config-ops-director
     file: pipelines-repo/tasks/config-opsdir/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -282,6 +285,7 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -313,6 +317,7 @@ jobs:
   - task: upload-pas-product-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -321,6 +326,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -349,6 +355,7 @@ jobs:
   - task: config-pas-product-tile
     file: pipelines-repo/tasks/config-ert/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -701,6 +708,7 @@ jobs:
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -724,6 +732,7 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -740,6 +749,7 @@ jobs:
   - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))
@@ -759,6 +769,7 @@ jobs:
   - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))
