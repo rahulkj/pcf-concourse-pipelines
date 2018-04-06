@@ -1,0 +1,42 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
+  NETWORK_NAME:
+  OTHER_AZS:
+  SINGLETON_JOBS_AZ:
+  PRODUCT_NAME:
+  ADD_APP_INFO:
+  ALLOW_PAID_SERVICE_PLANS:
+  API_ENDPOINT:
+  API_PASSWORD:
+  API_USER:
+  APPLY_OPEN_SECURITY_GROUP:
+  ENABLE_EVENT_TRACING:
+  EVENTS:
+  EXTRA_FIELDS:
+  FIREHOSE_SUBSCRIPTION_ID:
+  ORG:
+  SCALE_OUT_NOZZLE:
+  SKIP_SSL_VALIDATION_CF:
+  SKIP_SSL_VALIDATION_SPLUNK:
+  SPACE:
+  SPLUNK_HOST:
+  SPLUNK_INDEX:
+  SPLUNK_TOKEN:
+
+inputs:
+  - name: pipelines-repo
+  - name: om-cli
+  - name: jq
+
+run:
+  path: pipelines-repo/tasks/config-splunk-nozzle/task.sh
