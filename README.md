@@ -1,27 +1,34 @@
-NOTES:
-------
+PCF and product tiles Concourse Pipelines:
+---
+
+### CAUTION: Pivotal does not provide support for these pipelines. If you find anything broken, then please submit PR's.
+
+
+### PCF Installation on vSphere Only
 
 -	This pipeline is based on the [vSphere reference architecture](http://docs.pivotal.io/pivotalcf/1-10/refarch/vsphere/vsphere_ref_arch.html)
 -	Pre-requisites for using this pipeline are:
-	-	4 Networks (One for each of the Infrastucture, Deployment, Services and Dynamic Services)
-	-	Minimum of 3 AZ's
+	-	4 Networks (One for each of the Infrastructure, Deployment, Services and Dynamic Services)
+	-	3 AZ's (vSphere Clusters and/or Resource Pools)
+	- Shared storage (Ephemeral and Persistent)
 	-	DNS with wildcard domains
 
-<span style="color:red">IMPORTANT: If the above vSphere settings do not match your setup, please fork this repository and modify the `tasks/config-opsdir/task.sh` and update the networks and AZ's JSON accordingly</span>
+**IMPORTANT: If the above vSphere settings do not match your setup, please fork this repository and modify the `tasks/config-opsdir/task.sh` and update the networks and AZ's JSON accordingly**
 
-Refer to the /pipelines [README](./pipelines/README.md) for more instructions
 -----------------------------------------------------------------------------
 
-Now you can execute the following commands:
+Following in an example on how to `fly` a pipeline:
 
--	`fly -t lite login -c https://<CONCOURSE-URL>:8080`
--	`fly -t lite set-pipeline -p install-pcf -c ./pipelines/install/pipeline.yml -l ./pipelines/install/params.yml`
--	`fly -t lite unpause-pipeline -p install-pcf`
+```
+>	fly -t concourse-[ENV] login -c https://<CONCOURSE-URL> -k
+>	fly -t concourse-[ENV] set-pipeline -p install-pcf -c ./pipelines/install/pipeline.yml -l ./pipelines/install/params.yml
+>	fly -t concourse-[ENV] unpause-pipeline -p install-pcf
+```
 
 ![](./pipelines/images/pipeline_new.png)
 
-Supported pipelines
--------------------
+List of pipelines available in this repository are:
+---
 
 -	[New Install of PCF (OM/ERT)](./pipelines/install)
 -	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
@@ -33,6 +40,10 @@ Supported pipelines
 -	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
 -	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
 - [Healthwatch](./pipelines/tiles/healthwatch)
--	[Single Signon Installation](./pipelines/tiles/single-signon) **WIP**
+- [Splunk Nozzle](./pipelines/tiles/splunk-nozzle)
+- [New Relic Nozzle](./pipelines/tiles/new-relic-nozzle)
+- [New Relic Service Broker](./pipelines/tiles/new-relic-service-broker) [**WIP**]
+- [Spring Cloud Data Flow](./pipelines/tiles/spring-cloud-data-flow)
+-	[Single Signon Installation](./pipelines/tiles/single-signon) [**WIP**]
 -	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 -	[Upgrade Tile](./pipelines/upgrade-tile)
