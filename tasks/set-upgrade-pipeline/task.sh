@@ -16,6 +16,7 @@ $FLY_CLI -t cc set-pipeline -n -p $UPGRADE_PIPELINE_NAME -c pipelines-repo/pipel
   -l pipelines-repo/pipelines/upgrade-tile/params.yml \
   -v product_name="$PRODUCT_NAME" \
   -v product_version="$PRODUCT_VERSION" \
-  -v product_identifier="$PRODUCT_IDENTIFIER"
+  -v product_identifier="$PRODUCT_IDENTIFIER" \
+  -v product_glob="*.pivotal"
 $FLY_CLI -t cc unpause-pipeline -p $UPGRADE_PIPELINE_NAME
 $FLY_CLI -t cc pause-pipeline -p $BUILD_PIPELINE_NAME

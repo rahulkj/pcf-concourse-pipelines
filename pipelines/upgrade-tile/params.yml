@@ -17,3 +17,4 @@ ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
 product_name: ((product_name))
 product_version: ((product_version))
 product_identifier: ((product_identifier))
+product_glob: ((product_glob))
