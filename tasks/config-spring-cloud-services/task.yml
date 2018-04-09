@@ -6,6 +6,7 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
+  DEBUG:
   PRODUCT_IDENTIFIER:
   OPS_MGR_HOST:
   OPS_MGR_USR:
@@ -17,7 +18,12 @@ params:
   BUILDPACK:
   DISABLE_CERT_CHECK:
   INSTANCES_APP_PUSH_TIMEOUT:
+  PERSISTENCE_STORE_SERVICE:
+  PERSISTENCE_STORE_SERVICE_PLAN:
+  MESSAGE_BUS_SERVICE:
+  MESSAGE_SERVICE_BUS_PLAN:
   ENABLE_GLOBAL_ACCESS:
+  SECURE_CREDENTIALS:
 
 inputs:
   - name: pipelines-repo

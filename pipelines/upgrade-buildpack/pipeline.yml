@@ -46,6 +46,7 @@ jobs:
   - task: upgrade-buildpack
     file: pipelines-repo/tasks/update-buildpack/task.yml
     params:
+      DEBUG: ((debug))
       CF_API_ENDPOINT: ((cf_api_endpoint))
       CF_USER: ((cf_user))
       CF_PASSWORD: ((cf_password))

@@ -122,6 +122,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -153,6 +154,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -182,6 +184,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -210,6 +213,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -240,6 +244,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -269,6 +274,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -297,6 +303,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -328,6 +335,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -357,6 +365,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -385,6 +394,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -416,6 +426,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -445,6 +456,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -473,6 +485,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -504,6 +517,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -533,6 +547,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -561,6 +576,7 @@ jobs:
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -592,6 +608,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -621,6 +638,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -641,6 +659,7 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))

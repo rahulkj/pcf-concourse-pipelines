@@ -1,4 +1,10 @@
-#!/bin/sh -ex
+#!/bin/sh
+
+if [[ $DEBUG == true ]]; then
+  set -ex
+else
+  set -e
+fi
 
 git clone concourse-trigger-gist updated-concourse-trigger-gist
 

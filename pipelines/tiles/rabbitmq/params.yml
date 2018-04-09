@@ -4,6 +4,8 @@ github_token: # [R] Your github token
 company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
 ## Ops Manager installation meta data
 ops_mgr_ip: # [O] Ops Manager IP if behind proxy
 ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
@@ -12,7 +14,7 @@ ops_mgr_pwd: # [R] Ops Manager admin password
 
 product_name: pivotal-rabbitmq-service
 product_identifier: p-rabbitmq
-product_version: ^1\.10\..*$
+product_version: ^1\.11\..*$
 
 ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate
 
@@ -31,27 +33,65 @@ syslog_selector_syslog_tls: false # (true|false)
 syslog_selector_syslog_permitted_peer:
 syslog_selector_syslog_ca_cert:
 on_demand_broker_vm_extensions:
-on_demand_broker_dedicated_single_node_plan_cf_service_access: "disable" #(enable|disable)
-on_demand_broker_dedicated_single_node_plan_name: "solo"
-on_demand_broker_dedicated_single_node_plan_description: "Single node RabbitMQ dedicated instance"
-on_demand_broker_dedicated_single_node_plan_instance_quota: 0
-on_demand_broker_dedicated_single_node_plan_features: "RabbitMQ"
-on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement:
-on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type:
-on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type:
-on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
-on_demand_broker_dedicated_cluster_plan_selector: "disabled" #(enabled|disabled)
-on_demand_broker_dedicated_cluster_plan_selector_cf_service_access: "enable" #(enable|disable)
-on_demand_broker_dedicated_cluster_plan_selector_name: "cluster"
-on_demand_broker_dedicated_cluster_plan_selector_description: "RabbitMQ dedicated cluster"
-on_demand_broker_dedicated_cluster_plan_selector_features: "RabbitMQ"
-on_demand_broker_dedicated_cluster_plan_selector_instance_quota: 0
-on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_persistent_disk_type:
-on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_number_of_nodes: 3
-on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|autoheal)
-on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_az_placement:
-on_demand_broker_dedicated_cluster_plan_selector_rabbitmq_vm_type:
-on_demand_broker_dedicated_cluster_plan_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_plan_1_cf_service_access: "disable" #(enable|disable|manual)
+on_demand_broker_plan_1_name: "single-node"
+on_demand_broker_plan_1_description: "This plan provides a single dedicated RabbitMQ node"
+on_demand_broker_plan_1_instance_quota: 20
+on_demand_broker_plan_1_features: "RabbitMQ"
+on_demand_broker_plan_1_rabbitmq_az_placement:
+on_demand_broker_plan_1_rabbitmq_vm_type:
+on_demand_broker_plan_1_rabbitmq_persistent_disk_type:
+on_demand_broker_plan_1_rabbitmq_number_of_nodes: 1
+on_demand_broker_plan_1_rabbitmq_cluster_partitioning_handling_strategy: "pause_minority" #(pause_minority|autoheal)
+on_demand_broker_plan_1_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_plan_2_selector: "disabled" #(enabled|disabled)
+on_demand_broker_plan_2_selector_cf_service_access: "enable" #(enable|disable)
+on_demand_broker_plan_2_selector_name: "cluster"
+on_demand_broker_plan_2_selector_description: "This plan provides a preconfigured dedicated cluster of RabbitMQ nodes"
+on_demand_broker_plan_2_selector_features: "RabbitMQ"
+on_demand_broker_plan_2_selector_instance_quota: 0
+on_demand_broker_plan_2_selector_rabbitmq_persistent_disk_type:
+on_demand_broker_plan_2_selector_rabbitmq_number_of_nodes: 3
+on_demand_broker_plan_2_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|autoheal)
+on_demand_broker_plan_2_selector_rabbitmq_az_placement:
+on_demand_broker_plan_2_selector_rabbitmq_vm_type:
+on_demand_broker_plan_2_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_plan_3_selector: "disabled" #(enabled|disabled)
+on_demand_broker_plan_3_selector_cf_service_access: "enable" #(enable|disable)
+on_demand_broker_plan_3_selector_name:
+on_demand_broker_plan_3_selector_description:
+on_demand_broker_plan_3_selector_features: "RabbitMQ"
+on_demand_broker_plan_3_selector_instance_quota: 0
+on_demand_broker_plan_3_selector_rabbitmq_persistent_disk_type:
+on_demand_broker_plan_3_selector_rabbitmq_number_of_nodes: 3
+on_demand_broker_plan_3_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|autoheal)
+on_demand_broker_plan_3_selector_rabbitmq_az_placement:
+on_demand_broker_plan_3_selector_rabbitmq_vm_type:
+on_demand_broker_plan_3_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_plan_4_selector: "disabled" #(enabled|disabled)
+on_demand_broker_plan_4_selector_cf_service_access: "enable" #(enable|disable)
+on_demand_broker_plan_4_selector_name:
+on_demand_broker_plan_4_selector_description:
+on_demand_broker_plan_4_selector_features: "RabbitMQ"
+on_demand_broker_plan_4_selector_instance_quota: 0
+on_demand_broker_plan_4_selector_rabbitmq_persistent_disk_type:
+on_demand_broker_plan_4_selector_rabbitmq_number_of_nodes: 3
+on_demand_broker_plan_4_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|aut
+on_demand_broker_plan_4_selector_rabbitmq_az_placement:
+on_demand_broker_plan_4_selector_rabbitmq_vm_type:
+on_demand_broker_plan_4_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
+on_demand_broker_plan_5_selector: "disabled" #(enabled|disabled)
+on_demand_broker_plan_5_selector_cf_service_access: "enable" #(enable|disable)
+on_demand_broker_plan_5_selector_name:
+on_demand_broker_plan_5_selector_description:
+on_demand_broker_plan_5_selector_features: "RabbitMQ"
+on_demand_broker_plan_5_selector_instance_quota: 0
+on_demand_broker_plan_5_selector_rabbitmq_persistent_disk_type:
+on_demand_broker_plan_5_selector_rabbitmq_number_of_nodes: 3
+on_demand_broker_plan_5_selector_rabbitmq_cluster_partition_handling_strategy: "pause_minority" #(pause_minority|aut
+on_demand_broker_plan_5_selector_rabbitmq_az_placement:
+on_demand_broker_plan_5_selector_rabbitmq_vm_type:
+on_demand_broker_plan_5_selector_disk_limit_acknowledgement: "non-existant-value" #(acknowledge|non-existant-value)
 disk_alarm_threshold: # (fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0)
 server_admin_username:
 server_admin_password:

@@ -7,6 +7,8 @@ github_username: # [R] Your github username
 company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
 ## Ops Manager installation meta data
 ops_mgr_ip: # [O] Ops Manager IP if behind proxy
 ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
@@ -31,7 +33,6 @@ jmx_use_ssl: false # (true|false)
 nat_enabled: option_disabled  # (option_disabled|option_enabled)
 nat_jmx_bridge_ip:
 jmx_security_logging_enabled: true # (true|false)
-jmx_use_ssl: false # (true|false)
 ssl_cert:
 ssl_private_key:
 jmx_domain:

@@ -1,0 +1,33 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
+  NETWORK_NAME:
+  OTHER_AZS:
+  SINGLETON_JOBS_AZ:
+  PRODUCT_NAME:
+  ALLOW_PAID_SERVICE_PLANS:
+  APP_NAME:
+  APP_URI:
+  APP_VERSION:
+  APPLY_OPEN_SECURITY_GROUP:
+  NEWRELIC_BROKER_ENABLE_GLOBAL_ACCESS_TO_PLANS:
+  NRPLANS:
+  ORG:
+  SPACE:
+
+inputs:
+  - name: pipelines-repo
+  - name: om-cli
+  - name: jq
+
+run:
+  path: pipelines-repo/tasks/config-newrelic-broker/task.sh

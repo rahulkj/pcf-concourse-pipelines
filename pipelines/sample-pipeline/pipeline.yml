@@ -24,6 +24,7 @@ jobs:
   - task: apply-changes
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))

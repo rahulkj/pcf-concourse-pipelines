@@ -9,6 +9,8 @@ github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines githu
 github_branch: master
 github_username: # [R] Your github username
 
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
 product_slug: buildpacks
 product_version: "Ruby*"
 product_glob: "*cached*" ## cached or offline

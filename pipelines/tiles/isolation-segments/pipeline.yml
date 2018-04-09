@@ -78,6 +78,7 @@ jobs:
   - task: replicate-and-upload-tile
     file: pipelines-repo/tasks/replicate-and-upload-tile/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -87,6 +88,7 @@ jobs:
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -116,6 +118,7 @@ jobs:
   - task: stage-tile
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -145,6 +148,7 @@ jobs:
   - task: config-tile
     file: pipelines-repo/tasks/config-is-tile/task.yml
     params:
+      DEBUG: ((debug))
       PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
@@ -221,10 +225,16 @@ jobs:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-product]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -250,17 +260,10 @@ jobs:
         - "*-linux"
       passed: [disable-errands]
 
-  - task: validate-apply-changes
-    file: pipelines-repo/tasks/validate-apply-changes/task.yml
-    params:
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -275,6 +278,7 @@ jobs:
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_user))
       CONCOURSE_PASSWD: ((concourse_pwd))
       ATC_EXTERNAL_URL: ((concourse_url))

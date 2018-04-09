@@ -1,4 +1,10 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+if [[ $DEBUG == true ]]; then
+  set -ex
+else
+  set -e
+fi
 
 chmod +x om-cli/om-linux
 OM_CMD=./om-cli/om-linux
@@ -14,6 +20,11 @@ PRODUCT_PROPERTIES=$(
     --argjson disable_cert_check "$DISABLE_CERT_CHECK" \
     --argjson instances_app_push_timeout "$INSTANCES_APP_PUSH_TIMEOUT" \
     --argjson enable_global_access "$ENABLE_GLOBAL_ACCESS" \
+    --arg persistence_store_service "$PERSISTENCE_STORE_SERVICE" \
+    --arg persistence_store_service_plan "$PERSISTENCE_STORE_SERVICE_PLAN" \
+    --arg message_bus_service "$MESSAGE_BUS_SERVICE" \
+    --arg message_bus_service_plan "$MESSAGE_BUS_SERVICE_PLAN" \
+    --argjson secure_credentials "$SECURE_CREDENTIALS" \
     '
     . +
     {
@@ -28,6 +39,21 @@ PRODUCT_PROPERTIES=$(
       },
       ".deploy-service-broker.instances_app_push_timeout": {
         "value": $instances_app_push_timeout
+      },
+      ".deploy-service-broker.persistence_store_service": {
+        "value": $persistence_store_service
+      },
+      ".deploy-service-broker.persistence_store_service_plan": {
+        "value": $persistence_store_service_plan
+      },
+      ".deploy-service-broker.message_bus_service": {
+        "value": $message_bus_service
+      },
+      ".deploy-service-broker.message_bus_service_plan": {
+        "value": $message_bus_service_plan
+      },
+      ".deploy-service-broker.secure_credentials": {
+        "value": $secure_credentials
       },
       ".register-service-broker.enable_global_access": {
         "value": $enable_global_access

@@ -67,6 +67,7 @@ jobs:
   - task: delete-products
     file: pipelines-repo/tasks/delete-products/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -74,6 +75,7 @@ jobs:
   - task: bump-timestamp
     file: pipelines-repo/tasks/gist-update/task.yml
     params:
+      DEBUG: ((debug))
       CI_USERNAME: ((ci_username))
       CI_EMAIL_ADDRESS: ((ci_email_address))
 
@@ -102,6 +104,7 @@ jobs:
   - task: delete-ops-manager
     file: pipelines-repo/tasks/delete-opsman/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_IP: ((ops_mgr_ip))
       GOVC_INSECURE: 1
       GOVC_URL: ((vcenter_host))
@@ -120,6 +123,7 @@ jobs:
   - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))
@@ -139,6 +143,7 @@ jobs:
   - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
     params:
+      DEBUG: ((debug))
       CONCOURSE_USERNAME: ((concourse_username))
       CONCOURSE_PASSWD: ((concourse_passwd))
       ATC_EXTERNAL_URL: ((atc_external_url))

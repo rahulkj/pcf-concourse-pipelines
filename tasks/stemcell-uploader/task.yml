@@ -7,12 +7,11 @@ image_resource:
   source: {repository: rjain/buildbox}
 
 params:
+  DEBUG:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
   PIVNET_API_TOKEN:
-  NO_PROXY:
-  OPS_MGR_IP:
   IAAS_TYPE:
 
 inputs:

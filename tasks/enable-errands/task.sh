@@ -1,7 +1,16 @@
-#!/bin/bash -ex
+#!/bin/bash
+
+if [[ $DEBUG == true ]]; then
+  set -ex
+else
+  set -e
+fi
 
 chmod +x om-cli/om-linux
-CMD=./om-cli/om-linux
+OM_CMD=./om-cli/om-linux
+
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
 
 if [[ ! -z "$ERRANDS" ]]; then
   echo "Errands to enable are " $ERRANDS
@@ -9,15 +18,15 @@ if [[ ! -z "$ERRANDS" ]]; then
   do
     echo "$i"
     set +e
-    ERRAND_EXISTS=`$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD errands \
-      -p $PRODUCT_IDENTIFIER | grep -w "\s$i\s"`
+    ERRAND_EXISTS=`$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -f json errands \
+      -p $PRODUCT_IDENTIFIER | jq -r --arg errand $i '.[] | select(.name==$errand) | .name'`
 
     set -e
     echo $ERRAND_EXISTS
 
     if [[ ! -z "$ERRAND_EXISTS" ]]; then
       echo $i " errand found... and enabling..."
-      $CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+      $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
         set-errand-state -p $PRODUCT_IDENTIFIER -e $i --post-deploy-state enabled
     else
       echo $i " errand not found... skipping..."
