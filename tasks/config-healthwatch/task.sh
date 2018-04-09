@@ -88,7 +88,7 @@ PRODUCT_NETWORK=$(
         "name": $network_name
       },
       "service_network": {
-        "name": $services_network_name
+        "name": $service_network_name
       }
     }
     '
