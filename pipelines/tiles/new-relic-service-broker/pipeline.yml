@@ -167,6 +167,11 @@ jobs:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-product]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml

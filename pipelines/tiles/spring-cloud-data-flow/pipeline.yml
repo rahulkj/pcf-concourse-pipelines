@@ -153,7 +153,7 @@ jobs:
       SKIPPER_DB_PLAN: ((skipper_db_plan))
       SKIPPER_DB_SERVICE: ((skipper_db_service))
       SPACE: ((space))
-      
+
 - name: disable-errands
   plan:
   - aggregate:
@@ -171,7 +171,12 @@ jobs:
         globs:
         - "*om-linux*"
       passed: [config-product]
-
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-product]
+      
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
