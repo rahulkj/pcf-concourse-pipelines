@@ -52,7 +52,7 @@ properties_config=$($JQ_CMD -n \
     "value": $deploy_service_broker_secure_credentials
   },
   ".register-service-broker.enable_global_access": {
-    "value": $register_service-broker_enable_global_access
+    "value": $register_service_broker_enable_global_access
   }
 }'
 )
