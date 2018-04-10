@@ -81,7 +81,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
       OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
@@ -116,6 +115,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -134,27 +134,37 @@ jobs:
         - "*linux64*"
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-healthwatch/task.yml
+    file: pipelines-repo/tasks/config-p-healthwatch/task.yml
     params:
       DEBUG: ((debug))
-      PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
       SERVICE_NETWORK_NAME: ((service_network_name))
+      OTHER_AZS: ((other_azs))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
+      PRODUCT_NAME: ((product_name))
+      HEALTHWATCH_FORWARDER_BOSHHEALTH_INSTANCE_COUNT: ((healthwatch_forwarder_boshhealth_instance_count))
+      HEALTHWATCH_FORWARDER_BOSHTASKS_INSTANCE_COUNT: ((healthwatch_forwarder_boshtasks_instance_count))
+      HEALTHWATCH_FORWARDER_CANARY_INSTANCE_COUNT: ((healthwatch_forwarder_canary_instance_count))
+      HEALTHWATCH_FORWARDER_CLI_INSTANCE_COUNT: ((healthwatch_forwarder_cli_instance_count))
+      HEALTHWATCH_FORWARDER_FOUNDATION_NAME: ((healthwatch_forwarder_foundation_name))
+      HEALTHWATCH_FORWARDER_HEALTH_CHECK_AZ: ((healthwatch_forwarder_health_check_az))
+      HEALTHWATCH_FORWARDER_HEALTH_CHECK_VM_TYPE: ((healthwatch_forwarder_health_check_vm_type))
+      HEALTHWATCH_FORWARDER_INGESTOR_INSTANCE_COUNT: ((healthwatch_forwarder_ingestor_instance_count))
+      HEALTHWATCH_FORWARDER_OPSMAN_INSTANCE_COUNT: ((healthwatch_forwarder_opsman_instance_count))
       MYSQL_SKIP_NAME_RESOLVE: ((mysql_skip_name_resolve))
-      HEALTHWATCH_FOUNDATION_NAME: ((foundation_name))
-      HEALTHWATCH_FORWARDER_INGESTOR_INSTANCES: ((ingestor_instances))
-      HEALTHWATCH_FORWARDER_LOADER_INSTANCES: ((loader_instances))
-      HEALTHWATCH_FORWARDER_CANARY_INSTANCES: ((canary_instances))
-      HEALTHWATCH_FORWARDER_BOSH_HEALTH_INSTANCES: ((bosh_health_instances))
-      HEALTHWATCH_FORWARDER_BOSH_TASKS_INSTANCES: ((bosh_tasks_instances))
-      HEALTHWATCH_FORWARDER_CLI_INSTANCES: ((cli_instances))
-      HEALTHWATCH_FORWARDER_OPSMAN_INSTANCES: ((opsman_instances))
-      HEALTHWATCH_FORWARDER_HEALTHCHECK_AZ: ((health_check_az))
+      OPSMAN: ((opsman))
+      OPSMAN_ENABLE_URL: ((opsman_enable_url))
+      MYSQL_PERSISTENT_DISK_MB: ((mysql_persistent_disk_mb))
+      MYSQL_INSTANCES: ((mysql_instances))
+      MYSQL_INSTANCE_TYPE: ((mysql_instance_type))
+      PROXY_INSTANCES: ((proxy_instances))
+      PROXY_INSTANCE_TYPE: ((proxy_instance_type))
+      HEALTHWATCH_FORWARDER_PERSISTENT_DISK_MB: ((healthwatch_forwarder_persistent_disk_mb))
+      HEALTHWATCH_FORWARDER_INSTANCES: ((healthwatch_forwarder_instances))
+      HEALTHWATCH_FORWARDER_INSTANCE_TYPE: ((healthwatch_forwarder_instance_type))
 
 - name: disable-errands
   plan:

@@ -1,19 +1,18 @@
-pivnet_token: # [R] PivNet Access Token
-github_token: # [R] Your github token
-github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+github_token: ((github_token)) # [R] Your github token
+github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
 github_branch: master
-github_username: # [R] Your github username
+github_username: ((github_username)) # [R] Your github username
 
-debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
-
-company_proxy_domain: # [O] proxy domain
 iaas_type: vsphere
 
 ## Ops Manager installation meta data
-ops_mgr_ip:   # [O] Ops Manager IP if behind proxy
-ops_mgr_host: # [R] Ops Manager FQDN, ex: opsmgr.example.com
-ops_mgr_usr:  # [R] Ops Manager admin user
-ops_mgr_pwd:  # [R] Ops Manager admin password
+ops_mgr_ip: ((ops_mgr_ip)) # [O] Ops Manager IP if behind proxy
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
+
+debug: true
 
 product_name: p-healthwatch
 product_identifier: p-healthwatch
@@ -23,32 +22,34 @@ singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
 network_name:      # [R] Tile network name
 service_network_name: # [R] dynamic services network for healthwatch
-health_check_az:   # [R] AZ to deploy health check VM into
 
 errands_to_disable:
 
+healthwatch_forwarder_boshhealth_instance_count: 1
+healthwatch_forwarder_boshtasks_instance_count: 2
+healthwatch_forwarder_canary_instance_count: 2
+healthwatch_forwarder_cli_instance_count: 2
+healthwatch_forwarder_foundation_name: ''
+healthwatch_forwarder_health_check_az: ''
+healthwatch_forwarder_health_check_vm_type: nano
+healthwatch_forwarder_ingestor_instance_count: 4
+healthwatch_forwarder_opsman_instance_count: 2
 mysql_skip_name_resolve: true
+opsman: enable
+opsman_enable_url: ''
+mysql_persistent_disk_mb: 102400
+mysql_instances: 3
+mysql_instance_type: 2xlarge
+proxy_instances: 2
+proxy_instance_type: medium.disk
+healthwatch_forwarder_persistent_disk_mb: 102400
+healthwatch_forwarder_instances: 1
+healthwatch_forwarder_instance_type: xlarge
 
-# Optional foundation name tag.
-# If left empty, the system domain will be used.
-# Do not use any of the following characters: ! @ # ^ & $ % *
-# (Hyphens, underscores, and spaces are permitted)
-foundation_name: ''
+concourse_url: ((concourse_url))
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
 
-# See guidance at docs.pivotal.io/pcf-healthwatch/installing.html#healthwatch-tile
-# for determining the appropriate instance counts for healthwatch apps.
-ingestor_instances: 4       # Number of instances of ingestors
-loader_instances: 4         # Number of instances of mySQL loaders
-canary_instances: 2         # Number of instances of canary health checkers
-bosh_health_instances: 1    # Number of instances of bosh health checkers
-bosh_tasks_instances: 2     # Number of instances of bosh tasks checkers
-cli_instances: 2            # Number of instances of CLI command health checkers
-opsman_instances: 2         # Number of instnces of opsman health checkers
-
-concourse_url:
-concourse_user:
-concourse_pwd:
-
-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+pipeline-name: install-healthwatch
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-healthwatch
