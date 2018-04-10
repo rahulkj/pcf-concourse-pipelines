@@ -32,7 +32,7 @@ List of pipelines available in this repository are:
 
 -	[New Install of PCF (OM/ERT)](./pipelines/install)
 -	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
--	[Isolation Segments Installation](./pipelines/tiles/isolation-segments)
+-	[Isolation Segments Installation](./pipelines/tiles/isolation-segments) [**WIP**]
 -	[RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 -	[Redis Installation](./pipelines/tiles/redis)
 -	[Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
@@ -42,7 +42,7 @@ List of pipelines available in this repository are:
 - [Healthwatch](./pipelines/tiles/healthwatch)
 - [Splunk Nozzle](./pipelines/tiles/splunk-nozzle)
 - [New Relic Nozzle](./pipelines/tiles/new-relic-nozzle)
-- [New Relic Service Broker](./pipelines/tiles/new-relic-service-broker) [**WIP**]
+- [New Relic Service Broker](./pipelines/tiles/new-relic-service-broker)
 - [Spring Cloud Data Flow](./pipelines/tiles/spring-cloud-data-flow)
 -	[Single Signon Installation](./pipelines/tiles/single-signon) [**WIP**]
 -	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
