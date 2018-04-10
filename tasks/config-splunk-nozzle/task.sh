@@ -73,7 +73,7 @@ properties_config=$($JQ_CMD -n \
     "value": $skip_ssl_validation_cf
   },
   ".properties.events": {
-    "value": $events
+    "value": ($events | split(","))
   },
   ".properties.scale_out_nozzle": {
     "value": $scale_out_nozzle
