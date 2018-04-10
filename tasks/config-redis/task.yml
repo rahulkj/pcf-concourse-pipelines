@@ -109,4 +109,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-p-redis/task.sh
+  path: pipelines-repo/tasks/config-redis/task.sh
