@@ -97,4 +97,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-p-mysql/task.sh
+  path: pipelines-repo/tasks/config-mysql/task.sh
