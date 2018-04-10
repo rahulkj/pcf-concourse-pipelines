@@ -60,7 +60,7 @@ properties_config=$($JQ_CMD -n \
 network_config=$($JQ_CMD -n \
   --arg network_name "$NETWORK_NAME" \
   --arg other_azs "$OTHER_AZS" \
-  --arg singleton_az "$SINGLETON_JOBS_AZ"
+  --arg singleton_az "$SINGLETON_JOBS_AZ" \
 '
   {
     "network": {
