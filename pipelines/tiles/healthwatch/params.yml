@@ -12,7 +12,7 @@ ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
 ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
 ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
 
-debug: true
+debug: false
 
 product_name: p-healthwatch
 product_identifier: p-healthwatch
