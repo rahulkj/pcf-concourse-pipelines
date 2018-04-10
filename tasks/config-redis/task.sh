@@ -428,6 +428,14 @@ $OM_CMD \
   --skip-ssl-validation \
   configure-product \
   --product-name p-redis \
+  --product-network "$network_config"
+
+$OM_CMD \
+  --target https://$OPS_MGR_HOST \
+  --username "$OPS_MGR_USR" \
+  --password "$OPS_MGR_PWD" \
+  --skip-ssl-validation \
+  configure-product \
+  --product-name p-redis \
   --product-properties "$properties_config" \
-  --product-network "$network_config" \
   --product-resources "$resources_config"
