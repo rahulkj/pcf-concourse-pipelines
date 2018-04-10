@@ -239,7 +239,7 @@ end
     "value": $rabbitmq_broker_policy_definition
   },
   ".on-demand-broker.global_service_instance_quota": {
-    "value": $on_demand-broker_global_service_instance_quota
+    "value": $on_demand_broker_global_service_instance_quota
   }
 }'
 )
