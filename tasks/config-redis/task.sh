@@ -93,7 +93,7 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_selector_active_with_tls_syslog_permitted_peer "${SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PERMITTED_PEER:-''}" \
   --arg syslog_selector_active_with_tls_syslog_port "${SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PORT:-''}" \
   --arg redis_on_demand_broker_service_instance_limit "${REDIS_ON_DEMAND_BROKER_SERVICE_INSTANCE_LIMIT:-20}" \
-  --arg redis_on_demand_broker_vm_extensions "${REDIS_ON_DEMAND_BROKER_VM_EXTENSIONS:-''}" \
+  --arg redis_on_demand_broker_vm_extensions "${REDIS_ON_DEMAND_BROKER_VM_EXTENSIONS}" \
 '{
   ".properties.syslog_selector": {
     "value": $syslog_selector
