@@ -1,6 +1,6 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
 github_token: ((github_token)) # [R] Your github token
-github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
 github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
