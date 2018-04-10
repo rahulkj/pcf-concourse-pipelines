@@ -6,7 +6,7 @@ pivnet_token: ((pivnet_token))
 # The token used to download the repos from GitHub for the pipelines
 github_token: ((github_token)) # [R] Your github token
 github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
-github_branch: develop
+github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere
