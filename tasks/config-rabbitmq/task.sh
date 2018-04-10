@@ -130,9 +130,6 @@ end
   ".properties.on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type": {
     "value": $on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type
   },
-  ".properties.on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement": {
-    "value": [ $on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement ]
-  },
   ".properties.on_demand_broker_dedicated_cluster_plan_selector": {
     "value": $on_demand_broker_dedicated_cluster_plan_selector
   }
@@ -171,7 +168,7 @@ if $on_demand_broker_dedicated_cluster_plan_selector == "enabled" then
     "value": $on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_vm_type
   },
   ".properties.on_demand_broker_dedicated_cluster_plan_selector.enabled.disk_limit_acknowledgement": {
-    "value": [ $on_demand_broker_dedicated_cluster_plan_selector_enabled_disk_limit_acknowledgement ]
+    "value": ( $on_demand_broker_dedicated_cluster_plan_selector_enabled_disk_limit_acknowledgement | split(",") )
   }
 }
 else .
