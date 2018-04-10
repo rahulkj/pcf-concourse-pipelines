@@ -77,7 +77,7 @@ end
 resources_config="{
   \"mysql\": {\"instances\": ${MYSQL_INSTANCES:-3}, \"instance_type\": { \"id\": \"${MYSQL_INSTANCE_TYPE:-2xlarge}\"}, \"persistent_disk\": { "size_mb": \"${MYSQL_PERSISTENT_DISK_MB:-102400}\"}},
   \"proxy\": {\"instances\": ${PROXY_INSTANCES:-2}, \"instance_type\": { \"id\": \"${PROXY_INSTANCE_TYPE:-medium.disk}\"}},
-  \"healthwatch-forwarder\": {\"instances\": ${HEALTHWATCH_FORWARDER_INSTANCES:-1}, \"instance_type\": { \"id\": \"${HEALTHWATCH_FORWARDER_INSTANCE_TYPE:-xlarge}\"}, \"persistent_disk\": { "size_mb": \"${HEALTHWATCH_FORWARDER_PERSISTENT_DISK_MB:-102400}\"}}
+  \"healthwatch-forwarder\": {\"instances\": ${HEALTHWATCH_FORWARDER_INSTANCES:-1}, \"instance_type\": { \"id\": \"${HEALTHWATCH_FORWARDER_INSTANCE_TYPE:-xlarge}\"}, \"persistent_disk\": { \"size_mb\": \"${HEALTHWATCH_FORWARDER_PERSISTENT_DISK_MB:-102400}\"}}
 }"
 
 network_config=$($JQ_CMD -n \
