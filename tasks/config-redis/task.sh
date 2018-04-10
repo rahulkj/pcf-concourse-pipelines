@@ -13,8 +13,8 @@ chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
 properties_config=$($JQ_CMD -n \
-  --arg cf_redis_broker_redis_maxmemory "${CF_REDIS-BROKER_REDIS_MAXMEMORY:-"1024MB"}" \
-  --arg cf_redis_broker_service_instance_limit "${CF_REDIS-BROKER_SERVICE_INSTANCE_LIMIT:-5}" \
+  --arg cf_redis_broker_redis_maxmemory "${CF_REDIS_BROKER_REDIS_MAXMEMORY:-"1024MB"}" \
+  --arg cf_redis_broker_service_instance_limit "${CF_REDIS_BROKER_SERVICE_INSTANCE_LIMIT:-5}" \
   --arg backups_selector "${BACKUPS_SELECTOR:-"No Backups"}" \
   --arg backups_selector_azure_account "${BACKUPS_SELECTOR_AZURE_ACCOUNT:-''}" \
   --arg backups_selector_azure_bg_save_timeout "${BACKUPS_SELECTOR_AZURE_BG_SAVE_TIMEOUT:-10}" \
@@ -92,8 +92,8 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_selector_active_with_tls_syslog_format "${SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_FORMAT:-"rfc5424"}" \
   --arg syslog_selector_active_with_tls_syslog_permitted_peer "${SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PERMITTED_PEER:-''}" \
   --arg syslog_selector_active_with_tls_syslog_port "${SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PORT:-''}" \
-  --arg redis_on_demand_broker_service_instance_limit "${REDIS_ON-DEMAND-BROKER_SERVICE_INSTANCE_LIMIT:-20}" \
-  --arg redis_on_demand_broker_vm_extensions "${REDIS_ON-DEMAND-BROKER_VM_EXTENSIONS:-''}" \
+  --arg redis_on_demand_broker_service_instance_limit "${REDIS_ON_DEMAND_BROKER_SERVICE_INSTANCE_LIMIT:-20}" \
+  --arg redis_on_demand_broker_vm_extensions "${REDIS_ON_DEMAND_BROKER_VM_EXTENSIONS:-''}" \
 '{
   ".properties.syslog_selector": {
     "value": $syslog_selector
