@@ -131,6 +131,7 @@ network_config=$($JQ_CMD -n \
   }
 '
 )
+
 $OM_CMD \
   --target https://$OPS_MGR_HOST \
   --username "$OPS_MGR_USR" \
