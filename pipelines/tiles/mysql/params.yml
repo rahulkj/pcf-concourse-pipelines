@@ -44,7 +44,7 @@ mysql_tmp_table_size: 33554432
 backup_options: disable # enable|disable
 backup_options_enable_backup_all_masters: false
 backup_options_enable_cron_schedule: ''
-backups: disable # enable|disable
+backups: disable # disable|enable|azure|gcs|scp (enable is for AWS S3)
 backups_azure_base_url: ''
 backups_azure_container: ''
 backups_azure_container_path: ''
