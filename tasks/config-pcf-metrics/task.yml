@@ -38,4 +38,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-apm/task.sh
+  path: pipelines-repo/tasks/config-pcf-metrics/task.sh
