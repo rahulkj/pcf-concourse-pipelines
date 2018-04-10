@@ -81,7 +81,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
       OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
@@ -116,6 +115,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -137,30 +137,30 @@ jobs:
     file: pipelines-repo/tasks/config-pcf-metrics/task.yml
     params:
       DEBUG: ((debug))
-      PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      MYSQL_LOGQUEUE_INSTANCE_COUNT: ((mysql_logqueue_instance_count))
-      ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((elasticsearch_logqueue_instance_count))
-      INGESTOR_INSTANCE_COUNT: ((ingestor_instance_count))
-      SERVER_INSTANCE_COUNT: ((server_instance_count))
-      LOGS_RETENTION_WINDOW: ((logs_retention_window))
-      METRICS_RETENTION_WINDOW: ((metrics_retention_window))
-      ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
+      OTHER_AZS: ((other_azs))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
+      PRODUCT_NAME: ((product_name))
+      MYSQL_ROADMIN_PASSWORD: ((mysql_roadmin_password))
+      MYSQL_SKIP_NAME_RESOLVE: ((mysql_skip_name_resolve))
+      PUSH_APPS_ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((push_apps_elasticsearch_logqueue_instance_count))
+      PUSH_APPS_INGESTOR_INSTANCE_COUNT: ((push_apps_ingestor_instance_count))
+      PUSH_APPS_LOGS_RETENTION_WINDOW: ((push_apps_logs_retention_window))
+      PUSH_APPS_METRICS_RETENTION_WINDOW: ((push_apps_metrics_retention_window))
+      PUSH_APPS_MYSQL_LOGQUEUE_INSTANCE_COUNT: ((push_apps_mysql_logqueue_instance_count))
+      PUSH_APPS_SERVER_INSTANCE_COUNT: ((push_apps_server_instance_count))
       ELASTICSEARCH_MASTER_INSTANCES: ((elasticsearch_master_instances))
-      ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE: ((elasticsearch_master_persistent_disk_size))
-      ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
+      ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
+      ELASTICSEARCH_MASTER_PERSISTENT_DISK_MB: ((elasticsearch_master_persistent_disk_mb))
       ELASTICSEARCH_DATA_INSTANCES: ((elasticsearch_data_instances))
-      ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE: ((elasticsearch_data_persistent_disk_size))
-      REDIS_INSTANCE_TYPE: ((redis_instance_type))
+      ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
+      ELASTICSEARCH_DATA_PERSISTENT_DISK_MB: ((elasticsearch_data_persistent_disk_mb))
       REDIS_INSTANCES: ((redis_instances))
-      REDIS_DISK_SIZE: ((redis_disk_size))
-      MYSQL_INSTANCE_TYPE: ((mysql_instance_type))
-      MYSQL_PERSISTENT_DISK_SIZE: ((mysql_persistent_disk_size))
+      REDIS_INSTANCE_TYPE: ((redis_instance_type))
+      REDIS_PERSISTENT_DISK_MB: ((redis_persistent_disk_mb))
 
 - name: disable-errands
   plan:
