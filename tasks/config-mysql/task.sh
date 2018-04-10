@@ -34,7 +34,7 @@ properties_config=$($JQ_CMD -n \
   --arg mysql_tmp_table_size ${MYSQL_TMP_TABLE_SIZE:-33554432} \
   --arg backup_options ${BACKUP_OPTIONS:-"enable"} \
   --arg backup_options_enable_backup_all_masters ${BACKUP_OPTIONS_ENABLE_BACKUP_ALL_MASTERS:-false} \
-  --arg backup_options_enable_cron_schedule ${BACKUP_OPTIONS_ENABLE_CRON_SCHEDULE:-"0 0 * * *"} \
+  --arg backup_options_enable_cron_schedule \"${BACKUP_OPTIONS_ENABLE_CRON_SCHEDULE:-"0 0 * * *"}\" \
   --arg backups ${BACKUPS:-"disable"} \
   --arg backups_azure_base_url ${BACKUPS_AZURE_BASE_URL:-''} \
   --arg backups_azure_container ${BACKUPS_AZURE_CONTAINER:-''} \
@@ -238,6 +238,7 @@ end
     "value": $syslog
   }
 }
++
 if $syslog == "enabled" then
 {
   ".properties.syslog.enabled.address": {
