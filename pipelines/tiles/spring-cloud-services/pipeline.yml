@@ -81,7 +81,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
       OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
@@ -116,6 +115,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -137,23 +137,23 @@ jobs:
     file: pipelines-repo/tasks/config-spring-cloud-services/task.yml
     params:
       DEBUG: ((debug))
-      PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      BROKER_MAX_INSTANCES: ((broker_max_instances))
-      BUILDPACK: ((buildpack_name))
-      DISABLE_CERT_CHECK: ((disable_cert_check))
-      INSTANCES_APP_PUSH_TIMEOUT: ((instances_app_push_timeout))
-      PERSISTENCE_STORE_SERVICE: ((persistence_store_service))
-      PERSISTENCE_STORE_SERVICE_PLAN: ((persistence_store_service_plan))
-      MESSAGE_BUS_SERVICE: ((message_bus_service))
-      MESSAGE_BUS_SERVICE_PLAN: ((message_bus_service_plan))
-      ENABLE_GLOBAL_ACCESS: ((enable_global_access))
-      SECURE_CREDENTIALS: ((secure_credentials))
+      OTHER_AZS: ((other_azs))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
+      PRODUCT_NAME: ((product_name))
+      DEPLOY_SERVICE_BROKER_BROKER_MAX_INSTANCES: ((deploy_service_broker_broker_max_instances))
+      DEPLOY_SERVICE_BROKER_BUILDPACK: ((deploy_service_broker_buildpack))
+      DEPLOY_SERVICE_BROKER_DISABLE_CERT_CHECK: ((deploy_service_broker_disable_cert_check))
+      DEPLOY_SERVICE_BROKER_INSTANCES_APP_PUSH_TIMEOUT: ((deploy_service_broker_instances_app_push_timeout))
+      DEPLOY_SERVICE_BROKER_MESSAGE_BUS_SERVICE: ((deploy_service_broker_message_bus_service))
+      DEPLOY_SERVICE_BROKER_MESSAGE_BUS_SERVICE_PLAN: ((deploy_service_broker_message_bus_service_plan))
+      DEPLOY_SERVICE_BROKER_PERSISTENCE_STORE_SERVICE: ((deploy_service_broker_persistence_store_service))
+      DEPLOY_SERVICE_BROKER_PERSISTENCE_STORE_SERVICE_PLAN: ((deploy_service_broker_persistence_store_service_plan))
+      DEPLOY_SERVICE_BROKER_SECURE_CREDENTIALS: ((deploy_service_broker_secure_credentials))
+      REGISTER_SERVICE_BROKER_ENABLE_GLOBAL_ACCESS: ((register_service_broker_enable_global_access))
 
 - name: disable-errands
   plan:

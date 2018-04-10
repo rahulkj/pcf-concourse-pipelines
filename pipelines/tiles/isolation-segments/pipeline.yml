@@ -93,7 +93,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
       OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 

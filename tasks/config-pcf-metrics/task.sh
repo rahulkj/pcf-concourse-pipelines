@@ -12,94 +12,75 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-PRODUCT_PROPERTIES=$(
-  echo "{}" |
-  $JQ_CMD -n \
-    --argjson mysql_logqueue_instance_count $MYSQL_LOGQUEUE_INSTANCE_COUNT \
-    --argjson elasticsearch_logqueue_instance_count $ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT \
-    --argjson ingestor_instance_count $INGESTOR_INSTANCE_COUNT \
-    --argjson server_instance_count $SERVER_INSTANCE_COUNT \
-    --argjson logs_retention_window $LOGS_RETENTION_WINDOW \
-    --argjson metrics_retention_window $METRICS_RETENTION_WINDOW \
-    '. +
-    {
-      ".push-apps.mysql_logqueue_instance_count": {
-        "value": $mysql_logqueue_instance_count
-      },
-      ".push-apps.elasticsearch_logqueue_instance_count": {
-        "value": $elasticsearch_logqueue_instance_count
-      },
-      ".push-apps.ingestor_instance_count": {
-        "value": $ingestor_instance_count
-      },
-      ".push-apps.server_instance_count": {
-        "value": $server_instance_count
-      },
-      ".push-apps.logs_retention_window": {
-        "value": $logs_retention_window
-      },
-      ".push-apps.metrics_retention_window": {
-        "value": $metrics_retention_window
-      }
+properties_config=$($JQ_CMD -n \
+  --arg mysql_roadmin_password ${MYSQL_ROADMIN_PASSWORD:-null} \
+  --arg mysql_skip_name_resolve ${MYSQL_SKIP_NAME_RESOLVE:-true} \
+  --arg push_apps_elasticsearch_logqueue_instance_count ${PUSH_APPS_ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT:-1} \
+  --arg push_apps_ingestor_instance_count ${PUSH_APPS_INGESTOR_INSTANCE_COUNT:-1} \
+  --arg push_apps_logs_retention_window ${PUSH_APPS_LOGS_RETENTION_WINDOW:-14} \
+  --arg push_apps_metrics_retention_window ${PUSH_APPS_METRICS_RETENTION_WINDOW:-14} \
+  --arg push_apps_mysql_logqueue_instance_count ${PUSH_APPS_MYSQL_LOGQUEUE_INSTANCE_COUNT:-1} \
+  --arg push_apps_server_instance_count ${PUSH_APPS_SERVER_INSTANCE_COUNT:-1} \
+'{
+  ".mysql.roadmin_password": {
+    "value": {
+      "secret": $mysql_roadmin_password
     }
-    '
+  },
+  ".mysql.skip_name_resolve": {
+    "value": $mysql_skip_name_resolve
+  },
+  ".push-apps.mysql_logqueue_instance_count": {
+    "value": $push_apps_mysql_logqueue_instance_count
+  },
+  ".push-apps.elasticsearch_logqueue_instance_count": {
+    "value": $push_apps_elasticsearch_logqueue_instance_count
+  },
+  ".push-apps.ingestor_instance_count": {
+    "value": $push_apps_ingestor_instance_count
+  },
+  ".push-apps.server_instance_count": {
+    "value": $push_apps_server_instance_count
+  },
+  ".push-apps.logs_retention_window": {
+    "value": $push_apps_logs_retention_window
+  },
+  ".push-apps.metrics_retention_window": {
+    "value": $push_apps_metrics_retention_window
+  }
+}'
 )
 
-PRODUCT_NETWORK=$(
-  echo "{}" |
-  $JQ_CMD -n \
-    --arg singleton_jobs_az "$SINGLETON_JOBS_AZ" \
-    --arg other_azs "$OTHER_AZS" \
-    --arg network_name "$NETWORK_NAME" \
-    '. +
-    {
-      "singleton_availability_zone": {
-        "name": $singleton_jobs_az
-      },
-      "other_availability_zones": ($other_azs | split(",") | map({name: .})),
-      "network": {
-        "name": $network_name
-      }
+resources_config="{
+  \"elasticsearch_master\": {\"instances\": ${ELASTICSEARCH_MASTER_INSTANCES:-1}, \"instance_type\": { \"id\": \"${ELASTICSEARCH_MASTER_INSTANCE_TYPE:-large}\"}, \"persistent_disk\": { \"size_mb\": \"${ELASTICSEARCH_MASTER_PERSISTENT_DISK_MB:-10240}\"}},
+  \"elasticsearch_data\": {\"instances\": ${ELASTICSEARCH_DATA_INSTANCES:-4}, \"instance_type\": { \"id\": \"${ELASTICSEARCH_DATA_INSTANCE_TYPE:-xlarge}\"}, \"persistent_disk\": { \"size_mb\": \"${ELASTICSEARCH_DATA_PERSISTENT_DISK_MB:-102400}\"}},
+  \"redis\": {\"instances\": ${REDIS_INSTANCES:-1}, \"instance_type\": { \"id\": \"${REDIS_INSTANCE_TYPE:-medium}\"}, \"persistent_disk\": { \"size_mb\": \"${REDIS_PERSISTENT_DISK_MB:-102400}\"}}
+}"
+
+network_config=$($JQ_CMD -n \
+  --arg network_name "$NETWORK_NAME" \
+  --arg other_azs "$OTHER_AZS" \
+  --arg singleton_az "$SINGLETON_JOBS_AZ" \
+'
+  {
+    "network": {
+      "name": $network_name
+    },
+    "other_availability_zones": ($other_azs | split(",") | map({name: .})),
+    "singleton_availability_zone": {
+      "name": $singleton_az
     }
-    '
+  }
+'
 )
 
-PRODUCT_RESOURCE=$(
-  echo "{}" |
-  $JQ_CMD -n \
-    --arg elasticsearch_master_instance_type "$ELASTICSEARCH_MASTER_INSTANCE_TYPE" \
-    --argjson elasticsearch_master_instances $ELASTICSEARCH_MASTER_INSTANCES \
-    --arg elasticsearch_master_persistent_disk_size "$ELASTICSEARCH_MASTER_PERSISTENT_DISK_SIZE" \
-    --arg elasticsearch_data_instance_type "$ELASTICSEARCH_DATA_INSTANCE_TYPE" \
-    --argjson elasticsearch_data_instances $ELASTICSEARCH_DATA_INSTANCES \
-    --arg elasticsearch_data_persistent_disk_size "$ELASTICSEARCH_DATA_PERSISTENT_DISK_SIZE" \
-    --arg redis_instance_type "$REDIS_INSTANCE_TYPE" \
-    --argjson redis_instances $REDIS_INSTANCES \
-    --arg redis_disk_size "$REDIS_DISK_SIZE" \
-    --arg mysql_instance_type "$MYSQL_INSTANCE_TYPE" \
-    --arg mysql_persistent_disk_size "$MYSQL_PERSISTENT_DISK_SIZE" \
-    '. +
-    {
-      "elasticsearch_master": {
-        "instance_type": {"id": $elasticsearch_master_instance_type},
-        "instances": $elasticsearch_master_instances,
-        "persistent_disk": {"size_mb": $elasticsearch_master_persistent_disk_size}
-      },
-      "elasticsearch_data": {
-        "instance_type": {"id": $elasticsearch_data_instance_type},
-        "instances": $elasticsearch_data_instances,
-        "persistent_disk": {"size_mb": $elasticsearch_data_persistent_disk_size}
-      },
-      "redis": {
-        "instance_type": {"id": $redis_instance_type},
-        "instances": $redis_instances,
-        "persistent_disk": {"size_mb": $redis_disk_size}
-      },
-      "mysql": {
-        "instance_type": {"id": $mysql_instance_type},
-        "persistent_disk": {"size_mb": $mysql_persistent_disk_size}
-      }
-    }'
-)
-
-$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK" -p "$PRODUCT_PROPERTIES"  -pr "$PRODUCT_RESOURCE"
+$OM_CMD \
+  --target https://$OPS_MGR_HOST \
+  --username "$OPS_MGR_USR" \
+  --password "$OPS_MGR_PWD" \
+  --skip-ssl-validation \
+  configure-product \
+  --product-name apm \
+  --product-properties "$properties_config" \
+  --product-network "$network_config" \
+  --product-resources "$resources_config"

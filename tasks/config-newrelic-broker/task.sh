@@ -19,7 +19,7 @@ properties_config=$($JQ_CMD -n \
   --arg app_version ${APP_VERSION:-"v1.12.9"} \
   --arg apply_open_security_group ${APPLY_OPEN_SECURITY_GROUP:-false} \
   --arg newrelic_broker_enable_global_access_to_plans ${NEWRELIC_BROKER_ENABLE_GLOBAL_ACCESS_TO_PLANS:-true} \
-  --arg nrplans ${NRPLANS} \
+  --argjson nrplans ${NRPLANS} \
   --arg org ${ORG:-"NewRelicServiceBroker-service-org"} \
   --arg space ${SPACE:-"NewRelicServiceBroker-service-space"} \
 '{
@@ -56,7 +56,7 @@ properties_config=$($JQ_CMD -n \
 network_config=$($JQ_CMD -n \
   --arg network_name "$NETWORK_NAME" \
   --arg other_azs "$OTHER_AZS" \
-  --arg singleton_az "$SINGLETON_JOBS_AZ"
+  --arg singleton_az "$SINGLETON_JOBS_AZ" \
 '
   {
     "network": {

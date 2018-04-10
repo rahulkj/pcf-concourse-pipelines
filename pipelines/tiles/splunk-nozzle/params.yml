@@ -1,12 +1,17 @@
-pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+# Token used to download the product file from Pivotal Network. Find this
+# on your Pivotal Network profile page:
+# https://network.pivotal.io/users/dashboard/edit-profile
+pivnet_token: ((pivnet_token))
+
+# The token used to download the repos from GitHub for the pipelines
 github_token: ((github_token)) # [R] Your github token
 github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
 github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
-debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
-
 iaas_type: vsphere
+
+debug: false
 
 ## Ops Manager installation meta data
 ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy
@@ -43,10 +48,10 @@ splunk_token:
 
 errands_to_disable:
 
-concourse_url:
-concourse_user:
-concourse_pwd:
+concourse_url: ((concourse_url))
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
 
-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+pipeline-name: install-splunk-nozzle
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-splunk-nozzle

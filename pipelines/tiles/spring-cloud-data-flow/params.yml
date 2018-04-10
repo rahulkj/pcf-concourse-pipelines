@@ -1,12 +1,12 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
 github_token: ((github_token)) # [R] Your github token
 github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: master
+github_branch: develop
 github_username: ((github_username)) # [R] Your github username
 
-debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
-
 iaas_type: vsphere
+
+debug: false
 
 ## Ops Manager installation meta data
 ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy
@@ -22,24 +22,24 @@ singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
 network_name:      # [R] Tile network name
 
-allow_paid_service_plans: false # true|false
-apply_open_security_group: false # true|false
+allow_paid_service_plans: false
+apply_open_security_group: false
 dataflow_db_plan: "db-small"
 dataflow_db_service: "p.mysql"
 db_service_name: "p.mysql"
 db_service_plan: "db-small"
-org: "system"
-p_dataflow_enable_global_access_to_plans: true # true|false
+org: system
+p_dataflow_enable_global_access_to_plans:
 skipper_db_plan: "db-small"
 skipper_db_service: "p.mysql"
 space: "p-dataflow"
 
 errands_to_disable:
 
-concourse_url:
-concourse_user:
-concourse_pwd:
+concourse_url: ((concourse_url))
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
 
-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+pipeline-name: install-spring-cloud-data-flow
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-spring-cloud-data-flow
