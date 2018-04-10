@@ -22,36 +22,36 @@ singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
 network_name:      # [R] Tile network name
 
-allow_paid_service_plans: false # true|false
-apply_open_security_group: true # true|false
-http_proxy:
-newrelic_insights_base_url: "https://insights-collector.newrelic.com/v1"
-newrelic_insights_insert_key:
-newrelic_insights_rpm_id:
-no_proxy:
-nozzle_admin_password: "admin"
-nozzle_admin_user:
+allow_paid_service_plans: false
+apply_open_security_group: true
+http_proxy: ''
+newrelic_insights_base_url: 'https://insights-collector.newrelic.com/v1'
+newrelic_insights_insert_key: ''
+newrelic_insights_rpm_id: ''
+no_proxy: ''
+nozzle_admin_password: ''
+nozzle_admin_user: ''
 nozzle_app_detail_interval: 1
-nozzle_excluded_deployments:
-nozzle_excluded_jobs:
-nozzle_excluded_origins:
-nozzle_firehose_subscription_id: "newrelic.firehose"
+nozzle_excluded_deployments: ''
+nozzle_excluded_jobs: ''
+nozzle_excluded_origins: ''
+nozzle_firehose_subscription_id: 'newrelic.firehose'
 nozzle_instances: 3
-nozzle_password:
-nozzle_selected_events:
-nozzle_skip_ssl: false # true|false
-nozzle_traffic_controller_url:
-nozzle_uaa_url:
-nozzle_username:
-org: nr-firehose-nozzle-org
-space: nr-firehose-nozzle-space
+nozzle_password: ''
+nozzle_selected_events: 'ValueMetric,CounterEvent,ContainerMetric'
+nozzle_skip_ssl: false
+nozzle_traffic_controller_url: 'wss://doppler.SYSTEM-DOMAIN:443'
+nozzle_uaa_url: 'https://uaa.SYSTEM-DOMAIN'
+nozzle_username: 'opentsdb-firehose-nozzle'
+org: 'nr-firehose-nozzle-org'
+space: 'nr-firehose-nozzle-space'
 
 errands_to_disable:
 
-concourse_url:
-concourse_user:
-concourse_pwd:
+concourse_url: ((concourse_url))
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
 
-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+pipeline-name: install-new-relic-nozzle
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-new-relic-nozzle
