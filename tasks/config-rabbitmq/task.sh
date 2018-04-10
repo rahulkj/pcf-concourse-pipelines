@@ -53,7 +53,7 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_server_cluster_partition_handling ${RABBITMQ_SERVER_CLUSTER_PARTITION_HANDLING:-"pause_minority"} \
   --arg rabbitmq_server_config ${RABBITMQ_SERVER_CONFIG} \
   --arg rabbitmq_server_cookie ${RABBITMQ_SERVER_COOKIE} \
-  --arg rabbitmq_server_plugins ${RABBITMQ_SERVER_PLUGINS:"rabbitmq_management"} \
+  --arg rabbitmq_server_plugins ${RABBITMQ_SERVER_PLUGINS:'rabbitmq_management'} \
   --arg rabbitmq_server_ports ${RABBITMQ_SERVER_PORTS:-"15672, 5672, 5671, 1883, 8883, 61613, 61614, 15674"} \
   --arg rabbitmq_server_ssl_cert_pem ${RABBITMQ_SERVER_SSL_CERT_PEM} \
   --arg rabbitmq_server_ssl_private_key_pem ${RABBITMQ_SERVER_SSL_PRIVATE_KEY_PEM} \
