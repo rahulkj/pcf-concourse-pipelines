@@ -256,7 +256,7 @@ nfs_volume_driver_enable_ldap_service_account_user: ''
 nfs_volume_driver_enable_ldap_user_fqdn: ''
 push_apps_manager_accent_color: ''
 push_apps_manager_company_name: ''
-push_apps_manager_currency_lookup: ''
+push_apps_manager_currency_lookup: '{ \"usd\": \"$\", \"eur\": \"€\" }'
 push_apps_manager_display_plan_prices: false # true|false
 push_apps_manager_enable_invitations: true # true|false
 push_apps_manager_favicon: ''
@@ -432,7 +432,7 @@ uaa_cf_cli_refresh_token_lifetime: 1209600
 uaa_customize_password_label: 'Email'
 uaa_customize_username_label: 'Password'
 uaa_issuer_uri: ''
-uaa_proxy_ips_regex: ''
+uaa_proxy_ips_regex: '10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}'
 uaa_private_key_pem: '' # [R]
 uaa_cert_pem: '' # [R]
 uaa_service_provider_key_password: ''
