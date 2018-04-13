@@ -209,48 +209,48 @@ NETWORK_CONFIGURATION=$(
 DIRECTOR_CONFIG=$(
   echo "{}" |
   $JQ_CMD -n \
-  --arg ntp_servers "${NTP_SERVERS:-''}" \
+  --arg ntp_servers ${NTP_SERVERS:-''} \
   --argjson enable_vm_resurrector ${ENABLE_VM_RESURRECTOR:-true} \
-  --arg metrics_ip "${METRICS_IP:-''}" \
-  --arg opentsdb_ip "${OPENTSDB_IP:-''}" \
+  --arg metrics_ip ${METRICS_IP:-''} \
+  --arg opentsdb_ip ${OPENTSDB_IP:-''} \
   --argjson post_deploy_enabled ${POST_DEPLOY_ENABLED:-true} \
   --argjson bosh_recreate_on_next_deploy ${BOSH_RECREATE_ON_NEXT_DEPLOY:-false} \
   --argjson retry_bosh_deploys ${RETRY_BOSH_DEPLOYS:-false} \
   --argjson keep_unreachable_vms ${KEEP_UNREACHABLE_VMS:-false} \
   --argjson max_threads ${MAX_THREADS:-5} \
   --argjson director_worker_count ${DIRECTOR_WORKER_COUNT:-5} \
-  --arg ops_dir_hostname "${OPS_DIR_HOSTNAME:-''}" \
+  --arg ops_dir_hostname ${OPS_DIR_HOSTNAME:-''} \
   --argjson pager_duty_enabled ${PAGER_DUTY_ENABLED:-false} \
-  --arg pager_duty_service_key "${PAGER_DUTY_SERVICE_KEY:-''}" \
-  --arg pager_duty_http_proxy "${PAGER_DUTY_HTTP_PROXY:-''}" \
+  --arg pager_duty_service_key ${PAGER_DUTY_SERVICE_KEY:-''} \
+  --arg pager_duty_http_proxy ${PAGER_DUTY_HTTP_PROXY:-''} \
   --argjson hm_email_enabled ${HM_EMAIL_ENABLED:-false} \
-  --arg smtp_host "${SMTP_HOST:-''}" \
+  --arg smtp_host ${SMTP_HOST:-''} \
   --argjson smtp_port ${SMTP_PORT:-5514} \
-  --arg smtp_domain "${SMTP_DOMAIN:-''}" \
-  --arg from_address "${FROM_ADDRESS:-''}" \
-  --arg recipients_address "${RECIPIENTS_ADDRESS:-''}" \
-  --arg smtp_user "${SMTP_USER:-''}" \
-  --arg smtp_password "${SMTP_PASSWORD:-''}" \
+  --arg smtp_domain ${SMTP_DOMAIN:-''} \
+  --arg from_address ${FROM_ADDRESS:-''} \
+  --arg recipients_address ${RECIPIENTS_ADDRESS:-''} \
+  --arg smtp_user ${SMTP_USER:-''} \
+  --arg smtp_password ${SMTP_PASSWORD:-''} \
   --argjson smtp_tls_enabled ${SMTP_TLS_ENABLED:-false} \
-  --arg blobstore_type "${BLOBSTORE_TYPE:-''}" \
-  --arg s3_endpoint "${S3_ENDPOINT:-''}" \
+  --arg blobstore_type ${BLOBSTORE_TYPE:-''} \
+  --arg s3_endpoint ${S3_ENDPOINT:-''} \
   --arg s3_bucket_name ${S3_BUCKET_NAME:-''} \
-  --arg s3_access_key "${S3_ACCESS_KEY:-''}" \
-  --arg s3_secret_key "${S3_SECRET_KEY:-''}" \
-  --arg s3_signature_version "${S3_SIGNATURE_VERSION:-''}" \
-  --arg database_type "${DATABASE_TYPE:-'internal'}" \
-  --arg external_mysql_db_host "${EXTERNAL_MYSQL_DB_HOST:-''}" \
-  --arg external_mysql_db_port "${EXTERNAL_MYSQL_DB_PORT:-''}" \
-  --arg external_mysql_db_user "${EXTERNAL_MYSQL_DB_USER:-''}" \
-  --arg external_mysql_db_password "${EXTERNAL_MYSQL_DB_PASSWORD:-''}" \
-  --arg external_mysql_db_database "${EXTERNAL_MYSQL_DB_DATABASE:-''}" \
+  --arg s3_access_key ${S3_ACCESS_KEY:-''} \
+  --arg s3_secret_key ${S3_SECRET_KEY:-''} \
+  --arg s3_signature_version ${S3_SIGNATURE_VERSION:-''} \
+  --arg database_type ${DATABASE_TYPE:-"internal"} \
+  --arg external_mysql_db_host ${EXTERNAL_MYSQL_DB_HOST:-''} \
+  --arg external_mysql_db_port ${EXTERNAL_MYSQL_DB_PORT:-''} \
+  --arg external_mysql_db_user ${EXTERNAL_MYSQL_DB_USER:-''} \
+  --arg external_mysql_db_password ${EXTERNAL_MYSQL_DB_PASSWORD:-''} \
+  --arg external_mysql_db_database ${EXTERNAL_MYSQL_DB_DATABASE:-''} \
   --argjson syslog_enabled ${SYSLOG_ENABLED:-false} \
-  --arg syslog_address "${SYSLOG_ADDRESS:-''}" \
-  --argjson syslog_port "${SYSLOG_PORT:-5514}" \
-  --arg syslog_transport_protocol "${SYSLOG_TRANSPORT_PROTOCOL:-'tcp'}" \
+  --arg syslog_address ${SYSLOG_ADDRESS:-''} \
+  --argjson syslog_port ${SYSLOG_PORT:-5514} \
+  --arg syslog_transport_protocol ${SYSLOG_TRANSPORT_PROTOCOL:-'tcp'} \
   --argjson syslog_tls_enabled ${SYSLOG_TLS_ENABLED:-false} \
-  --arg syslog_permitted_peer "${SYSLOG_PERMITTED_PEER:-''}" \
-  --arg syslog_ssl_ca_certificate "${SYSLOG_SSL_CA_CERTIFICATE:-''}" \
+  --arg syslog_permitted_peer ${SYSLOG_PERMITTED_PEER:-''} \
+  --arg syslog_ssl_ca_certificate ${SYSLOG_SSL_CA_CERTIFICATE:-''} \
   '
   . +
   {
