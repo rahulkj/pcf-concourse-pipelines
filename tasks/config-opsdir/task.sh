@@ -393,7 +393,7 @@ EOF
 )
 
 echo "Configuring IaaS and Director..."
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-bosh \
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-director \
   -i "$IAAS_CONFIGURATION" \
   -d "$DIRECTOR_CONFIG"
 
@@ -410,7 +410,7 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
 
 echo "Configuring network assignment, security..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-  configure-bosh \
+  configure-director \
   --network-assignment "$NETWORK_ASSIGNMENT" \
   --security-configuration "$SECURITY_CONFIG" \
   --resource-configuration "$RESOURCE_CONFIG"
