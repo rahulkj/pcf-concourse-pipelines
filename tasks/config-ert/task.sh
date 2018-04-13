@@ -123,7 +123,7 @@ properties_config=$($JQ_CMD -n \
   --arg credhub_hsm_provider_client_private_key "${CREDHUB_HSM_PROVIDER_CLIENT_PRIVATE_KEY}" \
   --arg credhub_hsm_provider_partition "${CREDHUB_HSM_PROVIDER_PARTITION:-""}" \
   --arg credhub_hsm_provider_partition_password "${CREDHUB_HSM_PROVIDER_PARTITION_PASSWORD}" \
-  --argjson credhub_hsm_provider_servers "${CREDHUB_HSM_PROVIDER_SERVERS}" \
+  --argjson credhub_hsm_provider_servers ${CREDHUB_HSM_PROVIDER_SERVERS} \
   --arg credhub_key_encryption_name "${CREDHUB_KEY_ENCRYPTION_NAME:-"Generated"}" \
   --arg credhub_key_encryption_secret "${CREDHUB_KEY_ENCRYPTION_SECRET:-"Thisisasupersecretkey2018"}" \
   --arg credhub_key_encryption_is_primary "${CREDHUB_KEY_ENCRYPTION_IS_PRIMARY:-true}" \
@@ -153,11 +153,11 @@ properties_config=$($JQ_CMD -n \
   --arg nfs_volume_driver_enable_ldap_user_fqdn "${NFS_VOLUME_DRIVER_ENABLE_LDAP_USER_FQDN:-""}" \
   --arg push_apps_manager_accent_color "${PUSH_APPS_MANAGER_ACCENT_COLOR:-""}" \
   --arg push_apps_manager_company_name "${PUSH_APPS_MANAGER_COMPANY_NAME:-""}" \
-  --argjson push_apps_manager_currency_lookup "${PUSH_APPS_MANAGER_CURRENCY_LOOKUP:-'{ \"usd\": \"$\", \"eur\": \"€\" }'}" \
+  --argjson push_apps_manager_currency_lookup ${PUSH_APPS_MANAGER_CURRENCY_LOOKUP:-'{ \"usd\": \"$\", \"eur\": \"€\" }'} \
   --arg push_apps_manager_display_plan_prices "${PUSH_APPS_MANAGER_DISPLAY_PLAN_PRICES:-false}" \
   --arg push_apps_manager_enable_invitations "${PUSH_APPS_MANAGER_ENABLE_INVITATIONS:-true}" \
   --arg push_apps_manager_favicon "${PUSH_APPS_MANAGER_FAVICON:-""}" \
-  --argjson push_apps_manager_footer_links "${PUSH_APPS_MANAGER_FOOTER_LINKS}" \
+  --argjson push_apps_manager_footer_links ${PUSH_APPS_MANAGER_FOOTER_LINKS} \
   --arg push_apps_manager_footer_text "${PUSH_APPS_MANAGER_FOOTER_TEXT:-""}" \
   --arg push_apps_manager_global_wrapper_bg_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_BG_COLOR:-""}" \
   --arg push_apps_manager_global_wrapper_footer_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_FOOTER_CONTENT:-""}" \
@@ -450,7 +450,7 @@ end
     }
   },
   ".properties.credhub_hsm_provider_servers": {
-    "value": [$credhub_hsm_provider_servers]
+    "value": $credhub_hsm_provider_servers
   },
   ".properties.credhub_key_encryption_passwords": {
     "value": [
