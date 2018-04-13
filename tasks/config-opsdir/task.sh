@@ -356,8 +356,14 @@ DIRECTOR_CONFIG=$(
 
 NETWORK_ASSIGNMENT=$(cat <<-EOF
 {
-   "singleton_availability_zone": "$AZ_1",
-   "network": "$INFRA_NETWORK_NAME"
+  "network_and_az": {
+     "network": {
+       "name": "$INFRA_NETWORK_NAME"
+     },
+     "singleton_availability_zone": {
+       "name": "$AZ_1"
+     }
+  }
 }
 EOF
 )
@@ -401,7 +407,6 @@ echo "Configuring availability zones..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   curl -p "/api/v0/staged/director/availability_zones" \
   -x PUT -d "$AZ_CONFIGURATION"
-
 
 echo "Configuring network..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
