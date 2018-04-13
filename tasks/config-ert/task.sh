@@ -157,7 +157,7 @@ properties_config=$($JQ_CMD -n \
   --arg push_apps_manager_display_plan_prices "${PUSH_APPS_MANAGER_DISPLAY_PLAN_PRICES:-false}" \
   --arg push_apps_manager_enable_invitations "${PUSH_APPS_MANAGER_ENABLE_INVITATIONS:-true}" \
   --arg push_apps_manager_favicon "${PUSH_APPS_MANAGER_FAVICON:-''}" \
-  --arg push_apps_manager_footer_links "${PUSH_APPS_MANAGER_FOOTER_LINKS:-[]}" \
+  --arg push_apps_manager_footer_links "${PUSH_APPS_MANAGER_FOOTER_LINKS}" \
   --arg push_apps_manager_footer_text "${PUSH_APPS_MANAGER_FOOTER_TEXT:-''}" \
   --arg push_apps_manager_global_wrapper_bg_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_BG_COLOR:-''}" \
   --arg push_apps_manager_global_wrapper_footer_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_FOOTER_CONTENT:-''}" \
@@ -592,7 +592,7 @@ end
     "value": $push_apps_manager_favicon
   },
   ".properties.push_apps_manager_footer_links": {
-    "value": $push_apps_manager_footer_links
+    "value": [ $push_apps_manager_footer_links ]
   },
   ".properties.push_apps_manager_footer_text": {
     "value": $push_apps_manager_footer_text
