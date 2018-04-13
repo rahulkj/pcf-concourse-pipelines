@@ -226,7 +226,7 @@ credhub_hsm_provider_client_certificate: ''
 credhub_hsm_provider_client_private_key: ''
 credhub_hsm_provider_partition: ''
 credhub_hsm_provider_partition_password: ''
-credhub_hsm_provider_servers: [] # '[{\"host_address\":"\some_host\",\"port\":4444,\"partition_serial_number\":\"Something\",\"hsm_certificate\":\"JSON_FORMAT_CERT_PEM\"}]'
+credhub_hsm_provider_servers: [] # "[{\"host_address\":"\some_host\",\"port\":4444,\"partition_serial_number\":\"Something\",\"hsm_certificate\":\"JSON_FORMAT_CERT_PEM\"}]"
 credhub_key_encryption_name: ((credhub_key_encryption_name))
 credhub_key_encryption_secret: ((credhub_key_encryption_secret))
 credhub_key_encryption_is_primary: false # true|false
@@ -260,7 +260,7 @@ push_apps_manager_currency_lookup: ''
 push_apps_manager_display_plan_prices: false # true|false
 push_apps_manager_enable_invitations: true # true|false
 push_apps_manager_favicon: ''
-push_apps_manager_footer_links: [] # '[{\"name\":\"OpsManager-URL\",\"href\":\"https://opsmgr.homelab.io\"}]'
+push_apps_manager_footer_links: [] # "[{\"name\":\"OpsManager-URL\",\"href\":\"https://opsmgr.homelab.io\"}]"
 push_apps_manager_footer_text: ''
 push_apps_manager_global_wrapper_bg_color: ''
 push_apps_manager_global_wrapper_footer_content: ''
