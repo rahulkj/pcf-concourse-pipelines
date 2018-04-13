@@ -992,16 +992,34 @@ if $system_database == "external" then
     "value": {
       "secret": $system_database_external_silk_password
     }
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.tcp_routing": {
     "value": $tcp_routing
-  },
+  }
+}
++
+if $tcp_routing == "enable" then
+{
   ".properties.tcp_routing.enable.reservable_ports": {
     "value": $tcp_routing_enable_reservable_ports
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.uaa": {
     "value": $uaa
-  },
+  }
+}
++
+if $uaa == "internal" then
+{
   ".properties.uaa.internal.password_min_length": {
     "value": $uaa_internal_password_min_length
   },
@@ -1022,7 +1040,10 @@ if $system_database == "external" then
   },
   ".properties.uaa.internal.password_max_retry": {
     "value": $uaa_internal_password_max_retry
-  },
+  }
+}
+elif $uaa == "saml" then
+{
   ".properties.uaa.saml.sso_name": {
     "value": $uaa_saml_sso_name
   },
@@ -1061,7 +1082,10 @@ if $system_database == "external" then
   },
   ".properties.uaa.saml.entity_id_override": {
     "value": $uaa_saml_entity_id_override
-  },
+  }
+}
+elif $uaa == "ldap" then
+{
   ".properties.uaa.ldap.url": {
     "value": $uaa_ldap_url
   },
@@ -1103,10 +1127,19 @@ if $system_database == "external" then
   },
   ".properties.uaa.ldap.ldap_referrals": {
     "value": $uaa_ldap_ldap_referrals
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.uaa_database": {
     "value": $uaa_database
-  },
+  }
+}
++
+if $uaa_database == "external" then
+{
   ".properties.uaa_database.external.host": {
     "value": $uaa_database_external_host
   },
@@ -1120,7 +1153,12 @@ if $system_database == "external" then
     "value": {
       "secret": $uaa_database_external_uaa_password
     }
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.uaa_session_cookie_max_age": {
     "value": $uaa_session_cookie_max_age
   },
