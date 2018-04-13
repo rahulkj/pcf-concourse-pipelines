@@ -336,7 +336,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-pas-product-tile]
+      # passed: [upload-pas-product-tile]
     - get: om-cli
       params:
         globs:
