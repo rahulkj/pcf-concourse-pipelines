@@ -60,7 +60,7 @@ fi
 
 properties_config=$($JQ_CMD -n \
   --arg cloud_controller_allow_app_ssh_access "${CLOUD_CONTROLLER_ALLOW_APP_SSH_ACCESS:-true}" \
-  --arg cloud_controller_apps_domain "${CLOUD_CONTROLLER_APPS_DOMAIN:-''}" \
+  --arg cloud_controller_apps_domain "${CLOUD_CONTROLLER_APPS_DOMAIN:-""}" \
   --arg cloud_controller_default_app_memory "${CLOUD_CONTROLLER_DEFAULT_APP_MEMORY:-1024}" \
   --arg cloud_controller_default_app_ssh_access "${CLOUD_CONTROLLER_DEFAULT_APP_SSH_ACCESS:-true}" \
   --arg cloud_controller_default_disk_quota_app "${CLOUD_CONTROLLER_DEFAULT_DISK_QUOTA_APP:-1024}" \
@@ -72,204 +72,204 @@ properties_config=$($JQ_CMD -n \
   --arg cloud_controller_max_file_size "${CLOUD_CONTROLLER_MAX_FILE_SIZE:-1024}" \
   --arg cloud_controller_security_event_logging_enabled "${CLOUD_CONTROLLER_SECURITY_EVENT_LOGGING_ENABLED:-true}" \
   --arg cloud_controller_staging_timeout_in_seconds "${CLOUD_CONTROLLER_STAGING_TIMEOUT_IN_SECONDS:-900}" \
-  --arg cloud_controller_system_domain "${CLOUD_CONTROLLER_SYSTEM_DOMAIN:-''}" \
+  --arg cloud_controller_system_domain "${CLOUD_CONTROLLER_SYSTEM_DOMAIN:-""}" \
   --arg diego_brain_starting_container_count_maximum "${DIEGO_BRAIN_STARTING_CONTAINER_COUNT_MAXIMUM:-200}" \
-  --arg diego_brain_static_ips "${DIEGO_BRAIN_STATIC_IPS:-''}" \
-  --arg diego_cell_executor_disk_capacity "${DIEGO_CELL_EXECUTOR_DISK_CAPACITY:-''}" \
-  --arg diego_cell_executor_memory_capacity "${DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY:-''}" \
-  --arg diego_cell_insecure_docker_registry_list "${DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST:-''}" \
+  --arg diego_brain_static_ips "${DIEGO_BRAIN_STATIC_IPS:-""}" \
+  --arg diego_cell_executor_disk_capacity "${DIEGO_CELL_EXECUTOR_DISK_CAPACITY:-""}" \
+  --arg diego_cell_executor_memory_capacity "${DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY:-""}" \
+  --arg diego_cell_insecure_docker_registry_list "${DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST:-""}" \
   --arg doppler_message_drain_buffer_size "${DOPPLER_MESSAGE_DRAIN_BUFFER_SIZE:-10000}" \
-  --arg ha_proxy_internal_only_domains "${HA_PROXY_INTERNAL_ONLY_DOMAINS:-''}" \
+  --arg ha_proxy_internal_only_domains "${HA_PROXY_INTERNAL_ONLY_DOMAINS:-""}" \
   --arg ha_proxy_skip_cert_verify "${HA_PROXY_SKIP_CERT_VERIFY:-true}" \
-  --arg ha_proxy_static_ips "${HA_PROXY_STATIC_IPS:-''}" \
-  --arg ha_proxy_trusted_domain_cidrs "${HA_PROXY_TRUSTED_DOMAIN_CIDRS:-''}" \
+  --arg ha_proxy_static_ips "${HA_PROXY_STATIC_IPS:-""}" \
+  --arg ha_proxy_trusted_domain_cidrs "${HA_PROXY_TRUSTED_DOMAIN_CIDRS:-""}" \
   --arg mysql_cli_history "${MYSQL_CLI_HISTORY:-true}" \
-  --arg mysql_cluster_probe_timeout "${MYSQL_CLUSTER_PROBE_TIMEOUT:-''}" \
+  --arg mysql_cluster_probe_timeout "${MYSQL_CLUSTER_PROBE_TIMEOUT:-""}" \
   --arg mysql_prevent_node_auto_rejoin "${MYSQL_PREVENT_NODE_AUTO_REJOIN:-false}" \
   --arg mysql_remote_admin_access "${MYSQL_REMOTE_ADMIN_ACCESS:-false}" \
   --arg mysql_monitor_poll_frequency "${MYSQL_MONITOR_POLL_FREQUENCY:-30}" \
-  --arg mysql_monitor_recipient_email "${MYSQL_MONITOR_RECIPIENT_EMAIL:-''}" \
+  --arg mysql_monitor_recipient_email "${MYSQL_MONITOR_RECIPIENT_EMAIL:-""}" \
   --arg mysql_monitor_write_read_delay "${MYSQL_MONITOR_WRITE_READ_DELAY:-20}" \
-  --arg mysql_proxy_service_hostname "${MYSQL_PROXY_SERVICE_HOSTNAME:-''}" \
+  --arg mysql_proxy_service_hostname "${MYSQL_PROXY_SERVICE_HOSTNAME:-""}" \
   --arg mysql_proxy_shutdown_delay "${MYSQL_PROXY_SHUTDOWN_DELAY:-30}" \
   --arg mysql_proxy_startup_delay "${MYSQL_PROXY_STARTUP_DELAY:-0}" \
-  --arg mysql_proxy_static_ips "${MYSQL_PROXY_STATIC_IPS:-''}" \
-  --arg nfs_server_blobstore_internal_access_rules "${NFS_SERVER_BLOBSTORE_INTERNAL_ACCESS_RULES:-'allow 10.0.0.0/8;,allow 172.16.0.0/12;,allow 192.168.0.0/16;'}" \
+  --arg mysql_proxy_static_ips "${MYSQL_PROXY_STATIC_IPS:-""}" \
+  --arg nfs_server_blobstore_internal_access_rules "${NFS_SERVER_BLOBSTORE_INTERNAL_ACCESS_RULES:-"allow 10.0.0.0/8;,allow 172.16.0.0/12;,allow 192.168.0.0/16;"}" \
   --arg autoscale_api_instance_count "${AUTOSCALE_API_INSTANCE_COUNT:-1}" \
   --arg autoscale_instance_count "${AUTOSCALE_INSTANCE_COUNT:-3}" \
   --arg autoscale_metric_bucket_count "${AUTOSCALE_METRIC_BUCKET_COUNT:-35}" \
   --arg autoscale_scaling_interval_in_seconds "${AUTOSCALE_SCALING_INTERVAL_IN_SECONDS:-35}" \
-  --arg cc_api_rate_limit "${CC_API_RATE_LIMIT:-'disable'}" \
+  --arg cc_api_rate_limit "${CC_API_RATE_LIMIT:-"disable"}" \
   --arg cc_api_rate_limit_enable_general_limit "${CC_API_RATE_LIMIT_ENABLE_GENERAL_LIMIT:-2000}" \
   --arg cc_api_rate_limit_enable_unauthenticated_limit "${CC_API_RATE_LIMIT_ENABLE_UNAUTHENTICATED_LIMIT:-100}" \
-  --arg cf_dial_timeout_in_seconds "${CF_DIAL_TIMEOUT_IN_SECONDS:-''}" \
+  --arg cf_dial_timeout_in_seconds "${CF_DIAL_TIMEOUT_IN_SECONDS:-""}" \
   --arg cf_networking_enable_space_developer_self_service "${CF_NETWORKING_ENABLE_SPACE_DEVELOPER_SELF_SERVICE:-false}" \
-  --arg container_networking "${CONTAINER_NETWORKING:-'enable'}" \
-  --arg container_networking_interface_plugin "${CONTAINER_NETWORKING_INTERFACE_PLUGIN:-'silk'}" \
+  --arg container_networking "${CONTAINER_NETWORKING:-"enable"}" \
+  --arg container_networking_interface_plugin "${CONTAINER_NETWORKING_INTERFACE_PLUGIN:-"silk"}" \
   --arg container_networking_interface_plugin_silk_dns_servers "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_DNS_SERVERS}" \
   --arg container_networking_interface_plugin_silk_enable_log_traffic "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_ENABLE_LOG_TRAFFIC:-true}" \
   --arg container_networking_interface_plugin_silk_iptables_accepted_udp_logs_per_sec "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_IPTABLES_ACCEPTED_UDP_LOGS_PER_SEC:-100}" \
   --arg container_networking_interface_plugin_silk_iptables_denied_logs_per_sec "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_IPTABLES_DENIED_LOGS_PER_SEC:-1}" \
-  --arg container_networking_interface_plugin_silk_network_cidr "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_CIDR:-'10.255.0.0/16'}" \
+  --arg container_networking_interface_plugin_silk_network_cidr "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_CIDR:-"10.255.0.0/16"}" \
   --arg container_networking_interface_plugin_silk_network_mtu "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_NETWORK_MTU:-1454}" \
   --arg container_networking_interface_plugin_silk_vtep_port "${CONTAINER_NETWORKING_INTERFACE_PLUGIN_SILK_VTEP_PORT:-4789}" \
-  --arg credhub_database "${CREDHUB_DATABASE:-'internal_mysql'}" \
-  --arg credhub_database_external_host "${CREDHUB_DATABASE_EXTERNAL_HOST:-''}" \
+  --arg credhub_database "${CREDHUB_DATABASE:-"internal_mysql"}" \
+  --arg credhub_database_external_host "${CREDHUB_DATABASE_EXTERNAL_HOST:-""}" \
   --arg credhub_database_external_password "${CREDHUB_DATABASE_EXTERNAL_PASSWORD}" \
-  --arg credhub_database_external_port "${CREDHUB_DATABASE_EXTERNAL_PORT:-''}" \
-  --arg credhub_database_external_tls_ca "${CREDHUB_DATABASE_EXTERNAL_TLS_CA:-''}" \
-  --arg credhub_database_external_username "${CREDHUB_DATABASE_EXTERNAL_USERNAME:-''}" \
+  --arg credhub_database_external_port "${CREDHUB_DATABASE_EXTERNAL_PORT:-""}" \
+  --arg credhub_database_external_tls_ca "${CREDHUB_DATABASE_EXTERNAL_TLS_CA:-""}" \
+  --arg credhub_database_external_username "${CREDHUB_DATABASE_EXTERNAL_USERNAME:-""}" \
   --arg credhub_hsm_provider_client_certificate "${CREDHUB_HSM_PROVIDER_CLIENT_CERTIFICATE}" \
   --arg credhub_hsm_provider_client_private_key "${CREDHUB_HSM_PROVIDER_CLIENT_PRIVATE_KEY}" \
-  --arg credhub_hsm_provider_partition "${CREDHUB_HSM_PROVIDER_PARTITION:-''}" \
+  --arg credhub_hsm_provider_partition "${CREDHUB_HSM_PROVIDER_PARTITION:-""}" \
   --arg credhub_hsm_provider_partition_password "${CREDHUB_HSM_PROVIDER_PARTITION_PASSWORD}" \
   --arg credhub_hsm_provider_servers "${CREDHUB_HSM_PROVIDER_SERVERS}" \
-  --arg credhub_key_encryption_name "${CREDHUB_KEY_ENCRYPTION_NAME:-'Generated'}" \
-  --arg credhub_key_encryption_secret "${CREDHUB_KEY_ENCRYPTION_SECRET:-'Thisisasupersecretkey2018'}" \
+  --arg credhub_key_encryption_name "${CREDHUB_KEY_ENCRYPTION_NAME:-"Generated"}" \
+  --arg credhub_key_encryption_secret "${CREDHUB_KEY_ENCRYPTION_SECRET:-"Thisisasupersecretkey2018"}" \
   --arg credhub_key_encryption_is_primary "${CREDHUB_KEY_ENCRYPTION_IS_PRIMARY:-true}" \
   --arg enable_grootfs "${ENABLE_GROOTFS:-true}" \
   --arg enable_service_discovery_for_apps "${ENABLE_SERVICE_DISCOVERY_FOR_APPS:-false}" \
-  --arg garden_disk_cleanup "${GARDEN_DISK_CLEANUP:-'threshold'}" \
-  --arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS:-'ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384'}" \
-  --arg haproxy_forward_tls "${HAPROXY_FORWARD_TLS:-'disable'}" \
-  --arg haproxy_forward_tls_enable_backend_ca "${HAPROXY_FORWARD_TLS_ENABLE_BACKEND_CA:-''}" \
-  --arg haproxy_hsts_support "${HAPROXY_HSTS_SUPPORT:-'disable'}" \
+  --arg garden_disk_cleanup "${GARDEN_DISK_CLEANUP:-"threshold"}" \
+  --arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS:-"ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"}" \
+  --arg haproxy_forward_tls "${HAPROXY_FORWARD_TLS:-"disable"}" \
+  --arg haproxy_forward_tls_enable_backend_ca "${HAPROXY_FORWARD_TLS_ENABLE_BACKEND_CA:-""}" \
+  --arg haproxy_hsts_support "${HAPROXY_HSTS_SUPPORT:-"disable"}" \
   --arg haproxy_hsts_support_enable_enable_preload "${HAPROXY_HSTS_SUPPORT_ENABLE_ENABLE_PRELOAD:-false}" \
   --arg haproxy_hsts_support_enable_include_subdomains "${HAPROXY_HSTS_SUPPORT_ENABLE_INCLUDE_SUBDOMAINS:-false}" \
   --arg haproxy_hsts_support_enable_max_age "${HAPROXY_HSTS_SUPPORT_ENABLE_MAX_AGE:-31536000}" \
   --arg haproxy_max_buffer_size "${HAPROXY_MAX_BUFFER_SIZE:-16384}" \
-  --arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS:-'DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384'}" \
-  --arg logger_endpoint_port "${LOGGER_ENDPOINT_PORT:-''}" \
-  --arg mysql_activity_logging "${MYSQL_ACTIVITY_LOGGING:-'enable'}" \
-  --arg mysql_activity_logging_enable_audit_logging_events "${MYSQL_ACTIVITY_LOGGING_ENABLE_AUDIT_LOGGING_EVENTS:-'connect,query'}" \
+  --arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS:-"DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"}" \
+  --arg logger_endpoint_port "${LOGGER_ENDPOINT_PORT:-""}" \
+  --arg mysql_activity_logging "${MYSQL_ACTIVITY_LOGGING:-"enable"}" \
+  --arg mysql_activity_logging_enable_audit_logging_events "${MYSQL_ACTIVITY_LOGGING_ENABLE_AUDIT_LOGGING_EVENTS:-"connect,query"}" \
   --arg networking_poe_ssl_name "${NETWORKING_POE_SSL_NAME}" \
   --arg networking_poe_ssl_cert_pem "${NETWORKING_POE_SSL_CERT_PEM}" \
   --arg networking_poe_ssl_cert_private_key_pem "${NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM}" \
-  --arg nfs_volume_driver "${NFS_VOLUME_DRIVER:-'disable'}" \
-  --arg nfs_volume_driver_enable_ldap_server_host "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_HOST:-''}" \
-  --arg nfs_volume_driver_enable_ldap_server_port "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_PORT:-''}" \
+  --arg nfs_volume_driver "${NFS_VOLUME_DRIVER:-"disable"}" \
+  --arg nfs_volume_driver_enable_ldap_server_host "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_HOST:-""}" \
+  --arg nfs_volume_driver_enable_ldap_server_port "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_PORT:-""}" \
   --arg nfs_volume_driver_enable_ldap_service_account_password "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_PASSWORD}" \
-  --arg nfs_volume_driver_enable_ldap_service_account_user "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_USER:-''}" \
-  --arg nfs_volume_driver_enable_ldap_user_fqdn "${NFS_VOLUME_DRIVER_ENABLE_LDAP_USER_FQDN:-''}" \
-  --arg push_apps_manager_accent_color "${PUSH_APPS_MANAGER_ACCENT_COLOR:-''}" \
-  --arg push_apps_manager_company_name "${PUSH_APPS_MANAGER_COMPANY_NAME:-''}" \
-  --arg push_apps_manager_currency_lookup "${PUSH_APPS_MANAGER_CURRENCY_LOOKUP:-'{ \"usd\": \"$\", \"eur\": \"€\" }'}" \
+  --arg nfs_volume_driver_enable_ldap_service_account_user "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_USER:-""}" \
+  --arg nfs_volume_driver_enable_ldap_user_fqdn "${NFS_VOLUME_DRIVER_ENABLE_LDAP_USER_FQDN:-""}" \
+  --arg push_apps_manager_accent_color "${PUSH_APPS_MANAGER_ACCENT_COLOR:-""}" \
+  --arg push_apps_manager_company_name "${PUSH_APPS_MANAGER_COMPANY_NAME:-""}" \
+  --arg push_apps_manager_currency_lookup "${PUSH_APPS_MANAGER_CURRENCY_LOOKUP:-"{ \"usd\": \"$\", \"eur\": \"€\" }"}" \
   --arg push_apps_manager_display_plan_prices "${PUSH_APPS_MANAGER_DISPLAY_PLAN_PRICES:-false}" \
   --arg push_apps_manager_enable_invitations "${PUSH_APPS_MANAGER_ENABLE_INVITATIONS:-true}" \
-  --arg push_apps_manager_favicon "${PUSH_APPS_MANAGER_FAVICON:-''}" \
+  --arg push_apps_manager_favicon "${PUSH_APPS_MANAGER_FAVICON:-""}" \
   --arg push_apps_manager_footer_links "${PUSH_APPS_MANAGER_FOOTER_LINKS}" \
-  --arg push_apps_manager_footer_text "${PUSH_APPS_MANAGER_FOOTER_TEXT:-''}" \
-  --arg push_apps_manager_global_wrapper_bg_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_BG_COLOR:-''}" \
-  --arg push_apps_manager_global_wrapper_footer_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_FOOTER_CONTENT:-''}" \
-  --arg push_apps_manager_global_wrapper_header_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_HEADER_CONTENT:-''}" \
-  --arg push_apps_manager_global_wrapper_text_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_TEXT_COLOR:-''}" \
-  --arg push_apps_manager_logo "${PUSH_APPS_MANAGER_LOGO:-''}" \
-  --arg push_apps_manager_marketplace_name "${PUSH_APPS_MANAGER_MARKETPLACE_NAME:-''}" \
-  --arg push_apps_manager_nav_link_name_1 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_1:-'Marketplace'}" \
-  --arg push_apps_manager_nav_link_href_1 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_1:-'/marketplace'}" \
-  --arg push_apps_manager_nav_link_name_2 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_2:-'Docs'}" \
-  --arg push_apps_manager_nav_link_href_2 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_2:-'https://docs.pivotal.io/pivotalcf/2-1/pas/intro.html'}" \
-  --arg push_apps_manager_nav_link_name_3 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_3:-'Tools'}" \
-  --arg push_apps_manager_nav_link_href_3 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_3:-'/tools'}" \
-  --arg push_apps_manager_product_name "${PUSH_APPS_MANAGER_PRODUCT_NAME:-''}" \
-  --arg push_apps_manager_square_logo "${PUSH_APPS_MANAGER_SQUARE_LOGO:-''}" \
+  --arg push_apps_manager_footer_text "${PUSH_APPS_MANAGER_FOOTER_TEXT:-""}" \
+  --arg push_apps_manager_global_wrapper_bg_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_BG_COLOR:-""}" \
+  --arg push_apps_manager_global_wrapper_footer_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_FOOTER_CONTENT:-""}" \
+  --arg push_apps_manager_global_wrapper_header_content "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_HEADER_CONTENT:-""}" \
+  --arg push_apps_manager_global_wrapper_text_color "${PUSH_APPS_MANAGER_GLOBAL_WRAPPER_TEXT_COLOR:-""}" \
+  --arg push_apps_manager_logo "${PUSH_APPS_MANAGER_LOGO:-""}" \
+  --arg push_apps_manager_marketplace_name "${PUSH_APPS_MANAGER_MARKETPLACE_NAME:-""}" \
+  --arg push_apps_manager_nav_link_name_1 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_1:-"Marketplace"}" \
+  --arg push_apps_manager_nav_link_href_1 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_1:-"/marketplace"}" \
+  --arg push_apps_manager_nav_link_name_2 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_2:-"Docs"}" \
+  --arg push_apps_manager_nav_link_href_2 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_2:-"https://docs.pivotal.io/pivotalcf/2-1/pas/intro.html"}" \
+  --arg push_apps_manager_nav_link_name_3 "${PUSH_APPS_MANAGER_NAV_LINK_NAME_3:-"Tools"}" \
+  --arg push_apps_manager_nav_link_href_3 "${PUSH_APPS_MANAGER_NAV_LINK_HREF_3:-"/tools"}" \
+  --arg push_apps_manager_product_name "${PUSH_APPS_MANAGER_PRODUCT_NAME:-""}" \
+  --arg push_apps_manager_square_logo "${PUSH_APPS_MANAGER_SQUARE_LOGO:-""}" \
   --arg rep_proxy_enabled "${REP_PROXY_ENABLED:-false}" \
-  --arg route_services "${ROUTE_SERVICES:-'enable'}" \
+  --arg route_services "${ROUTE_SERVICES:-"enable"}" \
   --arg route_services_enable_ignore_ssl_cert_verification "${ROUTE_SERVICES_ENABLE_IGNORE_SSL_CERT_VERIFICATION:-true}" \
   --arg router_backend_max_conn "${ROUTER_BACKEND_MAX_CONN:-500}" \
-  --arg router_client_cert_validation "${ROUTER_CLIENT_CERT_VALIDATION:-'request'}" \
+  --arg router_client_cert_validation "${ROUTER_CLIENT_CERT_VALIDATION:-"request"}" \
   --arg router_enable_proxy "${ROUTER_ENABLE_PROXY:-false}" \
-  --arg router_keepalive_connections "${ROUTER_KEEPALIVE_CONNECTIONS:-'enable'}" \
-  --arg routing_custom_ca_certificates "${ROUTING_CUSTOM_CA_CERTIFICATES:-''}" \
+  --arg router_keepalive_connections "${ROUTER_KEEPALIVE_CONNECTIONS:-"enable"}" \
+  --arg routing_custom_ca_certificates "${ROUTING_CUSTOM_CA_CERTIFICATES:-""}" \
   --arg routing_disable_http "${ROUTING_DISABLE_HTTP:-false}" \
-  --arg routing_minimum_tls_version "${ROUTING_MINIMUM_TLS_VERSION:-'tls_v1_2'}" \
-  --arg routing_tls_termination "${ROUTING_TLS_TERMINATION:-'router'}" \
-  --arg saml_entity_id_override "${SAML_ENTITY_ID_OVERRIDE:-''}" \
-  --arg saml_signature_algorithm "${SAML_SIGNATURE_ALGORITHM:-'SHA256'}" \
+  --arg routing_minimum_tls_version "${ROUTING_MINIMUM_TLS_VERSION:-"tls_v1_2"}" \
+  --arg routing_tls_termination "${ROUTING_TLS_TERMINATION:-"router"}" \
+  --arg saml_entity_id_override "${SAML_ENTITY_ID_OVERRIDE:-""}" \
+  --arg saml_signature_algorithm "${SAML_SIGNATURE_ALGORITHM:-"SHA256"}" \
   --arg secure_service_instance_credentials "${SECURE_SERVICE_INSTANCE_CREDENTIALS:-false}" \
-  --arg security_acknowledgement "${SECURITY_ACKNOWLEDGEMENT:-''}" \
-  --arg smoke_tests "${SMOKE_TESTS:-'on_demand'}" \
-  --arg smoke_tests_specified_apps_domain "${SMOKE_TESTS_SPECIFIED_APPS_DOMAIN:-''}" \
-  --arg smoke_tests_specified_org_name "${SMOKE_TESTS_SPECIFIED_ORG_NAME:-''}" \
-  --arg smoke_tests_specified_space_name "${SMOKE_TESTS_SPECIFIED_SPACE_NAME:-''}" \
-  --arg smtp_address "${SMTP_ADDRESS:-''}" \
-  --arg smtp_auth_mechanism "${SMTP_AUTH_MECHANISM:-'none'}" \
-  --arg smtp_crammd5_secret "${SMTP_CRAMMD5_SECRET:-''}" \
-  --arg smtp_user "${SMTP_USER:-''}" \
-  --arg smtp_password "${SMTP_PASSWORD:-''}" \
+  --arg security_acknowledgement "${SECURITY_ACKNOWLEDGEMENT:-""}" \
+  --arg smoke_tests "${SMOKE_TESTS:-"on_demand"}" \
+  --arg smoke_tests_specified_apps_domain "${SMOKE_TESTS_SPECIFIED_APPS_DOMAIN:-""}" \
+  --arg smoke_tests_specified_org_name "${SMOKE_TESTS_SPECIFIED_ORG_NAME:-""}" \
+  --arg smoke_tests_specified_space_name "${SMOKE_TESTS_SPECIFIED_SPACE_NAME:-""}" \
+  --arg smtp_address "${SMTP_ADDRESS:-""}" \
+  --arg smtp_auth_mechanism "${SMTP_AUTH_MECHANISM:-"none"}" \
+  --arg smtp_crammd5_secret "${SMTP_CRAMMD5_SECRET:-""}" \
+  --arg smtp_user "${SMTP_USER:-""}" \
+  --arg smtp_password "${SMTP_PASSWORD:-""}" \
   --arg smtp_enable_starttls_auto "${SMTP_ENABLE_STARTTLS_AUTO:-false}" \
-  --arg smtp_from "${SMTP_FROM:-''}" \
+  --arg smtp_from "${SMTP_FROM:-""}" \
   --arg smtp_port "${SMTP_PORT:-587}" \
-  --arg syslog_host "${SYSLOG_HOST:-''}" \
+  --arg syslog_host "${SYSLOG_HOST:-""}" \
   --arg syslog_metrics_to_syslog_enabled "${SYSLOG_METRICS_TO_SYSLOG_ENABLED:-false}" \
   --arg syslog_port "${SYSLOG_PORT:-5514}" \
-  --arg syslog_protocol "${SYSLOG_PROTOCOL:-'relp'}" \
-  --arg syslog_rule "${SYSLOG_RULE:-''}" \
-  --arg syslog_tls "${SYSLOG_TLS:-'disabled'}" \
-  --arg syslog_tls_enabled_tls_ca_cert "${SYSLOG_TLS_ENABLED_TLS_CA_CERT:-''}" \
-  --arg syslog_tls_enabled_tls_permitted_peer "${SYSLOG_TLS_ENABLED_TLS_PERMITTED_PEER:-''}" \
+  --arg syslog_protocol "${SYSLOG_PROTOCOL:-"relp"}" \
+  --arg syslog_rule "${SYSLOG_RULE:-""}" \
+  --arg syslog_tls "${SYSLOG_TLS:-"disabled"}" \
+  --arg syslog_tls_enabled_tls_ca_cert "${SYSLOG_TLS_ENABLED_TLS_CA_CERT:-""}" \
+  --arg syslog_tls_enabled_tls_permitted_peer "${SYSLOG_TLS_ENABLED_TLS_PERMITTED_PEER:-""}" \
   --arg syslog_use_tcp_for_file_forwarding_local_transport "${SYSLOG_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT:-false}" \
-  --arg system_blobstore "${SYSTEM_BLOBSTORE:-'internal'}" \
-  --arg system_blobstore_external_access_key "${SYSTEM_BLOBSTORE_EXTERNAL_ACCESS_KEY:-''}" \
-  --arg system_blobstore_external_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_BUILDPACKS_BUCKET:-''}" \
-  --arg system_blobstore_external_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_DROPLETS_BUCKET:-''}" \
+  --arg system_blobstore "${SYSTEM_BLOBSTORE:-"internal"}" \
+  --arg system_blobstore_external_access_key "${SYSTEM_BLOBSTORE_EXTERNAL_ACCESS_KEY:-""}" \
+  --arg system_blobstore_external_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_BUILDPACKS_BUCKET:-""}" \
+  --arg system_blobstore_external_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_DROPLETS_BUCKET:-""}" \
   --arg system_blobstore_external_encryption "${SYSTEM_BLOBSTORE_EXTERNAL_ENCRYPTION:-false}" \
-  --arg system_blobstore_external_encryption_kms_key_id "${SYSTEM_BLOBSTORE_EXTERNAL_ENCRYPTION_KMS_KEY_ID:-''}" \
-  --arg system_blobstore_external_endpoint "${SYSTEM_BLOBSTORE_EXTERNAL_ENDPOINT:-'https://s3.amazonaws.com'}" \
-  --arg system_blobstore_external_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_PACKAGES_BUCKET:-''}" \
-  --arg system_blobstore_external_region "${SYSTEM_BLOBSTORE_EXTERNAL_REGION:-''}" \
-  --arg system_blobstore_external_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_RESOURCES_BUCKET:-''}" \
+  --arg system_blobstore_external_encryption_kms_key_id "${SYSTEM_BLOBSTORE_EXTERNAL_ENCRYPTION_KMS_KEY_ID:-""}" \
+  --arg system_blobstore_external_endpoint "${SYSTEM_BLOBSTORE_EXTERNAL_ENDPOINT:-"https://s3.amazonaws.com"}" \
+  --arg system_blobstore_external_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_PACKAGES_BUCKET:-""}" \
+  --arg system_blobstore_external_region "${SYSTEM_BLOBSTORE_EXTERNAL_REGION:-""}" \
+  --arg system_blobstore_external_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_RESOURCES_BUCKET:-""}" \
   --arg system_blobstore_external_secret_key "${SYSTEM_BLOBSTORE_EXTERNAL_SECRET_KEY}" \
   --arg system_blobstore_external_signature_version "${SYSTEM_BLOBSTORE_EXTERNAL_SIGNATURE_VERSION:-4}" \
   --arg system_blobstore_external_versioning "${SYSTEM_BLOBSTORE_EXTERNAL_VERSIONING:-false}" \
   --arg system_blobstore_external_azure_access_key "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_ACCESS_KEY}" \
-  --arg system_blobstore_external_azure_account_name "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_ACCOUNT_NAME:-''}" \
-  --arg system_blobstore_external_azure_buildpacks_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_BUILDPACKS_CONTAINER:-''}" \
-  --arg system_blobstore_external_azure_droplets_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_DROPLETS_CONTAINER:-''}" \
-  --arg system_blobstore_external_azure_environment "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_ENVIRONMENT:-'AzureCloud'}" \
-  --arg system_blobstore_external_azure_packages_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_PACKAGES_CONTAINER:-''}" \
-  --arg system_blobstore_external_azure_resources_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_RESOURCES_CONTAINER:-''}" \
-  --arg system_blobstore_external_gcs_access_key "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_ACCESS_KEY:-''}" \
-  --arg system_blobstore_external_gcs_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_BUILDPACKS_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_DROPLETS_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_PACKAGES_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_RESOURCES_BUCKET:-''}" \
+  --arg system_blobstore_external_azure_account_name "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_ACCOUNT_NAME:-""}" \
+  --arg system_blobstore_external_azure_buildpacks_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_BUILDPACKS_CONTAINER:-""}" \
+  --arg system_blobstore_external_azure_droplets_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_DROPLETS_CONTAINER:-""}" \
+  --arg system_blobstore_external_azure_environment "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_ENVIRONMENT:-"AzureCloud"}" \
+  --arg system_blobstore_external_azure_packages_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_PACKAGES_CONTAINER:-""}" \
+  --arg system_blobstore_external_azure_resources_container "${SYSTEM_BLOBSTORE_EXTERNAL_AZURE_RESOURCES_CONTAINER:-""}" \
+  --arg system_blobstore_external_gcs_access_key "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_ACCESS_KEY:-""}" \
+  --arg system_blobstore_external_gcs_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_BUILDPACKS_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_DROPLETS_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_PACKAGES_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_RESOURCES_BUCKET:-""}" \
   --arg system_blobstore_external_gcs_secret_key "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SECRET_KEY}" \
-  --arg system_blobstore_external_gcs_service_account_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_BUILDPACKS_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_service_account_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_DROPLETS_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_service_account_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_PACKAGES_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_service_account_project_id "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_PROJECT_ID:-''}" \
-  --arg system_blobstore_external_gcs_service_account_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_RESOURCES_BUCKET:-''}" \
-  --arg system_blobstore_external_gcs_service_account_service_account_email "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_SERVICE_ACCOUNT_EMAIL:-''}" \
-  --arg system_blobstore_external_gcs_service_account_service_account_json_key "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_SERVICE_ACCOUNT_JSON_KEY:-''}" \
-  --arg system_database "${SYSTEM_DATABASE:-'internal_mysql'}" \
+  --arg system_blobstore_external_gcs_service_account_buildpacks_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_BUILDPACKS_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_service_account_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_DROPLETS_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_service_account_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_PACKAGES_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_service_account_project_id "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_PROJECT_ID:-""}" \
+  --arg system_blobstore_external_gcs_service_account_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_RESOURCES_BUCKET:-""}" \
+  --arg system_blobstore_external_gcs_service_account_service_account_email "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_SERVICE_ACCOUNT_EMAIL:-""}" \
+  --arg system_blobstore_external_gcs_service_account_service_account_json_key "${SYSTEM_BLOBSTORE_EXTERNAL_GCS_SERVICE_ACCOUNT_SERVICE_ACCOUNT_JSON_KEY:-""}" \
+  --arg system_database "${SYSTEM_DATABASE:-"internal_mysql"}" \
   --arg system_database_external_account_password "${SYSTEM_DATABASE_EXTERNAL_ACCOUNT_PASSWORD}" \
-  --arg system_database_external_account_username "${SYSTEM_DATABASE_EXTERNAL_ACCOUNT_USERNAME:-''}" \
+  --arg system_database_external_account_username "${SYSTEM_DATABASE_EXTERNAL_ACCOUNT_USERNAME:-""}" \
   --arg system_database_external_app_usage_service_password "${SYSTEM_DATABASE_EXTERNAL_APP_USAGE_SERVICE_PASSWORD}" \
-  --arg system_database_external_app_usage_service_username "${SYSTEM_DATABASE_EXTERNAL_APP_USAGE_SERVICE_USERNAME:-''}" \
+  --arg system_database_external_app_usage_service_username "${SYSTEM_DATABASE_EXTERNAL_APP_USAGE_SERVICE_USERNAME:-""}" \
   --arg system_database_external_autoscale_password "${SYSTEM_DATABASE_EXTERNAL_AUTOSCALE_PASSWORD}" \
-  --arg system_database_external_autoscale_username "${SYSTEM_DATABASE_EXTERNAL_AUTOSCALE_USERNAME:-''}" \
+  --arg system_database_external_autoscale_username "${SYSTEM_DATABASE_EXTERNAL_AUTOSCALE_USERNAME:-""}" \
   --arg system_database_external_ccdb_password "${SYSTEM_DATABASE_EXTERNAL_CCDB_PASSWORD}" \
-  --arg system_database_external_ccdb_username "${SYSTEM_DATABASE_EXTERNAL_CCDB_USERNAME:-''}" \
+  --arg system_database_external_ccdb_username "${SYSTEM_DATABASE_EXTERNAL_CCDB_USERNAME:-""}" \
   --arg system_database_external_diego_password "${SYSTEM_DATABASE_EXTERNAL_DIEGO_PASSWORD}" \
-  --arg system_database_external_diego_username "${SYSTEM_DATABASE_EXTERNAL_DIEGO_USERNAME:-''}" \
-  --arg system_database_external_host "${SYSTEM_DATABASE_EXTERNAL_HOST:-''}" \
+  --arg system_database_external_diego_username "${SYSTEM_DATABASE_EXTERNAL_DIEGO_USERNAME:-""}" \
+  --arg system_database_external_host "${SYSTEM_DATABASE_EXTERNAL_HOST:-""}" \
   --arg system_database_external_locket_password "${SYSTEM_DATABASE_EXTERNAL_LOCKET_PASSWORD}" \
-  --arg system_database_external_locket_username "${SYSTEM_DATABASE_EXTERNAL_LOCKET_USERNAME:-''}" \
+  --arg system_database_external_locket_username "${SYSTEM_DATABASE_EXTERNAL_LOCKET_USERNAME:-""}" \
   --arg system_database_external_networkpolicyserver_password "${SYSTEM_DATABASE_EXTERNAL_NETWORKPOLICYSERVER_PASSWORD}" \
-  --arg system_database_external_networkpolicyserver_username "${SYSTEM_DATABASE_EXTERNAL_NETWORKPOLICYSERVER_USERNAME:-''}" \
+  --arg system_database_external_networkpolicyserver_username "${SYSTEM_DATABASE_EXTERNAL_NETWORKPOLICYSERVER_USERNAME:-""}" \
   --arg system_database_external_nfsvolume_password "${SYSTEM_DATABASE_EXTERNAL_NFSVOLUME_PASSWORD}" \
-  --arg system_database_external_nfsvolume_username "${SYSTEM_DATABASE_EXTERNAL_NFSVOLUME_USERNAME:-''}" \
+  --arg system_database_external_nfsvolume_username "${SYSTEM_DATABASE_EXTERNAL_NFSVOLUME_USERNAME:-""}" \
   --arg system_database_external_notifications_password "${SYSTEM_DATABASE_EXTERNAL_NOTIFICATIONS_PASSWORD}" \
-  --arg system_database_external_notifications_username "${SYSTEM_DATABASE_EXTERNAL_NOTIFICATIONS_USERNAME:-''}" \
-  --arg system_database_external_port "${SYSTEM_DATABASE_EXTERNAL_PORT:-''}" \
+  --arg system_database_external_notifications_username "${SYSTEM_DATABASE_EXTERNAL_NOTIFICATIONS_USERNAME:-""}" \
+  --arg system_database_external_port "${SYSTEM_DATABASE_EXTERNAL_PORT:-""}" \
   --arg system_database_external_routing_password "${SYSTEM_DATABASE_EXTERNAL_ROUTING_PASSWORD}" \
-  --arg system_database_external_routing_username "${SYSTEM_DATABASE_EXTERNAL_ROUTING_USERNAME:-''}" \
+  --arg system_database_external_routing_username "${SYSTEM_DATABASE_EXTERNAL_ROUTING_USERNAME:-""}" \
   --arg system_database_external_silk_password "${SYSTEM_DATABASE_EXTERNAL_SILK_PASSWORD}" \
-  --arg system_database_external_silk_username "${SYSTEM_DATABASE_EXTERNAL_SILK_USERNAME:-''}" \
-  --arg tcp_routing "${TCP_ROUTING:-'disable'}" \
-  --arg tcp_routing_enable_reservable_ports "${TCP_ROUTING_ENABLE_RESERVABLE_PORTS:-''}" \
-  --arg uaa "${UAA:-'internal'}" \
+  --arg system_database_external_silk_username "${SYSTEM_DATABASE_EXTERNAL_SILK_USERNAME:-""}" \
+  --arg tcp_routing "${TCP_ROUTING:-"disable"}" \
+  --arg tcp_routing_enable_reservable_ports "${TCP_ROUTING_ENABLE_RESERVABLE_PORTS:-""}" \
+  --arg uaa "${UAA:-"internal"}" \
   --arg uaa_internal_password_expires_after_months "${UAA_INTERNAL_PASSWORD_EXPIRES_AFTER_MONTHS:-0}" \
   --arg uaa_internal_password_max_retry "${UAA_INTERNAL_PASSWORD_MAX_RETRY:-5}" \
   --arg uaa_internal_password_min_length "${UAA_INTERNAL_PASSWORD_MIN_LENGTH:-0}" \
@@ -279,36 +279,36 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_internal_password_min_uppercase "${UAA_INTERNAL_PASSWORD_MIN_UPPERCASE:-0}" \
   --arg uaa_ldap_identity "$UAA_LDAP_IDENTITY" \
   --arg uaa_ldap_password "$UAA_LDAP_PASSWORD" \
-  --arg uaa_ldap_email_domains "${UAA_LDAP_EMAIL_DOMAINS:-''}" \
-  --arg uaa_ldap_first_name_attribute "${UAA_LDAP_FIRST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_ldap_group_search_base "${UAA_LDAP_GROUP_SEARCH_BASE:-''}" \
-  --arg uaa_ldap_group_search_filter "${UAA_LDAP_GROUP_SEARCH_FILTER:-''}" \
-  --arg uaa_ldap_last_name_attribute "${UAA_LDAP_LAST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_ldap_ldap_referrals "${UAA_LDAP_LDAP_REFERRALS:-'follow'}" \
-  --arg uaa_ldap_mail_attribute_name "${UAA_LDAP_MAIL_ATTRIBUTE_NAME:-'mail'}" \
-  --arg uaa_ldap_search_base "${UAA_LDAP_SEARCH_BASE:-''}" \
-  --arg uaa_ldap_search_filter "${UAA_LDAP_SEARCH_FILTER:-'mail={0}'}" \
-  --arg uaa_ldap_server_ssl_cert "${UAA_LDAP_SERVER_SSL_CERT:-''}" \
-  --arg uaa_ldap_server_ssl_cert_alias "${UAA_LDAP_SERVER_SSL_CERT_ALIAS:-''}" \
-  --arg uaa_ldap_url "${UAA_LDAP_URL:-''}" \
-  --arg uaa_saml_display_name "${UAA_SAML_DISPLAY_NAME:-''}" \
-  --arg uaa_saml_email_attribute "${UAA_SAML_EMAIL_ATTRIBUTE:-''}" \
-  --arg uaa_saml_email_domains "${UAA_SAML_EMAIL_DOMAINS:-''}" \
-  --arg uaa_saml_entity_id_override "${UAA_SAML_ENTITY_ID_OVERRIDE:-''}" \
-  --arg uaa_saml_external_groups_attribute "${UAA_SAML_EXTERNAL_GROUPS_ATTRIBUTE:-''}" \
-  --arg uaa_saml_first_name_attribute "${UAA_SAML_FIRST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_saml_last_name_attribute "${UAA_SAML_LAST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_saml_name_id_format "${UAA_SAML_NAME_ID_FORMAT:-'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'}" \
+  --arg uaa_ldap_email_domains "${UAA_LDAP_EMAIL_DOMAINS:-""}" \
+  --arg uaa_ldap_first_name_attribute "${UAA_LDAP_FIRST_NAME_ATTRIBUTE:-""}" \
+  --arg uaa_ldap_group_search_base "${UAA_LDAP_GROUP_SEARCH_BASE:-""}" \
+  --arg uaa_ldap_group_search_filter "${UAA_LDAP_GROUP_SEARCH_FILTER:-""}" \
+  --arg uaa_ldap_last_name_attribute "${UAA_LDAP_LAST_NAME_ATTRIBUTE:-""}" \
+  --arg uaa_ldap_ldap_referrals "${UAA_LDAP_LDAP_REFERRALS:-"follow"}" \
+  --arg uaa_ldap_mail_attribute_name "${UAA_LDAP_MAIL_ATTRIBUTE_NAME:-"mail"}" \
+  --arg uaa_ldap_search_base "${UAA_LDAP_SEARCH_BASE:-""}" \
+  --arg uaa_ldap_search_filter "${UAA_LDAP_SEARCH_FILTER:-"mail={0}"}" \
+  --arg uaa_ldap_server_ssl_cert "${UAA_LDAP_SERVER_SSL_CERT:-""}" \
+  --arg uaa_ldap_server_ssl_cert_alias "${UAA_LDAP_SERVER_SSL_CERT_ALIAS:-""}" \
+  --arg uaa_ldap_url "${UAA_LDAP_URL:-""}" \
+  --arg uaa_saml_display_name "${UAA_SAML_DISPLAY_NAME:-""}" \
+  --arg uaa_saml_email_attribute "${UAA_SAML_EMAIL_ATTRIBUTE:-""}" \
+  --arg uaa_saml_email_domains "${UAA_SAML_EMAIL_DOMAINS:-""}" \
+  --arg uaa_saml_entity_id_override "${UAA_SAML_ENTITY_ID_OVERRIDE:-""}" \
+  --arg uaa_saml_external_groups_attribute "${UAA_SAML_EXTERNAL_GROUPS_ATTRIBUTE:-""}" \
+  --arg uaa_saml_first_name_attribute "${UAA_SAML_FIRST_NAME_ATTRIBUTE:-""}" \
+  --arg uaa_saml_last_name_attribute "${UAA_SAML_LAST_NAME_ATTRIBUTE:-""}" \
+  --arg uaa_saml_name_id_format "${UAA_SAML_NAME_ID_FORMAT:-"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"}" \
   --arg uaa_saml_require_signed_assertions "${UAA_SAML_REQUIRE_SIGNED_ASSERTIONS:-false}" \
   --arg uaa_saml_sign_auth_requests "${UAA_SAML_SIGN_AUTH_REQUESTS:-true}" \
-  --arg uaa_saml_sso_name "${UAA_SAML_SSO_NAME:-''}" \
-  --arg uaa_saml_sso_url "${UAA_SAML_SSO_URL:-''}" \
-  --arg uaa_saml_sso_xml "${UAA_SAML_SSO_XML:-''}" \
-  --arg uaa_database "${UAA_DATABASE:-'internal_mysql'}" \
-  --arg uaa_database_external_host "${UAA_DATABASE_EXTERNAL_HOST:-''}" \
-  --arg uaa_database_external_port "${UAA_DATABASE_EXTERNAL_PORT:-''}" \
+  --arg uaa_saml_sso_name "${UAA_SAML_SSO_NAME:-""}" \
+  --arg uaa_saml_sso_url "${UAA_SAML_SSO_URL:-""}" \
+  --arg uaa_saml_sso_xml "${UAA_SAML_SSO_XML:-""}" \
+  --arg uaa_database "${UAA_DATABASE:-"internal_mysql"}" \
+  --arg uaa_database_external_host "${UAA_DATABASE_EXTERNAL_HOST:-""}" \
+  --arg uaa_database_external_port "${UAA_DATABASE_EXTERNAL_PORT:-""}" \
   --arg uaa_database_external_uaa_password "${UAA_DATABASE_EXTERNAL_UAA_PASSWORD}" \
-  --arg uaa_database_external_uaa_username "${UAA_DATABASE_EXTERNAL_UAA_USERNAME:-''}" \
+  --arg uaa_database_external_uaa_username "${UAA_DATABASE_EXTERNAL_UAA_USERNAME:-""}" \
   --arg uaa_session_cookie_max_age "${UAA_SESSION_COOKIE_MAX_AGE:-1800}" \
   --arg uaa_session_idle_timeout "${UAA_SESSION_IDLE_TIMEOUT:-1800}" \
   --arg router_disable_insecure_cookies "${ROUTER_DISABLE_INSECURE_COOKIES:-false}" \
@@ -316,20 +316,20 @@ properties_config=$($JQ_CMD -n \
   --arg router_enable_isolated_routing "${ROUTER_ENABLE_ISOLATED_ROUTING:-false}" \
   --arg router_enable_write_access_logs "${ROUTER_ENABLE_WRITE_ACCESS_LOGS:-true}" \
   --arg router_enable_zipkin "${ROUTER_ENABLE_ZIPKIN:-true}" \
-  --arg router_extra_headers_to_log "${ROUTER_EXTRA_HEADERS_TO_LOG:-''}" \
+  --arg router_extra_headers_to_log "${ROUTER_EXTRA_HEADERS_TO_LOG:-""}" \
   --arg router_frontend_idle_timeout "${ROUTER_FRONTEND_IDLE_TIMEOUT:-900}" \
   --arg router_lb_healthy_threshold "${ROUTER_LB_HEALTHY_THRESHOLD:-20}" \
   --arg router_request_timeout_in_seconds "${ROUTER_REQUEST_TIMEOUT_IN_SECONDS:-900}" \
-  --arg router_static_ips "${ROUTER_STATIC_IPS:-''}" \
-  --arg tcp_router_static_ips "${TCP_ROUTER_STATIC_IPS:-''}" \
+  --arg router_static_ips "${ROUTER_STATIC_IPS:-""}" \
+  --arg tcp_router_static_ips "${TCP_ROUTER_STATIC_IPS:-""}" \
   --arg uaa_apps_manager_access_token_lifetime "${UAA_APPS_MANAGER_ACCESS_TOKEN_LIFETIME:-1209600}" \
   --arg uaa_apps_manager_refresh_token_lifetime "${UAA_APPS_MANAGER_REFRESH_TOKEN_LIFETIME:-1209600}" \
   --arg uaa_cf_cli_access_token_lifetime "${UAA_CF_CLI_ACCESS_TOKEN_LIFETIME:-7200}" \
   --arg uaa_cf_cli_refresh_token_lifetime "${UAA_CF_CLI_REFRESH_TOKEN_LIFETIME:-1209600}" \
-  --arg uaa_customize_password_label "${UAA_CUSTOMIZE_PASSWORD_LABEL:-'Email'}" \
-  --arg uaa_customize_username_label "${UAA_CUSTOMIZE_USERNAME_LABEL:-'Password'}" \
-  --arg uaa_issuer_uri "${UAA_ISSUER_URI:-''}" \
-  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-'10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}'}" \
+  --arg uaa_customize_password_label "${UAA_CUSTOMIZE_PASSWORD_LABEL:-"Email"}" \
+  --arg uaa_customize_username_label "${UAA_CUSTOMIZE_USERNAME_LABEL:-"Password"}" \
+  --arg uaa_issuer_uri "${UAA_ISSUER_URI:-""}" \
+  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-"10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}"}" \
   --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
   --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password "${UAA_SERVICE_PROVIDER_KEY_PASSWORD}" \
