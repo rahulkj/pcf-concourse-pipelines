@@ -413,9 +413,12 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   curl -p "/api/v0/staged/director/networks" \
   -x PUT -d "$NETWORK_CONFIGURATION"
 
+$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+ curl -p /api/v0/staged/director/network_and_az \
+ -x PUT -d "$NETWORK_ASSIGNMENT"
+
 echo "Configuring network assignment, security..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   configure-director \
-  --network-assignment "$NETWORK_ASSIGNMENT" \
   --security-configuration "$SECURITY_CONFIG" \
   --resource-configuration "$RESOURCE_CONFIG"
