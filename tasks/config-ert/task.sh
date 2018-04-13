@@ -329,7 +329,7 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_customize_password_label "${UAA_CUSTOMIZE_PASSWORD_LABEL:-"Email"}" \
   --arg uaa_customize_username_label "${UAA_CUSTOMIZE_USERNAME_LABEL:-"Password"}" \
   --arg uaa_issuer_uri "${UAA_ISSUER_URI:-""}" \
-  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-"10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}"}" \
+  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-''}" \
   --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
   --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password "${UAA_SERVICE_PROVIDER_KEY_PASSWORD}" \
