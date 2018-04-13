@@ -215,7 +215,7 @@ properties_config=$($JQ_CMD -n \
   --arg system_blobstore_external_droplets_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_DROPLETS_BUCKET:-''}" \
   --arg system_blobstore_external_encryption "${SYSTEM_BLOBSTORE_EXTERNAL_ENCRYPTION:-false}" \
   --arg system_blobstore_external_encryption_kms_key_id "${SYSTEM_BLOBSTORE_EXTERNAL_ENCRYPTION_KMS_KEY_ID:-''}" \
-  --arg system_blobstore_external_endpoint "${SYSTEM_BLOBSTORE_EXTERNAL_ENDPOINT:-"https://s3.amazonaws.com"}" \
+  --arg system_blobstore_external_endpoint "${SYSTEM_BLOBSTORE_EXTERNAL_ENDPOINT:-'https://s3.amazonaws.com'}" \
   --arg system_blobstore_external_packages_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_PACKAGES_BUCKET:-''}" \
   --arg system_blobstore_external_region "${SYSTEM_BLOBSTORE_EXTERNAL_REGION:-''}" \
   --arg system_blobstore_external_resources_bucket "${SYSTEM_BLOBSTORE_EXTERNAL_RESOURCES_BUCKET:-''}" \
@@ -284,10 +284,10 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_ldap_group_search_base "${UAA_LDAP_GROUP_SEARCH_BASE:-''}" \
   --arg uaa_ldap_group_search_filter "${UAA_LDAP_GROUP_SEARCH_FILTER:-''}" \
   --arg uaa_ldap_last_name_attribute "${UAA_LDAP_LAST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_ldap_ldap_referrals "${UAA_LDAP_LDAP_REFERRALS:-"follow"}" \
-  --arg uaa_ldap_mail_attribute_name "${UAA_LDAP_MAIL_ATTRIBUTE_NAME:-"mail"}" \
+  --arg uaa_ldap_ldap_referrals "${UAA_LDAP_LDAP_REFERRALS:-'follow'}" \
+  --arg uaa_ldap_mail_attribute_name "${UAA_LDAP_MAIL_ATTRIBUTE_NAME:-'mail'}" \
   --arg uaa_ldap_search_base "${UAA_LDAP_SEARCH_BASE:-''}" \
-  --arg uaa_ldap_search_filter "${UAA_LDAP_SEARCH_FILTER:-"mail={0}"}" \
+  --arg uaa_ldap_search_filter "${UAA_LDAP_SEARCH_FILTER:-'mail={0}'}" \
   --arg uaa_ldap_server_ssl_cert "${UAA_LDAP_SERVER_SSL_CERT:-''}" \
   --arg uaa_ldap_server_ssl_cert_alias "${UAA_LDAP_SERVER_SSL_CERT_ALIAS:-''}" \
   --arg uaa_ldap_url "${UAA_LDAP_URL:-''}" \
@@ -298,13 +298,13 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_saml_external_groups_attribute "${UAA_SAML_EXTERNAL_GROUPS_ATTRIBUTE:-''}" \
   --arg uaa_saml_first_name_attribute "${UAA_SAML_FIRST_NAME_ATTRIBUTE:-''}" \
   --arg uaa_saml_last_name_attribute "${UAA_SAML_LAST_NAME_ATTRIBUTE:-''}" \
-  --arg uaa_saml_name_id_format "${UAA_SAML_NAME_ID_FORMAT:-"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"}" \
+  --arg uaa_saml_name_id_format "${UAA_SAML_NAME_ID_FORMAT:-'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'}" \
   --arg uaa_saml_require_signed_assertions "${UAA_SAML_REQUIRE_SIGNED_ASSERTIONS:-false}" \
   --arg uaa_saml_sign_auth_requests "${UAA_SAML_SIGN_AUTH_REQUESTS:-true}" \
   --arg uaa_saml_sso_name "${UAA_SAML_SSO_NAME:-''}" \
   --arg uaa_saml_sso_url "${UAA_SAML_SSO_URL:-''}" \
   --arg uaa_saml_sso_xml "${UAA_SAML_SSO_XML:-''}" \
-  --arg uaa_database "${UAA_DATABASE:-"internal_mysql"}" \
+  --arg uaa_database "${UAA_DATABASE:-'internal_mysql'}" \
   --arg uaa_database_external_host "${UAA_DATABASE_EXTERNAL_HOST:-''}" \
   --arg uaa_database_external_port "${UAA_DATABASE_EXTERNAL_PORT:-''}" \
   --arg uaa_database_external_uaa_password "${UAA_DATABASE_EXTERNAL_UAA_PASSWORD}" \
@@ -326,10 +326,10 @@ properties_config=$($JQ_CMD -n \
   --arg uaa_apps_manager_refresh_token_lifetime "${UAA_APPS_MANAGER_REFRESH_TOKEN_LIFETIME:-1209600}" \
   --arg uaa_cf_cli_access_token_lifetime "${UAA_CF_CLI_ACCESS_TOKEN_LIFETIME:-7200}" \
   --arg uaa_cf_cli_refresh_token_lifetime "${UAA_CF_CLI_REFRESH_TOKEN_LIFETIME:-1209600}" \
-  --arg uaa_customize_password_label "${UAA_CUSTOMIZE_PASSWORD_LABEL:-"Email"}" \
-  --arg uaa_customize_username_label "${UAA_CUSTOMIZE_USERNAME_LABEL:-"Password"}" \
+  --arg uaa_customize_password_label "${UAA_CUSTOMIZE_PASSWORD_LABEL:-'Email'}" \
+  --arg uaa_customize_username_label "${UAA_CUSTOMIZE_USERNAME_LABEL:-'Password'}" \
   --arg uaa_issuer_uri "${UAA_ISSUER_URI:-''}" \
-  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-"10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}"}" \
+  --arg uaa_proxy_ips_regex "${UAA_PROXY_IPS_REGEX:-'10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}'}" \
   --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
   --arg uaa_cert_pem "$UAA_CERT_PEM" \
   --arg uaa_service_provider_key_password "${UAA_SERVICE_PROVIDER_KEY_PASSWORD}" \
