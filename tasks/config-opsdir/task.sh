@@ -387,7 +387,6 @@ RESOURCE_CONFIG=$(cat <<-EOF
 {
   "director": {
     "instance_type": {"id": "$DIRECTOR_INSTANCE_TYPE"},
-    "instances" : $DIRECTOR_INSTANCES,
     "persistent_disk": { "size_mb": "$DIRECTOR_PERSISTENT_DISK_SIZE_MB" }
   },
   "compilation": {
