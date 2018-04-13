@@ -26,9 +26,9 @@ ops_mgr_usr: <DESIRED-OPS-MANAGER-USR> # Ops Manager admin username
 ops_mgr_pwd: <DESIRED-OPS-MANAGER-PWD> # Ops Manager admin password
 ops_mgr_ip: <DESIRED-OPS-MANAGER-IP> # Ops Manager Static IP
 
-concourse_username: ((concourse_username))
-concourse_passwd: ((concourse_passwd))
-atc_external_url: ((atc_external_url))
+concourse_username: ((concourse_user))
+concourse_passwd: ((concourse_pwd))
+concourse_url: ((concourse_url))
 team_name: ((team_name))
 install_pipeline_name: install-pcf
 install_pipeline_state: unpause
