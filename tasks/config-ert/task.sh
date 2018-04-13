@@ -123,7 +123,7 @@ properties_config=$($JQ_CMD -n \
   --arg credhub_hsm_provider_client_private_key "${CREDHUB_HSM_PROVIDER_CLIENT_PRIVATE_KEY}" \
   --arg credhub_hsm_provider_partition "${CREDHUB_HSM_PROVIDER_PARTITION:-''}" \
   --arg credhub_hsm_provider_partition_password "${CREDHUB_HSM_PROVIDER_PARTITION_PASSWORD}" \
-  --arg credhub_hsm_provider_servers "${CREDHUB_HSM_PROVIDER_SERVERS:-[]}" \
+  --arg credhub_hsm_provider_servers "${CREDHUB_HSM_PROVIDER_SERVERS}" \
   --arg credhub_key_encryption_name "${CREDHUB_KEY_ENCRYPTION_NAME:-'Generated'}" \
   --arg credhub_key_encryption_secret "${CREDHUB_KEY_ENCRYPTION_SECRET:-'Thisisasupersecretkey2018'}" \
   --arg credhub_key_encryption_is_primary "${CREDHUB_KEY_ENCRYPTION_IS_PRIMARY:-true}" \
@@ -450,7 +450,7 @@ end
     }
   },
   ".properties.credhub_hsm_provider_servers": {
-    "value": $credhub_hsm_provider_servers
+    "value": [$credhub_hsm_provider_servers]
   },
   ".properties.credhub_key_encryption_passwords": {
     "value": [
