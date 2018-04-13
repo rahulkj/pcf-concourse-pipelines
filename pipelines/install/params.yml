@@ -96,8 +96,8 @@ external_mysql_db_port: ''
 external_mysql_db_user: ''
 external_mysql_db_password: ''
 external_mysql_db_database: ''
-syslog_enabled: true
-syslog_address:
+syslog_enabled: false
+syslog_address: ''
 syslog_port: 5514
 syslog_transport_protocol: tcp
 syslog_tls_enabled: false
@@ -107,49 +107,49 @@ syslog_ssl_ca_certificate: ''
 ## Network configuration for Ops Director
 icmp_checks_enabled: false
 infra_network_name: INFRASTRUCTURE
-infra_vsphere_network:
-infra_nw_cidr:
-infra_excluded_range:
-infra_nw_dns:
-infra_nw_gateway:
-infra_nw_azs:
+infra_vsphere_network: # [R]
+infra_nw_cidr: # [R]
+infra_excluded_range: # [R]
+infra_nw_dns: # [R]
+infra_nw_gateway: # [R]
+infra_nw_azs: # [R]
 
 deployment_network_name: DEPLOYMENT
-deployment_vsphere_network:
-deployment_nw_cidr:
-deployment_excluded_range:
-deployment_nw_dns:
-deployment_nw_gateway:
-deployment_nw_azs:
+deployment_vsphere_network: # [R]
+deployment_nw_cidr: # [R]
+deployment_excluded_range: # [R]
+deployment_nw_dns: # [R]
+deployment_nw_gateway: # [R]
+deployment_nw_azs: # [R]
 
 services_network_name: SERVICES
-services_vsphere_network:
-services_nw_cidr:
-services_excluded_range:
-services_nw_dns:
-services_nw_gateway:
-services_nw_azs:
+services_vsphere_network: # [R]
+services_nw_cidr: # [R]
+services_excluded_range: # [R]
+services_nw_dns: # [R]
+services_nw_gateway: # [R]
+services_nw_azs: # [R]
 
 dynamic_services_network_name: DYNAMIC-SERVICES
-dynamic_services_vsphere_network:
-dynamic_services_nw_cidr:
-dynamic_services_excluded_range:
-dynamic_services_nw_dns:
-dynamic_services_nw_gateway:
-dynamic_services_nw_azs:
+dynamic_services_vsphere_network: # [R]
+dynamic_services_nw_cidr: # [R]
+dynamic_services_excluded_range: # [R]
+dynamic_services_nw_dns: # [R]
+dynamic_services_nw_gateway: # [R]
+dynamic_services_nw_azs: # [R]
 
 ## AZ configuration for Ops Director
-az_1_name:
-az_1_cluster_name:
-az_1_rp_name:
+az_1_name: # [R]
+az_1_cluster_name: # [R]
+az_1_rp_name: # [R]
 
-az_2_name:
-az_2_cluster_name:
-az_2_rp_name:
+az_2_name: # [R]
+az_2_cluster_name: # [R]
+az_2_rp_name: # [R]
 
-az_3_name:
-az_3_cluster_name:
-az_3_rp_name:
+az_3_name: # [R]
+az_3_cluster_name: # [R]
+az_3_rp_name: # [R]
 
 trusted_certificates: ''
 generate_vm_passwords: true
@@ -159,336 +159,337 @@ director_persistent_disk_size_mb: 51200
 compilation_instance_type: large.cpu
 compilation_instances: 4
 
-network_name:
-other_azs:
-singleton_jobs_az:
-cloud_controller_allow_app_ssh_access: true
-cloud_controller_apps_domain:
+network_name: # [R]
+other_azs: # [R]
+singleton_jobs_az: # [R]
+
+cloud_controller_allow_app_ssh_access: true # true|false
+cloud_controller_apps_domain: '' # [R]
 cloud_controller_default_app_memory: 1024
-cloud_controller_default_app_ssh_access: true
+cloud_controller_default_app_ssh_access: true # true|false
 cloud_controller_default_disk_quota_app: 1024
 cloud_controller_default_quota_max_number_services: 100
 cloud_controller_default_quota_memory_limit_mb: 10240
-cloud_controller_enable_custom_buildpacks: true
-cloud_controller_encrypt_key:
+cloud_controller_enable_custom_buildpacks: true # true|false
+cloud_controller_encrypt_key: ''
 cloud_controller_max_disk_quota_app: 2048
 cloud_controller_max_file_size: 1024
-cloud_controller_security_event_logging_enabled: true
+cloud_controller_security_event_logging_enabled: true # true|false
 cloud_controller_staging_timeout_in_seconds: 900
-cloud_controller_system_domain:
+cloud_controller_system_domain: '' # [R]
 diego_brain_starting_container_count_maximum: 200
-diego_brain_static_ips:
-diego_cell_executor_disk_capacity:
-diego_cell_executor_memory_capacity:
-diego_cell_insecure_docker_registry_list:
+diego_brain_static_ips: '' # [R]
+diego_cell_executor_disk_capacity: ''
+diego_cell_executor_memory_capacity: ''
+diego_cell_insecure_docker_registry_list: ''
 doppler_message_drain_buffer_size: 10000
-ha_proxy_internal_only_domains:
-ha_proxy_skip_cert_verify: true
-ha_proxy_static_ips:
-ha_proxy_trusted_domain_cidrs:
-mysql_cli_history: true
-mysql_cluster_probe_timeout:
-mysql_prevent_node_auto_rejoin: false
-mysql_remote_admin_access: false
+ha_proxy_internal_only_domains: ''
+ha_proxy_skip_cert_verify: true # true|false
+ha_proxy_static_ips: ''
+ha_proxy_trusted_domain_cidrs: ''
+mysql_cli_history: true # true|false
+mysql_cluster_probe_timeout: ''
+mysql_prevent_node_auto_rejoin: false # true|false
+mysql_remote_admin_access: false # true|false
 mysql_monitor_poll_frequency: 30
-mysql_monitor_recipient_email:
+mysql_monitor_recipient_email: '' # [R]
 mysql_monitor_write_read_delay: 20
-mysql_proxy_service_hostname:
-mysql_proxy_shutdown_delay: 30
+mysql_proxy_service_hostname: ''
+mysql_proxy_shutdown_delay: 20
 mysql_proxy_startup_delay: 0
-mysql_proxy_static_ips:
-nfs_server_blobstore_internal_access_rules: "allow 10.0.0.0/8;,allow 172.16.0.0/12;,allow 192.168.0.0/16;"
+mysql_proxy_static_ips: ''
+nfs_server_blobstore_internal_access_rules: ''
 autoscale_api_instance_count: 1
 autoscale_instance_count: 3
 autoscale_metric_bucket_count: 35
 autoscale_scaling_interval_in_seconds: 35
-cc_api_rate_limit: disable
+cc_api_rate_limit: disable # disable|enable
 cc_api_rate_limit_enable_general_limit: 2000
 cc_api_rate_limit_enable_unauthenticated_limit: 100
-cf_dial_timeout_in_seconds:
-cf_networking_enable_space_developer_self_service: false
-container_networking: enable
-container_networking_interface_plugin: silk
-container_networking_interface_plugin_silk_dns_servers:
-container_networking_interface_plugin_silk_enable_log_traffic: true
+cf_dial_timeout_in_seconds: ''
+cf_networking_enable_space_developer_self_service: false # true|false
+container_networking: enable # disable|enable
+container_networking_interface_plugin: silk # silk|external
+container_networking_interface_plugin_silk_dns_servers: ''
+container_networking_interface_plugin_silk_enable_log_traffic: true # true|false
 container_networking_interface_plugin_silk_iptables_accepted_udp_logs_per_sec: 100
 container_networking_interface_plugin_silk_iptables_denied_logs_per_sec: 1
-container_networking_interface_plugin_silk_network_cidr: 10.255.0.0/16
-container_networking_interface_plugin_silk_network_mtu: 1454
-container_networking_interface_plugin_silk_vtep_port: 4789
-credhub_database: internal_mysql
-credhub_database_external_host:
-credhub_database_external_password:
-credhub_database_external_port:
-credhub_database_external_tls_ca:
-credhub_database_external_username:
-credhub_hsm_provider_client_certificate:
-credhub_hsm_provider_client_private_key:
-credhub_hsm_provider_partition:
-credhub_hsm_provider_partition_password:
-credhub_hsm_provider_servers:
+container_networking_interface_plugin_silk_network_cidr: ''
+container_networking_interface_plugin_silk_network_mtu: ''
+container_networking_interface_plugin_silk_vtep_port: ''
+credhub_database: internal_mysql # internal_mysql|external
+credhub_database_external_host: ''
+credhub_database_external_password: ''
+credhub_database_external_port: ''
+credhub_database_external_tls_ca: ''
+credhub_database_external_username: ''
+credhub_hsm_provider_client_certificate: ''
+credhub_hsm_provider_client_private_key: ''
+credhub_hsm_provider_partition: ''
+credhub_hsm_provider_partition_password: ''
+credhub_hsm_provider_servers: [] # '[{\"host_address\":"\some_host\",\"port\":4444,\"partition_serial_number\":\"Something\",\"hsm_certificate\":\"JSON_FORMAT_CERT_PEM\"}]'
 credhub_key_encryption_name: ((credhub_key_encryption_name))
 credhub_key_encryption_secret: ((credhub_key_encryption_secret))
-credhub_key_encryption_is_primary: ((credhub_key_encryption_is_primary))
-enable_grootfs: true
-enable_service_discovery_for_apps: false
-garden_disk_cleanup: threshold
-gorouter_ssl_ciphers: "ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
-haproxy_forward_tls: disable
-haproxy_forward_tls_enable_backend_ca:
-haproxy_hsts_support: disable
-haproxy_hsts_support_enable_enable_preload: false
-haproxy_hsts_support_enable_include_subdomains: false
-haproxy_hsts_support_enable_max_age: '31536000'
+credhub_key_encryption_is_primary: false # true|false
+enable_grootfs: true # true|false
+enable_service_discovery_for_apps: false # true|false
+garden_disk_cleanup: threshold # never|routine|threshold
+gorouter_ssl_ciphers: ''
+haproxy_forward_tls: disable # disable|enable
+haproxy_forward_tls_enable_backend_ca: ''
+haproxy_hsts_support: disable # disable|enable
+haproxy_hsts_support_enable_enable_preload: false # true|false
+haproxy_hsts_support_enable_include_subdomains: false # true|false
+haproxy_hsts_support_enable_max_age: 31536000
 haproxy_max_buffer_size: 16384
-haproxy_ssl_ciphers: "DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"
-logger_endpoint_port:
-mysql_activity_logging: enable
-mysql_activity_logging_enable_audit_logging_events: "connect,query"
-networking_poe_ssl_name:
-networking_poe_ssl_cert_pem: ""
-networking_poe_ssl_cert_private_key_pem: ""
-nfs_volume_driver: disable
-nfs_volume_driver_enable_ldap_server_host:
-nfs_volume_driver_enable_ldap_server_port:
-nfs_volume_driver_enable_ldap_service_account_password:
-nfs_volume_driver_enable_ldap_service_account_user:
-nfs_volume_driver_enable_ldap_user_fqdn:
-push_apps_manager_accent_color:
-push_apps_manager_company_name:
-push_apps_manager_currency_lookup: "{ \"usd\": \"$\", \"eur\": \"€\" }"
-push_apps_manager_display_plan_prices: false
-push_apps_manager_enable_invitations: true
-push_apps_manager_favicon:
-push_apps_manager_footer_links:
-push_apps_manager_footer_text:
-push_apps_manager_global_wrapper_bg_color:
-push_apps_manager_global_wrapper_footer_content:
-push_apps_manager_global_wrapper_header_content:
-push_apps_manager_global_wrapper_text_color:
-push_apps_manager_logo:
-push_apps_manager_marketplace_name:
-push_apps_manager_nav_link_name_1: Marketplace
-push_apps_manager_nav_link_href_1: "/marketplace"
-push_apps_manager_nav_link_name_2: "Docs"
-push_apps_manager_nav_link_href_2: "https://docs.pivotal.io/pivotalcf/2-1/pas/intro.html"
-push_apps_manager_nav_link_name_3: Tools
-push_apps_manager_nav_link_href_3: "/tools"
-push_apps_manager_product_name:
-push_apps_manager_square_logo:
-rep_proxy_enabled: false
-route_services: enable
-route_services_enable_ignore_ssl_cert_verification: true
+haproxy_ssl_ciphers: ''
+logger_endpoint_port: ''
+mysql_activity_logging: enable # disable|enable
+mysql_activity_logging_enable_audit_logging_events: ''
+networking_poe_ssl_name: '' # [O]
+networking_poe_ssl_cert_pem: '' # [O]
+networking_poe_ssl_cert_private_key_pem: '' # [O]
+nfs_volume_driver: disable # disable|enable
+nfs_volume_driver_enable_ldap_server_host: ''
+nfs_volume_driver_enable_ldap_server_port: ''
+nfs_volume_driver_enable_ldap_service_account_password: ''
+nfs_volume_driver_enable_ldap_service_account_user: ''
+nfs_volume_driver_enable_ldap_user_fqdn: ''
+push_apps_manager_accent_color: ''
+push_apps_manager_company_name: ''
+push_apps_manager_currency_lookup: ''
+push_apps_manager_display_plan_prices: false # true|false
+push_apps_manager_enable_invitations: true # true|false
+push_apps_manager_favicon: ''
+push_apps_manager_footer_links: [] # '[{\"name\":\"OpsManager-URL\",\"href\":\"https://opsmgr.homelab.io\"}]'
+push_apps_manager_footer_text: ''
+push_apps_manager_global_wrapper_bg_color: ''
+push_apps_manager_global_wrapper_footer_content: ''
+push_apps_manager_global_wrapper_header_content: ''
+push_apps_manager_global_wrapper_text_color: ''
+push_apps_manager_logo: ''
+push_apps_manager_marketplace_name: ''
+push_apps_manager_nav_link_name_1: ''
+push_apps_manager_nav_link_href_1: ''
+push_apps_manager_nav_link_name_2: ''
+push_apps_manager_nav_link_href_2: ''
+push_apps_manager_nav_link_name_3: ''
+push_apps_manager_nav_link_href_3: ''
+push_apps_manager_product_name: ''
+push_apps_manager_square_logo: ''
+rep_proxy_enabled: false # true|false
+route_services: disable # enable|disable
+route_services_enable_ignore_ssl_cert_verification: ''
 router_backend_max_conn: 500
 router_client_cert_validation: request
-router_enable_proxy: false
-router_keepalive_connections: enable
-routing_custom_ca_certificates:
-routing_disable_http: false
-routing_minimum_tls_version: tls_v1_2
-routing_tls_termination:
-saml_entity_id_override:
-saml_signature_algorithm: SHA256
-secure_service_instance_credentials: false
-security_acknowledgement: X
-smoke_tests: on_demand
-smoke_tests_specified_apps_domain:
-smoke_tests_specified_org_name:
-smoke_tests_specified_space_name:
-smtp_address:
-smtp_auth_mechanism:
-smtp_crammd5_secret:
-smtp_user: ((smtp_identity))
-smtp_password: ((smtp_password))
-smtp_enable_starttls_auto: true
-smtp_from:
-smtp_port: 587
-syslog_host:
-syslog_metrics_to_syslog_enabled: true
-syslog_port: 5514
-syslog_protocol: relp
-syslog_rule:
-syslog_tls: disabled
-syslog_tls_enabled_tls_ca_cert:
-syslog_tls_enabled_tls_permitted_peer:
-syslog_use_tcp_for_file_forwarding_local_transport: false
-system_blobstore: internal
-system_blobstore_external_access_key:
-system_blobstore_external_buildpacks_bucket:
-system_blobstore_external_droplets_bucket:
-system_blobstore_external_encryption:
-system_blobstore_external_encryption_kms_key_id:
-system_blobstore_external_endpoint:
-system_blobstore_external_packages_bucket:
-system_blobstore_external_region:
-system_blobstore_external_resources_bucket:
-system_blobstore_external_secret_key:
-system_blobstore_external_signature_version:
-system_blobstore_external_versioning:
-system_blobstore_external_azure_access_key:
-system_blobstore_external_azure_account_name:
-system_blobstore_external_azure_buildpacks_container:
-system_blobstore_external_azure_droplets_container:
-system_blobstore_external_azure_environment:
-system_blobstore_external_azure_packages_container:
-system_blobstore_external_azure_resources_container:
-system_blobstore_external_gcs_access_key:
-system_blobstore_external_gcs_buildpacks_bucket:
-system_blobstore_external_gcs_droplets_bucket:
-system_blobstore_external_gcs_packages_bucket:
-system_blobstore_external_gcs_resources_bucket:
-system_blobstore_external_gcs_secret_key:
-system_blobstore_external_gcs_service_account_buildpacks_bucket:
-system_blobstore_external_gcs_service_account_droplets_bucket:
-system_blobstore_external_gcs_service_account_packages_bucket:
-system_blobstore_external_gcs_service_account_project_id:
-system_blobstore_external_gcs_service_account_resources_bucket:
-system_blobstore_external_gcs_service_account_service_account_email:
-system_blobstore_external_gcs_service_account_service_account_json_key:
-system_database: internal_mysql
-system_database_external_account_password:
-system_database_external_account_username:
-system_database_external_app_usage_service_password:
-system_database_external_app_usage_service_username:
-system_database_external_autoscale_password:
-system_database_external_autoscale_username:
-system_database_external_ccdb_password:
-system_database_external_ccdb_username:
-system_database_external_diego_password:
-system_database_external_diego_username:
-system_database_external_host:
-system_database_external_locket_password:
-system_database_external_locket_username:
-system_database_external_networkpolicyserver_password:
-system_database_external_networkpolicyserver_username:
-system_database_external_nfsvolume_password:
-system_database_external_nfsvolume_username:
-system_database_external_notifications_password:
-system_database_external_notifications_username:
-system_database_external_port:
-system_database_external_routing_password:
-system_database_external_routing_username:
-system_database_external_silk_password:
-system_database_external_silk_username:
-tcp_routing: disable
-tcp_routing_enable_reservable_ports:
-uaa:
+router_enable_proxy: false # true|false
+router_keepalive_connections: enable # enable|disable
+routing_custom_ca_certificates: ''
+routing_disable_http: false # true|false
+routing_minimum_tls_version: tls_v1_2 # tls_v1_0,tls_v1_1,tls_v1_2
+routing_tls_termination: router # load_balancer|router|ha_proxy
+saml_entity_id_override: ''
+saml_signature_algorithm: ''
+secure_service_instance_credentials: false # true|false
+security_acknowledgement: '' # [R] - Type in X
+smoke_tests: on_demand # on_demand|specified
+smoke_tests_specified_apps_domain: ''
+smoke_tests_specified_org_name: ''
+smoke_tests_specified_space_name: ''
+smtp_address: ''
+smtp_auth_mechanism: none # none|plain
+smtp_crammd5_secret: ''
+smtp_user: ''
+smtp_password: ''
+smtp_enable_starttls_auto: false # true|false
+smtp_from: ''
+smtp_port: ''
+syslog_host: ''
+syslog_metrics_to_syslog_enabled: false # true|false
+syslog_port: ''
+syslog_protocol: ''
+syslog_rule: ''
+syslog_tls: disabled # disabled|enabled
+syslog_tls_enabled_tls_ca_cert: ''
+syslog_tls_enabled_tls_permitted_peer: ''
+syslog_use_tcp_for_file_forwarding_local_transport: false # true|false
+system_blobstore: internal # internal|external|external_gcs|external_azure
+system_blobstore_external_access_key: ''
+system_blobstore_external_buildpacks_bucket: ''
+system_blobstore_external_droplets_bucket: ''
+system_blobstore_external_encryption: ''
+system_blobstore_external_encryption_kms_key_id: ''
+system_blobstore_external_endpoint: 'https://s3.amazonaws.com'
+system_blobstore_external_packages_bucket: ''
+system_blobstore_external_region: ''
+system_blobstore_external_resources_bucket: ''
+system_blobstore_external_secret_key: ''
+system_blobstore_external_signature_version: 4
+system_blobstore_external_versioning: false # true|false
+system_blobstore_external_azure_access_key: ''
+system_blobstore_external_azure_account_name:  ''
+system_blobstore_external_azure_buildpacks_container: ''
+system_blobstore_external_azure_droplets_container: ''
+system_blobstore_external_azure_environment: ''
+system_blobstore_external_azure_packages_container: ''
+system_blobstore_external_azure_resources_container: ''
+system_blobstore_external_gcs_access_key: ''
+system_blobstore_external_gcs_buildpacks_bucket: ''
+system_blobstore_external_gcs_droplets_bucket: ''
+system_blobstore_external_gcs_packages_bucket: ''
+system_blobstore_external_gcs_resources_bucket: ''
+system_blobstore_external_gcs_secret_key: ''
+system_blobstore_external_gcs_service_account_buildpacks_bucket: ''
+system_blobstore_external_gcs_service_account_droplets_bucket: ''
+system_blobstore_external_gcs_service_account_packages_bucket: ''
+system_blobstore_external_gcs_service_account_project_id: ''
+system_blobstore_external_gcs_service_account_resources_bucket: ''
+system_blobstore_external_gcs_service_account_service_account_email: ''
+system_blobstore_external_gcs_service_account_service_account_json_key: ''
+system_database: internal_mysql # internal_mysql|external
+system_database_external_account_password: ''
+system_database_external_account_username: ''
+system_database_external_app_usage_service_password: ''
+system_database_external_app_usage_service_username: ''
+system_database_external_autoscale_password: ''
+system_database_external_autoscale_username: ''
+system_database_external_ccdb_password: ''
+system_database_external_ccdb_username: ''
+system_database_external_diego_password: ''
+system_database_external_diego_username: ''
+system_database_external_host: ''
+system_database_external_locket_password: ''
+system_database_external_locket_username: ''
+system_database_external_networkpolicyserver_password: ''
+system_database_external_networkpolicyserver_username: ''
+system_database_external_nfsvolume_password: ''
+system_database_external_nfsvolume_username: ''
+system_database_external_notifications_password: ''
+system_database_external_notifications_username: ''
+system_database_external_port: ''
+system_database_external_routing_password: ''
+system_database_external_routing_username: ''
+system_database_external_silk_password: ''
+system_database_external_silk_username: ''
+tcp_routing: disable # enable|disable
+tcp_routing_enable_reservable_ports: ''
+uaa: internal # internal|ldap|saml
 uaa_internal_password_expires_after_months: 0
-uaa_internal_password_max_retry: 0
+uaa_internal_password_max_retry: 5
 uaa_internal_password_min_length: 0
 uaa_internal_password_min_lowercase: 0
 uaa_internal_password_min_numeric: 0
 uaa_internal_password_min_special: 0
-uaa_internal_password_min_uppercase: 5
-uaa_ldap_identity: ((uaa_ldap_identity))
-uaa_ldap_password: ((uaa_ldap_password))
-uaa_ldap_email_domains:
-uaa_ldap_first_name_attribute:
-uaa_ldap_group_search_base:
-uaa_ldap_group_search_filter:
-uaa_ldap_last_name_attribute:
-uaa_ldap_ldap_referrals:
-uaa_ldap_mail_attribute_name:
-uaa_ldap_search_base:
-uaa_ldap_search_filter:
-uaa_ldap_server_ssl_cert:
-uaa_ldap_server_ssl_cert_alias:
-uaa_ldap_url: ((uaa_ldap_url))
-uaa_saml_display_name:
-uaa_saml_email_attribute:
-uaa_saml_email_domains:
-uaa_saml_entity_id_override:
-uaa_saml_external_groups_attribute:
-uaa_saml_first_name_attribute:
-uaa_saml_last_name_attribute:
-uaa_saml_name_id_format:
-uaa_saml_require_signed_assertions:
-uaa_saml_sign_auth_requests:
-uaa_saml_sso_name:
-uaa_saml_sso_url:
-uaa_saml_sso_xml:
-uaa_database: internal_mysql
-uaa_database_external_host:
-uaa_database_external_port:
-uaa_database_external_uaa_password:
-uaa_database_external_uaa_username:
+uaa_internal_password_min_uppercase: 0
+uaa_ldap_identity: ''
+uaa_ldap_password: ''
+uaa_ldap_email_domains: ''
+uaa_ldap_first_name_attribute: ''
+uaa_ldap_group_search_base: ''
+uaa_ldap_group_search_filter: ''
+uaa_ldap_last_name_attribute: ''
+uaa_ldap_ldap_referrals: follow
+uaa_ldap_mail_attribute_name: 'mail'
+uaa_ldap_search_base: ''
+uaa_ldap_search_filter: ''
+uaa_ldap_server_ssl_cert: ''
+uaa_ldap_server_ssl_cert_alias: ''
+uaa_ldap_url: ''
+uaa_saml_display_name: ''
+uaa_saml_email_attribute: ''
+uaa_saml_email_domains: ''
+uaa_saml_entity_id_override: ''
+uaa_saml_external_groups_attribute: ''
+uaa_saml_first_name_attribute: ''
+uaa_saml_last_name_attribute: ''
+uaa_saml_name_id_format: ''
+uaa_saml_require_signed_assertions: false # true|false
+uaa_saml_sign_auth_requests: true # true|false
+uaa_saml_sso_name: ''
+uaa_saml_sso_url: ''
+uaa_saml_sso_xml: ''
+uaa_database: internal_mysql # internal_mysql|external
+uaa_database_external_host: ''
+uaa_database_external_port: ''
+uaa_database_external_uaa_password: ''
+uaa_database_external_uaa_username: ''
 uaa_session_cookie_max_age: 1800
 uaa_session_idle_timeout: 1800
-router_disable_insecure_cookies: false
+router_disable_insecure_cookies: false # true|false
 router_drain_wait: 20
-router_enable_isolated_routing: false
-router_enable_write_access_logs: true
-router_enable_zipkin: true
-router_extra_headers_to_log:
+router_enable_isolated_routing: false # true|false
+router_enable_write_access_logs: true # true|false
+router_enable_zipkin: true # true|false
+router_extra_headers_to_log: ''
 router_frontend_idle_timeout: 900
 router_lb_healthy_threshold: 20
 router_request_timeout_in_seconds: 900
-router_static_ips:
-tcp_router_static_ips:
-uaa_apps_manager_access_token_lifetime: '1209600'
-uaa_apps_manager_refresh_token_lifetime: '1209600'
+router_static_ips: '' # [R]
+tcp_router_static_ips: '' # [O]
+uaa_apps_manager_access_token_lifetime: 1209600
+uaa_apps_manager_refresh_token_lifetime: 1209600
 uaa_cf_cli_access_token_lifetime: 7200
-uaa_cf_cli_refresh_token_lifetime: '1209600'
-uaa_customize_password_label: Email
-uaa_customize_username_label: Password
-uaa_issuer_uri:
-uaa_proxy_ips_regex: "10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|192\\.168\\.\\d{1,3}\\.\\d{1,3}|169\\.254\\.\\d{1,3}\\.\\d{1,3}|127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|172\\.1[6-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.2[0-9]{1}\\.\\d{1,3}\\.\\d{1,3}|172\\.3[0-1]{1}\\.\\d{1,3}\\.\\d{1,3}"
-uaa_private_key_pem:
-uaa_cert_pem:
-uaa_service_provider_key_password:
+uaa_cf_cli_refresh_token_lifetime: 1209600
+uaa_customize_password_label: 'Email'
+uaa_customize_username_label: 'Password'
+uaa_issuer_uri: ''
+uaa_proxy_ips_regex: ''
+uaa_private_key_pem: '' # [R]
+uaa_cert_pem: '' # [R]
+uaa_service_provider_key_password: ''
+consul_server_instances: 3
 consul_server_instance_type: micro
-consul_server_instances: 1
-consul_server_persistent_disk_size_mb: 1024
+consul_server_persistent_disk_mb: 1024
+nats_instances: 2
 nats_instance_type: micro
-nats_instances: 1
-nfs_server_instance_type: medium.mem
 nfs_server_instances: 1
-nfs_server_persistent_disk_size_mb: '102400'
+nfs_server_instance_type: medium.mem
+nfs_server_persistent_disk_mb: 102400
+mysql_proxy_instances: 2
 mysql_proxy_instance_type: micro
-mysql_proxy_instances: 1
-mysql_instance_type: medium.disk
-mysql_instances: 1
-mysql_instance_persistent_disk_size_mb: '102400'
+mysql_instances: 3
+mysql_instance_type: large.disk
+mysql_persistent_disk_mb: 102400
+backup_prepare_instances: 1
 backup_prepare_instance_type: micro
-backup_prepare_instances: 0
-backup_prepare_persistent_disk_size_mb: automatic
-uaa_instance_type: small.disk
-uaa_instances: 1
-cloud_controller_instance_type: medium.disk
-cloud_controller_instances: 1
-ha_proxy_instance_type: micro
-ha_proxy_instances: 0
-router_instance_type: micro
-router_instances: 1
-mysql_monitor_instance_type: micro
-mysql_monitor_instances: 1
-clock_global_instance_type: medium.disk
-clock_global_instances: 1
-cloud_controller_worker_instance_type: micro
-cloud_controller_worker_instances: 1
+backup_prepare_persistent_disk_mb: automatic
+diego_database_instances: 3
 diego_database_instance_type: micro
-diego_database_instances: 1
+uaa_instances: 2
+uaa_instance_type: medium.disk
+cloud_controller_instances: 2
+cloud_controller_instance_type: medium.disk
+ha_proxy_instances: 1
+ha_proxy_instance_type: micro
+router_instances: 3
+router_instance_type: micro
+mysql_monitor_instances: 1
+mysql_monitor_instance_type: micro
+clock_global_instances: 1
+clock_global_instance_type: medium.disk
+cloud_controller_worker_instances: 2
+cloud_controller_worker_instance_type: micro
+diego_brain_instances: 3
 diego_brain_instance_type: small
-diego_brain_instances: 1
+diego_cell_instances: 3
 diego_cell_instance_type: xlarge.disk
-diego_cell_instances: 1
-doppler_instance_type: micro
-doppler_instances: 1
-loggregator_tc_instance_type: micro
-loggregator_tc_instances: 1
-tcp_router_instance_type: micro
-tcp_router_instances: 1
-tcp_router_persistent_disk_size_mb: automatic
+loggregator_trafficcontroller_instances: 3
+loggregator_trafficcontroller_instance_type: micro
+syslog_adapter_instances: 3
 syslog_adapter_instance_type: micro
-syslog_adapter_instances: 1
+syslog_scheduler_instances: 2
 syslog_scheduler_instance_type: micro
-syslog_scheduler_instances: 1
+doppler_instances: 3
+doppler_instance_type: micro
+tcp_router_instances: 1
+tcp_router_instance_type: micro
+tcp_router_persistent_disk_mb: automatic
+credhub_instances: 0
 credhub_instance_type: large
-credhub_instances: 1
 
-concourse_username: ((concourse_username))
-concourse_passwd: ((concourse_passwd))
-atc_external_url: ((atc_external_url))
+concourse_username: ((concourse_user))
+concourse_passwd: ((concourse_pwd))
+concourse_url: ((concourse_url))
 team_name: ((team_name))
 install_pipeline_name: install-pcf
 install_pipeline_state: pause
