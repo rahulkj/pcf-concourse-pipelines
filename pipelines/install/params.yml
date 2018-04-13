@@ -52,7 +52,7 @@ vcenter_disk_type: "thick"
 ephemeral_storage_names:
 persistent_storage_names:
 bosh_vm_folder: pcf-vms
-bosh_templates_folder: pcf-templates
+bosh_template_folder: pcf-templates
 bosh_disk_path: pcf-disks
 nsx_networking_enabled: false
 nsx_mode: ''
@@ -154,7 +154,6 @@ az_3_rp_name: # [R]
 trusted_certificates: ''
 generate_vm_passwords: true
 director_instance_type: large.disk
-director_instances: 1
 director_persistent_disk_size_mb: 51200
 compilation_instance_type: large.cpu
 compilation_instances: 4
