@@ -28,7 +28,7 @@ function setNetworkMapping() {
   if [ -e out.json ]; then
     mv out.json in.json
   fi
-  $JQ_CMD --arg value $1 \
+  $JQ_CMD --arg value "$1" \
      '(.NetworkMapping[]).Network = $value' \
                 in.json >out.json
 }
@@ -83,7 +83,7 @@ function update() {
   setPropertyMapping admin_password $OPS_MGR_SSH_PWD
   setPropertyMapping custom_hostname $OPS_MGR_HOST
 
-  setNetworkMapping $OM_VM_NETWORK
+  setNetworkMapping "$OM_VM_NETWORK"
   setVMName $OM_VM_NAME
   setDiskProvision $OM_DISK_TYPE
   setPowerOn $OM_VM_POWER_STATE

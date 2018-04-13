@@ -17,7 +17,7 @@ PCF and product tiles Concourse Pipelines:
 
 -----------------------------------------------------------------------------
 
-Following in an example on how to `fly` a pipeline:
+Following is an example on how to `fly` a pipeline:
 
 ```
 >	fly -t concourse-[ENV] login -c https://<CONCOURSE-URL> -k
