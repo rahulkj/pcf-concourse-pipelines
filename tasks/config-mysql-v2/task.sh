@@ -31,7 +31,7 @@ properties_config=$($JQ_CMD -n \
   --argjson backups_gcs_service_account_json ${BACKUPS_GCS_SERVICE_ACCOUNT_JSON:-''} \
   --arg backups_scp_destination ${BACKUPS_SCP_DESTINATION:-''} \
   --arg backups_scp_port ${BACKUPS_SCP_PORT:-22} \
-  --arg backups_scp_scp_key ${BACKUPS_SCP_SCP_KEY:-''} \
+  --arg backups_scp_scp_key "${BACKUPS_SCP_SCP_KEY:-''}" \
   --arg backups_scp_server ${BACKUPS_SCP_SERVER:-''} \
   --arg backups_scp_user ${BACKUPS_SCP_USER:-''} \
   --arg syslog ${SYSLOG:-"disabled"} \
