@@ -40,13 +40,13 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_enabled_protocol ${SYSLOG_ENABLED_PROTOCOL:-"tcp"} \
 '{
   ".properties.plan1_selector.active.az_multi_select": {
-    "value": [ "${singleton_az}"],
+    "value": [ ${singleton_az}],
   },
   ".properties.plan2_selector.active.az_multi_select": {
-    "value": [ "${singleton_az}"],
+    "value": [ ${singleton_az}],
   },
   ".properties.plan3_selector.active.az_multi_select": {
-    "value": [ "${singleton_az}"],
+    "value": [ ${singleton_az}],
   }
 }
 +
@@ -131,7 +131,7 @@ elif $backups == "scp" then
     "value": $backups_scp_destination
   },
   ".properties.backups_selector.scp.scp_key": {
-    "value": "$backups_scp_scp_key"
+    "value": $backups_scp_scp_key
   },
   ".properties.backups_selector.scp.port": {
     "value": $backups_scp_port
