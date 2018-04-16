@@ -131,7 +131,7 @@ elif $backups == "scp" then
     "value": $backups_scp_destination
   },
   ".properties.backups_selector.scp.scp_key": {
-    "value": $backups_scp_scp_key
+    "value": "$backups_scp_scp_key"
   },
   ".properties.backups_selector.scp.port": {
     "value": $backups_scp_port
