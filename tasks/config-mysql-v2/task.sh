@@ -160,7 +160,6 @@ if $syslog == "enabled" then
 }
 else .
 end
-+
 '
 )
 
