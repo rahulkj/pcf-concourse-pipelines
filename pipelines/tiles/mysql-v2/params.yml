@@ -1,0 +1,61 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+github_token: ((github_token)) # [R] Your github token
+github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+github_branch: develop
+github_username: ((github_username)) # [R] Your github username
+
+iaas_type: vsphere
+
+debug: true
+
+## Ops Manager installation meta data
+ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+
+product_name: pivotal-mysql
+product_identifier: pivotal-mysql
+product_version: ^2\.2\..*$
+
+singleton_jobs_az:
+other_azs:
+network_name:
+service_network_name:
+
+backups: disable # s3|azure|gcs|scp
+backups_azure_base_url: ''
+backups_azure_container: ''
+backups_azure_container_path: ''
+backups_azure_storage_access_key: ''
+backups_azure_storage_account: ''
+backups_s3_access_key_id: ''
+backups_s3_bucket_name: ''
+backups_s3_bucket_path: ''
+backups_s3_endpoint_url: ''
+backups_s3_region: ''
+backups_s3_secret_access_key: ''
+backups_gcs_bucket_name: ''
+backups_gcs_project_id: ''
+backups_gcs_service_account_json: '{}'
+backups_scp_destination: ''
+backups_scp_port: 22
+backups_scp_scp_key: ''
+backups_scp_server: ''
+backups_scp_user: ''
+syslog: disabled # enabled|disabled
+syslog_enabled_address: ''
+syslog_enabled_port: ''
+syslog_enabled_protocol: tcp # tcp|udp|relp
+cf_mysql_broker_instances: 2
+cf_mysql_broker_instance_type: "small.disk"
+
+errands_to_disable: "broker-registrar,smoke-tests"
+
+concourse_url: ((concourse_url))
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
+
+pipeline-name: install-mysql-v2
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-mysql-v2

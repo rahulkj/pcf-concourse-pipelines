@@ -37,6 +37,7 @@ List of pipelines available in this repository are:
 -	[Redis Installation](./pipelines/tiles/redis)
 -	[Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
 -	[MySQL-v1 Installation](./pipelines/tiles/mysql)
+-	[MySQL-v2 Installation](./pipelines/tiles/mysql-v2)
 -	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
 -	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
 - [Healthwatch](./pipelines/tiles/healthwatch)

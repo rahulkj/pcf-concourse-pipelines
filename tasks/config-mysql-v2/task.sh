@@ -14,6 +14,9 @@ JQ_CMD=./jq/jq-linux64
 
 properties_config=$($JQ_CMD -n \
   --arg singleton_az ${SINGLETON_JOBS_AZ:-''} \
+  --arg plan_1_azs ${PLAN_1_AZS:-''} \
+  --arg plan_2_azs ${PLAN_2_AZS:-''} \
+  --arg plan_3_azs ${PLAN_3_AZS:-''} \
   --arg backups ${BACKUPS:-"s3"} \
   --arg backups_azure_base_url ${BACKUPS_AZURE_BASE_URL:-''} \
   --arg backups_azure_container ${BACKUPS_AZURE_CONTAINER:-''} \
@@ -40,13 +43,13 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_enabled_protocol ${SYSLOG_ENABLED_PROTOCOL:-"tcp"} \
 '{
   ".properties.plan1_selector.active.az_multi_select": {
-    "value": ($singleton_az | split(",")),
+    "value": ($plan_1_azs | split(",")),
   },
   ".properties.plan2_selector.active.az_multi_select": {
-    "value": ($singleton_az | split(",")),
+    "value": ($plan_2_azs | split(",")),
   },
   ".properties.plan3_selector.active.az_multi_select": {
-    "value": ($singleton_az | split(",")),
+    "value": ($plan_3_azs | split(",")),
   }
 }
 +
