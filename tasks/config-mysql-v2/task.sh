@@ -164,7 +164,7 @@ end
 )
 
 resources_config="{
-  \"cf-mysql-broker\": {\"instances\": ${CF_MYSQL_BROKER_INSTANCES:-2}, \"instance_type\": { \"id\": \"${CF_MYSQL_BROKER_INSTANCE_TYPE:-small.disk}\"}}
+  \"dedicated-mysql-broker\": {\"instances\": ${CF_MYSQL_BROKER_INSTANCES:-2}, \"instance_type\": { \"id\": \"${CF_MYSQL_BROKER_INSTANCE_TYPE:-small.disk}\"}}
 }"
 
 network_config=$($JQ_CMD -n \
