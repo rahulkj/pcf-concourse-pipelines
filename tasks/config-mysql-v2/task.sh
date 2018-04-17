@@ -130,7 +130,7 @@ elif $backups == "scp" then
   ".properties.backups_selector.scp.destination": {
     "value": $backups_scp_destination
   },
-  ".properties.backups_selector.scp.scp_key": {
+  ".properties.backups_selector.scp.key": {
     "value": $backups_scp_scp_key
   },
   ".properties.backups_selector.scp.port": {
@@ -141,20 +141,20 @@ else .
 end
 +
 {
-  ".properties.syslog": {
+  ".properties.syslog_migration_selector": {
     "value": $syslog
   }
 }
 +
 if $syslog == "enabled" then
 {
-  ".properties.syslog.enabled.address": {
+  "..properties.syslog_migration_selector.enabled.address": {
     "value": $syslog_enabled_address
   },
-  ".properties.syslog.enabled.port": {
+  ".properties.syslog_migration_selector.port": {
     "value": $syslog_enabled_port
   },
-  ".properties.syslog.enabled.protocol": {
+  ".properties.syslog_migration_selector.protocol": {
     "value": $syslog_enabled_protocol
   }
 }
