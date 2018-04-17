@@ -40,13 +40,13 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_enabled_protocol ${SYSLOG_ENABLED_PROTOCOL:-"tcp"} \
 '{
   ".properties.plan1_selector.active.az_multi_select": {
-    "value": [ ${singleton_az}],
+    "value": ($singleton_az | split(",")),
   },
   ".properties.plan2_selector.active.az_multi_select": {
-    "value": [ ${singleton_az}],
+    "value": ($singleton_az | split(",")),
   },
   ".properties.plan3_selector.active.az_multi_select": {
-    "value": [ ${singleton_az}],
+    "value": ($singleton_az | split(",")),
   }
 }
 +
@@ -190,7 +190,7 @@ $OM_CMD \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
   configure-product \
-  --product-name p-mysql \
+  --product-name pivotal-mysql \
   --product-properties "$properties_config" \
   --product-network "$network_config" \
   --product-resources "$resources_config"
