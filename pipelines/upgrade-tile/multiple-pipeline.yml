@@ -159,8 +159,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-rabbitmq
@@ -249,8 +247,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-mysql
@@ -340,8 +336,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-spring-cloud-services
@@ -431,8 +425,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-redis
@@ -522,8 +514,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-jmx-bridge
@@ -613,8 +603,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      NO_PROXY: ((company_proxy_domain))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product-pcf-metrics
