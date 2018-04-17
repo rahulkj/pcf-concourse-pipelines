@@ -46,7 +46,7 @@ properties_config=$($JQ_CMD -n \
   --arg backups_selector_scp_server "${BACKUPS_SELECTOR_SCP_SERVER:-''}" \
   --arg backups_selector_scp_user "${BACKUPS_SELECTOR_SCP_USER:-''}" \
   --arg large_plan_selector "${LARGE_PLAN_SELECTOR:-"Plan Inactive"}" \
-  --arg large_plan_selector_active_az_single_select "${LARGE_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT:-''}" \
+  --arg large_plan_selector_active_az_single_select "${LARGE_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT}" \
   --arg large_plan_selector_active_cf_service_access "${LARGE_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS:-"enable"}" \
   --arg large_plan_selector_active_description "${LARGE_PLAN_SELECTOR_ACTIVE_DESCRIPTION:-"This plan provides a large dedicated Redis instance, tailored for caching use-cases with persistence to disk enabled"}" \
   --arg large_plan_selector_active_disk_size "${LARGE_PLAN_SELECTOR_ACTIVE_DISK_SIZE:-'20480'}" \
@@ -58,7 +58,7 @@ properties_config=$($JQ_CMD -n \
   --arg large_plan_selector_active_timeout "${LARGE_PLAN_SELECTOR_ACTIVE_TIMEOUT:-3600}" \
   --arg large_plan_selector_active_vm_type "${LARGE_PLAN_SELECTOR_ACTIVE_VM_TYPE:-'medium.mem'}" \
   --arg medium_plan_selector "${MEDIUM_PLAN_SELECTOR:-"Plan Inactive"}" \
-  --arg medium_plan_selector_active_az_single_select "${MEDIUM_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT:-''}" \
+  --arg medium_plan_selector_active_az_single_select "${MEDIUM_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT}" \
   --arg medium_plan_selector_active_cf_service_access "${MEDIUM_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS:-"enable"}" \
   --arg medium_plan_selector_active_description "${MEDIUM_PLAN_SELECTOR_ACTIVE_DESCRIPTION:-"This plan provides a medium dedicated Redis instance, tailored for caching use-cases with persistence to disk enabled"}" \
   --arg medium_plan_selector_active_disk_size "${MEDIUM_PLAN_SELECTOR_ACTIVE_DISK_SIZE:-'10240'}" \
@@ -71,7 +71,7 @@ properties_config=$($JQ_CMD -n \
   --arg medium_plan_selector_active_vm_type "${MEDIUM_PLAN_SELECTOR_ACTIVE_VM_TYPE:-'small'}" \
   --arg metrics_polling_interval "${METRICS_POLLING_INTERVAL:-30}" \
   --arg small_plan_selector "${SMALL_PLAN_SELECTOR:-"Plan Active"}" \
-  --arg small_plan_selector_active_az_single_select "${SMALL_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT:-''}" \
+  --arg small_plan_selector_active_az_single_select "${SMALL_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT}" \
   --arg small_plan_selector_active_cf_service_access "${SMALL_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS:-"enable"}" \
   --arg small_plan_selector_active_description "${SMALL_PLAN_SELECTOR_ACTIVE_DESCRIPTION:-"This plan provides a small dedicated Redis instance, tailored for caching use-cases with persistence to disk enabled"}" \
   --arg small_plan_selector_active_disk_size "${SMALL_PLAN_SELECTOR_ACTIVE_DISK_SIZE:-"5120"}" \
