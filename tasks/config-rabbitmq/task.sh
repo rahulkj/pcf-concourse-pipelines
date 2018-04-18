@@ -22,7 +22,7 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_1_features "${ON_DEMAND_BROKER_PLAN_1_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_1_instance_quota "${ON_DEMAND_BROKER_PLAN_1_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_1_name "${ON_DEMAND_BROKER_PLAN_1_NAME:-"single-node"}" \
-  --arg on_demand_broker_plan_1_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_AZ_PLACEMENT:-''}" \
+  --arg on_demand_broker_plan_1_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_1_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_NUMBER_OF_NODES:-1}" \
   --arg on_demand_broker_plan_1_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
@@ -34,51 +34,51 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_2_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_2_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_2_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_NAME:-"cluster"}" \
-  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT:-''}" \
+  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
   --arg on_demand_broker_plan_3_selector "${ON_DEMAND_BROKER_PLAN_3_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_3_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_3_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DESCRIPTION:-''}" \
+  --arg on_demand_broker_plan_3_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DESCRIPTION}" \
   --arg on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
   --arg on_demand_broker_plan_3_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_3_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
-  --arg on_demand_broker_plan_3_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_NAME:-''}" \
-  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT:-''}" \
+  --arg on_demand_broker_plan_3_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
   --arg on_demand_broker_plan_4_selector "${ON_DEMAND_BROKER_PLAN_4_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_4_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_4_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DESCRIPTION:-''}" \
+  --arg on_demand_broker_plan_4_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DESCRIPTION}" \
   --arg on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
   --arg on_demand_broker_plan_4_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_4_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
-  --arg on_demand_broker_plan_4_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_NAME:-''}" \
-  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT:-''}" \
+  --arg on_demand_broker_plan_4_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
   --arg on_demand_broker_plan_5_selector "${ON_DEMAND_BROKER_PLAN_5_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_5_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_5_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DESCRIPTION:-''}" \
+  --arg on_demand_broker_plan_5_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DESCRIPTION}" \
   --arg on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
   --arg on_demand_broker_plan_5_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_5_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
-  --arg on_demand_broker_plan_5_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_NAME:-''}" \
-  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT:-''}" \
+  --arg on_demand_broker_plan_5_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
   --arg on_demand_broker_vm_extensions "${ON_DEMAND_BROKER_VM_EXTENSIONS:-''}" \
   --arg syslog_selector "${SYSLOG_SELECTOR:-"enabled"}" \
-  --arg syslog_selector_enabled_address "${SYSLOG_SELECTOR_ENABLED_ADDRESS:-''}" \
-  --arg syslog_selector_enabled_port "${SYSLOG_SELECTOR_ENABLED_PORT:-''}" \
+  --arg syslog_selector_enabled_address "${SYSLOG_SELECTOR_ENABLED_ADDRESS}" \
+  --arg syslog_selector_enabled_port "${SYSLOG_SELECTOR_ENABLED_PORT}" \
   --arg syslog_selector_enabled_syslog_ca_cert "${SYSLOG_SELECTOR_ENABLED_SYSLOG_CA_CERT}" \
   --arg syslog_selector_enabled_syslog_format "${SYSLOG_SELECTOR_ENABLED_SYSLOG_FORMAT:-"rfc5424"}" \
   --arg syslog_selector_enabled_syslog_permitted_peer "${SYSLOG_SELECTOR_ENABLED_SYSLOG_PERMITTED_PEER}" \
@@ -89,8 +89,8 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_broker_policy_definition "${RABBITMQ_BROKER_POLICY_DEFINITION}" \
   --arg rabbitmq_haproxy_static_ips "${RABBITMQ_HAPROXY_STATIC_IPS}" \
   --arg rabbitmq_server_cluster_partition_handling "${RABBITMQ_SERVER_CLUSTER_PARTITION_HANDLING:-"pause_minority"}" \
-  --arg rabbitmq_server_config "${RABBITMQ_SERVER_CONFIG:-''}" \
-  --arg rabbitmq_server_cookie "${RABBITMQ_SERVER_COOKIE:-''}" \
+  --arg rabbitmq_server_config "${RABBITMQ_SERVER_CONFIG}" \
+  --arg rabbitmq_server_cookie "${RABBITMQ_SERVER_COOKIE}" \
   --arg rabbitmq_server_plugins "${RABBITMQ_SERVER_PLUGINS:-'rabbitmq_management'}" \
   --arg rabbitmq_server_ports "${RABBITMQ_SERVER_PORTS:-"15672, 5672, 5671, 1883, 8883, 61613, 61614, 15674"}" \
   --arg rabbitmq_server_ssl_cert_pem "${RABBITMQ_SERVER_SSL_CERT_PEM}" \
