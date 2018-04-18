@@ -187,7 +187,7 @@ end
   }
 }
 +
-if $medium_plan_selector_active_name == "Plan Active" then
+if $medium_plan_selector == "Plan Active" then
 {
   ".properties.medium_plan_selector.active.name": {
     "value": $medium_plan_selector_active_name
