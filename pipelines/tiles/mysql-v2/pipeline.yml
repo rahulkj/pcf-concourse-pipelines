@@ -1,0 +1,255 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((github_repo))
+    branch: ((github_branch))
+    username: ((github_username))
+    password: ((github_token))
+
+- name: pivnet-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ((product_name))
+    product_version: ((product_version))
+
+jobs:
+
+- name: upload-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+
+  - task: upload-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      IAAS_TYPE: ((iaas_type))
+
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+- name: config-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [stage-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+
+  - task: config-tile
+    file: pipelines-repo/tasks/config-mysql-v2/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      NETWORK_NAME: ((network_name))
+      SERVICE_NETWORK_NAME: ((service_network_name))
+      OTHER_AZS: ((other_azs))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
+      PLAN_1_AZS: ((plan_1_azs))
+      PLAN_2_AZS: ((plan_2_azs))
+      PLAN_3_AZS: ((plan_3_azs))
+      BACKUPS: ((backups))
+      BACKUPS_AZURE_BASE_URL: ((backups_azure_base_url))
+      BACKUPS_AZURE_CONTAINER: ((backups_azure_container))
+      BACKUPS_AZURE_CONTAINER_PATH: ((backups_azure_container_path))
+      BACKUPS_AZURE_STORAGE_ACCESS_KEY: ((backups_azure_storage_access_key))
+      BACKUPS_AZURE_STORAGE_ACCOUNT: ((backups_azure_storage_account))
+      BACKUPS_S3_ACCESS_KEY_ID: ((backups_s3_access_key_id))
+      BACKUPS_S3_BUCKET_NAME: ((backups_s3_bucket_name))
+      BACKUPS_S3_BUCKET_PATH: ((backups_s3_bucket_path))
+      BACKUPS_S3_ENDPOINT_URL: ((backups_s3_endpoint_url))
+      BACKUPS_S3_REGION: ((backups_s3_region))
+      BACKUPS_S3_SECRET_ACCESS_KEY: ((backups_s3_secret_access_key))
+      BACKUPS_GCS_BUCKET_NAME: ((backups_gcs_bucket_name))
+      BACKUPS_GCS_PROJECT_ID: ((backups_gcs_project_id))
+      BACKUPS_GCS_SERVICE_ACCOUNT_JSON: ((backups_gcs_service_account_json))
+      BACKUPS_SCP_DESTINATION: ((backups_scp_destination))
+      BACKUPS_SCP_PORT: ((backups_scp_port))
+      BACKUPS_SCP_SCP_KEY: ((backups_scp_scp_key))
+      BACKUPS_SCP_SERVER: ((backups_scp_server))
+      BACKUPS_SCP_USER: ((backups_scp_user))
+      SYSLOG: ((syslog))
+      SYSLOG_ENABLED_ADDRESS: ((syslog_enabled_address))
+      SYSLOG_ENABLED_PORT: ((syslog_enabled_port))
+      SYSLOG_ENABLED_PROTOCOL: ((syslog_enabled_protocol))
+      CF_MYSQL_BROKER_INSTANCES: ((cf_mysql_broker_instances))
+      CF_MYSQL_BROKER_INSTANCE_TYPE: ((cf_mysql_broker_instance_type))
+
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [config-product]
+      trigger: true
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-product]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      ERRANDS: ((errands_to_disable))
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [disable-errands]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [disable-errands]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [disable-errands]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [apply-changes]
+      trigger: true
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      DEBUG: ((debug))
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      CONCOURSE_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((pipeline-name))
+      BUILD_TEAM_NAME: ((team-name))
+      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
+      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_VERSION: ((product_version))
