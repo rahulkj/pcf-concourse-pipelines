@@ -79,15 +79,15 @@ properties_config=$($JQ_CMD -n \
   --arg syslog_selector "${SYSLOG_SELECTOR:-"enabled"}" \
   --arg syslog_selector_enabled_address "${SYSLOG_SELECTOR_ENABLED_ADDRESS:-''}" \
   --arg syslog_selector_enabled_port "${SYSLOG_SELECTOR_ENABLED_PORT:-''}" \
-  --arg syslog_selector_enabled_syslog_ca_cert "${SYSLOG_SELECTOR_ENABLED_SYSLOG_CA_CERT:-''}" \
+  --arg syslog_selector_enabled_syslog_ca_cert "${SYSLOG_SELECTOR_ENABLED_SYSLOG_CA_CERT}" \
   --arg syslog_selector_enabled_syslog_format "${SYSLOG_SELECTOR_ENABLED_SYSLOG_FORMAT:-"rfc5424"}" \
-  --arg syslog_selector_enabled_syslog_permitted_peer "${SYSLOG_SELECTOR_ENABLED_SYSLOG_PERMITTED_PEER:-''}" \
+  --arg syslog_selector_enabled_syslog_permitted_peer "${SYSLOG_SELECTOR_ENABLED_SYSLOG_PERMITTED_PEER}" \
   --arg syslog_selector_enabled_syslog_tls "${SYSLOG_SELECTOR_ENABLED_SYSLOG_TLS:-false}" \
   --arg syslog_selector_enabled_syslog_transport "${SYSLOG_SELECTOR_ENABLED_SYSLOG_TRANSPORT:-"tcp"}" \
-  --arg rabbitmq_broker_dns_host "${RABBITMQ_BROKER_DNS_HOST:-''}" \
+  --arg rabbitmq_broker_dns_host "${RABBITMQ_BROKER_DNS_HOST}" \
   --arg rabbitmq_broker_operator_set_policy_enabled "${RABBITMQ_BROKER_OPERATOR_SET_POLICY_ENABLED:-false}" \
-  --arg rabbitmq_broker_policy_definition "${RABBITMQ_BROKER_POLICY_DEFINITION:-''}" \
-  --arg rabbitmq_haproxy_static_ips "${RABBITMQ_HAPROXY_STATIC_IPS:-''}" \
+  --arg rabbitmq_broker_policy_definition "${RABBITMQ_BROKER_POLICY_DEFINITION}" \
+  --arg rabbitmq_haproxy_static_ips "${RABBITMQ_HAPROXY_STATIC_IPS}" \
   --arg rabbitmq_server_cluster_partition_handling "${RABBITMQ_SERVER_CLUSTER_PARTITION_HANDLING:-"pause_minority"}" \
   --arg rabbitmq_server_config "${RABBITMQ_SERVER_CONFIG:-''}" \
   --arg rabbitmq_server_cookie "${RABBITMQ_SERVER_COOKIE:-''}" \
@@ -102,7 +102,7 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_server_ssl_verification_depth "${RABBITMQ_SERVER_SSL_VERIFICATION_DEPTH:-5}" \
   --arg rabbitmq_server_ssl_verify "${RABBITMQ_SERVER_SSL_VERIFY:-false}" \
   --arg rabbitmq_server_ssl_versions "${RABBITMQ_SERVER_SSL_VERSIONS}" \
-  --arg rabbitmq_server_static_ips "${RABBITMQ_SERVER_STATIC_IPS:-''}" \
+  --arg rabbitmq_server_static_ips "${RABBITMQ_SERVER_STATIC_IPS}" \
 '{
   ".properties.metrics_polling_interval": {
     "value": $metrics_polling_interval
