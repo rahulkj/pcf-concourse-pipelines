@@ -18,7 +18,7 @@ properties_config=$($JQ_CMD -n \
   --arg metrics_polling_interval "${METRICS_POLLING_INTERVAL:-30}" \
   --arg on_demand_broker_plan_1_cf_service_access "${ON_DEMAND_BROKER_PLAN_1_CF_SERVICE_ACCESS:-"disable"}" \
   --arg on_demand_broker_plan_1_description "${ON_DEMAND_BROKER_PLAN_1_DESCRIPTION:-"This plan provides a single dedicated RabbitMQ node"}" \
-  --arg on_demand_broker_plan_1_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_1_DISK_LIMIT_ACKNOWLEDGEMENT:-"non-existant-value"}" \
+  --arg on_demand_broker_plan_1_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_1_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
   --arg on_demand_broker_plan_1_features "${ON_DEMAND_BROKER_PLAN_1_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_1_instance_quota "${ON_DEMAND_BROKER_PLAN_1_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_1_name "${ON_DEMAND_BROKER_PLAN_1_NAME:-"single-node"}" \
@@ -30,7 +30,7 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_2_selector "${ON_DEMAND_BROKER_PLAN_2_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_2_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
   --arg on_demand_broker_plan_2_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DESCRIPTION:-"This plan provides a preconfigured dedicated cluster of RabbitMQ nodes"}" \
-  --arg on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"non-existant-value"}" \
+  --arg on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
   --arg on_demand_broker_plan_2_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_2_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_2_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_NAME:-"cluster"}" \
@@ -42,7 +42,7 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_3_selector "${ON_DEMAND_BROKER_PLAN_3_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_3_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
   --arg on_demand_broker_plan_3_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DESCRIPTION:-''}" \
-  --arg on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"non-existant-value"}" \
+  --arg on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
   --arg on_demand_broker_plan_3_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_3_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_3_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_NAME:-''}" \
@@ -54,7 +54,7 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_4_selector "${ON_DEMAND_BROKER_PLAN_4_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_4_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
   --arg on_demand_broker_plan_4_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DESCRIPTION:-''}" \
-  --arg on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"non-existant-value"}" \
+  --arg on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
   --arg on_demand_broker_plan_4_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_4_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_4_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_NAME:-''}" \
@@ -66,7 +66,7 @@ properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_plan_5_selector "${ON_DEMAND_BROKER_PLAN_5_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_5_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
   --arg on_demand_broker_plan_5_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DESCRIPTION:-''}" \
-  --arg on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"non-existant-value"}" \
+  --arg on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
   --arg on_demand_broker_plan_5_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
   --arg on_demand_broker_plan_5_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
   --arg on_demand_broker_plan_5_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_NAME:-''}" \
@@ -97,7 +97,7 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_server_ssl_private_key_pem "${RABBITMQ_SERVER_SSL_PRIVATE_KEY_PEM}" \
   --arg rabbitmq_server_server_admin_username "${RABBITMQ_SERVER_SERVER_ADMIN_USERNAME}" \
   --arg rabbitmq_server_server_admin_password "${RABBITMQ_SERVER_SERVER_ADMIN_PASSWORD}" \
-  --arg rabbitmq_server_ssl_cacert "${RABBITMQ_SERVER_SSL_CACERT:-''}" \
+  --arg rabbitmq_server_ssl_cacert "${RABBITMQ_SERVER_SSL_CACERT}" \
   --arg rabbitmq_server_ssl_fail_if_no_peer_cert "${RABBITMQ_SERVER_SSL_FAIL_IF_NO_PEER_CERT:-false}" \
   --arg rabbitmq_server_ssl_verification_depth "${RABBITMQ_SERVER_SSL_VERIFICATION_DEPTH:-5}" \
   --arg rabbitmq_server_ssl_verify "${RABBITMQ_SERVER_SSL_VERIFY:-false}" \
@@ -180,7 +180,7 @@ end
     "value": $on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy
   },
   ".properties.on_demand_broker_plan_1_disk_limit_acknowledgement": {
-    "value": $on_demand_broker_plan_1_disk_limit_acknowledgement
+    "value": [ $on_demand_broker_plan_1_disk_limit_acknowledgement ]
   },
   ".properties.on_demand_broker_plan_2_selector": {
     "value": $on_demand_broker_plan_2_selector
@@ -220,7 +220,7 @@ if $on_demand_broker_plan_2_selector == "enabled" then
     "value": $on_demand_broker_plan_2_selector_enabled_rabbitmq_vm_type
   },
   ".properties.on_demand_broker_plan_2_selector.enabled.disk_limit_acknowledgement": {
-    "value": $on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement
+    "value": [ $on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement ]
   }
 }
 else .
@@ -265,7 +265,7 @@ if $on_demand_broker_plan_3_selector == "enabled" then
     "value": $on_demand_broker_plan_3_selector_enabled_rabbitmq_vm_type
   },
   ".properties.on_demand_broker_plan_3_selector.enabled.disk_limit_acknowledgement": {
-    "value": $on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement
+    "value": [ $on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement ]
   }
 }
 else .
@@ -310,7 +310,7 @@ if $on_demand_broker_plan_4_selector == "enabled" then
     "value": $on_demand_broker_plan_4_selector_enabled_rabbitmq_vm_type
   },
   ".properties.on_demand_broker_plan_4_selector.enabled.disk_limit_acknowledgement": {
-    "value": $on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement
+    "value": [ $on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement ]
   }
 }
 else .
@@ -355,7 +355,7 @@ if $on_demand_broker_plan_5_selector == "enabled" then
     "value": $on_demand_broker_plan_5_selector_enabled_rabbitmq_vm_type
   },
   ".properties.on_demand_broker_plan_5_selector.enabled.disk_limit_acknowledgement": {
-    "value": $on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement
+    "value": [ $on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement ]
   }
 }
 else .
