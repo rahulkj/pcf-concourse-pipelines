@@ -117,8 +117,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [stage-product]
       trigger: true
     - get: om-cli
@@ -244,8 +243,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [config-product]
       trigger: true
     - get: jq
@@ -271,8 +269,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [disable-errands]
       trigger: true
     - get: om-cli
@@ -297,8 +294,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [apply-changes]
       trigger: true
 

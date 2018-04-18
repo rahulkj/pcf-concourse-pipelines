@@ -1,12 +1,12 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
 github_token: ((github_token)) # [R] Your github token
 github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: develop
+github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere
 
-debug: true
+debug: false  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
 ## Ops Manager installation meta data
 ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy

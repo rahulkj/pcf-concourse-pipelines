@@ -110,8 +110,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [stage-product]
       trigger: true
     - get: om-cli
@@ -146,8 +145,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [config-product]
       trigger: true
     - get: jq
@@ -175,8 +173,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [config-product]
       trigger: true
     - get: om-cli
@@ -197,8 +194,13 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [apply-changes]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [apply-changes]
+      trigger: true
 
   - task: set-upgrade-pipeline
     file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml

@@ -235,8 +235,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [apply-changes]
       trigger: true
 

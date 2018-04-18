@@ -39,7 +39,6 @@ List of pipelines available in this repository are:
 -	[MySQL-v1 Installation](./pipelines/tiles/mysql)
 -	[MySQL-v2 Installation](./pipelines/tiles/mysql-v2)
 -	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
--	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
 - [Healthwatch](./pipelines/tiles/healthwatch)
 - [Splunk Nozzle](./pipelines/tiles/splunk-nozzle)
 - [New Relic Nozzle](./pipelines/tiles/new-relic-nozzle)
