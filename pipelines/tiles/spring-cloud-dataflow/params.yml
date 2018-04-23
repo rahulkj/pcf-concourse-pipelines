@@ -4,7 +4,7 @@ github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines
 github_branch: develop
 github_username: ((github_username)) # [R] Your github username
 
-iaas_type: vsphere
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
 
 debug: false
 
@@ -39,6 +39,6 @@ concourse_url: ((concourse_url))
 concourse_user: ((concourse_user))
 concourse_pwd: ((concourse_pwd))
 
-pipeline-name: install-spring-cloud-data-flow
+pipeline-name: install-spring-cloud-dataflow
 team-name: ((team-name))
-upgrade-pipeline-name: upgrade-spring-cloud-data-flow
+upgrade-pipeline-name: upgrade-spring-cloud-dataflow
