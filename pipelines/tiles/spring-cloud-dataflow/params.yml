@@ -39,6 +39,6 @@ concourse_url: ((concourse_url))
 concourse_user: ((concourse_user))
 concourse_pwd: ((concourse_pwd))
 
-pipeline-name: install-spring-cloud-data-flow
+pipeline-name: install-spring-cloud-dataflow
 team-name: ((team-name))
-upgrade-pipeline-name: upgrade-spring-cloud-data-flow
+upgrade-pipeline-name: upgrade-spring-cloud-dataflow
