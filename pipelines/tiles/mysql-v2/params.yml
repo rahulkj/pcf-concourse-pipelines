@@ -4,7 +4,7 @@ github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines
 github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
-iaas_type: vsphere
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
 
 debug: false  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
