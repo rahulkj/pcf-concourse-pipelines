@@ -106,7 +106,7 @@ rabbitmq_server_cluster_partition_handling: pause_minority # pause_minority|auto
 rabbitmq_server_config: ''
 rabbitmq_server_cookie: ''
 rabbitmq_server_plugins: 'rabbitmq_amqp1_0,rabbitmq_auth_backend_ldap,rabbitmq_auth_mechanism_ssl,rabbitmq_consistent_hash_exchange,rabbitmq_federation,rabbitmq_federation_management,rabbitmq_management,rabbitmq_management_visualiser,rabbitmq_mqtt,rabbitmq_shovel,rabbitmq_shovel_management,rabbitmq_stomp,rabbitmq_tracing,rabbitmq_web_stomp,rabbitmq_web_stomp_examples,rabbitmq_event_exchange,rabbitmq_jms_topic_exchange'
-rabbitmq_server_ports: '15672,5672,5671,1883,8883,61613,61614,15674'
+rabbitmq_server_ports: '5671, 5672, 1883, 8883, 61613, 61614, 15672, 15674'
 rabbitmq_server_ssl_cert_pem: ''
 rabbitmq_server_ssl_private_key_pem: ''
 rabbitmq_server_server_admin_username: '' # [R]

@@ -25,25 +25,28 @@ service_network_name: # [R] dynamic services network for healthwatch
 errands_to_disable:
 
 healthwatch_forwarder_boshhealth_instance_count: 1
-healthwatch_forwarder_boshtasks_instance_count: 2
-healthwatch_forwarder_canary_instance_count: 2
-healthwatch_forwarder_cli_instance_count: 2
-healthwatch_forwarder_foundation_name: ''
-healthwatch_forwarder_health_check_az: ''
-healthwatch_forwarder_health_check_vm_type: nano
+healthwatch_forwarder_boshtasks_instance_count: 1
+healthwatch_forwarder_canary_instance_count: 1
+healthwatch_forwarder_cli_instance_count: 1
+healthwatch_forwarder_foundation_name: '' # [R]
+healthwatch_forwarder_health_check_az: '' # [R]
+healthwatch_forwarder_health_check_vm_type:
 healthwatch_forwarder_ingestor_instance_count: 4
 healthwatch_forwarder_opsman_instance_count: 2
-mysql_skip_name_resolve: true
-opsman: enable
-opsman_enable_url: ''
-mysql_persistent_disk_mb: 102400
-mysql_instances: 3
+healthwatch_forwarder_publish_to_eva: true # true|false
+healthwatch_forwarder_worker_instance_count: 4
+mysql_skip_name_resolve: true # true|false
+opsman: enable # enable|disable
+opsman_enable_url: # [R] Ops Manager URL, ex: https://OPS-MAN-URL
+mysql_instances: 1
 mysql_instance_type: 2xlarge
-proxy_instances: 2
-proxy_instance_type: medium.disk
-healthwatch_forwarder_persistent_disk_mb: 102400
-healthwatch_forwarder_instances: 1
+mysql_persistent_disk_mb: 102400
+redis_instances: 1
+redis_instance_type: xlarge
+redis_persistent_disk_mb: 102400
+healthwatch_forwarder_instances: 2
 healthwatch_forwarder_instance_type: xlarge
+healthwatch_forwarder_persistent_disk_mb: 102400
 
 concourse_url: ((concourse_url))
 concourse_user: ((concourse_user))
