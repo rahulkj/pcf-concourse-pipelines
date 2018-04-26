@@ -14,69 +14,131 @@ JQ_CMD=./jq/jq-linux64
 
 properties_config=$($JQ_CMD -n \
   --arg on_demand_broker_global_service_instance_quota "${ON_DEMAND_BROKER_GLOBAL_SERVICE_INSTANCE_QUOTA:-20}" \
-  --arg disk_alarm_threshold "${DISK_ALARM_THRESHOLD:-'mem_relative_1_5'}" \
+  --arg on_demand_broker_static_ips "${ON_DEMAND_BROKER_STATIC_IPS}" \
+  --arg disk_alarm_threshold "${DISK_ALARM_THRESHOLD:-"mem_relative_1_5"}" \
+  --arg global_settings_secure_bindings "${GLOBAL_SETTINGS_SECURE_BINDINGS:-"No"}" \
+  --arg global_settings_shareable_instances "${GLOBAL_SETTINGS_SHAREABLE_INSTANCES:-"No"}" \
   --arg metrics_polling_interval "${METRICS_POLLING_INTERVAL:-30}" \
+  --arg on_demand_broker_plan_10_selector "${ON_DEMAND_BROKER_PLAN_10_SELECTOR:-"disabled"}" \
+  --arg on_demand_broker_plan_10_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
+  --arg on_demand_broker_plan_10_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_10_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
+  --arg on_demand_broker_plan_10_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.7"}" \
+  --arg on_demand_broker_plan_10_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
+  --arg on_demand_broker_plan_10_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_10_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
+  --arg on_demand_broker_plan_10_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
+  --arg on_demand_broker_plan_10_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
+  --arg on_demand_broker_plan_10_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_10_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_10_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
   --arg on_demand_broker_plan_1_cf_service_access "${ON_DEMAND_BROKER_PLAN_1_CF_SERVICE_ACCESS:-"disable"}" \
   --arg on_demand_broker_plan_1_description "${ON_DEMAND_BROKER_PLAN_1_DESCRIPTION:-"This plan provides a single dedicated RabbitMQ node"}" \
-  --arg on_demand_broker_plan_1_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_1_DISK_LIMIT_ACKNOWLEDGEMENT:-""}" \
+  --arg on_demand_broker_plan_1_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_1_DISK_LIMIT_ACKNOWLEDGEMENT}" \
   --arg on_demand_broker_plan_1_features "${ON_DEMAND_BROKER_PLAN_1_FEATURES:-"RabbitMQ"}" \
-  --arg on_demand_broker_plan_1_instance_quota "${ON_DEMAND_BROKER_PLAN_1_INSTANCE_QUOTA:-0}" \
+  --arg on_demand_broker_plan_1_instance_quota "${ON_DEMAND_BROKER_PLAN_1_INSTANCE_QUOTA:-5}" \
   --arg on_demand_broker_plan_1_name "${ON_DEMAND_BROKER_PLAN_1_NAME:-"single-node"}" \
   --arg on_demand_broker_plan_1_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_1_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_NUMBER_OF_NODES:-1}" \
-  --arg on_demand_broker_plan_1_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
-  --arg on_demand_broker_plan_1_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_VM_TYPE:-'large'}" \
+  --arg on_demand_broker_plan_1_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_PERSISTENT_DISK_TYPE:-"30720"}" \
+  --arg on_demand_broker_plan_1_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_1_RABBITMQ_VM_TYPE:-"large"}" \
   --arg on_demand_broker_plan_2_selector "${ON_DEMAND_BROKER_PLAN_2_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_2_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_2_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DESCRIPTION:-"This plan provides a preconfigured dedicated cluster of RabbitMQ nodes"}" \
-  --arg on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
+  --arg on_demand_broker_plan_2_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DESCRIPTION:-"Cluster Plan"}" \
+  --arg on_demand_broker_plan_2_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT}" \
   --arg on_demand_broker_plan_2_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
-  --arg on_demand_broker_plan_2_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
+  --arg on_demand_broker_plan_2_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_INSTANCE_QUOTA:-5}" \
   --arg on_demand_broker_plan_2_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_NAME:-"cluster"}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
-  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
-  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
+  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-"30720"}" \
+  --arg on_demand_broker_plan_2_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_2_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-"large"}" \
   --arg on_demand_broker_plan_3_selector "${ON_DEMAND_BROKER_PLAN_3_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_3_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_3_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_3_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DESCRIPTION:-"This plan provides a dedicated cluster of RabbitMQ 3.6 nodes (deprecated, use a RabbitMQ 3.7 plan)."}" \
   --arg on_demand_broker_plan_3_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
-  --arg on_demand_broker_plan_3_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
-  --arg on_demand_broker_plan_3_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
+  --arg on_demand_broker_plan_3_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.6 (deprecated, use a RabbitMQ 3.7 plan)"}" \
+  --arg on_demand_broker_plan_3_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
   --arg on_demand_broker_plan_3_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_NAME}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
-  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
-  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
+  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_3_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_3_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
   --arg on_demand_broker_plan_4_selector "${ON_DEMAND_BROKER_PLAN_4_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_4_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_4_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_4_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DESCRIPTION:-"This plan provides a dedicated cluster of RabbitMQ 3.6 nodes (deprecated, use a RabbitMQ 3.7 plan)."}" \
   --arg on_demand_broker_plan_4_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
-  --arg on_demand_broker_plan_4_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
-  --arg on_demand_broker_plan_4_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
+  --arg on_demand_broker_plan_4_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.6 (deprecated, use a RabbitMQ 3.7 plan)"}" \
+  --arg on_demand_broker_plan_4_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
   --arg on_demand_broker_plan_4_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_NAME}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
-  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
-  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
+  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_4_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_4_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
   --arg on_demand_broker_plan_5_selector "${ON_DEMAND_BROKER_PLAN_5_SELECTOR:-"disabled"}" \
   --arg on_demand_broker_plan_5_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
-  --arg on_demand_broker_plan_5_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_5_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DESCRIPTION:-"This plan provides a dedicated cluster of RabbitMQ 3.6 nodes (deprecated, use a RabbitMQ 3.7 plan)."}" \
   --arg on_demand_broker_plan_5_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
-  --arg on_demand_broker_plan_5_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_FEATURES:-"RabbitMQ"}" \
-  --arg on_demand_broker_plan_5_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_INSTANCE_QUOTA:-0}" \
+  --arg on_demand_broker_plan_5_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.6 (deprecated, use a RabbitMQ 3.7 plan)"}" \
+  --arg on_demand_broker_plan_5_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
   --arg on_demand_broker_plan_5_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_NAME}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
   --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
-  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE:-'30720'}" \
-  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_VM_TYPE:-'large'}" \
-  --arg on_demand_broker_vm_extensions "${ON_DEMAND_BROKER_VM_EXTENSIONS:-''}" \
-  --arg syslog_selector "${SYSLOG_SELECTOR:-"enabled"}" \
+  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_5_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_5_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
+  --arg on_demand_broker_plan_6_cf_service_access "${ON_DEMAND_BROKER_PLAN_6_CF_SERVICE_ACCESS:-"disable"}" \
+  --arg on_demand_broker_plan_6_description "${ON_DEMAND_BROKER_PLAN_6_DESCRIPTION:-"This plan provides a single dedicated RabbitMQ node"}" \
+  --arg on_demand_broker_plan_6_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_6_DISK_LIMIT_ACKNOWLEDGEMENT}" \
+  --arg on_demand_broker_plan_6_features "${ON_DEMAND_BROKER_PLAN_6_FEATURES:-"RabbitMQ 3.7"}" \
+  --arg on_demand_broker_plan_6_instance_quota "${ON_DEMAND_BROKER_PLAN_6_INSTANCE_QUOTA:-10}" \
+  --arg on_demand_broker_plan_6_name "${ON_DEMAND_BROKER_PLAN_6_NAME:-"single-node-3.7"}" \
+  --arg on_demand_broker_plan_6_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_6_RABBITMQ_AZ_PLACEMENT}" \
+  --arg on_demand_broker_plan_6_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_6_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
+  --arg on_demand_broker_plan_6_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_6_RABBITMQ_NUMBER_OF_NODES:-1}" \
+  --arg on_demand_broker_plan_6_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_6_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_6_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_6_RABBITMQ_VM_TYPE}" \
+  --arg on_demand_broker_plan_7_selector "${ON_DEMAND_BROKER_PLAN_7_SELECTOR:-"enabled"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_DESCRIPTION:-"This is the cluster plan"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT}" \
+  --arg on_demand_broker_plan_7_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.7"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
+  --arg on_demand_broker_plan_7_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_NAME:-"cluster-plan"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
+  --arg on_demand_broker_plan_7_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
+  --arg on_demand_broker_plan_7_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
+  --arg on_demand_broker_plan_7_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_7_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_7_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
+  --arg on_demand_broker_plan_8_selector "${ON_DEMAND_BROKER_PLAN_8_SELECTOR:-"disabled"}" \
+  --arg on_demand_broker_plan_8_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
+  --arg on_demand_broker_plan_8_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_8_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
+  --arg on_demand_broker_plan_8_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.7"}" \
+  --arg on_demand_broker_plan_8_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
+  --arg on_demand_broker_plan_8_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_8_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
+  --arg on_demand_broker_plan_8_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
+  --arg on_demand_broker_plan_8_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
+  --arg on_demand_broker_plan_8_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_8_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_8_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
+  --arg on_demand_broker_plan_9_selector "${ON_DEMAND_BROKER_PLAN_9_SELECTOR:-"disabled"}" \
+  --arg on_demand_broker_plan_9_selector_enabled_cf_service_access "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_CF_SERVICE_ACCESS:-"enable"}" \
+  --arg on_demand_broker_plan_9_selector_enabled_description "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_DESCRIPTION}" \
+  --arg on_demand_broker_plan_9_selector_enabled_disk_limit_acknowledgement "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT:-"acknowledge"}" \
+  --arg on_demand_broker_plan_9_selector_enabled_features "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_FEATURES:-"RabbitMQ 3.7"}" \
+  --arg on_demand_broker_plan_9_selector_enabled_instance_quota "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_INSTANCE_QUOTA:-10}" \
+  --arg on_demand_broker_plan_9_selector_enabled_name "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_NAME}" \
+  --arg on_demand_broker_plan_9_selector_enabled_rabbitmq_az_placement "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT}" \
+  --arg on_demand_broker_plan_9_selector_enabled_rabbitmq_cluster_partition_handling_strategy "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY:-"pause_minority"}" \
+  --arg on_demand_broker_plan_9_selector_enabled_rabbitmq_number_of_nodes "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES:-3}" \
+  --arg on_demand_broker_plan_9_selector_enabled_rabbitmq_persistent_disk_type "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE}" \
+  --arg on_demand_broker_plan_9_selector_enabled_rabbitmq_vm_type "${ON_DEMAND_BROKER_PLAN_9_SELECTOR_ENABLED_RABBITMQ_VM_TYPE}" \
+  --arg on_demand_broker_vm_extensions "${ON_DEMAND_BROKER_VM_EXTENSIONS}" \
+  --arg syslog_selector "${SYSLOG_SELECTOR:-"disabled"}" \
   --arg syslog_selector_enabled_address "${SYSLOG_SELECTOR_ENABLED_ADDRESS}" \
   --arg syslog_selector_enabled_port "${SYSLOG_SELECTOR_ENABLED_PORT}" \
   --arg syslog_selector_enabled_syslog_ca_cert "${SYSLOG_SELECTOR_ENABLED_SYSLOG_CA_CERT}" \
@@ -87,6 +149,7 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_broker_dns_host "${RABBITMQ_BROKER_DNS_HOST}" \
   --arg rabbitmq_broker_operator_set_policy_enabled "${RABBITMQ_BROKER_OPERATOR_SET_POLICY_ENABLED:-false}" \
   --arg rabbitmq_broker_policy_definition "${RABBITMQ_BROKER_POLICY_DEFINITION}" \
+  --arg rabbitmq_broker_static_ips "${RABBITMQ_BROKER_STATIC_IPS}" \
   --arg rabbitmq_haproxy_static_ips "${RABBITMQ_HAPROXY_STATIC_IPS}" \
   --arg rabbitmq_server_cluster_partition_handling "${RABBITMQ_SERVER_CLUSTER_PARTITION_HANDLING:-"pause_minority"}" \
   --arg rabbitmq_server_config "${RABBITMQ_SERVER_CONFIG}" \
@@ -104,12 +167,18 @@ properties_config=$($JQ_CMD -n \
   --arg rabbitmq_server_ssl_versions "${RABBITMQ_SERVER_SSL_VERSIONS}" \
   --arg rabbitmq_server_static_ips "${RABBITMQ_SERVER_STATIC_IPS}" \
 '{
+  ".properties.global_settings_shareable_instances": {
+    "value": $global_settings_shareable_instances
+  },
+  ".properties.global_settings_secure_bindings": {
+    "value": $global_settings_secure_bindings
+  },
   ".properties.metrics_polling_interval": {
     "value": $metrics_polling_interval
   },
   ".properties.syslog_selector": {
     "value": $syslog_selector
-  },
+  }
 }
 +
 if $syslog_selector == "enabled" then
@@ -138,6 +207,7 @@ if $syslog_selector == "enabled" then
 }
 else .
 end
++
 +
 if $on_demand_broker_vm_extensions == "public_ip" then
 {
@@ -178,19 +248,10 @@ end
   },
   ".properties.on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy": {
     "value": $on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy
-  }
-}
-+
-if $on_demand_broker_plan_1_disk_limit_acknowledgement == "acknowledge" then
-{
+  },
   ".properties.on_demand_broker_plan_1_disk_limit_acknowledgement": {
     "value": [ $on_demand_broker_plan_1_disk_limit_acknowledgement ]
-  }
-}
-else .
-end
-+
-{
+  },
   ".properties.on_demand_broker_plan_2_selector": {
     "value": $on_demand_broker_plan_2_selector
   }
@@ -371,6 +432,219 @@ else .
 end
 +
 {
+  ".properties.on_demand_broker_plan_6_cf_service_access": {
+    "value": $on_demand_broker_plan_6_cf_service_access
+  },
+  ".properties.on_demand_broker_plan_6_name": {
+    "value": $on_demand_broker_plan_6_name
+  },
+  ".properties.on_demand_broker_plan_6_description": {
+    "value": $on_demand_broker_plan_6_description
+  },
+  ".properties.on_demand_broker_plan_6_instance_quota": {
+    "value": $on_demand_broker_plan_6_instance_quota
+  },
+  ".properties.on_demand_broker_plan_6_features": {
+    "value": $on_demand_broker_plan_6_features
+  },
+  ".properties.on_demand_broker_plan_6_rabbitmq_az_placement": {
+    "value": ( $on_demand_broker_plan_6_rabbitmq_az_placement | split(",") )
+  },
+  ".properties.on_demand_broker_plan_6_rabbitmq_vm_type": {
+    "value": $on_demand_broker_plan_6_rabbitmq_vm_type
+  },
+  ".properties.on_demand_broker_plan_6_rabbitmq_persistent_disk_type": {
+    "value": $on_demand_broker_plan_6_rabbitmq_persistent_disk_type
+  },
+  ".properties.on_demand_broker_plan_6_rabbitmq_number_of_nodes": {
+    "value": $on_demand_broker_plan_6_rabbitmq_number_of_nodes
+  },
+  ".properties.on_demand_broker_plan_6_rabbitmq_cluster_partition_handling_strategy": {
+    "value": $on_demand_broker_plan_6_rabbitmq_cluster_partition_handling_strategy
+  },
+  ".properties.on_demand_broker_plan_6_disk_limit_acknowledgement": {
+    "value": [ $on_demand_broker_plan_6_disk_limit_acknowledgement ]
+  },
+  ".properties.on_demand_broker_plan_7_selector": {
+    "value": $on_demand_broker_plan_7_selector
+  }
+}
++
+if $on_demand_broker_plan_7_selector == "enabled" then
+{
+  ".properties.on_demand_broker_plan_7_selector.enabled.cf_service_access": {
+    "value": $on_demand_broker_plan_7_selector_enabled_cf_service_access
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.name": {
+    "value": $on_demand_broker_plan_7_selector_enabled_name
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.description": {
+    "value": $on_demand_broker_plan_7_selector_enabled_description
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.features": {
+    "value": $on_demand_broker_plan_7_selector_enabled_features
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.instance_quota": {
+    "value": $on_demand_broker_plan_7_selector_enabled_instance_quota
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_persistent_disk_type": {
+    "value": $on_demand_broker_plan_7_selector_enabled_rabbitmq_persistent_disk_type
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_number_of_nodes": {
+    "value": $on_demand_broker_plan_7_selector_enabled_rabbitmq_number_of_nodes
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_cluster_partition_handling_strategy": {
+    "value": $on_demand_broker_plan_7_selector_enabled_rabbitmq_cluster_partition_handling_strategy
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_az_placement": {
+    "value": ( $on_demand_broker_plan_7_selector_enabled_rabbitmq_az_placement| split(",") )
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_vm_type": {
+    "value": $on_demand_broker_plan_7_selector_enabled_rabbitmq_vm_type
+  },
+  ".properties.on_demand_broker_plan_7_selector.enabled.disk_limit_acknowledgement": {
+    "value": [ $on_demand_broker_plan_7_selector_enabled_disk_limit_acknowledgement ]
+  }
+}
+else .
+end
++
+{
+  ".properties.on_demand_broker_plan_8_selector": {
+    "value": $on_demand_broker_plan_8_selector
+  }
+}
++
+if $on_demand_broker_plan_8_selector == "enabled" then
+{
+  ".properties.on_demand_broker_plan_8_selector.enabled.cf_service_access": {
+    "value": $on_demand_broker_plan_8_selector_enabled_cf_service_access
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.name": {
+    "value": $on_demand_broker_plan_8_selector_enabled_name
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.description": {
+    "value": $on_demand_broker_plan_8_selector_enabled_description
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.features": {
+    "value": $on_demand_broker_plan_8_selector_enabled_features
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.instance_quota": {
+    "value": $on_demand_broker_plan_8_selector_enabled_instance_quota
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_persistent_disk_type": {
+    "value": $on_demand_broker_plan_8_selector_enabled_rabbitmq_persistent_disk_type
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_number_of_nodes": {
+    "value": $on_demand_broker_plan_8_selector_enabled_rabbitmq_number_of_nodes
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_cluster_partition_handling_strategy": {
+    "value": $on_demand_broker_plan_8_selector_enabled_rabbitmq_cluster_partition_handling_strategy
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_az_placement": {
+    "value": ( $on_demand_broker_plan_8_selector_enabled_rabbitmq_az_placement | split(",") )
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_vm_type": {
+    "value": $on_demand_broker_plan_8_selector_enabled_rabbitmq_vm_type
+  },
+  ".properties.on_demand_broker_plan_8_selector.enabled.disk_limit_acknowledgement": {
+    "value": [ $on_demand_broker_plan_8_selector_enabled_disk_limit_acknowledgement ]
+  }
+}
+else .
+end
++
+{
+  ".properties.on_demand_broker_plan_9_selector": {
+    "value": $on_demand_broker_plan_9_selector
+  }
+}
++
+if $on_demand_broker_plan_9_selector == "enabled" then
+{
+  ".properties.on_demand_broker_plan_9_selector.enabled.cf_service_access": {
+    "value": $on_demand_broker_plan_9_selector_enabled_cf_service_access
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.name": {
+    "value": $on_demand_broker_plan_9_selector_enabled_name
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.description": {
+    "value": $on_demand_broker_plan_9_selector_enabled_description
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.features": {
+    "value": $on_demand_broker_plan_9_selector_enabled_features
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.instance_quota": {
+    "value": $on_demand_broker_plan_9_selector_enabled_instance_quota
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_persistent_disk_type": {
+    "value": $on_demand_broker_plan_9_selector_enabled_rabbitmq_persistent_disk_type
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_number_of_nodes": {
+    "value": $on_demand_broker_plan_9_selector_enabled_rabbitmq_number_of_nodes
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_cluster_partition_handling_strategy": {
+    "value": $on_demand_broker_plan_9_selector_enabled_rabbitmq_cluster_partition_handling_strategy
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_az_placement": {
+    "value": ( $on_demand_broker_plan_9_selector_enabled_rabbitmq_az_placement | split(",") )
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_vm_type": {
+    "value": $on_demand_broker_plan_9_selector_enabled_rabbitmq_vm_type
+  },
+  ".properties.on_demand_broker_plan_9_selector.enabled.disk_limit_acknowledgement": {
+    "value": [ $on_demand_broker_plan_9_selector_enabled_disk_limit_acknowledgement ]
+  }
+}
+else .
+end
++
+{
+  ".properties.on_demand_broker_plan_10_selector": {
+    "value": $on_demand_broker_plan_10_selector
+  }
+}
++
+if $on_demand_broker_plan_10_selector == "enabled" then
+{
+  ".properties.on_demand_broker_plan_10_selector.enabled.cf_service_access": {
+    "value": $on_demand_broker_plan_10_selector_enabled_cf_service_access
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.name": {
+    "value": $on_demand_broker_plan_10_selector_enabled_name
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.description": {
+    "value": $on_demand_broker_plan_10_selector_enabled_description
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.features": {
+    "value": $on_demand_broker_plan_10_selector_enabled_features
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.instance_quota": {
+    "value": $on_demand_broker_plan_10_selector_enabled_instance_quota
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_persistent_disk_type": {
+    "value": $on_demand_broker_plan_10_selector_enabled_rabbitmq_persistent_disk_type
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_number_of_nodes": {
+    "value": $on_demand_broker_plan_10_selector_enabled_rabbitmq_number_of_nodes
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_cluster_partition_handling_strategy": {
+    "value": $on_demand_broker_plan_10_selector_enabled_rabbitmq_cluster_partition_handling_strategy
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_az_placement": {
+    "value": ( $on_demand_broker_plan_10_selector_enabled_rabbitmq_az_placement | split(",") )
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_vm_type": {
+    "value": $on_demand_broker_plan_10_selector_enabled_rabbitmq_vm_type
+  },
+  ".properties.on_demand_broker_plan_10_selector.enabled.disk_limit_acknowledgement": {
+    "value": [ $on_demand_broker_plan_10_selector_enabled_disk_limit_acknowledgement ]
+  }
+}
+else .
+end
++
+{
   ".properties.disk_alarm_threshold": {
     "value": $disk_alarm_threshold
   },
@@ -393,7 +667,7 @@ end
     "value": $rabbitmq_server_ssl_cacert
   },
   ".rabbitmq-server.ssl_verify": {
-    "value": $rabbitmq_server_ssl_verify
+    "value": ( $rabbitmq_server_ssl_versions | split(",") )
   },
   ".rabbitmq-server.ssl_verification_depth": {
     "value": $rabbitmq_server_ssl_verification_depth
@@ -408,7 +682,7 @@ end
     "value": $rabbitmq_server_config
   },
   ".rabbitmq-server.ssl_versions": {
-    "value": ( $rabbitmq_server_ssl_versions | split(",") )
+    "value": $rabbitmq_server_ssl_versions
   },
   ".rabbitmq-server.cluster_partition_handling": {
     "value": $rabbitmq_server_cluster_partition_handling
@@ -431,8 +705,14 @@ end
   ".rabbitmq-broker.policy_definition": {
     "value": $rabbitmq_broker_policy_definition
   },
+  ".rabbitmq-broker.static_ips": {
+    "value": $rabbitmq_broker_static_ips
+  },
   ".on-demand-broker.global_service_instance_quota": {
     "value": $on_demand_broker_global_service_instance_quota
+  },
+  ".on-demand-broker.static_ips": {
+    "value": $on_demand_broker_static_ips
   }
 }'
 )
@@ -472,14 +752,6 @@ $OM_CMD \
   --skip-ssl-validation \
   configure-product \
   --product-name p-rabbitmq \
-  --product-network "$network_config"
-
-$OM_CMD \
-  --target https://$OPS_MGR_HOST \
-  --username "$OPS_MGR_USR" \
-  --password "$OPS_MGR_PWD" \
-  --skip-ssl-validation \
-  configure-product \
-  --product-name p-rabbitmq \
   --product-properties "$properties_config" \
+  --product-network "$network_config" \
   --product-resources "$resources_config"
