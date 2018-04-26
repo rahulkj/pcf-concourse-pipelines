@@ -9,7 +9,7 @@ github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines
 github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
-iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
 debug: false
 

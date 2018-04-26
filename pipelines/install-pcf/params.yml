@@ -14,7 +14,7 @@ gist_url: ((gist_url))
 opsman_product_version: ^2\.1\..*$
 pas_product_version: ^2\.1\..*$
 pas_product_identifier: cf
-iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
 debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
