@@ -208,7 +208,6 @@ if $syslog_selector == "enabled" then
 else .
 end
 +
-+
 if $on_demand_broker_vm_extensions == "public_ip" then
 {
   ".properties.on_demand_broker_vm_extensions": {
