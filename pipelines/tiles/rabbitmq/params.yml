@@ -20,7 +20,7 @@ ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
 
 product_name: pivotal-rabbitmq-service
 product_identifier: p-rabbitmq
-product_version: ^1\.11\..*$
+product_version: ^1\.12\..*$
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs: # [R] Balance other jobs in AZ's
