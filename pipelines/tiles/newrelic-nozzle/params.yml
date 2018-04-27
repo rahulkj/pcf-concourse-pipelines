@@ -6,7 +6,7 @@ github_username: ((github_username)) # [R] Your github username
 
 debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
-iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
 ## Ops Manager installation meta data
 ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com

@@ -4,7 +4,7 @@ github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines
 github_branch: master
 github_username: ((github_username)) # [R] Your github username
 
-iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
 ## Ops Manager installation meta data
 ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
@@ -15,7 +15,7 @@ debug: false
 
 product_name: p-healthwatch
 product_identifier: p-healthwatch
-product_version: ^1\.1\..*$
+product_version: ^1\.2\..*$
 
 singleton_jobs_az: # [R] Place singleton jobs in an AZ
 other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
@@ -30,14 +30,14 @@ healthwatch_forwarder_canary_instance_count: 1
 healthwatch_forwarder_cli_instance_count: 1
 healthwatch_forwarder_foundation_name: '' # [R]
 healthwatch_forwarder_health_check_az: '' # [R]
-healthwatch_forwarder_health_check_vm_type:
+healthwatch_forwarder_health_check_vm_type: micro
 healthwatch_forwarder_ingestor_instance_count: 4
 healthwatch_forwarder_opsman_instance_count: 2
 healthwatch_forwarder_publish_to_eva: true # true|false
 healthwatch_forwarder_worker_instance_count: 4
 mysql_skip_name_resolve: true # true|false
-opsman: enable # enable|disable
-opsman_enable_url: # [R] Ops Manager URL, ex: https://OPS-MAN-URL
+opsman: disable # enable|disable
+opsman_enable_url: '' # [R] Ops Manager URL, ex: https://OPS-MAN-URL
 mysql_instances: 1
 mysql_instance_type: 2xlarge
 mysql_persistent_disk_mb: 102400
