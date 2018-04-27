@@ -666,7 +666,7 @@ end
     "value": $rabbitmq_server_ssl_cacert
   },
   ".rabbitmq-server.ssl_verify": {
-    "value": ( $rabbitmq_server_ssl_versions | split(",") )
+    "value": $rabbitmq_server_ssl_verify
   },
   ".rabbitmq-server.ssl_verification_depth": {
     "value": $rabbitmq_server_ssl_verification_depth
@@ -681,7 +681,7 @@ end
     "value": $rabbitmq_server_config
   },
   ".rabbitmq-server.ssl_versions": {
-    "value": $rabbitmq_server_ssl_versions
+    "value": ( $rabbitmq_server_ssl_versions | split(",") )
   },
   ".rabbitmq-server.cluster_partition_handling": {
     "value": $rabbitmq_server_cluster_partition_handling
