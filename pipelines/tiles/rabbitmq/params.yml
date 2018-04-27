@@ -30,8 +30,8 @@ service_network_name: # [R] Services network name
 on_demand_broker_global_service_instance_quota: 20
 on_demand_broker_static_ips: ''
 disk_alarm_threshold: mem_relative_1_5 # fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0
-global_settings_secure_bindings: No # Yes|No
-global_settings_shareable_instances: No # Yes|No
+global_settings_secure_bindings: 'No' # 'Yes'|'No'
+global_settings_shareable_instances: 'No' # 'Yes'|'No'
 metrics_polling_interval: 30
 on_demand_broker_plan_10_selector: disabled # enabled|disabled
 on_demand_broker_plan_10_selector_enabled_cf_service_access: disable # enable|disable enable # enable|disable
