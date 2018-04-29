@@ -148,6 +148,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -164,7 +165,7 @@ jobs:
         globs:
         - "*linux64*"
       passed: [upload-product]
-      
+
   - task: config-tile
     file: pipelines-repo/tasks/config-newrelic-broker/task.yml
     params:
