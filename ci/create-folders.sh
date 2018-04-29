@@ -11,7 +11,7 @@ fi
 
 for pipeline in ${PIPELINES[@]}; do
   mkdir -p $PARAMS_PATH/$pipeline
-  cp $SCRIPTS_DIR/pipelines/tiles/$pipeline/params.yml $PARAMS_PATH/$pipeline/params.yml
+  cp $SCRIPTS_DIR/pipelines/tiles/$pipeline/params.yml $PARAMS_PATH/$pipeline/creds.yml
 done
 
 echo "Done"

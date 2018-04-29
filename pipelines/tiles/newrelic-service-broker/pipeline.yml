@@ -57,10 +57,6 @@ jobs:
       params:
         globs:
         - "*-linux"
-    - get: jq
-      params:
-        globs:
-        - "*linux64*"
 
   - task: unstage-tile
     file: pipelines-repo/tasks/unstage-product/task.yml
@@ -97,6 +93,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml

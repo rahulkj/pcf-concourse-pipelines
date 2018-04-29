@@ -176,7 +176,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
-      passed: [upload-product]
+      passed: [replicate-and-upload-tile]
 
   - task: config-tile
     file: pipelines-repo/tasks/config-is-tile/task.yml

@@ -250,11 +250,6 @@ jobs:
         globs:
         - "*-linux"
       passed: [disable-errands]
-    - get: jq
-      params:
-        globs:
-        - "*linux64*"
-      passed: [config-product]
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
