@@ -94,6 +94,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -160,7 +164,8 @@ jobs:
       params:
         globs:
         - "*linux64*"
-
+      passed: [upload-product]
+      
   - task: config-tile
     file: pipelines-repo/tasks/config-p-dataflow/task.yml
     params:
