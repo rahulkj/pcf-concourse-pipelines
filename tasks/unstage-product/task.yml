@@ -19,4 +19,4 @@ inputs:
   - name: pivnet-product
 
 run:
-  path: pipelines-repo/tasks/delete-product/task.sh
+  path: pipelines-repo/tasks/unstage-product/task.sh
