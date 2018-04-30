@@ -17,10 +17,10 @@ product_name: p-healthwatch
 product_identifier: p-healthwatch
 product_version: ^1\.2\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
-network_name:      # [R] Tile network name
-service_network_name: # [R] dynamic services network for healthwatch
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs))         # [R] Balance other jobs in AZ's (comma-separated)
+network_name: ((network_name))      # [R] Tile network name
+service_network_name: ((service_network_name)) # [R] dynamic services network for healthwatch
 
 errands_to_disable:
 

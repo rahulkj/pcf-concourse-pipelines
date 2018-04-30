@@ -17,9 +17,9 @@ product_name: p-mysql
 product_identifier: p-mysql
 product_version: ^1\.10\..*$
 
-singleton_jobs_az:
-other_azs:
-network_name:
+singleton_jobs_az: ((singleton_jobs_az))
+other_azs: ((other_azs))
+network_name: ((network_name))
 
 cf_mysql_broker_allow_table_locks: true
 cf_mysql_broker_bind_hostname: ''

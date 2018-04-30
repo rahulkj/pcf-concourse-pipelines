@@ -17,9 +17,9 @@ product_name: nr-firehose-nozzle
 product_identifier: nr-firehose-nozzle
 product_version: ^1\.0\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs:         # [R] Balance other jobs in AZ's (comma-separated)
-network_name:      # [R] Tile network name
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs))         # [R] Balance other jobs in AZ's (comma-separated)
+network_name: ((network_name))      # [R] Tile network name
 
 allow_paid_service_plans: false
 apply_open_security_group: true

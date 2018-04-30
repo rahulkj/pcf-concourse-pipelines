@@ -22,9 +22,9 @@ product_name: apm
 product_identifier: apm
 product_version: ^1\.4\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs: # [R] Balance other jobs in AZ's
-network_name: # [R] Tile network name
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
+network_name: ((network_name)) # [R] Tile network name
 
 mysql_roadmin_password: ''
 mysql_skip_name_resolve: true
