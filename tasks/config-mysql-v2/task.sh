@@ -124,7 +124,7 @@ properties_config=$($JQ_CMD -n \
 if $vm_extensions == "public_ip" then
 {
   ".properties.vm_extensions": {
-    "value": $vm_extensions
+    "value": ( $vm_extensions | split(",") )
   }
 }
 else .
@@ -280,7 +280,7 @@ end
   }
 }
 +
-if $plan2_selector == "active" then
+if $plan2_selector == "Active" then
 {
   ".properties.plan2_selector.active.multi_node_deployment": {
     "value": $plan2_selector_active_multi_node_deployment
@@ -316,7 +316,7 @@ end
   }
 }
 +
-if $plan3_selector == "active" then
+if $plan3_selector == "Active" then
 {
   ".properties.plan3_selector.active.multi_node_deployment": {
     "value": $plan3_selector_active_multi_node_deployment
@@ -352,7 +352,7 @@ end
   }
 }
 +
-if $plan4_selector == "active" then
+if $plan4_selector == "Active" then
 {
   ".properties.plan4_selector.active.multi_node_deployment": {
     "value": $plan4_selector_active_multi_node_deployment
@@ -388,7 +388,7 @@ end
   }
 }
 +
-if $plan5_selector == "active" then
+if $plan5_selector == "Active" then
 {
   ".properties.plan5_selector.active.multi_node_deployment": {
     "value": $plan5_selector_active_multi_node_deployment
