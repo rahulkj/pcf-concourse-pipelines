@@ -114,4 +114,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-pivotal-mysql/task.sh
+  path: pipelines-repo/tasks/config-mysql-v2/task.sh
