@@ -345,6 +345,7 @@ if $plan3_selector == "active" then
 }
 else .
 end
++
 {
   ".properties.plan4_selector": {
     "value": $plan4_selector
