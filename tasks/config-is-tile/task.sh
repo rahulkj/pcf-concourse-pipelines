@@ -318,6 +318,9 @@ resources_config="{
 }"
 fi
 
+echo "$additional_properties" > additional_properties.json
+echo "$common_properties" > common_properties.json
+
 properties_config=$($JQ_CMD -s add common_properties.json additional_properties.json)
 
 network_config=$($JQ_CMD -n \
