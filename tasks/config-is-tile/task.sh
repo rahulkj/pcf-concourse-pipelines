@@ -96,7 +96,11 @@ common_properties=$($JQ_CMD -n \
   },
   ".properties.system_logging": {
     "value": $system_logging
-  },
+  }
+}
++
+if $system_logging == "enabled" then
+{
   ".properties.system_logging.enabled.host": {
     "value": $system_logging_enabled_host
   },
@@ -120,7 +124,12 @@ common_properties=$($JQ_CMD -n \
   },
   ".properties.system_logging.enabled.syslog_rule": {
     "value": $system_logging_enabled_syslog_rule
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.routing_table_sharding_mode": {
     "value": $routing_table_sharding_mode
   },
