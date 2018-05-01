@@ -33,40 +33,40 @@ else
 fi
 
 common_properties=$($JQ_CMD -n \
-  --arg enable_grootfs "${ENABLE_GROOTFS:-true}" \
-  --arg garden_disk_cleanup "${GARDEN_DISK_CLEANUP:-"threshold"}" \
-  --arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS:-"ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"}" \
-  --arg haproxy_forward_tls "${HAPROXY_FORWARD_TLS:-"enable"}" \
-  --arg haproxy_forward_tls_enable_backend_ca "${HAPROXY_FORWARD_TLS_ENABLE_BACKEND_CA}" \
-  --arg haproxy_max_buffer_size "${HAPROXY_MAX_BUFFER_SIZE:-16384}" \
-  --arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS:-"DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"}" \
-  --arg networking_poe_ssl_name "${NETWORKING_POE_SSL_NAME}" \
-  --arg networking_poe_ssl_cert_pem "${NETWORKING_POE_SSL_CERT_PEM}" \
-  --arg networking_poe_ssl_cert_private_key_pem "${NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM}" \
-  --arg nfs_volume_driver "${NFS_VOLUME_DRIVER:-"disable"}" \
-  --arg nfs_volume_driver_enable_ldap_server_host "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_HOST}" \
-  --arg nfs_volume_driver_enable_ldap_server_port "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_PORT}" \
-  --arg nfs_volume_driver_enable_ldap_service_account_password "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_PASSWORD}" \
-  --arg nfs_volume_driver_enable_ldap_service_account_user "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_USER}" \
-  --arg nfs_volume_driver_enable_ldap_user_fqdn "${NFS_VOLUME_DRIVER_ENABLE_LDAP_USER_FQDN}" \
-  --arg router_backend_max_conn "${ROUTER_BACKEND_MAX_CONN:-500}" \
-  --arg router_client_cert_validation "${ROUTER_CLIENT_CERT_VALIDATION:-"request"}" \
-  --arg router_enable_proxy "${ROUTER_ENABLE_PROXY:-false}" \
-  --arg routing_custom_ca_certificates "${ROUTING_CUSTOM_CA_CERTIFICATES}" \
-  --arg routing_disable_http "${ROUTING_DISABLE_HTTP:-false}" \
-  --arg routing_minimum_tls_version "${ROUTING_MINIMUM_TLS_VERSION:-"tls_v1_2"}" \
-  --arg routing_table_sharding_mode "${ROUTING_TABLE_SHARDING_MODE:-"isolation_segment_only"}" \
-  --arg routing_tls_termination "${ROUTING_TLS_TERMINATION:-"load_balancer"}" \
-  --arg skip_cert_verify "${SKIP_CERT_VERIFY:-false}" \
-  --arg system_logging "${SYSTEM_LOGGING:-"disabled"}" \
-  --arg system_logging_enabled_host "${SYSTEM_LOGGING_ENABLED_HOST}" \
-  --arg system_logging_enabled_port "${SYSTEM_LOGGING_ENABLED_PORT}" \
-  --arg system_logging_enabled_protocol "${SYSTEM_LOGGING_ENABLED_PROTOCOL}" \
-  --arg system_logging_enabled_syslog_rule "${SYSTEM_LOGGING_ENABLED_SYSLOG_RULE}" \
-  --arg system_logging_enabled_tls_ca_cert "${SYSTEM_LOGGING_ENABLED_TLS_CA_CERT}" \
-  --arg system_logging_enabled_tls_enabled "${SYSTEM_LOGGING_ENABLED_TLS_ENABLED:-false}" \
-  --arg system_logging_enabled_tls_permitted_peer "${SYSTEM_LOGGING_ENABLED_TLS_PERMITTED_PEER}" \
-  --arg system_logging_enabled_use_tcp_for_file_forwarding_local_transport "${SYSTEM_LOGGING_ENABLED_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT:-false}" \
+--arg enable_grootfs "${ENABLE_GROOTFS:-true}" \
+--arg garden_disk_cleanup "${GARDEN_DISK_CLEANUP:-"threshold"}" \
+--arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS}" \
+--arg haproxy_forward_tls "${HAPROXY_FORWARD_TLS:-"enable"}" \
+--arg haproxy_forward_tls_enable_backend_ca "${HAPROXY_FORWARD_TLS_ENABLE_BACKEND_CA}" \
+--arg haproxy_max_buffer_size "${HAPROXY_MAX_BUFFER_SIZE:-16384}" \
+--arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS}" \
+--arg networking_poe_ssl_name "${NETWORKING_POE_SSL_NAME}" \
+--arg networking_poe_ssl_cert_pem "${NETWORKING_POE_SSL_CERT_PEM}" \
+--arg networking_poe_ssl_cert_private_key_pem "${NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM}" \
+--arg nfs_volume_driver "${NFS_VOLUME_DRIVER:-"enable"}" \
+--arg nfs_volume_driver_enable_ldap_server_host "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_HOST}" \
+--arg nfs_volume_driver_enable_ldap_server_port "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVER_PORT}" \
+--arg nfs_volume_driver_enable_ldap_service_account_password "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_PASSWORD}" \
+--arg nfs_volume_driver_enable_ldap_service_account_user "${NFS_VOLUME_DRIVER_ENABLE_LDAP_SERVICE_ACCOUNT_USER}" \
+--arg nfs_volume_driver_enable_ldap_user_fqdn "${NFS_VOLUME_DRIVER_ENABLE_LDAP_USER_FQDN}" \
+--arg router_backend_max_conn "${ROUTER_BACKEND_MAX_CONN:-500}" \
+--arg router_client_cert_validation "${ROUTER_CLIENT_CERT_VALIDATION:-"request"}" \
+--arg router_enable_proxy "${ROUTER_ENABLE_PROXY:-false}" \
+--arg routing_custom_ca_certificates "${ROUTING_CUSTOM_CA_CERTIFICATES}" \
+--arg routing_disable_http "${ROUTING_DISABLE_HTTP:-false}" \
+--arg routing_minimum_tls_version "${ROUTING_MINIMUM_TLS_VERSION:-"tls_v1_2"}" \
+--arg routing_table_sharding_mode "${ROUTING_TABLE_SHARDING_MODE:-"isolation_segment_only"}" \
+--arg routing_tls_termination "${ROUTING_TLS_TERMINATION:-"load_balancer"}" \
+--arg skip_cert_verify "${SKIP_CERT_VERIFY:-false}" \
+--arg system_logging "${SYSTEM_LOGGING:-"disabled"}" \
+--arg system_logging_enabled_host "${SYSTEM_LOGGING_ENABLED_HOST}" \
+--arg system_logging_enabled_port "${SYSTEM_LOGGING_ENABLED_PORT}" \
+--arg system_logging_enabled_protocol "${SYSTEM_LOGGING_ENABLED_PROTOCOL}" \
+--arg system_logging_enabled_syslog_rule "${SYSTEM_LOGGING_ENABLED_SYSLOG_RULE}" \
+--arg system_logging_enabled_tls_ca_cert "${SYSTEM_LOGGING_ENABLED_TLS_CA_CERT}" \
+--arg system_logging_enabled_tls_enabled "${SYSTEM_LOGGING_ENABLED_TLS_ENABLED:-false}" \
+--arg system_logging_enabled_tls_permitted_peer "${SYSTEM_LOGGING_ENABLED_TLS_PERMITTED_PEER}" \
+--arg system_logging_enabled_use_tcp_for_file_forwarding_local_transport "${SYSTEM_LOGGING_ENABLED_USE_TCP_FOR_FILE_FORWARDING_LOCAL_TRANSPORT:-false}" \
 '{
   ".properties.nfs_volume_driver": {
     "value": $nfs_volume_driver
@@ -76,7 +76,7 @@ common_properties=$($JQ_CMD -n \
   },
   ".properties.nfs_volume_driver.enable.ldap_service_account_password": {
     "value": {
-      "FIX-ME": "FIX-ME"
+      "secret": $nfs_volume_driver_enable_ldap_service_account_password
     }
   },
   ".properties.nfs_volume_driver.enable.ldap_server_host": {
@@ -178,7 +178,7 @@ common_properties=$($JQ_CMD -n \
 )
 
 if [[ -z "$REPLICATOR_NAME" ]]; then
-additional_properties=($JQ_CMD -n
+additional_properties=$($JQ_CMD -n \
   --arg isolated_diego_cell_executor_disk_capacity "${ISOLATED_DIEGO_CELL_EXECUTOR_DISK_CAPACITY}" \
   --arg isolated_diego_cell_executor_memory_capacity "${ISOLATED_DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY}" \
   --arg isolated_diego_cell_insecure_docker_registry_list "${ISOLATED_DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST}" \
@@ -197,23 +197,11 @@ additional_properties=($JQ_CMD -n
   --arg isolated_router_static_ips "${ISOLATED_ROUTER_STATIC_IPS}" \
   '
   {
-    ".isolated_diego_cell.executor_disk_capacity": {
-      "value": $isolated_diego_cell_executor_disk_capacity
-    },
-    ".isolated_diego_cell.executor_memory_capacity": {
-      "value": $isolated_diego_cell_executor_memory_capacity
-    },
-    ".isolated_diego_cell.insecure_docker_registry_list": {
-      "value": $isolated_diego_cell_insecure_docker_registry_list
-    },
-    ".isolated_diego_cell.placement_tag": {
-      "value": $isolated_diego_cell_placement_tag
+    ".isolated_ha_proxy.static_ips": {
+      "value": $isolated_ha_proxy_static_ips
     },
     ".isolated_ha_proxy.internal_only_domains": {
       "value": $isolated_ha_proxy_internal_only_domains
-    },
-    ".isolated_ha_proxy.static_ips": {
-      "value": $isolated_ha_proxy_static_ips
     },
     ".isolated_ha_proxy.trusted_domain_cidrs": {
       "value": $isolated_ha_proxy_trusted_domain_cidrs
@@ -244,6 +232,18 @@ additional_properties=($JQ_CMD -n
     },
     ".isolated_router.lb_healthy_threshold": {
       "value": $isolated_router_lb_healthy_threshold
+    },
+    ".isolated_diego_cell.executor_disk_capacity": {
+      "value": $isolated_diego_cell_executor_disk_capacity
+    },
+    ".isolated_diego_cell.executor_memory_capacity": {
+      "value": $isolated_diego_cell_executor_memory_capacity
+    },
+    ".isolated_diego_cell.insecure_docker_registry_list": {
+      "value": $isolated_diego_cell_insecure_docker_registry_list
+    },
+    ".isolated_diego_cell.placement_tag": {
+      "value": $isolated_diego_cell_placement_tag
     }
   }
   '
@@ -259,23 +259,11 @@ else
 
 additional_properties=$(cat <<-EOF
 {
-  ".isolated_diego_cell_$REPLICATOR_NAME.executor_disk_capacity": {
-    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_DISK_CAPACITY"
-  },
-  ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
-    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY"
-  },
-  ".isolated_diego_cell_$REPLICATOR_NAME.insecure_docker_registry_list": {
-    "value": "$ISOLATED_DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST"
-  },
-  ".isolated_diego_cell_$REPLICATOR_NAME.placement_tag": {
-    "value": "$ISOLATED_DIEGO_CELL_PLACEMENT_TAG"
+  ".isolated_ha_proxy_$REPLICATOR_NAME.static_ips": {
+    "value": "$ISOLATED_HA_PROXY_STATIC_IPS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.internal_only_domains": {
     "value": "$ISOLATED_HA_PROXY_INTERNAL_ONLY_DOMAINS"
-  },
-  ".isolated_ha_proxy_$REPLICATOR_NAME.static_ips": {
-    "value": "$ISOLATED_HA_PROXY_STATIC_IPS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.trusted_domain_cidrs": {
     "value": "$ISOLATED_HA_PROXY_TRUSTED_DOMAIN_CIDRS"
@@ -306,6 +294,18 @@ additional_properties=$(cat <<-EOF
   },
   ".isolated_router_$REPLICATOR_NAME.lb_healthy_threshold": {
     "value": "$ISOLATED_ROUTER_LB_HEALTHY_THRESHOLD"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.executor_disk_capacity": {
+    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_DISK_CAPACITY"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
+    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.insecure_docker_registry_list": {
+    "value": "$ISOLATED_DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST"
+  },
+  ".isolated_diego_cell_$REPLICATOR_NAME.placement_tag": {
+    "value": "$ISOLATED_DIEGO_CELL_PLACEMENT_TAG"
   }
 }
 EOF
