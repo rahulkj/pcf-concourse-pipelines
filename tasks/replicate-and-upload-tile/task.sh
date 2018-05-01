@@ -25,3 +25,5 @@ else
   FILE_PATH=`find ./pivnet-product -name *.pivotal`
   $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $FILE_PATH
 fi
+
+rm -rf $OUTPUT_FILE_PATH
