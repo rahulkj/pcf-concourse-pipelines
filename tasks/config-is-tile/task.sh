@@ -260,52 +260,52 @@ else
 additional_properties=$(cat <<-EOF
 {
   ".isolated_diego_cell_$REPLICATOR_NAME.executor_disk_capacity": {
-    "value": $isolated_diego_cell_executor_disk_capacity
+    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_DISK_CAPACITY"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.executor_memory_capacity": {
-    "value": $isolated_diego_cell_executor_memory_capacity
+    "value": "$ISOLATED_DIEGO_CELL_EXECUTOR_MEMORY_CAPACITY"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.insecure_docker_registry_list": {
-    "value": $isolated_diego_cell_insecure_docker_registry_list
+    "value": "$ISOLATED_DIEGO_CELL_INSECURE_DOCKER_REGISTRY_LIST"
   },
   ".isolated_diego_cell_$REPLICATOR_NAME.placement_tag": {
-    "value": $isolated_diego_cell_placement_tag
+    "value": "$ISOLATED_DIEGO_CELL_PLACEMENT_TAG"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.internal_only_domains": {
-    "value": $isolated_ha_proxy_internal_only_domains
+    "value": "$ISOLATED_HA_PROXY_INTERNAL_ONLY_DOMAINS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.static_ips": {
-    "value": $isolated_ha_proxy_static_ips
+    "value": "$ISOLATED_HA_PROXY_STATIC_IPS"
   },
   ".isolated_ha_proxy_$REPLICATOR_NAME.trusted_domain_cidrs": {
-    "value": $isolated_ha_proxy_trusted_domain_cidrs
+    "value": "$ISOLATED_HA_PROXY_TRUSTED_DOMAIN_CIDRS"
   },
   ".isolated_router_$REPLICATOR_NAME.static_ips": {
-    "value": $isolated_router_static_ips
+    "value": "$ISOLATED_ROUTER_STATIC_IPS"
   },
   ".isolated_router_$REPLICATOR_NAME.disable_insecure_cookies": {
-    "value": $isolated_router_disable_insecure_cookies
+    "value": "$ISOLATED_ROUTER_DISABLE_INSECURE_COOKIES"
   },
   ".isolated_router_$REPLICATOR_NAME.enable_zipkin": {
-    "value": $isolated_router_enable_zipkin
+    "value": "$ISOLATED_ROUTER_ENABLE_ZIPKIN"
   },
   ".isolated_router_$REPLICATOR_NAME.enable_write_access_logs": {
-    "value": $isolated_router_enable_write_access_logs
+    "value": "$ISOLATED_ROUTER_ENABLE_WRITE_ACCESS_LOGS"
   },
   ".isolated_router_$REPLICATOR_NAME.request_timeout_in_seconds": {
-    "value": $isolated_router_request_timeout_in_seconds
+    "value": "$ISOLATED_ROUTER_REQUEST_TIMEOUT_IN_SECONDS"
   },
   ".isolated_router_$REPLICATOR_NAME.max_idle_connections": {
-    "value": $isolated_router_max_idle_connections
+    "value": "$ISOLATED_ROUTER_MAX_IDLE_CONNECTIONS"
   },
   ".isolated_router_$REPLICATOR_NAME.extra_headers_to_log": {
-    "value": $isolated_router_extra_headers_to_log
+    "value": "$ISOLATED_ROUTER_EXTRA_HEADERS_TO_LOG"
   },
   ".isolated_router_$REPLICATOR_NAME.drain_wait": {
-    "value": $isolated_router_drain_wait
+    "value": "$ISOLATED_ROUTER_DRAIN_WAIT"
   },
   ".isolated_router_$REPLICATOR_NAME.lb_healthy_threshold": {
-    "value": $isolated_router_lb_healthy_threshold
+    "value": "$ISOLATED_ROUTER_LB_HEALTHY_THRESHOLD"
   }
 }
 EOF
