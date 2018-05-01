@@ -35,11 +35,11 @@ fi
 common_properties=$($JQ_CMD -n \
 --arg enable_grootfs "${ENABLE_GROOTFS:-true}" \
 --arg garden_disk_cleanup "${GARDEN_DISK_CLEANUP:-"threshold"}" \
---arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS}" \
+--arg gorouter_ssl_ciphers "${GOROUTER_SSL_CIPHERS:-"ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"}" \
 --arg haproxy_forward_tls "${HAPROXY_FORWARD_TLS:-"enable"}" \
 --arg haproxy_forward_tls_enable_backend_ca "${HAPROXY_FORWARD_TLS_ENABLE_BACKEND_CA}" \
 --arg haproxy_max_buffer_size "${HAPROXY_MAX_BUFFER_SIZE:-16384}" \
---arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS}" \
+--arg haproxy_ssl_ciphers "${HAPROXY_SSL_CIPHERS:-"DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"}" \
 --arg networking_poe_ssl_name "${NETWORKING_POE_SSL_NAME}" \
 --arg networking_poe_ssl_cert_pem "${NETWORKING_POE_SSL_CERT_PEM}" \
 --arg networking_poe_ssl_cert_private_key_pem "${NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM}" \
@@ -176,10 +176,19 @@ end
   },
   ".properties.haproxy_forward_tls": {
     "value": $haproxy_forward_tls
-  },
+  }
+}
++
+if $haproxy_forward_tls == "enable" then
+{
   ".properties.haproxy_forward_tls.enable.backend_ca": {
     "value": $haproxy_forward_tls_enable_backend_ca
-  },
+  }
+}
+else .
+end
++
+{
   ".properties.skip_cert_verify": {
     "value": $skip_cert_verify
   }
