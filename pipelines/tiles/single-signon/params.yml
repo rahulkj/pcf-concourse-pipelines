@@ -15,18 +15,17 @@ ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
 
 product_name: pivotal_single_sign-on_service # Product slug from PivNet
 product_identifier: Pivotal_Single_Sign-On_Service # product identifier using OM cli
-product_version: ^1\.4\..*$
+product_version: ^1\.6\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs: # [R] Balance other jobs in AZ's
-network_name: # [R] Tile network name
-deploy_service_broker_instances: 1
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
+network_name: ((network_name)) # [R] Tile network name
 
-errands_to_disable:
+errands_to_disable: ''
 
-concourse_user:
-concourse_pwd:
-concourse_url:
-current-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
+concourse_url: ((concourse_url))
+pipeline-name: install-single-signon
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-single-signon

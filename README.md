@@ -16,7 +16,7 @@ This repository provides the pipelines for the products listed in the following 
 | [RabbitMQ](https://network.pivotal.io/products/p-rabbitmq) | 1.12.x | [RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 | [Redis](https://network.pivotal.io/products/p-redis) | 1.11.x | [Redis Installation](./pipelines/tiles/redis)
 |	[Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services) | 1.5.x | [Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
-| [MySQL-v1](https://network.pivotal.io/products/p-mysql) | 1.10.x | [MySQL-v1 Installation](./pipelines/tiles/mysql)
+| [MySQL-v1](https://network.pivotal.io/products/p-mysql) | 1.10.x | [MySQL-v1 Installation](./pipelines/tiles/mysql) [**TO BE DISCONTINUED**]
 |	[MySQL-v2](https://network.pivotal.io/products/pivotal-mysql) | 2.2.x | [MySQL-v2 Installation](./pipelines/tiles/mysql-v2)
 |	[PCF Metrics](https://network.pivotal.io/products/apm) | 1.4.x | [PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
 | [Healthwatch](https://network.pivotal.io/products/p-healthwatch) | 1.2.x | [Healthwatch Installation](./pipelines/tiles/healthwatch)

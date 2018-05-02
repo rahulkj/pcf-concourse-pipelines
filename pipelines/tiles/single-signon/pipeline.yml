@@ -21,6 +21,13 @@ resources:
     repository: pivnet-cli
     access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -73,7 +80,6 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -143,6 +149,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      # passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -164,14 +171,13 @@ jobs:
     file: pipelines-repo/tasks/config-single-signon/task.yml
     params:
       DEBUG: ((debug))
-      PRODUCT_IDENTIFIER: ((product_identifier))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      SINGLETON_JOB_AZ: ((singleton_jobs_az))
-      OTHER_AZS: ((other_azs))
       NETWORK_NAME: ((network_name))
-      DEPLOY_SERVICE_BROKER_INSTANCES: ((deploy_service_broker_instances))
+      OTHER_AZS: ((other_azs))
+      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: disable-errands
   plan:
@@ -198,7 +204,6 @@ jobs:
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
-      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -209,13 +214,12 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      trigger: true
       passed: [disable-errands]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs: []
-      passed: [config-product]
+      passed: [disable-errands]
       trigger: true
     - get: om-cli
       params:
