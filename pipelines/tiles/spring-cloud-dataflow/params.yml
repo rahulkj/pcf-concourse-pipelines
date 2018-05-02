@@ -1,8 +1,8 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
-github_token: ((github_token)) # [R] Your github token
-github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: develop
-github_username: ((github_username)) # [R] Your github username
+git_token: ((github_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 

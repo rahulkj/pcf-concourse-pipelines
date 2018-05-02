@@ -12,22 +12,22 @@ resources:
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
