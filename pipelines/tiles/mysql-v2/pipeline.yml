@@ -148,7 +148,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      # passed: [stage-product]
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -177,7 +177,7 @@ jobs:
       SERVICE_NETWORK_NAME: ((service_network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       ALLOW_LOWER_CASE_TABLE_NAMES_VIA_CONFIG_PARAM: ((allow_lower_case_table_names_via_config_param))
       AUDIT_LOGGING_ENABLED: ((audit_logging_enabled))
       BACKUPS_SELECTOR: ((backups_selector))

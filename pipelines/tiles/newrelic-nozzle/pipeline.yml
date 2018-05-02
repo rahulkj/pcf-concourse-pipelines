@@ -177,7 +177,7 @@ jobs:
       NETWORK_NAME: ((network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       ALLOW_PAID_SERVICE_PLANS: ((allow_paid_service_plans))
       APPLY_OPEN_SECURITY_GROUP: ((apply_open_security_group))
       HTTP_PROXY: ((http_proxy))

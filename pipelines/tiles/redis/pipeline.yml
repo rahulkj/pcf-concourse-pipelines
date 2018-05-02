@@ -178,7 +178,7 @@ jobs:
       SERVICE_NETWORK_NAME: ((service_network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       CF_REDIS_BROKER_REDIS_MAXMEMORY: ((cf_redis_broker_redis_maxmemory))
       CF_REDIS_BROKER_SERVICE_INSTANCE_LIMIT: ((cf_redis_broker_service_instance_limit))
       BACKUPS_SELECTOR: ((backups_selector))

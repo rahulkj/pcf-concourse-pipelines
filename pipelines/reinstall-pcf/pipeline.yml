@@ -11,22 +11,22 @@ resources:
   source:
     user: vmware
     repository: govmomi
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: ops-manager
   type: pivnet
@@ -40,8 +40,8 @@ resources:
   source:
     uri: ((gist_url))
     branch: master
-    username: ((github_username))
-    password: ((github_token))
+    username: ((git_username))
+    password: ((git_token))
 
 jobs:
 

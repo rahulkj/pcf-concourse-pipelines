@@ -177,7 +177,7 @@ jobs:
       NETWORK_NAME: ((network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       MYSQL_ROADMIN_PASSWORD: ((mysql_roadmin_password))
       MYSQL_SKIP_NAME_RESOLVE: ((mysql_skip_name_resolve))
       PUSH_APPS_ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((push_apps_elasticsearch_logqueue_instance_count))

@@ -179,7 +179,7 @@ jobs:
       SERVICE_NETWORK_NAME: ((service_network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       ON_DEMAND_BROKER_GLOBAL_SERVICE_INSTANCE_QUOTA: ((on_demand_broker_global_service_instance_quota))
       ON_DEMAND_BROKER_STATIC_IPS: ((on_demand_broker_static_ips))
       DISK_ALARM_THRESHOLD: ((disk_alarm_threshold))
