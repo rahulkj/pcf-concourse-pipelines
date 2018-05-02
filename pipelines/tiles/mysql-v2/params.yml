@@ -1,8 +1,8 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
-github_token: ((github_token)) # [R] Your github token
-github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: master
-github_username: ((github_username)) # [R] Your github username
+git_token: ((github_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
@@ -18,37 +18,103 @@ product_name: pivotal-mysql
 product_identifier: pivotal-mysql
 product_version: ^2\.2\..*$
 
-singleton_jobs_az:
-other_azs:
-network_name:
-service_network_name:
+singleton_jobs_az: ((singleton_jobs_az))
+other_azs: ((other_azs))
+network_name: ((network_name))
+service_network_name: ((service_network_name))
 
-backups: disable # s3|azure|gcs|scp
-backups_azure_base_url: ''
-backups_azure_container: ''
-backups_azure_container_path: ''
-backups_azure_storage_access_key: ''
-backups_azure_storage_account: ''
-backups_s3_access_key_id: ''
-backups_s3_bucket_name: ''
-backups_s3_bucket_path: ''
-backups_s3_endpoint_url: ''
-backups_s3_region: ''
-backups_s3_secret_access_key: ''
-backups_gcs_bucket_name: ''
-backups_gcs_project_id: ''
-backups_gcs_service_account_json: '{}'
-backups_scp_destination: ''
-backups_scp_port: 22
-backups_scp_scp_key: ''
-backups_scp_server: ''
-backups_scp_user: ''
-syslog: disabled # enabled|disabled
-syslog_enabled_address: ''
-syslog_enabled_port: ''
-syslog_enabled_protocol: tcp # tcp|udp|relp
-cf_mysql_broker_instances: 2
-cf_mysql_broker_instance_type: "small.disk"
+allow_lower_case_table_names_via_config_param: false # true|false
+audit_logging_enabled: false # true|false
+backups_selector: "S3 Backups" # "S3 Backups"|"SCP Backups"|"GCS"|"Azure Backups"
+backups_selector_azure_account: ''
+backups_selector_azure_blob_store_base_url: ''
+backups_selector_azure_container: ''
+backups_selector_azure_cron_schedule: ''
+backups_selector_azure_enable_email_alerts: false # true|false
+backups_selector_azure_path: ''
+backups_selector_azure_storage_access_key: ''
+backups_selector_gcs_bucket_name: ''
+backups_selector_gcs_cron_schedule: ''
+backups_selector_gcs_enable_email_alerts: false # true|false
+backups_selector_gcs_project_id: ''
+backups_selector_gcs_service_account_json: ''
+backups_selector_s3_access_key_id: ''
+backups_selector_s3_bucket_name: ''
+backups_selector_s3_cron_schedule: ''
+backups_selector_s3_enable_email_alerts: false # true|false
+backups_selector_s3_endpoint_url: ''
+backups_selector_s3_path: ''
+backups_selector_s3_region: ''
+backups_selector_s3_secret_access_key: ''
+backups_selector_scp_cron_schedule: ''
+backups_selector_scp_destination: ''
+backups_selector_scp_enable_email_alerts: false # true|false
+backups_selector_scp_fingerprint: ''
+backups_selector_scp_key: ''
+backups_selector_scp_port: ''
+backups_selector_scp_server: ''
+backups_selector_scp_user: ''
+enable_lower_case_table_names: false # true|false
+enable_read_only_admin: false # true|false
+global_service_instance_limit: 50
+local_infile: false # true|false
+mysql_metrics_frequency: 30
+plan1_selector: "Active" # "Active"|"Inactive"
+plan1_selector_active_access_dropdown: enable # enable|disable
+plan1_selector_active_az_multi_select: '' # [R]
+plan1_selector_active_description: ''
+plan1_selector_active_disk_size: 10240
+plan1_selector_active_instance_limit: 50
+plan1_selector_active_multi_node_deployment: false # true|false
+plan1_selector_active_name: db-small
+plan1_selector_active_vm_type: xlarge
+plan2_selector: "Inactive" # "Active"|"Inactive"
+plan2_selector_active_access_dropdown: enable # enable|disable
+plan2_selector_active_az_multi_select: '' # [R]
+plan2_selector_active_description: ''
+plan2_selector_active_disk_size: 20480
+plan2_selector_active_instance_limit: 20
+plan2_selector_active_multi_node_deployment:
+plan2_selector_active_name: '' # [R]
+plan2_selector_active_vm_type: xlarge
+plan3_selector: "Inactive" # "Active"|"Inactive"
+plan3_selector_active_access_dropdown: enable # enable|disable
+plan3_selector_active_az_multi_select: '' # [R]
+plan3_selector_active_description: ''
+plan3_selector_active_disk_size: 30720
+plan3_selector_active_instance_limit: 20
+plan3_selector_active_multi_node_deployment: false # true|false
+plan3_selector_active_name: '' # [R]
+plan3_selector_active_vm_type: xlarge
+plan4_selector: "Inactive" # "Active"|"Inactive"
+plan4_selector_active_access_dropdown: enable # enable|disable
+plan4_selector_active_az_multi_select: '' # [R]
+plan4_selector_active_description: ''
+plan4_selector_active_disk_size: 51200
+plan4_selector_active_instance_limit: 20
+plan4_selector_active_multi_node_deployment: false # true|false
+plan4_selector_active_name: '' # [R]
+plan4_selector_active_vm_type: xlarge
+plan5_selector: "Inactive" # "Active"|"Inactive"
+plan5_selector_active_access_dropdown: enable # enable|disable
+plan5_selector_active_az_multi_select: '' # [R]
+plan5_selector_active_description: ''
+plan5_selector_active_disk_size: 76800
+plan5_selector_active_instance_limit: 20
+plan5_selector_active_multi_node_deployment: false # true|false
+plan5_selector_active_name: '' # [R]
+plan5_selector_active_vm_type: xlarge
+syslog_migration_selector: disabled # enabled|disabled
+syslog_migration_selector_enabled_address: ''
+syslog_migration_selector_enabled_ca_cert: ''
+syslog_migration_selector_enabled_permitted_peer: ''
+syslog_migration_selector_enabled_port: ''
+syslog_migration_selector_enabled_tls_enabled: false # true|false
+syslog_migration_selector_enabled_transport_protocol: tcp # tcp|udp|relp
+userstat: false # true|false
+vm_extensions: public_ip
+dedicated_mysql_broker_instances: 1
+dedicated_mysql_broker_instance_type: micro
 
 errands_to_disable: "broker-registrar,smoke-tests"
 

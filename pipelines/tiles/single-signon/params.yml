@@ -1,8 +1,8 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
-github_token: ((github_token)) # [R] Your github token
-github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
-github_branch: develop
-github_username: ((github_username)) # [R] Your github username
+git_token: ((github_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
@@ -15,18 +15,17 @@ ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
 
 product_name: pivotal_single_sign-on_service # Product slug from PivNet
 product_identifier: Pivotal_Single_Sign-On_Service # product identifier using OM cli
-product_version: ^1\.4\..*$
+product_version: ^1\.6\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs: # [R] Balance other jobs in AZ's
-network_name: # [R] Tile network name
-deploy_service_broker_instances: 1
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
+network_name: ((network_name)) # [R] Tile network name
 
-errands_to_disable:
+errands_to_disable: ''
 
-concourse_user:
-concourse_pwd:
-concourse_url:
-current-pipeline-name:
-team-name:
-upgrade-pipeline-name:
+concourse_user: ((concourse_user))
+concourse_pwd: ((concourse_pwd))
+concourse_url: ((concourse_url))
+pipeline-name: install-single-signon
+team-name: ((team-name))
+upgrade-pipeline-name: upgrade-single-signon

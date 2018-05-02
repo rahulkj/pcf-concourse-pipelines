@@ -12,29 +12,29 @@ resources:
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: jq
   type: github-release
   source:
     user: stedolan
     repository: jq
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
@@ -94,6 +94,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -145,6 +149,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -161,6 +166,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [upload-product]
 
   - task: config-tile
     file: pipelines-repo/tasks/config-p-rabbitmq/task.yml
@@ -173,7 +179,7 @@ jobs:
       SERVICE_NETWORK_NAME: ((service_network_name))
       OTHER_AZS: ((other_azs))
       SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
       ON_DEMAND_BROKER_GLOBAL_SERVICE_INSTANCE_QUOTA: ((on_demand_broker_global_service_instance_quota))
       ON_DEMAND_BROKER_STATIC_IPS: ((on_demand_broker_static_ips))
       DISK_ALARM_THRESHOLD: ((disk_alarm_threshold))

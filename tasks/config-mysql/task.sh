@@ -378,7 +378,7 @@ $OM_CMD \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
   configure-product \
-  --product-name p-mysql \
+  --product-name $PRODUCT_IDENTIFIER \
   --product-properties "$properties_config" \
   --product-network "$network_config" \
   --product-resources "$resources_config"

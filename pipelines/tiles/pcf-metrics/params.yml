@@ -1,13 +1,11 @@
 # Token used to download the product file from Pivotal Network. Find this
 # on your Pivotal Network profile page:
 # https://network.pivotal.io/users/dashboard/edit-profile
-pivnet_token: ((pivnet_token))
-
-# The token used to download the repos from GitHub for the pipelines
-github_token: ((github_token)) # [R] Your github token
-github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: master
-github_username: ((github_username)) # [R] Your github username
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((github_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((github_username)) # [R] Your github username
 
 iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 
@@ -22,9 +20,9 @@ product_name: apm
 product_identifier: apm
 product_version: ^1\.4\..*$
 
-singleton_jobs_az: # [R] Place singleton jobs in an AZ
-other_azs: # [R] Balance other jobs in AZ's
-network_name: # [R] Tile network name
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
+network_name: ((network_name)) # [R] Tile network name
 
 mysql_roadmin_password: ''
 mysql_skip_name_resolve: true

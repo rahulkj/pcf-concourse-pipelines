@@ -4,10 +4,10 @@
 pivnet_token: <YOUR-PIVNET-TOKEN> # [R] Your pivnet token
 
 # The token used to download the repos from GitHub for the pipelines
-github_token: <YOUR-GITHUB-TOKEN> # [R] your github token
-github_repo: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
-github_branch: master
-github_username: # [R] Your github username
+git_token: <YOUR-GITHUB-TOKEN> # [R] your github token
+git_url: https://github.com/rahul-kj/concourse-vsphere # [R] Pipelines github repo
+git_branch: master
+git_username: # [R] Your github username
 
 debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 

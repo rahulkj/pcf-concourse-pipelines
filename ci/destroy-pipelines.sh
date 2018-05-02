@@ -26,7 +26,7 @@ read -s -p "Concourse admin password: " CONCOURSE_PASSWORD
 
 echo "This utility will set all the install pipelines for you"
 
-declare PIPELINES=("redis" "rabbbitmq" "mysql" "spring-cloud-services" "healthwatch" "pcf-metrics" "mysql-v2" "spring-cloud-dataflow" "splunk-nozzle" "newrelic-nozzle" "newrelic-service-broker" "isolation-segments" "single-signon")
+declare PIPELINES=("redis" "rabbbitmq" "mysql" "spring-cloud-services" "healthwatch" "pcf-metrics" "mysql-v2" "spring-cloud-dataflow" "splunk-nozzle" "newrelic-nozzle" "newrelic-service-broker" "isolation-segment" "single-signon")
 
 fly -t ${ALIAS} login -c https://${CONCOURSE_URL} -k -u ${CONCOURSE_USERNAME} -p ${CONCOURSE_PASSWORD} -n ${CONCOURSE_TEAM}
 
@@ -34,9 +34,8 @@ for PIPELINE in ${PIPELINES[@]}; do
   if [ ! -f "$PARAMS_PATH/$PIPELINE/creds.yml" ]; then
     echo "No params file found for $PIPELINE. Skipping setting the pipelines"
   else
-    fly -t ${ALIAS} set-pipeline -p install-$PIPELINE -c $__BASEDIR__/pipelines/tiles/$PIPELINE/pipeline.yml -l $PARAMS_PATH/$PIPELINE/creds.yml -n
-    fly -t ${ALIAS} unpause-pipeline -p install-$PIPELINE
-    fly -t ${ALIAS} expose-pipeline -p install-$PIPELINE
+    fly -t ${ALIAS} destroy-pipeline -p install-$PIPELINE -n
+    fly -t ${ALIAS} destroy-pipeline -p upgrade-$PIPELINE -n
   fi
 done
 

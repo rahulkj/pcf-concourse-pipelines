@@ -4,10 +4,10 @@
 pivnet_token: ((pivnet_token))
 
 # The token used to download the repos from GitHub for the pipelines
-github_token: ((github_token))
-github_repo: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
-github_branch: master
-github_username: ((github_username)) # [R] Your github username
+git_token: ((git_token))
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
 
 gist_url: ((gist_url))
 
