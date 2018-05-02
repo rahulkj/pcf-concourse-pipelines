@@ -210,7 +210,6 @@ additional_properties=$($JQ_CMD -n \
   --arg isolated_router_enable_zipkin "${ISOLATED_ROUTER_ENABLE_ZIPKIN:-true}" \
   --arg isolated_router_extra_headers_to_log "${ISOLATED_ROUTER_EXTRA_HEADERS_TO_LOG}" \
   --arg isolated_router_lb_healthy_threshold "${ISOLATED_ROUTER_LB_HEALTHY_THRESHOLD:-20}" \
-  --arg isolated_router_max_idle_connections "${ISOLATED_ROUTER_MAX_IDLE_CONNECTIONS:-0}" \
   --arg isolated_router_request_timeout_in_seconds "${ISOLATED_ROUTER_REQUEST_TIMEOUT_IN_SECONDS:-900}" \
   --arg isolated_router_static_ips "${ISOLATED_ROUTER_STATIC_IPS}" \
   '
@@ -238,9 +237,6 @@ additional_properties=$($JQ_CMD -n \
     },
     ".isolated_router.request_timeout_in_seconds": {
       "value": $isolated_router_request_timeout_in_seconds
-    },
-    ".isolated_router.max_idle_connections": {
-      "value": $isolated_router_max_idle_connections
     },
     ".isolated_router.extra_headers_to_log": {
       "value": $isolated_router_extra_headers_to_log
@@ -300,9 +296,6 @@ additional_properties=$(cat <<-EOF
   },
   ".isolated_router_$REPLICATOR_NAME.request_timeout_in_seconds": {
     "value": "$ISOLATED_ROUTER_REQUEST_TIMEOUT_IN_SECONDS"
-  },
-  ".isolated_router_$REPLICATOR_NAME.max_idle_connections": {
-    "value": "$ISOLATED_ROUTER_MAX_IDLE_CONNECTIONS"
   },
   ".isolated_router_$REPLICATOR_NAME.extra_headers_to_log": {
     "value": "$ISOLATED_ROUTER_EXTRA_HEADERS_TO_LOG"
