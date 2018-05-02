@@ -16,9 +16,7 @@ properties_config=$($JQ_CMD -n \
 '{}'
 )
 
-resources_config="{
-  \"deploy-service-broker\": {\"instances\": ${DEPLOY_SERVICE_BROKER_INSTANCES:-1}, \"instance_type\": { \"id\": \"${DEPLOY_SERVICE_BROKER_INSTANCE_TYPE:-nano}\"}}
-}"
+resources_config="{}"
 
 network_config=$($JQ_CMD -n \
   --arg network_name "$NETWORK_NAME" \
