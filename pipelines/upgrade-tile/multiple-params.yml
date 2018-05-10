@@ -26,7 +26,7 @@ scs_product_version: ^1\.4\..*$
 scs_product_identifier: p-spring-cloud-services
 
 redis_product_name: p-redis
-redis_product_version: ^1\.10\..*$
+redis_product_version: ^1\.12\..*$
 redis_product_identifier: p-redis
 
 jmx_bridge_product_name: p-metrics
