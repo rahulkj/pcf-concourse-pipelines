@@ -50,6 +50,6 @@ $JQ_CMD \
   --from-file filters \
   om-import.json > options.json
 
-$GOVC_CMD import.ova -options=out.json $FILE_PATH
+$GOVC_CMD import.ova -options=options.json $FILE_PATH
 
 rm *.json

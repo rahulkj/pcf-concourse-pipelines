@@ -312,6 +312,11 @@ jobs:
     - get: concourse-trigger-gist
       trigger: true
       passed: [ops-director-apply-changes]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [configure-ops-director]
 
   - task: upload-pas-product-tile
     file: pipelines-repo/tasks/upload-product/task.yml

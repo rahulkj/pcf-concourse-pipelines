@@ -113,7 +113,10 @@ if $syslog_selector == "Yes without encryption" then
   },
   ".properties.syslog_selector.active.syslog_format": {
     "value": $syslog_selector_active_syslog_format
-  },
+  }
+}
+elif $syslog_selector == "Yes without encryption" then
+{
   ".properties.syslog_selector.active_with_tls.syslog_address": {
     "value": $syslog_selector_active_with_tls_syslog_address
   },
