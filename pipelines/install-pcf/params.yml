@@ -256,7 +256,7 @@ nfs_volume_driver_enable_ldap_service_account_user: ''
 nfs_volume_driver_enable_ldap_user_fqdn: ''
 push_apps_manager_accent_color: ''
 push_apps_manager_company_name: ''
-push_apps_manager_currency_lookup: '{ \"usd\": \"$\", \"eur\": \"€\" }'
+push_apps_manager_currency_lookup: '{ "usd": "$", "eur": "€" }'
 push_apps_manager_display_plan_prices: false # true|false
 push_apps_manager_enable_invitations: true # true|false
 push_apps_manager_favicon: ''
