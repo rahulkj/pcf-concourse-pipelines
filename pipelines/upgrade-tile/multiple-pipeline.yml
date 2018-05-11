@@ -75,6 +75,13 @@ resources:
   type: time
   source: {interval: 24h}
 
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((git_token))
+
 jobs:
 - name: scheduler
   plan:
@@ -150,6 +157,10 @@ jobs:
         globs:
         - "*linux-amd64*"
       passed: [upload-product-rabbitmq]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
