@@ -490,6 +490,9 @@ concourse_username: ((concourse_user))
 concourse_passwd: ((concourse_pwd))
 concourse_url: ((concourse_url))
 team_name: ((team_name))
+
+upgrade_pipeline_name: upgrade-pas
+
 install_pipeline_name: install-pcf
 install_pipeline_state: pause
 

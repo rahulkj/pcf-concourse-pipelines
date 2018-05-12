@@ -293,7 +293,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [ops-director-apply-changes]
+      passed: [install-ops-manager]
     - get: pivnet-product
       resource: pas-product
       params:
@@ -304,19 +304,19 @@ jobs:
       params:
         globs:
         - "*om-linux*"
-      passed: [ops-director-apply-changes]
+      passed: [install-ops-manager]
     - get: pivnet-cli
       params:
         globs:
         - "*linux-amd64*"
     - get: concourse-trigger-gist
       trigger: true
-      passed: [ops-director-apply-changes]
+      passed: [install-ops-manager]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [configure-ops-director]
+      passed: [install-ops-manager]
 
   - task: upload-pas-product-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -341,15 +341,15 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-pas-product-tile]
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [upload-pas-product-tile]
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [upload-pas-product-tile]
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
     - get: jq
       params:
         globs:
@@ -741,6 +741,29 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
 
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [pas-product-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [pas-product-apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      DEBUG: ((debug))
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      CONCOURSE_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((install_pipeline_name))
+      BUILD_TEAM_NAME: ((team_name))
+      UPGRADE_PIPELINE_NAME: ((upgrade_pipeline_name))
+      PRODUCT_NAME: elastic-runtime
+      PRODUCT_IDENTIFIER: ((pas_product_identifier))
+      PRODUCT_VERSION: ((pas_product_version))
+
 - name: unpause-reinstall-pipeline
   plan:
   - aggregate:
@@ -765,10 +788,10 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [unpause-reinstall-pipeline]
+      passed: [pas-product-apply-changes]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [unpause-reinstall-pipeline]
+      passed: [pas-product-apply-changes]
 
   - task: change-pipeline-state
     file: pipelines-repo/tasks/change-pipeline-state/task.yml
