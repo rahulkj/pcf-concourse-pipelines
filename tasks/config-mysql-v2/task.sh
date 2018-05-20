@@ -163,7 +163,7 @@ if $backups_selector == "S3 Backups" then
     "value": $backups_selector_s3_path
   },
   ".properties.backups_selector.s3.cron_schedule": {
-    "value": $backups_selector_s3_cron_schedule
+    "value": ( $backups_selector_s3_cron_schedule  | gsub("\""; "") )
   },
   ".properties.backups_selector.s3.enable_email_alerts": {
     "value": $backups_selector_s3_enable_email_alerts
@@ -193,7 +193,7 @@ elif $backups_selector == "SCP Backups" then
     "value": $backups_selector_scp_port
   },
   ".properties.backups_selector.scp.cron_schedule": {
-    "value": $backups_selector_scp_cron_schedule
+    "value": ( $backups_selector_scp_cron_schedule | gsub("\""; "") )
   },
   ".properties.backups_selector.scp.enable_email_alerts": {
     "value": $backups_selector_scp_enable_email_alerts
@@ -211,7 +211,7 @@ elif $backups_selector == "GCS" then
     "value": $backups_selector_gcs_service_account_json
   },
   ".properties.backups_selector.gcs.cron_schedule": {
-    "value": $backups_selector_gcs_cron_schedule
+    "value": ( $backups_selector_gcs_cron_schedule | gsub("\""; "") )
   },
   ".properties.backups_selector.gcs.enable_email_alerts": {
     "value": $backups_selector_gcs_enable_email_alerts
@@ -229,7 +229,7 @@ elif $backups_selector == "Azure Backups" then
     "value": $backups_selector_azure_path
   },
   ".properties.backups_selector.azure.cron_schedule": {
-    "value": $backups_selector_azure_cron_schedule
+    "value": ( $backups_selector_azure_cron_schedule | gsub("\""; "") )
   },
   ".properties.backups_selector.azure.container": {
     "value": $backups_selector_azure_container

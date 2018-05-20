@@ -86,7 +86,7 @@ properties_config=$($JQ_CMD -n \
 if $backup_options == "enable" then
 {
   ".properties.backup_options.enable.cron_schedule": {
-    "value": $backup_options_enable_cron_schedule
+    "value": ( $backup_options_enable_cron_schedule | gsub("\""; "") )
   },
   ".properties.backup_options.enable.backup_all_masters": {
     "value": $backup_options_enable_backup_all_masters
