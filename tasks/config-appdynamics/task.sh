@@ -15,7 +15,7 @@ JQ_CMD=./jq/jq-linux64
 properties_config=$($JQ_CMD -n \
   --arg allow_paid_service_plans "${ALLOW_PAID_SERVICE_PLANS:-false}" \
   --arg app_uri "${APP_URI:-"appdynamics-service-broker"}" \
-  --arg appd_plans "${APPD_PLANS:-[]}" \
+  --argjson appd_plans "${APPD_PLANS:-[]}" \
   --arg appdynamics_service_broker_enable_global_access_to_plans "${APPDYNAMICS_SERVICE_BROKER_ENABLE_GLOBAL_ACCESS_TO_PLANS:-true}" \
   --arg apply_open_security_group "${APPLY_OPEN_SECURITY_GROUP:-true}" \
   --arg org "${ORG:-"appdynamics-org"}" \
