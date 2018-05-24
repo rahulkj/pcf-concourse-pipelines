@@ -25,7 +25,7 @@ properties_config=$($JQ_CMD -n \
 if $mysql == "internal" then
 {
   ".properties.mysql": {
-    "value": "Mysql Service"
+    "value": "MySQL Service"
   }
 }
 elif $mysql == "external" then
