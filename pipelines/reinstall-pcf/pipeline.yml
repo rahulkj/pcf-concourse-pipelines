@@ -5,6 +5,11 @@ resource_types:
     repository: pivotalcf/pivnet-resource
     tag: latest-final
 
+- name: email
+  type: docker-image
+  source:
+    repository: pcfseceng/email-resource
+
 resources:
 - name: govc
   type: github-release
@@ -42,6 +47,17 @@ resources:
     branch: master
     username: ((git_username))
     password: ((git_token))
+
+- name: email
+  type: email
+  source:
+    smtp:
+      host: ((smtp_address))
+      port: ((smtp_port))
+      username: ((smtp_username))
+      password: ((smtp_password))
+    from: ((from_address))
+    to: [((to_addresses))]
 
 jobs:
 
@@ -150,3 +166,8 @@ jobs:
       PIPELINE_NAME: ((reinstall_pipeline_name))
       TEAM_NAME: ((team_name))
       PIPELINE_STATE: ((reinstall_pipeline_state))
+
+  - put: email
+    params:
+      subject_text: "Build finished: ${BUILD_PIPELINE_NAME}/${BUILD_NAME}"
+      body_text: "Build finished: ${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"

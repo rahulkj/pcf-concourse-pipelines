@@ -498,3 +498,10 @@ install_pipeline_state: pause
 
 reinstall_pipeline_name: reinstall-pcf
 reinstall_pipeline_state: unpause
+
+smtp_address: ((smtp_address))
+smtp_port: ((smtp_port))
+smtp_username: ((smtp_username))
+smtp_password: ((smtp_password))
+from_address: ((from_address))
+to_addresses: ((to_addresses))
