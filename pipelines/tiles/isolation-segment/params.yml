@@ -53,7 +53,9 @@ haproxy_forward_tls: disable # enable|disable
 haproxy_forward_tls_enable_backend_ca: ''
 haproxy_max_buffer_size: 16384
 haproxy_ssl_ciphers: ''
-isolation_segment_domains: '' # cfapps-ext.env.company.com
+
+# comma seperated list of comma separated domains usually preceded by a *
+isolation_segment_domains: '' # *.cfapps-ext.env.company.com,*.cfapps-web.env.company.com
 networking_poe_ssl_name: ''
 networking_poe_ssl_cert_pem: ''
 networking_poe_ssl_cert_private_key_pem: ''
