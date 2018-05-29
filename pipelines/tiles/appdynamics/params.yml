@@ -17,9 +17,9 @@ product_name: p-appdynamics
 product_identifier: appdynamics
 product_version: ^4\.4\..*$
 
-singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
-other_azs: ((other_azs))         # [R] Balance other jobs in AZ's (comma-separated)
-network_name: ((network_name))      # [R] Tile network name
+singleton_jobs_az: AZ-2 # [R] Place singleton jobs in an AZ
+other_azs: AZ-2        # [R] Balance other jobs in AZ's (comma-separated)
+network_name: SERVICES      # [R] Tile network name
 
 errands_to_disable:
 
