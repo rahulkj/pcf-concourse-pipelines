@@ -13,10 +13,7 @@ chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
 if [[ -z "$NETWORKING_POE_SSL_CERT_PEM" ]]; then
-DOMAINS=$(cat <<-EOF
-  {"domains": $ISOLATION_SEGMENT_DOMAINS }
-EOF
-)
+  DOMAINS=$(echo $ISOLATION_SEGMENT_DOMAINS | jq --raw-input -c '{"domains": (. | split(" "))}')
 
   CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
 
