@@ -44,11 +44,3 @@ splunk_index:
 splunk_token:
 
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-splunk-nozzle
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-splunk-nozzle

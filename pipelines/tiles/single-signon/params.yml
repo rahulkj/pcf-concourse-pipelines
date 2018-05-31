@@ -22,10 +22,3 @@ other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
 network_name: ((network_name)) # [R] Tile network name
 
 errands_to_disable: ''
-
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-concourse_url: ((concourse_url))
-pipeline-name: install-single-signon
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-single-signon

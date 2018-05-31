@@ -34,11 +34,3 @@ skipper_db_service: "p.mysql"
 space: "p-dataflow"
 
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-spring-cloud-dataflow
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-spring-cloud-dataflow

@@ -36,11 +36,3 @@ deploy_service_broker_secure_credentials: false
 register_service_broker_enable_global_access: true
 
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-spring-cloud-services
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-spring-cloud-services

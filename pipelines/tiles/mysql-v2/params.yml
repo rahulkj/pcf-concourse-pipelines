@@ -116,12 +116,4 @@ vm_extensions: public_ip
 dedicated_mysql_broker_instances: 1
 dedicated_mysql_broker_instance_type: micro
 
-errands_to_disable: "broker-registrar,smoke-tests"
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-mysql-v2
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-mysql-v2
+errands_to_disable: # "broker-registrar,smoke-tests"

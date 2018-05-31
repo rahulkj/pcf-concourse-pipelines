@@ -47,11 +47,3 @@ redis_persistent_disk_mb: 102400
 healthwatch_forwarder_instances: 2
 healthwatch_forwarder_instance_type: xlarge
 healthwatch_forwarder_persistent_disk_mb: 102400
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-healthwatch
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-healthwatch

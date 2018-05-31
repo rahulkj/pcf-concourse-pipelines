@@ -42,12 +42,4 @@ redis_instances: 1
 redis_instance_type: medium
 redis_persistent_disk_mb: 102400
 
-errands_to_disable: "push-apps,migrate-data-to-1-4,smoke-tests,delete-metrics-1-3-space"
-
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-concourse_url: ((concourse_url))
-
-pipeline-name: install-pcf-metrics
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-pcf-metrics
+errands_to_disable: # "push-apps,migrate-data-to-1-4,smoke-tests,delete-metrics-1-3-space"

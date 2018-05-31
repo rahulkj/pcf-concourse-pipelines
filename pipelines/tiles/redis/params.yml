@@ -110,11 +110,4 @@ dedicated_node_instances: 5
 dedicated_node_instance_type: micro.ram
 dedicated_node_persistent_disk_mb: 5120
 
-errands_to_disable: "broker-registrar,smoke-tests,register-on-demand-broker,on-demand-broker-smoke-tests,upgrade-all-service-instances,broker-deregistrar,delete-all-service-instances-and-deregister-broker"
-
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-concourse_url: ((concourse_url))
-pipeline-name: install-redis
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-redis
+errands_to_disable: # "broker-registrar,smoke-tests,register-on-demand-broker,on-demand-broker-smoke-tests,upgrade-all-service-instances,broker-deregistrar,delete-all-service-instances-and-deregister-broker"

@@ -31,11 +31,3 @@ org: "NewRelicServiceBroker-service-org"
 space: "NewRelicServiceBroker-service-space"
 
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-newrelic-service-broker
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-newrelic-service-broker
