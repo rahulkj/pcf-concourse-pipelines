@@ -31,11 +31,3 @@ mysql_external_password: ''
 mysql_external_port: ''
 mysql_external_username: ''
 mysql_internal_plan_name: db-small
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-event-alerts
-team-name: ((team_name))
-upgrade-pipeline-name: upgrade-event-alerts

@@ -30,11 +30,3 @@ appdynamics_service_broker_enable_global_access_to_plans: true # true|false
 apply_open_security_group: true # true|false
 org: "appdynamics-org"
 space: "appdynamics-space"
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-appdynamics
-team-name: ((team_name))
-upgrade-pipeline-name: upgrade-appdynamics

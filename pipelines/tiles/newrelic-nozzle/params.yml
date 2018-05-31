@@ -46,11 +46,3 @@ org: 'nr-firehose-nozzle-org'
 space: 'nr-firehose-nozzle-space'
 
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-newrelic-nozzle
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-newrelic-nozzle

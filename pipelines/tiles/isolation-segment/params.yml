@@ -90,14 +90,4 @@ isolated_router_instance_type: micro
 isolated_diego_cell_instances: 3
 isolated_diego_cell_instance_type: xlarge.disk
 
-
-
 errands_to_disable:
-
-concourse_url: ((concourse_url))
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-
-pipeline-name: install-isolation-segment
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-isolation-segment

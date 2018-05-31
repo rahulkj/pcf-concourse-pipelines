@@ -400,29 +400,3 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-
-- name: set-upgrade-pipeline
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [apply-changes]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs: []
-      passed: [apply-changes]
-      trigger: true
-
-  - task: set-upgrade-pipeline
-    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
-    params:
-      DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      CONCOURSE_URL: ((concourse_url))
-      BUILD_PIPELINE_NAME: ((pipeline-name))
-      BUILD_TEAM_NAME: ((team-name))
-      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
-      PRODUCT_NAME: ((product_name))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      PRODUCT_VERSION: ((product_version))

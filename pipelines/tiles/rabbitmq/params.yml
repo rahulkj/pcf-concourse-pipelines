@@ -189,11 +189,4 @@ on_demand_broker_instances: 1
 on_demand_broker_instance_type: micro
 on_demand_broker_persistent_disk_mb: 1024
 
-errands_to_disable: # (broker-registrar|multitenant-smoke-tests|register-on-demand-service-broker|dedicated-instance-smoke-tests|upgrade-all-service-instances)
-
-concourse_user: ((concourse_user))
-concourse_pwd: ((concourse_pwd))
-concourse_url: ((concourse_url))
-pipeline-name: install-rabbitmq
-team-name: ((team-name))
-upgrade-pipeline-name: upgrade-rabbitmq
+errands_to_disable: # broker-registrar|multitenant-smoke-tests|register-on-demand-service-broker|dedicated-instance-smoke-tests|upgrade-all-service-instances
