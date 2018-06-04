@@ -21,4 +21,6 @@ singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
 other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
 network_name: ((network_name)) # [R] Tile network name
 
+dependency_product_tiles: 'cf'
+
 errands_to_disable: ''

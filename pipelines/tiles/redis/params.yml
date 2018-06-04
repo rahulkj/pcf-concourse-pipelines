@@ -22,6 +22,8 @@ other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
 network_name: ((network_name)) # [R] Tile network name
 service_network_name: ((service_network_name))
 
+dependency_product_tiles: 'cf'
+
 cf_redis_broker_redis_maxmemory: "1024MB"
 cf_redis_broker_service_instance_limit: 5
 backups_selector: 'No Backups' # 'No Backups'|'S3 Backups'|'SCP Backups'|'Azure Backups'|'Google Cloud Storage Backups'

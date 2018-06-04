@@ -24,6 +24,8 @@ service_network_name: ((service_network_name)) # [R] dynamic services network fo
 
 errands_to_disable:
 
+dependency_product_tiles: 'cf'
+
 healthwatch_forwarder_boshhealth_instance_count: 1
 healthwatch_forwarder_boshtasks_instance_count: 1
 healthwatch_forwarder_canary_instance_count: 1

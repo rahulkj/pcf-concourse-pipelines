@@ -24,6 +24,8 @@ singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
 other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
 network_name: ((network_name)) # [R] Tile network name
 
+dependency_product_tiles: 'cf'
+
 mysql_roadmin_password: ''
 mysql_skip_name_resolve: true
 push_apps_elasticsearch_logqueue_instance_count: 1

@@ -23,6 +23,8 @@ other_azs: ((other_azs))
 network_name: ((network_name))
 service_network_name: ((service_network_name))
 
+dependency_product_tiles: 'cf'
+
 allow_lower_case_table_names_via_config_param: false # true|false
 audit_logging_enabled: false # true|false
 backups_selector: "S3 Backups" # "S3 Backups"|"SCP Backups"|"GCS"|"Azure Backups"

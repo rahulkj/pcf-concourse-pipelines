@@ -21,6 +21,8 @@ singleton_jobs_az: ((singleton_jobs_az))
 other_azs: ((other_azs))
 network_name: ((network_name))
 
+dependency_product_tiles: 'cf'
+
 cf_mysql_broker_allow_table_locks: true
 cf_mysql_broker_bind_hostname: ''
 cf_mysql_broker_quota_enforcer_pause: 30

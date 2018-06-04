@@ -23,6 +23,8 @@ network_name: SERVICES      # [R] Tile network name
 
 errands_to_disable:
 
+dependency_product_tiles: 'cf'
+
 allow_paid_service_plans: false # false|true
 app_uri: "appdynamics-service-broker"
 appd_plans: '[{"plan-name":"appd-env","plan-description":"appd-description","account-name":"test","account-access-key":"helloworld","host-name":"appd.homelab.io","port":"8000","ssl-enabled":false}]'

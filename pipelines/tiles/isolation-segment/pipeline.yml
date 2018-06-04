@@ -156,7 +156,8 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
-
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
+      
 - name: config-product
   plan:
   - aggregate:

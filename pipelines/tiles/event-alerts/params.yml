@@ -23,6 +23,8 @@ network_name: ((network_name))            # [R] Tile network name
 
 errands_to_disable:
 
+dependency_product_tiles: 'cf,pivotal-mysql'
+
 deploy_pcf_event_alerts_instance_count: 1
 mysql: internal                           # internal|external
 mysql_external_database: ''

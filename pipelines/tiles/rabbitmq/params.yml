@@ -25,6 +25,8 @@ other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
 network_name: ((network_name)) # [R] Tile network name
 service_network_name: ((service_network_name)) # [R] Services network name
 
+dependency_product_tiles: 'cf'
+
 on_demand_broker_global_service_instance_quota: 20
 on_demand_broker_static_ips: ''
 disk_alarm_threshold: mem_relative_1_5 # fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0
