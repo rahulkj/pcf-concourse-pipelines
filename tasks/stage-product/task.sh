@@ -9,6 +9,8 @@ fi
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
+AVAILABLE_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/available_products)
+
 if [[ (! -z "$DEPENDENCY_PRODUCT_TILES") && ("null" != "$DEPENDENCY_PRODUCT_TILES") ]]; then
   for dependency in $(echo $DEPENDENCY_PRODUCT_TILES | sed "s/,/ /g")
   do
