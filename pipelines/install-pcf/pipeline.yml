@@ -778,6 +778,7 @@ jobs:
       PRODUCT_NAME: elastic-runtime
       PRODUCT_IDENTIFIER: ((pas_product_identifier))
       PRODUCT_VERSION: ((pas_product_version))
+      PRODUCT_GLOB: "cf-*.pivotal"
 
 - name: unpause-reinstall-pipeline
   plan:
