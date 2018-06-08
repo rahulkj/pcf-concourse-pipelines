@@ -313,7 +313,7 @@ jobs:
       resource: pas-product
       params:
         globs:
-        - "cf-*.pivotal"
+        - ((pas_product_glob))
         save: true
     - get: om-cli
       params:
@@ -778,7 +778,7 @@ jobs:
       PRODUCT_NAME: elastic-runtime
       PRODUCT_IDENTIFIER: ((pas_product_identifier))
       PRODUCT_VERSION: ((pas_product_version))
-      PRODUCT_GLOB: "cf-*.pivotal"
+      PRODUCT_GLOB: ((pas_product_glob))
 
 - name: unpause-reinstall-pipeline
   plan:
