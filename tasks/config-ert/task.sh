@@ -25,6 +25,10 @@ PRODUCT_VERSION=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] 
 
 $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
+echo "$PRODUCT_PROPERTIES" > properties.yml
+echo "$PRODUCT_RESOURCES" > resources.yml
+echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
+
 if [[ "$GENERATE_CERTS" == "true" ]]; then
 
 CLOUD_CONTROLLER_APPS_DOMAIN=$(echo "$properties_config" | jq -r '.".cloud_controller.apps_domain" | .value')
@@ -61,10 +65,6 @@ else
   export UAA_CERT_PEM=$(echo "$UAA_CERT_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
   export UAA_PRIVATE_KEY_PEM=$(echo "$UAA_PRIVATE_KEY_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
 fi
-
-echo "$PRODUCT_PROPERTIES" > properties.yml
-echo "$PRODUCT_RESOURCES" > resources.yml
-echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
 
 AZ_CONFIGURATION=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
 
