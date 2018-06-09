@@ -25,7 +25,11 @@ PRODUCT_VERSION=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] 
 
 $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
-if [[ -z "$NETWORKING_POE_SSL_CERT_PEM" ]]; then
+if [[ "$GENERATE_CERTS" == "true" ]]; then
+
+CLOUD_CONTROLLER_APPS_DOMAIN=$(echo "$properties_config" | jq -r '.".cloud_controller.apps_domain" | .value')
+CLOUD_CONTROLLER_SYSTEM_DOMAIN=$(echo "$properties_config" | jq -r '.".cloud_controller.system_domain" | .value')
+
 DOMAINS=$(cat <<-EOF
   {"domains": ["*.$CLOUD_CONTROLLER_SYSTEM_DOMAIN", "*.$CLOUD_CONTROLLER_APPS_DOMAIN", "*.login.$CLOUD_CONTROLLER_SYSTEM_DOMAIN", "*.uaa.$CLOUD_CONTROLLER_SYSTEM_DOMAIN"] }
 EOF
