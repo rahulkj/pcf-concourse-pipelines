@@ -29,6 +29,10 @@ echo "$PRODUCT_PROPERTIES" > properties.yml
 echo "$PRODUCT_RESOURCES" > resources.yml
 echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
 
+properties_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
+resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
+network_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < network-azs.yml)
+
 if [[ "$GENERATE_CERTS" == "true" ]]; then
 
 CLOUD_CONTROLLER_APPS_DOMAIN=$(echo "$properties_config" | jq -r '.".cloud_controller.apps_domain" | .value')
@@ -69,12 +73,6 @@ fi
 AZ_CONFIGURATION=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
 
 #ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < cf.json
-
-properties_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
-
-resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
-
-network_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < network-azs.yml)
 
 $OM_CMD \
   --target https://$OPS_MGR_HOST \
