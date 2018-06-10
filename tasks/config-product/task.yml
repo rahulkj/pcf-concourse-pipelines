@@ -10,6 +10,7 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
+  PRODUCT_IDENTIFIER:
   GENERATE_CERTS:
   PRODUCT_PROPERTIES:
   PRODUCT_RESOURCES:
@@ -21,4 +22,4 @@ inputs:
   - name: jq
 
 run:
-  path: pipelines-repo/tasks/config-ert/task.sh
+  path: pipelines-repo/tasks/config-product/task.sh

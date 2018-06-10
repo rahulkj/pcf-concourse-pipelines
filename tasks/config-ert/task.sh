@@ -12,12 +12,6 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-chmod +x om-cli/om-linux
-OM_CMD=./om-cli/om-linux
-
-chmod +x ./jq/jq-linux64
-JQ_CMD=./jq/jq-linux64
-
 CF_RELEASE=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k -f json available-products)
 
 PRODUCT_NAME=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] | select(.name==$deployment_name) | .name')
