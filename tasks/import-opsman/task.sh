@@ -17,7 +17,7 @@ FILE_PATH=`find ./pivnet-product/ -name *.ova`
 
 echo "$OPS_MANAGER_SETTINGS" > ops_manager_settings.yml
 
-ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF)' < ops_manager_settings.yml > options.json
+ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < ops_manager_settings.yml > options.json
 
 $GOVC_CMD import.ova -options=options.json $FILE_PATH
 
