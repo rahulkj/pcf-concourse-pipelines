@@ -63,11 +63,11 @@ EOF
   echo "Using self signed certificates generated using Ops Manager..."
 
   properties_config=$(echo "properties_config" | $JQ_CMD -n \
-    --arg networking_poe_ssl_name $NETWORKING_POE_SSL_NAME \
-    --arg networking_poe_ssl_cert_pem $NETWORKING_POE_SSL_CERT_PEM \
-    --arg networking_poe_ssl_cert_private_key_pem $NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM \
-    --arg uaa_cert_pem $UAA_CERT_PEM \
-    --arg uaa_private_key_pem $UAA_PRIVATE_KEY_PEM \
+    --arg networking_poe_ssl_name "$NETWORKING_POE_SSL_NAME" \
+    --arg networking_poe_ssl_cert_pem "$NETWORKING_POE_SSL_CERT_PEM" \
+    --arg networking_poe_ssl_cert_private_key_pem "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" \
+    --arg uaa_cert_pem "$UAA_CERT_PEM" \
+    --arg uaa_private_key_pem "$UAA_PRIVATE_KEY_PEM" \
     '
     . +
     {
