@@ -61,16 +61,39 @@ EOF
 
 
   echo "Using self signed certificates generated using Ops Manager..."
-elif [[ "$NETWORKING_POE_SSL_CERT_PEM" =~ "\\r" ]]; then
-  echo "No tweaking needed"
-else
-  export NETWORKING_POE_SSL_CERT_PEM=$(echo "$NETWORKING_POE_SSL_CERT_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
-  export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=$(echo "$NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
-  export UAA_CERT_PEM=$(echo "$UAA_CERT_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
-  export UAA_PRIVATE_KEY_PEM=$(echo "$UAA_PRIVATE_KEY_PEM" | awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}')
+
+  properties_config=$(echo "properties_config" | $JQ_CMD -n \
+    --arg networking_poe_ssl_name $NETWORKING_POE_SSL_NAME \
+    --arg networking_poe_ssl_cert_pem $NETWORKING_POE_SSL_CERT_PEM \
+    --arg networking_poe_ssl_cert_private_key_pem $NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM \
+    --arg uaa_cert_pem $UAA_CERT_PEM \
+    --arg uaa_private_key_pem $UAA_PRIVATE_KEY_PEM \
+    '
+    . +
+    {
+      ".properties.networking_poe_ssl_certs": {
+        "value": [
+          {
+            "name": $networking_poe_ssl_name,
+            "certificate": {
+              "cert_pem":$networking_poe_ssl_cert_pem,
+              "private_key_pem":$networking_poe_ssl_cert_private_key_pem
+            }
+          }
+        ]
+      },
+      ".uaa.service_provider_key_credentials": {
+        "value": {
+          "private_key_pem": $uaa_private_key_pem,
+          "cert_pem": $uaa_cert_pem
+        }
+      }
+    }
+    '
+  )
 fi
 
-AZ_CONFIGURATION=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
+#$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
 
 #ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < cf.json
 
