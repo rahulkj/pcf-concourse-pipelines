@@ -17,35 +17,73 @@ product_name: p-healthwatch
 product_identifier: p-healthwatch
 product_version: ^1\.2\..*$
 
-singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
-other_azs: ((other_azs))         # [R] Balance other jobs in AZ's (comma-separated)
-network_name: ((network_name))      # [R] Tile network name
-service_network_name: ((service_network_name)) # [R] dynamic services network for healthwatch
-
-errands_to_disable:
-
 dependency_product_tiles: 'cf'
 
-healthwatch_forwarder_boshhealth_instance_count: 1
-healthwatch_forwarder_boshtasks_instance_count: 1
-healthwatch_forwarder_canary_instance_count: 1
-healthwatch_forwarder_cli_instance_count: 1
-healthwatch_forwarder_foundation_name: '' # [R]
-healthwatch_forwarder_health_check_az: '' # [R]
-healthwatch_forwarder_health_check_vm_type: micro
-healthwatch_forwarder_ingestor_instance_count: 4
-healthwatch_forwarder_opsman_instance_count: 2
-healthwatch_forwarder_publish_to_eva: true # true|false
-healthwatch_forwarder_worker_instance_count: 4
-mysql_skip_name_resolve: true # true|false
-opsman: disable # enable|disable
-opsman_enable_url: '' # [R] Ops Manager URL, ex: https://OPS-MAN-URL
-mysql_instances: 1
-mysql_instance_type: 2xlarge
-mysql_persistent_disk_mb: 102400
-redis_instances: 1
-redis_instance_type: xlarge
-redis_persistent_disk_mb: 102400
-healthwatch_forwarder_instances: 2
-healthwatch_forwarder_instance_type: xlarge
-healthwatch_forwarder_persistent_disk_mb: 102400
+product_properties: |
+  ---
+  ".properties.opsman":
+    value: enable
+  ".properties.opsman.enable.url":
+    value:
+  ".mysql.skip_name_resolve":
+    value: true
+  ".healthwatch-forwarder.foundation_name":
+    value:
+  ".healthwatch-forwarder.bosh_taskcheck_username":
+    value:
+  ".healthwatch-forwarder.bosh_taskcheck_password":
+    value:
+      secret:
+  ".healthwatch-forwarder.ingestor_instance_count":
+    value: 4
+  ".healthwatch-forwarder.worker_instance_count":
+    value: 4
+  ".healthwatch-forwarder.canary_instance_count":
+    value: 2
+  ".healthwatch-forwarder.boshhealth_instance_count":
+    value: 1
+  ".healthwatch-forwarder.boshtasks_instance_count":
+    value: 2
+  ".healthwatch-forwarder.cli_instance_count":
+    value: 2
+  ".healthwatch-forwarder.opsman_instance_count":
+    value: 2
+  ".healthwatch-forwarder.publish_to_eva":
+    value: true
+  ".healthwatch-forwarder.health_check_az":
+    value:
+  ".healthwatch-forwarder.health_check_vm_type":
+    value:
+
+product_resources: |
+  mysql:
+    instances: 1
+    instance_type:
+      id: 2xlarge
+    persistent_disk:
+      size_mb: "102400"
+  redis:
+    instances: 1
+    instance_type:
+      id: xlarge
+    persistent_disk:
+      size_mb: "102400"
+  healthwatch-forwarder:
+    instances: 2
+    instance_type:
+      id: xlarge
+    persistent_disk:
+      size_mb: "102400"
+
+product_network_azs: |
+  network:
+    name:
+  service_network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:
