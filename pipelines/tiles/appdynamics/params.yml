@@ -17,18 +17,44 @@ product_name: p-appdynamics
 product_identifier: appdynamics
 product_version: ^4\.4\..*$
 
-singleton_jobs_az: AZ-2 # [R] Place singleton jobs in an AZ
-other_azs: AZ-2        # [R] Balance other jobs in AZ's (comma-separated)
-network_name: SERVICES      # [R] Tile network name
-
-errands_to_disable:
-
 dependency_product_tiles: 'cf'
 
-allow_paid_service_plans: false # false|true
-app_uri: "appdynamics-service-broker"
-appd_plans: '[{"plan-name":"appd-env","plan-description":"appd-description","account-name":"test","account-access-key":"helloworld","host-name":"appd.homelab.io","port":"8000","ssl-enabled":false}]'
-appdynamics_service_broker_enable_global_access_to_plans: true # true|false
-apply_open_security_group: true # true|false
-org: "appdynamics-org"
-space: "appdynamics-space"
+product_properties: |
+  ---
+  ".properties.org":
+    value: appdynamics-org
+  ".properties.space":
+    value: appdynamics-space
+  ".properties.apply_open_security_group":
+    value: true
+  ".properties.allow_paid_service_plans":
+    value: false
+  ".properties.appdynamics_service_broker_enable_global_access_to_plans":
+    value: true
+  ".properties.app_uri":
+    value: appdynamics-service-broker
+  ".properties.appd_plans":
+    value:
+    - plan-name:
+      plan-description:
+      account-name:
+      account-access-key:
+      host-name:
+      port:
+      ssl-enabled:
+
+product_resources: |
+  deploy-all:
+    instance_type:
+      id: "micro"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:
