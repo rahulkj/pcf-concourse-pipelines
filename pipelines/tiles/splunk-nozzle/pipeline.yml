@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -145,7 +144,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
-      
+
 - name: config-product
   plan:
   - aggregate:
@@ -169,39 +168,26 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-splunk-nozzle/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      ADD_APP_INFO: ((add_app_info))
-      ALLOW_PAID_SERVICE_PLANS: ((allow_paid_service_plans))
-      API_ENDPOINT: ((api_endpoint))
-      API_PASSWORD: ((api_password))
-      API_USER: ((api_user))
-      APPLY_OPEN_SECURITY_GROUP: ((apply_open_security_group))
-      ENABLE_EVENT_TRACING: ((enable_event_tracing))
-      EVENTS: ((events))
-      EXTRA_FIELDS: ((extra_fields))
-      FIREHOSE_SUBSCRIPTION_ID: ((firehose_subscription_id))
-      ORG: ((org))
-      SCALE_OUT_NOZZLE: ((scale_out_nozzle))
-      SKIP_SSL_VALIDATION_CF: ((skip_ssl_validation_cf))
-      SKIP_SSL_VALIDATION_SPLUNK: ((skip_ssl_validation_splunk))
-      SPACE: ((space))
-      SPLUNK_HOST: ((splunk_host))
-      SPLUNK_INDEX: ((splunk_index))
-      SPLUNK_TOKEN: ((splunk_token))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
       passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -209,11 +195,6 @@ jobs:
         globs: []
       passed: [config-product]
       trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
     - get: jq
       params:
         globs:
