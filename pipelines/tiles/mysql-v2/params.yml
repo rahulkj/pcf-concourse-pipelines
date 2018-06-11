@@ -214,7 +214,9 @@ product_network_azs: |
     name:
   service_network:
     name:
-  other_availability_zones: []
+  other_availability_zones:
+    - name:
+    - name:
   singleton_availability_zone:
     name:
 
