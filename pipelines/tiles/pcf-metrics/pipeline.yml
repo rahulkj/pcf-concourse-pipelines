@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -145,7 +144,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
-      
+
 - name: config-product
   plan:
   - aggregate:
@@ -169,33 +168,16 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-pcf-metrics/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      MYSQL_ROADMIN_PASSWORD: ((mysql_roadmin_password))
-      MYSQL_SKIP_NAME_RESOLVE: ((mysql_skip_name_resolve))
-      PUSH_APPS_ELASTICSEARCH_LOGQUEUE_INSTANCE_COUNT: ((push_apps_elasticsearch_logqueue_instance_count))
-      PUSH_APPS_INGESTOR_INSTANCE_COUNT: ((push_apps_ingestor_instance_count))
-      PUSH_APPS_LOGS_RETENTION_WINDOW: ((push_apps_logs_retention_window))
-      PUSH_APPS_METRICS_RETENTION_WINDOW: ((push_apps_metrics_retention_window))
-      PUSH_APPS_MYSQL_LOGQUEUE_INSTANCE_COUNT: ((push_apps_mysql_logqueue_instance_count))
-      PUSH_APPS_SERVER_INSTANCE_COUNT: ((push_apps_server_instance_count))
-      ELASTICSEARCH_MASTER_INSTANCES: ((elasticsearch_master_instances))
-      ELASTICSEARCH_MASTER_INSTANCE_TYPE: ((elasticsearch_master_instance_type))
-      ELASTICSEARCH_MASTER_PERSISTENT_DISK_MB: ((elasticsearch_master_persistent_disk_mb))
-      ELASTICSEARCH_DATA_INSTANCES: ((elasticsearch_data_instances))
-      ELASTICSEARCH_DATA_INSTANCE_TYPE: ((elasticsearch_data_instance_type))
-      ELASTICSEARCH_DATA_PERSISTENT_DISK_MB: ((elasticsearch_data_persistent_disk_mb))
-      REDIS_INSTANCES: ((redis_instances))
-      REDIS_INSTANCE_TYPE: ((redis_instance_type))
-      REDIS_PERSISTENT_DISK_MB: ((redis_persistent_disk_mb))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
