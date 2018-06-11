@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -169,29 +168,26 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-p-event-alerts/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      DEPLOY_PCF_EVENT_ALERTS_INSTANCE_COUNT: ((deploy_pcf_event_alerts_instance_count))
-      MYSQL: ((mysql))
-      MYSQL_EXTERNAL_DATABASE: ((mysql_external_database))
-      MYSQL_EXTERNAL_HOST: ((mysql_external_host))
-      MYSQL_EXTERNAL_PASSWORD: ((mysql_external_password))
-      MYSQL_EXTERNAL_PORT: ((mysql_external_port))
-      MYSQL_EXTERNAL_USERNAME: ((mysql_external_username))
-      MYSQL_INTERNAL_PLAN_NAME: ((mysql_internal_plan_name))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
       passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -199,11 +195,6 @@ jobs:
         globs: []
       passed: [config-product]
       trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
     - get: jq
       params:
         globs:
