@@ -23,81 +23,184 @@ network_name: ((network_name))
 
 dependency_product_tiles: 'cf'
 
-cf_mysql_broker_allow_table_locks: true
-cf_mysql_broker_bind_hostname: ''
-cf_mysql_broker_quota_enforcer_pause: 30
-mysql_allow_local_infile: true
-mysql_allow_remote_admin_access: false
-mysql_binlog_expire_days: 7
-mysql_cli_history: true
-mysql_cluster_name: 'cf-mariadb-galera-cluster'
-mysql_cluster_probe_timeout: 10
-mysql_innodb_large_prefix_enabled: true
-mysql_innodb_strict_mode: true
-mysql_max_connections: 1500
-mysql_metrics_polling_frequency: 30
-mysql_mysql_start_timeout: 60
-mysql_roadmin_password: ''
-mysql_skip_name_resolve: true
-mysql_table_definition_cache: 8192
-mysql_table_open_cache: 2000
-mysql_tmp_table_size: 33554432
-backup_options: disable # enable|disable
-backup_options_enable_backup_all_masters: false
-backup_options_enable_cron_schedule: ''
-backups: disable # disable|enable|azure|gcs|scp (enable is for AWS S3)
-backups_azure_base_url: ''
-backups_azure_container: ''
-backups_azure_container_path: ''
-backups_azure_storage_access_key: ''
-backups_azure_storage_account: ''
-backups_enable_access_key_id: ''
-backups_enable_bucket_name: ''
-backups_enable_bucket_path: ''
-backups_enable_endpoint_url: ''
-backups_enable_region: ''
-backups_enable_secret_access_key: ''
-backups_gcs_bucket_name: ''
-backups_gcs_project_id: ''
-backups_gcs_service_account_json: '{}'
-backups_scp_destination: ''
-backups_scp_port: 22
-backups_scp_scp_key: ''
-backups_scp_server: ''
-backups_scp_user: ''
-buffer_pool_size: percent # percent|bytes
-buffer_pool_size_bytes_buffer_pool_size_bytes: 1
-buffer_pool_size_percent_buffer_pool_size_percent: 50
-innodb_flush_log_at_trx_commit: one
-optional_protections: enable # enable|disable
-optional_protections_enable_canary_poll_frequency: 30
-optional_protections_enable_canary_write_read_delay: 20
-optional_protections_enable_notify_only: false
-optional_protections_enable_prevent_auto_rejoin: false
-optional_protections_enable_recipient_email: '' # [R]
-optional_protections_enable_replication_canary: true
-plan_collection: '{"name":"100mb","description":"100MB_default","max_storage_mb":"100","max_user_connections":"10","private":false}'
-server_activity_logging: disable # enable|disable
-server_activity_logging_enable_audit_logging_events: 'connect,query'
-server_activity_logging_enable_server_audit_excluded_users_csv: ''
-syslog: disabled # enabled|disabled
-syslog_enabled_address: ''
-syslog_enabled_port: ''
-syslog_enabled_protocol: tcp # tcp|udp|relp
-proxy_shutdown_delay: 0
-proxy_startup_delay: 0
-proxy_static_ips: ''
-mysql_instances: 3
-mysql_instance_type: "large.disk"
-mysql_persistent_disk_mb: 51200
-backup_prepare_instances: 1
-backup_prepare_instance_type: "large.cpu"
-backup_prepare_persistent_disk_mb: 204800
-proxy_instances: 2
-proxy_instance_type: "small.disk"
-monitoring_instances: 1
-monitoring_instance_type: "micro"
-cf_mysql_broker_instances: 2
-cf_mysql_broker_instance_type: "small.disk"
+product_properties: |
+  ---
+  ".properties.backup_options":
+    value: disable
+  ".properties.backup_options.enable.cron_schedule":
+    value:
+  ".properties.backup_options.enable.backup_all_masters":
+    value: true
+  ".properties.backups":                                                        # disable|enable|azure|gcs|scp (enable is for AWS S3)
+    value: disable
+  ".properties.backups.enable.endpoint_url":
+    value:
+  ".properties.backups.enable.bucket_name":
+    value:
+  ".properties.backups.enable.bucket_path":
+    value:
+  ".properties.backups.enable.access_key_id":
+    value:
+  ".properties.backups.enable.secret_access_key":
+    value:
+      secret:
+  ".properties.backups.enable.region":
+    value:
+  ".properties.backups.azure.storage_account":
+    value:
+  ".properties.backups.azure.storage_access_key":
+    value:
+      secret:
+  ".properties.backups.azure.container":
+    value:
+  ".properties.backups.azure.container_path":
+    value:
+  ".properties.backups.azure.base_url":
+    value:
+  ".properties.backups.gcs.service_account_json":
+    value:
+      secret:
+  ".properties.backups.gcs.project_id":
+    value:
+  ".properties.backups.gcs.bucket_name":
+    value:
+  ".properties.backups.scp.user":
+    value:
+  ".properties.backups.scp.server":
+    value:
+  ".properties.backups.scp.destination":
+    value:
+  ".properties.backups.scp.scp_key":
+    value:
+  ".properties.backups.scp.port":
+    value: 22
+  ".properties.plan_collection":
+    value:
+    - name:
+        value: 100mb
+      description:
+        value: 100MB default
+      max_storage_mb:
+        value: 100
+      max_user_connections:
+        value: 40
+      private:
+        value: false
+  ".properties.optional_protections":
+    value: enable
+  ".properties.optional_protections.enable.recipient_email":
+    value:
+  ".properties.optional_protections.enable.prevent_auto_rejoin":
+    value: false
+  ".properties.optional_protections.enable.replication_canary":
+    value: true
+  ".properties.optional_protections.enable.notify_only":
+    value: false
+  ".properties.optional_protections.enable.canary_poll_frequency":
+    value: 30
+  ".properties.optional_protections.enable.canary_write_read_delay":
+    value: 20
+  ".properties.innodb_flush_log_at_trx_commit":
+    value: two
+  ".properties.server_activity_logging":
+    value: enable
+  ".properties.server_activity_logging.enable.audit_logging_events":
+    value: connect,query
+  ".properties.server_activity_logging.enable.server_audit_excluded_users_csv":
+    value:
+  ".properties.syslog":
+    value: enabled
+  ".properties.syslog.enabled.address":
+    value:
+  ".properties.syslog.enabled.port":
+    value: 6514
+  ".properties.syslog.enabled.protocol":                                        # tcp|udp|relp
+    value: tcp
+  ".properties.buffer_pool_size":                                               # percent|bytes
+    value: percent
+  ".properties.buffer_pool_size.percent.buffer_pool_size_percent":
+    value: 50
+  ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes":
+    value:
+  ".mysql.roadmin_password":
+    value:
+      secret:
+  ".mysql.skip_name_resolve":
+    value: true
+  ".mysql.innodb_large_prefix_enabled":
+    value: true
+  ".mysql.mysql_start_timeout":
+    value: 60
+  ".mysql.metrics_polling_frequency":
+    value: 30
+  ".mysql.cluster_probe_timeout":
+    value: 10
+  ".mysql.tmp_table_size":
+    value: 33554432
+  ".mysql.table_open_cache":
+    value: 2000
+  ".mysql.table_definition_cache":
+    value: 8192
+  ".mysql.max_connections":
+    value: 1500
+  ".mysql.binlog_expire_days":
+    value: 7
+  ".mysql.cluster_name":
+    value: cf-mariadb-galera-cluster
+  ".mysql.innodb_strict_mode":
+    value: true
+  ".mysql.cli_history":
+    value: true
+  ".mysql.allow_remote_admin_access":
+    value: false
+  ".mysql.allow_local_infile":
+    value: true
+  ".proxy.static_ips":
+    value:
+  ".proxy.shutdown_delay":
+    value: 0
+  ".proxy.startup_delay":
+    value: 0
+  ".cf-mysql-broker.quota_enforcer_pause":
+    value: 30
+  ".cf-mysql-broker.allow_table_locks":
+    value: true
+  ".cf-mysql-broker.bind_hostname":
+    value:
+
+product_resources: |
+  mysql:
+    instances: 3
+    instance_type:
+      id: "large.disk"
+    persistent_disk:
+      size_mb: "102400"
+  backup-prepare:
+    instances: 1
+    instance_type:
+      id: "large.cpu"
+    persistent_disk:
+      size_mb: "204800"
+  proxy:
+    instances: 2
+    instance_type:
+      id: "small.disk"
+  monitoring:
+    instances: 1
+    instance_type:
+      id: "micro"
+  cf-mysql-broker:
+    instances: 2
+    instance_type:
+      id: "small.disk"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
 
 errands_to_disable: # "broker-registrar,smoke-tests"
