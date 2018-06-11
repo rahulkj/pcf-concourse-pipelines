@@ -119,18 +119,7 @@ jobs:
       GOVC_NETWORK: ((ops_mgr_vm_network))
       GOVC_RESOURCE_POOL: ((ops_mgr_resource_pool))
       GOVC_HOST: ((ops_mgr_vm_host))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_SSH_PWD: ((ops_mgr_ssh_pwd))
-      OM_NTP_SERVERS: ((ops_mgr_ntp_servers))
-      OM_DNS_SERVERS: ((ops_mgr_dns_servers))
-      OM_GATEWAY: ((ops_mgr_gateway))
-      OM_NETMASK: ((ops_mgr_netmask))
-      OPS_MGR_IP: ((ops_mgr_ip))
-      OM_VM_NETWORK: ((ops_mgr_vm_network))
-      OM_VM_NAME: ((ops_mgr_vm_name))
-      OM_RESOURCE_POOL: ((ops_mgr_resource_pool))
-      OM_DISK_TYPE: ((ops_mgr_disk_type))
-      OM_VM_POWER_STATE: ((ops_mgr_vm_power_state))
+      OPS_MANAGER_SETTINGS: ((ops_manager_settings))
 
   - task: config-ops-manager
     file: pipelines-repo/tasks/config-opsman/task.yml
