@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -145,7 +144,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
-      
+
 - name: config-product
   plan:
   - aggregate:
@@ -169,16 +168,16 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-single-signon/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
@@ -205,6 +204,7 @@ jobs:
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
