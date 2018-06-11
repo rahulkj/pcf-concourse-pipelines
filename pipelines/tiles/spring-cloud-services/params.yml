@@ -20,21 +20,48 @@ product_name: p-spring-cloud-services # Product slug from pivnet
 product_identifier: p-spring-cloud-services # Product identifier from OpsManager using om cli
 product_version: ^1\.5\..*$
 
-singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
-other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
-network_name: ((network_name)) # [R] Tile network name
-
 dependency_product_tiles: 'cf,p-rabbitmq,pivotal-mysql'
 
-deploy_service_broker_broker_max_instances: 100
-deploy_service_broker_buildpack: ''
-deploy_service_broker_disable_cert_check: false
-deploy_service_broker_instances_app_push_timeout: ''
-deploy_service_broker_message_bus_service: p-rabbitmq
-deploy_service_broker_message_bus_service_plan: standard
-deploy_service_broker_persistence_store_service: p-mysql
-deploy_service_broker_persistence_store_service_plan: 100mb
-deploy_service_broker_secure_credentials: false
-register_service_broker_enable_global_access: true
+product_properties: |
+  ---
+  ".deploy-service-broker.persistence_store_service":
+    value: p-mysql
+  ".deploy-service-broker.persistence_store_service_plan":
+    value: 100mb
+  ".deploy-service-broker.message_bus_service":
+    value: p-rabbitmq
+  ".deploy-service-broker.message_bus_service_plan":
+    value: standard
+  ".deploy-service-broker.broker_max_instances":
+    value: 100
+  ".deploy-service-broker.buildpack":
+    value:
+  ".deploy-service-broker.disable_cert_check":
+    value: false
+  ".deploy-service-broker.instances_app_push_timeout":
+    value:
+  ".deploy-service-broker.secure_credentials":
+    value: false
+  ".register-service-broker.enable_global_access":
+    value: true
+
+product_resources: |
+  deploy-service-broker:
+    instances: 1
+    instance_type:
+      id: "nano"
+  register-service-broker:
+    instances: 1
+    instance_type:
+      id: "nano"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
 
 errands_to_disable:
