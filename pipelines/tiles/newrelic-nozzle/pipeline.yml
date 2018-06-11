@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -145,7 +144,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
-      
+
 - name: config-product
   plan:
   - aggregate:
@@ -169,44 +168,26 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-nr-firehose-nozzle/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      ALLOW_PAID_SERVICE_PLANS: ((allow_paid_service_plans))
-      APPLY_OPEN_SECURITY_GROUP: ((apply_open_security_group))
-      HTTP_PROXY: ((http_proxy))
-      NEWRELIC_INSIGHTS_BASE_URL: ((newrelic_insights_base_url))
-      NEWRELIC_INSIGHTS_INSERT_KEY: ((newrelic_insights_insert_key))
-      NEWRELIC_INSIGHTS_RPM_ID: ((newrelic_insights_rpm_id))
-      NO_PROXY: ((no_proxy))
-      NOZZLE_ADMIN_PASSWORD: ((nozzle_admin_password))
-      NOZZLE_ADMIN_USER: ((nozzle_admin_user))
-      NOZZLE_APP_DETAIL_INTERVAL: ((nozzle_app_detail_interval))
-      NOZZLE_EXCLUDED_DEPLOYMENTS: ((nozzle_excluded_deployments))
-      NOZZLE_EXCLUDED_JOBS: ((nozzle_excluded_jobs))
-      NOZZLE_EXCLUDED_ORIGINS: ((nozzle_excluded_origins))
-      NOZZLE_FIREHOSE_SUBSCRIPTION_ID: ((nozzle_firehose_subscription_id))
-      NOZZLE_INSTANCES: ((nozzle_instances))
-      NOZZLE_PASSWORD: ((nozzle_password))
-      NOZZLE_SELECTED_EVENTS: ((nozzle_selected_events))
-      NOZZLE_SKIP_SSL: ((nozzle_skip_ssl))
-      NOZZLE_TRAFFIC_CONTROLLER_URL: ((nozzle_traffic_controller_url))
-      NOZZLE_UAA_URL: ((nozzle_uaa_url))
-      NOZZLE_USERNAME: ((nozzle_username))
-      ORG: ((org))
-      SPACE: ((space))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
       passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -214,11 +195,6 @@ jobs:
         globs: []
       passed: [config-product]
       trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
     - get: jq
       params:
         globs:
