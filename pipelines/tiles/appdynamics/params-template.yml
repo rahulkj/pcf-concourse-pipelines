@@ -42,11 +42,36 @@ product_properties: |
       host-name:
       port:
       ssl-enabled:
+  ".properties.appd_ma_account_name":
+    value:
+  ".properties.appd_ma_account_access_key":
+    value:
+  ".properties.appd_ma_host_name":
+    value:
+  ".properties.appd_ma_port":
+    value:
+  ".properties.appd_ma_ssl_enabled":
+    value: false
+  ".properties.appd_nozzle_app_name":
+    value:
+  ".properties.appd_nozzle_tier_name":
+    value:
+  ".properties.appd_nozzle_tier_id":
+    value:
+  ".properties.appd_nozzle_node_name":
+    value:
+  ".properties.appd_ma_user_name":
+    value:
+  ".properties.appd_ma_user_pass":
+    value:
+  ".properties.appd_nozzle_authority":
+    value:
 
 product_resources: |
-  deploy-all:
+  machineagent_server_node:
+    instances: 1
     instance_type:
-      id: "micro"
+      id: "nano"
 
 product_network_azs: |
   network:
