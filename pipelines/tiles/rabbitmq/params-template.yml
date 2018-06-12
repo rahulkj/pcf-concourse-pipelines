@@ -293,6 +293,7 @@ product_properties: |
     value:
   ".rabbitmq-server.server_admin_credentials":
     value:
+      identity:
       password:
   ".rabbitmq-server.plugins":
     value:
@@ -304,7 +305,8 @@ product_properties: |
     - rabbitmq_federation_management
     - rabbitmq_management
     - rabbitmq_management_visualiser
-    - rabbitmq_mqtt,rabbitmq_shovel
+    - rabbitmq_mqtt
+    - rabbitmq_shovel
     - rabbitmq_shovel_management
     - rabbitmq_stomp
     - rabbitmq_tracing
