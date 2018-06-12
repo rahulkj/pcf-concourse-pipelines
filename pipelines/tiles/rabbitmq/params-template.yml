@@ -70,7 +70,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_1_rabbitmq_cluster_partition_handling_strategy":                             # pause_minority|autoheal
     value: pause_minority
   ".properties.on_demand_broker_plan_1_disk_limit_acknowledgement":                                               # acknowledge
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_2_selector":
     value: disabled
   ".properties.on_demand_broker_plan_2_selector.enabled.cf_service_access":
@@ -95,7 +96,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_2_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_2_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_3_selector":
     value: disabled
   ".properties.on_demand_broker_plan_3_selector.enabled.cf_service_access":
@@ -120,7 +122,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_3_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_3_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_4_selector":
     value: disabled
   ".properties.on_demand_broker_plan_4_selector.enabled.cf_service_access":
@@ -145,7 +148,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_4_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_4_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_5_selector":
     value: disabled
   ".properties.on_demand_broker_plan_5_selector.enabled.cf_service_access":
@@ -170,7 +174,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_5_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_5_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_6_cf_service_access":
     value: disable
   ".properties.on_demand_broker_plan_6_name":
@@ -192,7 +197,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_6_rabbitmq_cluster_partition_handling_strategy":
     value: pause_minority
   ".properties.on_demand_broker_plan_6_disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_7_selector":
     value: disabled
   ".properties.on_demand_broker_plan_7_selector.enabled.cf_service_access":
@@ -216,7 +222,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_7_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_7_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_8_selector":
     value: disabled
   ".properties.on_demand_broker_plan_8_selector.enabled.cf_service_access":
@@ -240,7 +247,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_8_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_8_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_9_selector":
     value: disabled
   ".properties.on_demand_broker_plan_9_selector.enabled.cf_service_access":
@@ -264,7 +272,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_9_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_9_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.on_demand_broker_plan_10_selector":
     value: disabled
   ".properties.on_demand_broker_plan_10_selector.enabled.cf_service_access":
@@ -288,7 +297,8 @@ product_properties: |
   ".properties.on_demand_broker_plan_10_selector.enabled.rabbitmq_vm_type":
     value:
   ".properties.on_demand_broker_plan_10_selector.enabled.disk_limit_acknowledgement":
-    value: non-existant-value
+    value:
+    - acknowledge
   ".properties.disk_alarm_threshold":                                                                 # fixed_50_mb|mem_relative_1_0|mem_relative_1_5|mem_relative_2_0
     value:
   ".rabbitmq-server.server_admin_credentials":
