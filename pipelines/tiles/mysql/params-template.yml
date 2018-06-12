@@ -23,13 +23,13 @@ product_properties: |
   ---
   ".properties.backup_options":
     value: disable
-  ".properties.backup_options.enable.cron_schedule":
+  ".properties.backup_options.enable.cron_schedule":                            # Delete this line if backup_options == disable
     value:
-  ".properties.backup_options.enable.backup_all_masters":
+  ".properties.backup_options.enable.backup_all_masters":                       # Delete this line if backup_options == disable
     value: true
   ".properties.backups":                                                        # disable|enable|azure|gcs|scp (enable is for AWS S3)
     value: disable
-  ".properties.backups.enable.endpoint_url":
+  ".properties.backups.enable.endpoint_url":                                    # Delete all .properties.backups, if backups == disable
     value:
   ".properties.backups.enable.bucket_name":
     value:
@@ -72,16 +72,11 @@ product_properties: |
     value: 22
   ".properties.plan_collection":
     value:
-    - name:
-        value: 100mb
-      description:
-        value: 100MB default
-      max_storage_mb:
-        value: 100
-      max_user_connections:
-        value: 40
-      private:
-        value: false
+    - name: 100mb
+      description: 100MB default
+      max_storage_mb: 100
+      max_user_connections: 40
+      private: false
   ".properties.optional_protections":
     value: enable
   ".properties.optional_protections.enable.recipient_email":
@@ -114,9 +109,9 @@ product_properties: |
     value: tcp
   ".properties.buffer_pool_size":                                               # percent|bytes
     value: percent
-  ".properties.buffer_pool_size.percent.buffer_pool_size_percent":
+  ".properties.buffer_pool_size.percent.buffer_pool_size_percent":              # Configure this if using percent, else delete this line
     value: 50
-  ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes":
+  ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes":                  # Configure this if using bytes, else delete this line
     value:
   ".mysql.roadmin_password":
     value:
