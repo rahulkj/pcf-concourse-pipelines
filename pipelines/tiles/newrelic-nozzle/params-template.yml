@@ -1,8 +1,8 @@
 pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
-git_token: ((github_token)) # [R] Your github token
+git_token: ((git_token)) # [R] Your github token
 git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
 git_branch: master
-git_username: ((github_username)) # [R] Your github username
+git_username: ((git_username)) # [R] Your github username
 
 debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
