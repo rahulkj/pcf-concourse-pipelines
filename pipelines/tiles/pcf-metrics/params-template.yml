@@ -62,7 +62,6 @@ product_resources: |
     persistent_disk:
       size_mb: "102400"
   mysql:
-    instances: 1
     instance_type:
       id: "xlarge"
     persistent_disk:

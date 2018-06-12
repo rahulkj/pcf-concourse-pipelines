@@ -44,10 +44,7 @@ product_properties: |
 
 
 product_resources: |
-  deploy-all:
-    instances: 1
-    instance_type:
-      id: "micro"
+  --- {}
 
 product_network_azs: |
   network:
