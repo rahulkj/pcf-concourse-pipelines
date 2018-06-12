@@ -1,0 +1,85 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
+
+debug: false
+
+product_name: p-appdynamics
+product_identifier: appdynamics
+product_version: ^4\.4\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.org":
+    value: appdynamics-org
+  ".properties.space":
+    value: appdynamics-space
+  ".properties.apply_open_security_group":
+    value: true
+  ".properties.allow_paid_service_plans":
+    value: false
+  ".properties.appdynamics_service_broker_enable_global_access_to_plans":
+    value: true
+  ".properties.app_uri":
+    value: appdynamics-service-broker
+  ".properties.appd_plans":
+    value:
+    - plan-name:
+      plan-description:
+      account-name:
+      account-access-key:
+      host-name:
+      port:
+      ssl-enabled:
+  ".properties.appd_ma_account_name":
+    value:
+  ".properties.appd_ma_account_access_key":
+    value:
+  ".properties.appd_ma_host_name":
+    value:
+  ".properties.appd_ma_port":
+    value:
+  ".properties.appd_ma_ssl_enabled":
+    value: false
+  ".properties.appd_nozzle_app_name":
+    value:
+  ".properties.appd_nozzle_tier_name":
+    value:
+  ".properties.appd_nozzle_tier_id":
+    value:
+  ".properties.appd_nozzle_node_name":
+    value:
+  ".properties.appd_ma_user_name":
+    value:
+  ".properties.appd_ma_user_pass":
+    value:
+  ".properties.appd_nozzle_authority":
+    value:
+
+product_resources: |
+  machineagent_server_node:
+    instances: 1
+    instance_type:
+      id: "nano"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:

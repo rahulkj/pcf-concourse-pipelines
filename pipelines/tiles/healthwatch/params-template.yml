@@ -1,0 +1,89 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
+
+debug: false
+
+product_name: p-healthwatch
+product_identifier: p-healthwatch
+product_version: ^1\.2\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.opsman":
+    value: enable
+  ".properties.opsman.enable.url":
+    value:
+  ".mysql.skip_name_resolve":
+    value: true
+  ".healthwatch-forwarder.foundation_name":
+    value:
+  ".healthwatch-forwarder.bosh_taskcheck_username":
+    value:
+  ".healthwatch-forwarder.bosh_taskcheck_password":
+    value:
+      secret:
+  ".healthwatch-forwarder.ingestor_instance_count":
+    value: 4
+  ".healthwatch-forwarder.worker_instance_count":
+    value: 4
+  ".healthwatch-forwarder.canary_instance_count":
+    value: 2
+  ".healthwatch-forwarder.boshhealth_instance_count":
+    value: 1
+  ".healthwatch-forwarder.boshtasks_instance_count":
+    value: 2
+  ".healthwatch-forwarder.cli_instance_count":
+    value: 2
+  ".healthwatch-forwarder.opsman_instance_count":
+    value: 2
+  ".healthwatch-forwarder.publish_to_eva":
+    value: true
+  ".healthwatch-forwarder.health_check_az":
+    value:
+  ".healthwatch-forwarder.health_check_vm_type":
+    value:
+
+product_resources: |
+  mysql:
+    instances: 1
+    instance_type:
+      id: 2xlarge
+    persistent_disk:
+      size_mb: "102400"
+  redis:
+    instances: 1
+    instance_type:
+      id: xlarge
+    persistent_disk:
+      size_mb: "102400"
+  healthwatch-forwarder:
+    instances: 2
+    instance_type:
+      id: xlarge
+    persistent_disk:
+      size_mb: "102400"
+
+product_network_azs: |
+  network:
+    name:
+  service_network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:

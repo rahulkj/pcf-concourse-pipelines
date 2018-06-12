@@ -6,7 +6,6 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
@@ -144,6 +143,7 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
   plan:
@@ -168,31 +168,26 @@ jobs:
       passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-spring-cloud-services/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      DEPLOY_SERVICE_BROKER_BROKER_MAX_INSTANCES: ((deploy_service_broker_broker_max_instances))
-      DEPLOY_SERVICE_BROKER_BUILDPACK: ((deploy_service_broker_buildpack))
-      DEPLOY_SERVICE_BROKER_DISABLE_CERT_CHECK: ((deploy_service_broker_disable_cert_check))
-      DEPLOY_SERVICE_BROKER_INSTANCES_APP_PUSH_TIMEOUT: ((deploy_service_broker_instances_app_push_timeout))
-      DEPLOY_SERVICE_BROKER_MESSAGE_BUS_SERVICE: ((deploy_service_broker_message_bus_service))
-      DEPLOY_SERVICE_BROKER_MESSAGE_BUS_SERVICE_PLAN: ((deploy_service_broker_message_bus_service_plan))
-      DEPLOY_SERVICE_BROKER_PERSISTENCE_STORE_SERVICE: ((deploy_service_broker_persistence_store_service))
-      DEPLOY_SERVICE_BROKER_PERSISTENCE_STORE_SERVICE_PLAN: ((deploy_service_broker_persistence_store_service_plan))
-      DEPLOY_SERVICE_BROKER_SECURE_CREDENTIALS: ((deploy_service_broker_secure_credentials))
-      REGISTER_SERVICE_BROKER_ENABLE_GLOBAL_ACCESS: ((register_service_broker_enable_global_access))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [config-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
       passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
@@ -200,11 +195,6 @@ jobs:
         globs: []
       passed: [config-product]
       trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
     - get: jq
       params:
         globs:

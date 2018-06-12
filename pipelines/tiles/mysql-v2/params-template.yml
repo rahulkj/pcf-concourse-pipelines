@@ -1,0 +1,229 @@
+pivnet_token: ((pivnet_token))                                # [R] PivNet Access Token
+git_token: ((git_token))                                      # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines  # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username))                                # [R] Your github username
+
+iaas_type: vsphere-esxi                                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+debug: false                                                  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
+ops_mgr_host: ((ops_mgr_host))                                # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))                                  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager admin password
+
+product_name: pivotal-mysql
+product_identifier: pivotal-mysql
+product_version: ^2\.3\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  .properties.global_service_instance_limit:
+    value: 50
+  .properties.mysql_metrics_frequency:
+    value: 30
+  .properties.simultaneous_upgrades:
+    value: 1
+  .properties.canary_instances:
+    value: 0
+  .properties.userstat:
+    value: false
+  .properties.audit_logging_enabled:
+    value: false
+  .properties.enable_read_only_admin:
+    value: false
+  .properties.enable_tls_selector:                             # disabled|enabled|required
+    value: disabled
+  .properties.enable_secure_binding_credentials:
+    value: false
+  .properties.vm_extensions:                                   # "public_ip" or ""
+    value:
+  .properties.local_infile:
+    value: false
+  .properties.enable_lower_case_table_names:
+    value: false
+  .properties.allow_lower_case_table_names_via_config_param:
+    value: false
+  .properties.backups_selector:                                # "S3 Backups"|"SCP Backups"|"GCS"|"Azure Backups"
+    value:
+  .properties.backups_selector.s3.access_key_id:
+    value:
+  .properties.backups_selector.s3.secret_access_key:
+    value:
+  .properties.backups_selector.s3.endpoint_url:
+    value:
+  .properties.backups_selector.s3.bucket_name:
+    value:
+  .properties.backups_selector.s3.path:
+    value:
+  .properties.backups_selector.s3.cron_schedule:
+    value: 0 */8 * * *
+  .properties.backups_selector.s3.enable_email_alerts:
+    value: false
+  .properties.backups_selector.s3.region:
+    value:
+  .properties.backups_selector.scp.user:
+    value:
+  .properties.backups_selector.scp.server:
+    value:
+  .properties.backups_selector.scp.destination:
+    value:
+  .properties.backups_selector.scp.fingerprint:
+    value:
+  .properties.backups_selector.scp.key:
+    value:
+  .properties.backups_selector.scp.port:
+    value:
+  .properties.backups_selector.scp.cron_schedule:
+    value: 0 */8 * * *
+  .properties.backups_selector.scp.enable_email_alerts:
+    value: false
+  .properties.backups_selector.gcs.project_id:
+    value:
+  .properties.backups_selector.gcs.bucket_name:
+    value:
+  .properties.backups_selector.gcs.service_account_json:
+    value:
+  .properties.backups_selector.gcs.cron_schedule:
+    value: 0 */8 * * *
+  .properties.backups_selector.gcs.enable_email_alerts:
+    value: false
+  .properties.backups_selector.azure.account:
+    value:
+  .properties.backups_selector.azure.storage_access_key:
+    value:
+  .properties.backups_selector.azure.path:
+    value:
+  .properties.backups_selector.azure.cron_schedule:
+    value: 0 */8 * * *
+  .properties.backups_selector.azure.container:
+    value:
+  .properties.backups_selector.azure.blob_store_base_url:
+    value:
+  .properties.backups_selector.azure.enable_email_alerts:
+    value: false
+  .properties.plan1_selector:                                     # Active|Inactive
+    value: Active
+  .properties.plan1_selector.active.multi_node_deployment:
+    value: false
+  .properties.plan1_selector.active.vm_type:                     # "small"|"medium.mem"|"large.mem"|etc...
+    value:
+  .properties.plan1_selector.active.disk_size:                   # "1024"|"2048"|"4096"|etc...
+    value:
+  .properties.plan1_selector.active.az_multi_select:
+    value: []
+  .properties.plan1_selector.active.access_dropdown:
+    value: enable
+  .properties.plan1_selector.active.name:
+    value: db-small
+  .properties.plan1_selector.active.description:
+    value: This plan provides a small dedicated MySQL instance.
+  .properties.plan1_selector.active.instance_limit:
+    value:
+  .properties.plan2_selector:
+    value: Active
+  .properties.plan2_selector.active.multi_node_deployment:
+    value: false
+  .properties.plan2_selector.active.vm_type:
+    value:
+  .properties.plan2_selector.active.disk_size:
+    value:
+  .properties.plan2_selector.active.az_multi_select:
+    value: []
+  .properties.plan2_selector.active.access_dropdown:
+    value: enable
+  .properties.plan2_selector.active.name:
+    value: db-medium
+  .properties.plan2_selector.active.description:
+    value: This plan provides a medium dedicated MySQL instance.
+  .properties.plan2_selector.active.instance_limit:
+    value:
+  .properties.plan3_selector:
+    value: Active
+  .properties.plan3_selector.active.multi_node_deployment:
+    value: false
+  .properties.plan3_selector.active.vm_type:
+    value:
+  .properties.plan3_selector.active.disk_size:
+    value:
+  .properties.plan3_selector.active.az_multi_select:
+    value: []
+  .properties.plan3_selector.active.access_dropdown:
+    value: enable
+  .properties.plan3_selector.active.name:
+    value: db-large
+  .properties.plan3_selector.active.description:
+    value: This plan provides a large dedicated MySQL instance.
+  .properties.plan3_selector.active.instance_limit:
+    value:
+  .properties.plan4_selector:
+    value: Inactive
+  .properties.plan4_selector.active.multi_node_deployment:
+    value: false
+  .properties.plan4_selector.active.vm_type:
+    value:
+  .properties.plan4_selector.active.disk_size:
+    value:
+  .properties.plan4_selector.active.az_multi_select:
+    value: []
+  .properties.plan4_selector.active.access_dropdown:
+    value: enable
+  .properties.plan4_selector.active.name:
+    value:
+  .properties.plan4_selector.active.description:
+    value:
+  .properties.plan4_selector.active.instance_limit:
+    value:
+  .properties.plan5_selector:
+    value: Inactive
+  .properties.plan5_selector.active.multi_node_deployment:
+    value: false
+  .properties.plan5_selector.active.vm_type:
+    value:
+  .properties.plan5_selector.active.disk_size:
+    value:
+  .properties.plan5_selector.active.az_multi_select:
+    value: []
+  .properties.plan5_selector.active.access_dropdown:
+    value: enable
+  .properties.plan5_selector.active.name:
+    value:
+  .properties.plan5_selector.active.description:
+    value:
+  .properties.plan5_selector.active.instance_limit:
+    value:
+  .properties.syslog_migration_selector:
+    value: disabled
+  .properties.syslog_migration_selector.enabled.address:
+    value:
+  .properties.syslog_migration_selector.enabled.port:
+    value:
+  .properties.syslog_migration_selector.enabled.transport_protocol:
+    value: tcp
+  .properties.syslog_migration_selector.enabled.tls_enabled:
+    value: true
+  .properties.syslog_migration_selector.enabled.permitted_peer:
+    value:
+  .properties.syslog_migration_selector.enabled.ca_cert:
+    value:
+
+product_network_azs: |
+  network:
+    name:
+  service_network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+product_resources: |
+  dedicated-mysql-broker:
+    instances: 1
+    instance_type:
+      id: micro
+
+errands_to_disable: # "broker-registrar,smoke-tests"

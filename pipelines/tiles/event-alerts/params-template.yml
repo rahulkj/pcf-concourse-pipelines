@@ -21,13 +21,41 @@ singleton_jobs_az: ((singleton_jobs_az))  # [R] Place singleton jobs in an AZ
 other_azs: ((other_azs))                  # [R] Balance other jobs in AZ's (comma-separated)
 network_name: ((network_name))            # [R] Tile network name
 
-errands_to_disable:
+dependency_product_tiles: 'cf,pivotal-mysql'
 
-deploy_pcf_event_alerts_instance_count: 1
-mysql: internal                           # internal|external
-mysql_external_database: ''
-mysql_external_host: ''
-mysql_external_password: ''
-mysql_external_port: ''
-mysql_external_username: ''
-mysql_internal_plan_name: db-small
+product_properties: |
+  ---
+  ".properties.mysql":                    # "MySQL Service"|"External DB"
+    value: MySQL Service
+  ".properties.mysql.internal.plan_name":
+    value:
+  ".properties.mysql.external.host":
+    value:
+  ".properties.mysql.external.port":
+    value:
+  ".properties.mysql.external.username":
+    value:
+  ".properties.mysql.external.password":
+    value:
+      secret:
+  ".properties.mysql.external.database":
+    value:
+  ".deploy-pcf-event-alerts.instance_count":
+    value: 5
+
+product_resources: |
+  deploy-pcf-event-alerts:
+    instances: 1
+    instance_type:
+      id: "medium.cpu"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:
