@@ -17,3 +17,5 @@ product_name: ((product_name))
 product_version: ((product_version))
 product_identifier: ((product_identifier))
 product_glob: ((product_glob))
+
+dependency_product_tiles: ((dependency_product_tiles))

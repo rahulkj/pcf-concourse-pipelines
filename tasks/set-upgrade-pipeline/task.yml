@@ -18,6 +18,7 @@ params:
   PRODUCT_IDENTIFIER:
   PRODUCT_VERSION:
   PRODUCT_GLOB:
+  DEPENDENCY_PRODUCT_TILES:
 
 inputs:
   - name: pipelines-repo

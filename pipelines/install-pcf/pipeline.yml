@@ -349,6 +349,7 @@ jobs:
       PRODUCT_IDENTIFIER: ((pas_product_identifier))
       PRODUCT_VERSION: ((pas_product_version))
       PRODUCT_GLOB: ((pas_product_glob))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: unpause-reinstall-pipeline
   plan:
