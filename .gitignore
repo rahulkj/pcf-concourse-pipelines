@@ -1,4 +1,4 @@
-.env
+.env*
 *creds.yml
 .DS_Store
 *cred*.sh

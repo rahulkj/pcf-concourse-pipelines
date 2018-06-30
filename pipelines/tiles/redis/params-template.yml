@@ -1,0 +1,228 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
+
+product_name: p-redis
+product_identifier: p-redis
+product_version: ^1\.12\..*$
+
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] Balance other jobs in AZ's
+network_name: ((network_name)) # [R] Tile network name
+service_network_name: ((service_network_name))
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.syslog_selector":                                                        # "Yes without encryption"|"No"|"Yes with TLS encryption"
+    value: Yes without encryption
+  ".properties.syslog_selector.active.syslog_address":
+    value:
+  ".properties.syslog_selector.active.syslog_port":
+    value:
+  ".properties.syslog_selector.active.syslog_transport":                                # tcp|udp|relp
+    value: tcp
+  ".properties.syslog_selector.active.syslog_format":
+    value: rfc5424
+  ".properties.syslog_selector.active_with_tls.syslog_address":
+    value:
+  ".properties.syslog_selector.active_with_tls.syslog_port":
+    value:
+  ".properties.syslog_selector.active_with_tls.syslog_format":
+    value: rfc5424
+  ".properties.syslog_selector.active_with_tls.syslog_permitted_peer":
+    value:
+  ".properties.syslog_selector.active_with_tls.syslog_ca_cert":
+    value:
+  ".properties.metrics_polling_interval":
+    value: 30
+  ".properties.small_plan_selector":                                                      # "Plan Active" | "Plan Inactive"
+    value: Plan Active
+  ".properties.small_plan_selector.active.name":
+    value: cache-small
+  ".properties.small_plan_selector.active.description":
+    value: This plan provides a small dedicated Redis instance, tailored for caching
+      use-cases with persistence to disk enabled
+  ".properties.small_plan_selector.active.cf_service_access":                             # enable|disable|manual
+    value: enable
+  ".properties.small_plan_selector.active.az_single_select":
+    value:
+  ".properties.small_plan_selector.active.vm_type":
+    value:
+  ".properties.small_plan_selector.active.disk_size":
+    value:
+  ".properties.small_plan_selector.active.timeout":
+    value: 3600
+  ".properties.small_plan_selector.active.tcp_keepalive":
+    value: 60
+  ".properties.small_plan_selector.active.maxclients":
+    value: 1000
+  ".properties.small_plan_selector.active.lua_scripting":
+    value: false
+  ".properties.small_plan_selector.active.instance_limit":
+    value: 20
+  ".properties.medium_plan_selector":
+    value: Plan Active
+  ".properties.medium_plan_selector.active.name":
+    value: cache-medium
+  ".properties.medium_plan_selector.active.description":
+    value: This plan provides a medium dedicated Redis instance, tailored for caching
+      use-cases with persistence to disk enabled
+  ".properties.medium_plan_selector.active.cf_service_access":
+    value: enable
+  ".properties.medium_plan_selector.active.az_single_select":
+    value:
+  ".properties.medium_plan_selector.active.vm_type":
+    value:
+  ".properties.medium_plan_selector.active.disk_size":
+    value:
+  ".properties.medium_plan_selector.active.timeout":
+    value: 3600
+  ".properties.medium_plan_selector.active.tcp_keepalive":
+    value: 60
+  ".properties.medium_plan_selector.active.maxclients":
+    value: 5000
+  ".properties.medium_plan_selector.active.lua_scripting":
+    value: false
+  ".properties.medium_plan_selector.active.instance_limit":
+    value: 20
+  ".properties.large_plan_selector":
+    value: Plan Active
+  ".properties.large_plan_selector.active.name":
+    value: cache-large
+  ".properties.large_plan_selector.active.description":
+    value: This plan provides a large dedicated Redis instance, tailored for caching
+      use-cases with persistence to disk enabled
+  ".properties.large_plan_selector.active.cf_service_access":
+    value: enable
+  ".properties.large_plan_selector.active.az_single_select":
+    value:
+  ".properties.large_plan_selector.active.vm_type":
+    value:
+  ".properties.large_plan_selector.active.disk_size":
+    value:
+  ".properties.large_plan_selector.active.timeout":
+    value: 3600
+  ".properties.large_plan_selector.active.tcp_keepalive":
+    value: 60
+  ".properties.large_plan_selector.active.maxclients":
+    value: 10000
+  ".properties.large_plan_selector.active.lua_scripting":
+    value: false
+  ".properties.large_plan_selector.active.instance_limit":
+    value: 20
+  ".properties.backups_selector":
+    value: No Backups
+  ".properties.backups_selector.s3.access_key_id":
+    value:
+  ".properties.backups_selector.s3.secret_access_key":
+    value:
+  ".properties.backups_selector.s3.endpoint_url":
+    value:
+  ".properties.backups_selector.s3.region":
+    value:
+  ".properties.backups_selector.s3.signature_version":
+    value: '4'
+  ".properties.backups_selector.s3.bucket_name":
+    value:
+  ".properties.backups_selector.s3.path":
+    value:
+  ".properties.backups_selector.s3.cron_schedule":
+    value: 0 0 * * *
+  ".properties.backups_selector.s3.bg_save_timeout":
+    value: 10
+  ".properties.backups_selector.scp.server":
+    value:
+  ".properties.backups_selector.scp.user":
+    value:
+  ".properties.backups_selector.scp.key":
+    value:
+  ".properties.backups_selector.scp.path":
+    value:
+  ".properties.backups_selector.scp.port":
+    value: 22
+  ".properties.backups_selector.scp.cron_schedule":
+    value: 0 0 * * *
+  ".properties.backups_selector.scp.bg_save_timeout":
+    value: 10
+  ".properties.backups_selector.scp.fingerprint":
+    value:
+  ".properties.backups_selector.azure.account":
+    value:
+  ".properties.backups_selector.azure.storage_access_key":
+    value:
+  ".properties.backups_selector.azure.path":
+    value:
+  ".properties.backups_selector.azure.cron_schedule":
+    value: 0 0 * * *
+  ".properties.backups_selector.azure.bg_save_timeout":
+    value: 10
+  ".properties.backups_selector.azure.container":
+    value:
+  ".properties.backups_selector.azure.blob_store_base_url":
+    value:
+  ".properties.backups_selector.gcs.project_id":
+    value:
+  ".properties.backups_selector.gcs.bucket_name":
+    value:
+  ".properties.backups_selector.gcs.service_account_json":
+    value:
+  ".properties.backups_selector.gcs.cron_schedule":
+    value: 0 0 * * *
+  ".properties.backups_selector.gcs.bg_save_timeout":
+    value: 10
+  ".redis-on-demand-broker.service_instance_limit":
+    value: 20
+  ".redis-on-demand-broker.vm_extensions":                                            # public_ip|""
+    value:
+  ".redis-on-demand-broker.service_instance_sharing":
+    value: false
+  ".cf-redis-broker.service_instance_limit":
+    value: 5
+  ".cf-redis-broker.redis_maxmemory":
+    value: 512MB
+
+product_network_azs: |
+  network:
+    name:
+  service_network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+product_resources: |
+  redis-on-demand-broker:
+    instances: 1
+    instance_type:
+      id: medium
+    persistent_disk:
+      size_mb: "10240"
+  cf-redis-broker:
+    instances: 1
+    instance_type:
+      id: medium
+    persistent_disk:
+      size_mb: "10240"
+  dedicated-node:
+    instances: 5
+    instance_type:
+      id: micro.ram
+    persistent_disk:
+      size_mb: "5120"
+
+errands_to_disable: # "broker-registrar,smoke-tests,register-on-demand-broker,on-demand-broker-smoke-tests,upgrade-all-service-instances,broker-deregistrar,delete-all-service-instances-and-deregister-broker"

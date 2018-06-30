@@ -86,7 +86,7 @@ properties_config=$($JQ_CMD -n \
 if $backup_options == "enable" then
 {
   ".properties.backup_options.enable.cron_schedule": {
-    "value": $backup_options_enable_cron_schedule
+    "value": ( $backup_options_enable_cron_schedule | gsub("\""; "") )
   },
   ".properties.backup_options.enable.backup_all_masters": {
     "value": $backup_options_enable_backup_all_masters
@@ -378,7 +378,7 @@ $OM_CMD \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
   configure-product \
-  --product-name p-mysql \
+  --product-name $PRODUCT_IDENTIFIER \
   --product-properties "$properties_config" \
   --product-network "$network_config" \
   --product-resources "$resources_config"

@@ -1,0 +1,95 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr)) # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd)) # [R] Ops Manager admin password
+
+debug: false
+
+## Ops Manager installation meta data
+ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+
+ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate # Do not change
+
+product_name: isolation-segment
+product_version: ^2\.1\..*$
+
+replicator_name: "" # [O] Replicated Tile Name, ex: abc
+product_identifier: p-isolation-segment # If using replicated tile name, then specify the replicator_name in lower case, ex: p-isolation-segment-abc
+
+singleton_jobs_az: ((singleton_jobs_az)) # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs)) # [R] AZ's to balance other jobs
+network_name: ((network_name))  # [R] Tile network name
+
+dependency_product_tiles: 'cf'
+
+isolated_diego_cell_executor_disk_capacity: ''
+isolated_diego_cell_executor_memory_capacity: ''
+isolated_diego_cell_insecure_docker_registry_list: ''
+isolated_diego_cell_placement_tag: '' # [R]
+isolated_ha_proxy_internal_only_domains: ''
+isolated_ha_proxy_static_ips: ''
+isolated_ha_proxy_trusted_domain_cidrs: ''
+isolated_router_disable_insecure_cookies: false # true|false
+isolated_router_drain_wait: 20
+isolated_router_enable_write_access_logs: true # true|false
+isolated_router_enable_zipkin: true # true|false
+isolated_router_extra_headers_to_log: ''
+isolated_router_lb_healthy_threshold: 20
+isolated_router_request_timeout_in_seconds: 900
+isolated_router_static_ips: ''
+enable_grootfs: true # true|false
+garden_disk_cleanup: threshold # never|routine|threshold
+gorouter_ssl_ciphers: ''
+haproxy_forward_tls: disable # enable|disable
+haproxy_forward_tls_enable_backend_ca: ''
+haproxy_max_buffer_size: 16384
+haproxy_ssl_ciphers: ''
+
+# comma seperated list of comma separated domains usually preceded by a *
+isolation_segment_domains: '' # *.cfapps-ext.env.company.com,*.cfapps-web.env.company.com
+networking_poe_ssl_name: ''
+networking_poe_ssl_cert_pem: ''
+networking_poe_ssl_cert_private_key_pem: ''
+nfs_volume_driver: disable # enable|disable
+nfs_volume_driver_enable_ldap_server_host: ''
+nfs_volume_driver_enable_ldap_server_port: ''
+nfs_volume_driver_enable_ldap_service_account_password: ''
+nfs_volume_driver_enable_ldap_service_account_user: ''
+nfs_volume_driver_enable_ldap_user_fqdn: ''
+router_backend_max_conn: 500
+router_client_cert_validation: request # none|request|require
+router_enable_proxy: false # true|false
+routing_custom_ca_certificates: ''
+routing_disable_http: false # true|false
+routing_minimum_tls_version: "tls_v1_2"
+routing_table_sharding_mode: isolation_segment_only # isolation_segment_only|no_isolation_segment
+routing_tls_termination: load_balancer # load_balancer|router|ha_proxy
+skip_cert_verify: false # true|false
+system_logging: disabled # enabled|disabled
+system_logging_enabled_host: ''
+system_logging_enabled_port: ''
+system_logging_enabled_protocol: tcp # tcp|udp|relp
+system_logging_enabled_syslog_rule: ''
+system_logging_enabled_tls_ca_cert: ''
+system_logging_enabled_tls_enabled: false # true|false
+system_logging_enabled_tls_permitted_peer: false # true|false
+system_logging_enabled_use_tcp_for_file_forwarding_local_transport: false # true|false
+isolated_ha_proxy_instances: 3
+isolated_ha_proxy_instance_type: micro
+isolated_router_instances: 3
+isolated_router_instance_type: micro
+isolated_diego_cell_instances: 3
+isolated_diego_cell_instance_type: xlarge.disk
+
+errands_to_disable:

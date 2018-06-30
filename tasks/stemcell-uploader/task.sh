@@ -10,14 +10,17 @@ PIVNET_CLI=`find ./pivnet-cli -name "*linux-amd64*"`
 chmod +x $PIVNET_CLI
 
 chmod +x om-cli/om-linux
-CMD=./om-cli/om-linux
+OM_CMD=./om-cli/om-linux
 
-SC_VERSION=`cat ./pivnet-product/metadata.json | jq -r '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version' | head -1`
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
 
-STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-esxi-ubuntu-trusty-go_agent.tgz
+SC_VERSION=`cat ./pivnet-product/metadata.json | $JQ_CMD -r '.Dependencies[] | select(.Release.Product.Name | contains("Stemcells")) | .Release.Version' | head -1`
 
-DIAGNOSTIC_REPORT=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/diagnostic_report)
-STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | jq -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
+STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-ubuntu-trusty-go_agent.tgz
+
+DIAGNOSTIC_REPORT=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/diagnostic_report)
+STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | $JQ_CMD -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
 
 if $STEMCELL_EXISTS ; then
   echo "Stemcell already exists with Ops Manager, hence skipping this step"
@@ -37,7 +40,7 @@ else
 
   SC_FILE_PATH=`find ./ -name *.tgz`
 
-  $CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
+  $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
 
   if [ ! -f "$SC_FILE_PATH" ]; then
       echo "Stemcell file not found!"

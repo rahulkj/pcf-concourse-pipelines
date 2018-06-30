@@ -1,49 +1,43 @@
-PCF and product tiles Concourse Pipelines:
+PCF product tiles Concourse Pipelines:
 ---
 
-### CAUTION: Pivotal does not provide support for these pipelines. If you find anything broken, then please submit PR's.
+> **CAUTION:** Pivotal does not provide support for these pipelines.
+> If you find anything broken, then please submit a PR.
 
+---
 
-### PCF Installation on vSphere Only
+### Pipelines available in this repository are:
 
--	This pipeline is based on the [vSphere reference architecture](http://docs.pivotal.io/pivotalcf/1-10/refarch/vsphere/vsphere_ref_arch.html)
--	Pre-requisites for using this pipeline are:
-	-	4 Networks (One for each of the Infrastructure, Deployment, Services and Dynamic Services)
-	-	3 AZ's (vSphere Clusters and/or Resource Pools)
-	- Shared storage (Ephemeral and Persistent)
-	-	DNS with wildcard domains
+This repository provides the pipelines for the products listed in the following table.
 
-**IMPORTANT: If the above vSphere settings do not match your setup, please fork this repository and modify the `tasks/config-opsdir/task.sh` and update the networks and AZ's JSON accordingly**
+| PIVOTAL PRODUCT NAME | VERSION | PIPELINE LOCATION |
+| --- | --- | --- |
+| [Isolation Segments](https://network.pivotal.io/products/p-isolation-segment) | 2.1.x | [Isolation Segments Installation](./pipelines/tiles/isolation-segment)
+| [RabbitMQ](https://network.pivotal.io/products/p-rabbitmq) | 1.12.x | [RabbitMQ Installation](./pipelines/tiles/rabbitmq)
+| [Redis](https://network.pivotal.io/products/p-redis) | 1.12.x | [Redis Installation](./pipelines/tiles/redis)
+|	[Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services) | 1.5.x | [Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
+| [MySQL-v1](https://network.pivotal.io/products/p-mysql) | 1.10.x | [MySQL-v1 Installation](./pipelines/tiles/mysql) [**TO BE DISCONTINUED**]
+|	[MySQL-v2](https://network.pivotal.io/products/pivotal-mysql) | 2.2.x | [MySQL-v2 Installation](./pipelines/tiles/mysql-v2)
+|	[PCF Metrics](https://network.pivotal.io/products/apm) | 1.4.x | [PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
+| [Healthwatch](https://network.pivotal.io/products/p-healthwatch) | 1.2.x | [Healthwatch Installation](./pipelines/tiles/healthwatch)
+| [Splunk Nozzle](https://network.pivotal.io/products/splunk-nozzle)| 1.0.x | [Splunk Nozzle Installation](./pipelines/tiles/splunk-nozzle)
+| [New Relic Nozzle](https://network.pivotal.io/products/nr-firehose-nozzle) | 1.0.x | [New Relic Nozzle Installation](./pipelines/tiles/newrelic-nozzle)
+| [New Relic Service Broker](https://network.pivotal.io/products/p-new-relic) | 1.12.x | [New Relic Service Broker Installation](./pipelines/tiles/newrelic-service-broker)
+| [Spring Cloud Data Flow](https://network.pivotal.io/products/p-dataflow) | 1.0.x | [Spring Cloud Data Flow Installation](./pipelines/tiles/spring-cloud-dataflow)
+|	[Single Signon](https://network.pivotal.io/products/pivotal_single_sign-on_service) | 1.6.x | [Single Signon Installation](./pipelines/tiles/single-signon)
+|	[AppDynamics Service Broker](https://network.pivotal.io/products/p-appdynamics) | 4.4.135 | [AppDynamics Service Broker Installation](./pipelines/tiles/appdynamics)
+|	Upgrade Buildpacks | any | [Upgrade Buildpacks](./pipelines/upgrade-buildpack)
+|	Upgrade Tile | any | [Upgrade Tile](./pipelines/upgrade-tile)
 
------------------------------------------------------------------------------
-
-Following is an example on how to `fly` a pipeline:
+---
+### Following is an example on how to `fly` a pipeline:
 
 ```
 >	fly -t concourse-[ENV] login -c https://<CONCOURSE-URL> -k
->	fly -t concourse-[ENV] set-pipeline -p install-pcf -c ./pipelines/install/pipeline.yml -l ./pipelines/install/params.yml
->	fly -t concourse-[ENV] unpause-pipeline -p install-pcf
+>	fly -t concourse-[ENV] set-pipeline -p install-healthwatch -c ./pipelines/tiles/healthwatch/pipeline.yml -l ./pipelines/tiles/healthwatch/params.yml
+>	fly -t concourse-[ENV] unpause-pipeline -p install-healthwatch
 ```
 
-![](./pipelines/images/pipeline_new.png)
+![](./images/pipeline.png)
 
-List of pipelines available in this repository are:
----
-
--	[New Install of PCF (OM/ERT)](./pipelines/install)
--	[Reinstall of PCF (OM/ERT)](./pipelines/reinstall)
--	[Isolation Segments Installation](./pipelines/tiles/isolation-segments) [**WIP**]
--	[RabbitMQ Installation](./pipelines/tiles/rabbitmq)
--	[Redis Installation](./pipelines/tiles/redis)
--	[Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
--	[MySQL-v1 Installation](./pipelines/tiles/mysql)
--	[PCF Metrics Installation](./pipelines/tiles/pcf-metrics)
--	[JMX Bridge Installation](./pipelines/tiles/jmx-bridge)
-- [Healthwatch](./pipelines/tiles/healthwatch)
-- [Splunk Nozzle](./pipelines/tiles/splunk-nozzle)
-- [New Relic Nozzle](./pipelines/tiles/new-relic-nozzle)
-- [New Relic Service Broker](./pipelines/tiles/new-relic-service-broker)
-- [Spring Cloud Data Flow](./pipelines/tiles/spring-cloud-data-flow)
--	[Single Signon Installation](./pipelines/tiles/single-signon) [**WIP**]
--	[Upgrade Buildpacks](./pipelines/upgrade-buildpack)
--	[Upgrade Tile](./pipelines/upgrade-tile)
+Once the pipeline executes successfully, there will be a new pipeline set in the concourse based on the concourse information provided in the params file of the install pipeline. Make sure your concourse instance requires authentication, failing which the `set-upgrade-pipeline` job will fail.

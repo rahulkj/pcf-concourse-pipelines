@@ -6,35 +6,34 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: jq
   type: github-release
   source:
     user: stedolan
     repository: jq
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
@@ -44,6 +43,37 @@ resources:
     product_version: ((product_version))
 
 jobs:
+
+- name: delete-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+
+  - task: unstage-tile
+    file: pipelines-repo/tasks/unstage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: upload-product
   plan:
@@ -63,6 +93,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -109,16 +143,17 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [stage-product]
       trigger: true
     - get: om-cli
@@ -130,54 +165,36 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-splunk-nozzle/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
-      ADD_APP_INFO: ((add_app_info))
-      ALLOW_PAID_SERVICE_PLANS: ((allow_paid_service_plans))
-      API_ENDPOINT: ((api_endpoint))
-      API_PASSWORD: ((api_password))
-      API_USER: ((api_user))
-      APPLY_OPEN_SECURITY_GROUP: ((apply_open_security_group))
-      ENABLE_EVENT_TRACING: ((enable_event_tracing))
-      EVENTS: ((events))
-      EXTRA_FIELDS: ((extra_fields))
-      FIREHOSE_SUBSCRIPTION_ID: ((firehose_subscription_id))
-      ORG: ((org))
-      SCALE_OUT_NOZZLE: ((scale_out_nozzle))
-      SKIP_SSL_VALIDATION_CF: ((skip_ssl_validation_cf))
-      SKIP_SSL_VALIDATION_SPLUNK: ((skip_ssl_validation_splunk))
-      SPACE: ((space))
-      SPLUNK_HOST: ((splunk_host))
-      SPLUNK_INDEX: ((splunk_index))
-      SPLUNK_TOKEN: ((splunk_token))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
   - aggregate:
     - get: pipelines-repo
       passed: [config-product]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs:
-        - "*.pivotal"
-      passed: [config-product]
-      trigger: true
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
       passed: [config-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [config-product]
+      trigger: true
     - get: jq
       params:
         globs:
@@ -202,8 +219,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [disable-errands]
       trigger: true
     - get: om-cli
@@ -219,30 +235,3 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-
-- name: set-upgrade-pipeline
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [apply-changes]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs:
-        - "*.pivotal"
-      passed: [apply-changes]
-      trigger: true
-
-  - task: set-upgrade-pipeline
-    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
-    params:
-      DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      CONCOURSE_URL: ((concourse_url))
-      BUILD_PIPELINE_NAME: ((pipeline-name))
-      BUILD_TEAM_NAME: ((team-name))
-      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
-      PRODUCT_NAME: ((product_name))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      PRODUCT_VERSION: ((product_version))

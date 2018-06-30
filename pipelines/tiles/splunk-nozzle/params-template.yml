@@ -1,0 +1,104 @@
+# Token used to download the product file from Pivotal Network. Find this
+# on your Pivotal Network profile page:
+# https://network.pivotal.io/users/dashboard/edit-profile
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+debug: false
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+
+product_name: splunk-nozzle
+product_identifier: splunk-nozzle
+product_version: ^1\.0\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.org":
+    value: splunk-nozzle-org
+  ".properties.space":
+    value: splunk-nozzle-space
+  ".properties.apply_open_security_group":
+    value: true
+  ".properties.allow_paid_service_plans":
+    value: true
+  ".properties.splunk_host":
+    value:
+  ".properties.splunk_token":
+    value:
+      secret:
+  ".properties.skip_ssl_validation_splunk":
+    value: false
+  ".properties.splunk_index":
+    value: main
+  ".properties.splunk_version":
+    value: '6.6'
+  ".properties.api_endpoint":
+    value:
+  ".properties.api_user":
+    value:
+  ".properties.api_password":
+    value:
+      secret:
+  ".properties.skip_ssl_validation_cf":
+    value: false
+  ".properties.events":
+    value:
+    - HttpStartStop
+    - LogMessage
+    - ValueMetric
+    - CounterEvent
+    - Error
+    - ContainerMetric
+  ".properties.scale_out_nozzle":
+    value: 2
+  ".properties.firehose_subscription_id":
+    value:
+  ".properties.extra_fields":
+    value:
+  ".properties.add_app_info":
+    value: false
+  ".properties.enable_event_tracing":
+    value: false
+  ".properties.hec_retries":
+    value: 5
+  ".properties.hec_batch_size":
+    value: 100
+  ".properties.hec_workers":
+    value: 8
+  ".properties.consumer_queue_size":
+    value: 10000
+  ".properties.flush_interval":
+    value: 5s
+  ".properties.missing_app_cache_invalidate_ttl":
+    value: 0s
+  ".properties.app_cache_invalidate_ttl":
+    value: 0s
+  ".properties.app_limits":
+    value: 0
+  ".properties.ignore_missing_app":
+    value: true
+
+product_resources: |
+  --- {}
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:

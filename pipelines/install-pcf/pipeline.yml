@@ -1,0 +1,396 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+- name: email
+  type: docker-image
+  source:
+    repository: pcfseceng/email-resource
+
+resources:
+- name: govc
+  type: github-release
+  source:
+    user: vmware
+    repository: govmomi
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: om-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: om
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pivnet-cli
+  type: github-release
+  source:
+    user: pivotal-cf
+    repository: pivnet-cli
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: jq
+  type: github-release
+  source:
+    user: stedolan
+    repository: jq
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
+
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
+
+- name: ops-manager
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ops-manager
+    product_version: ((opsman_product_version))
+
+- name: pas-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: elastic-runtime
+    product_version: ((pas_product_version))
+
+- name: concourse-trigger-gist
+  type: git
+  source:
+    uri: ((gist_url))
+    branch: master
+    username: ((git_username))
+    password: ((git_token))
+
+- name: email
+  type: email
+  source:
+    smtp:
+      host: ((smtp_address))
+      port: ((smtp_port))
+      username: ((smtp_username))
+      password: ((smtp_password))
+    from: ((from_address))
+    to: [((to_addresses))]
+
+jobs:
+
+- name: install-ops-manager
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: govc
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+    - get: concourse-trigger-gist
+    - get: pivnet-product
+      resource: ops-manager
+      params:
+        globs:
+        - "*.ova"
+        save: true
+      trigger: true
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+
+  - task: deploy-ops-manager
+    file: pipelines-repo/tasks/import-opsman/task.yml
+    params:
+      DEBUG: ((debug))
+      GOVC_INSECURE: 1
+      GOVC_URL: ((vcenter_host))
+      GOVC_USERNAME: ((vcenter_usr))
+      GOVC_PASSWORD: ((vcenter_pwd))
+      GOVC_DATACENTER: ((vcenter_data_center))
+      GOVC_DATASTORE: ((ops_mgr_data_store))
+      GOVC_NETWORK: ((ops_mgr_vm_network))
+      GOVC_RESOURCE_POOL: ((ops_mgr_resource_pool))
+      GOVC_HOST: ((ops_mgr_vm_host))
+      OPS_MANAGER_SETTINGS: ((ops_manager_settings))
+
+  - task: config-ops-manager
+    file: pipelines-repo/tasks/config-opsman/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OM_DECRYPTION_PWD: ((ops_mgr_decryption_pwd))
+
+  - task: bump-timestamp
+    file: pipelines-repo/tasks/gist-update/task.yml
+    params:
+      CI_USERNAME: ((ci_username))
+      CI_EMAIL_ADDRESS: ((ci_email_address))
+
+  - put: concourse-trigger-gist
+    params: {repository: updated-concourse-trigger-gist}
+
+- name: configure-ops-director
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [install-ops-manager]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [install-ops-manager]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [install-ops-manager]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [install-ops-manager]
+
+  - task: config-ops-director
+    file: pipelines-repo/tasks/config-opsdir/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      IAAS_CONFIGURATION: ((iaas_configuration))
+      DIRECTOR_CONFIGURATION: ((director_configuration))
+      AZ_CONFIGURATION: ((az_configuration))
+      NETWORK_CONFIGURATION: ((network_configuration))
+      NETWORK_ASSIGNMENT: ((network_assignment))
+      SECURITY_CONFIGURATION: ((security_configuration))
+      RESOURCE_CONFIGURATION: ((resource_configuration))
+
+
+- name: ops-director-apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [configure-ops-director]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [configure-ops-director]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [configure-ops-director]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+
+- name: upload-pas-product-tile
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [install-ops-manager]
+    - get: pivnet-product
+      resource: pas-product
+      params:
+        globs:
+        - ((pas_product_glob))
+        save: true
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [install-ops-manager]
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [install-ops-manager]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [install-ops-manager]
+
+  - task: upload-pas-product-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+      IAAS_TYPE: ((iaas_type))
+
+- name: config-pas-product-tile
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [upload-pas-product-tile, ops-director-apply-changes]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [configure-ops-director]
+
+  - task: config-pas-product-tile
+    file: pipelines-repo/tasks/config-ert/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      GENERATE_CERTS: ((generate_certs))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
+
+- name: disable-errands
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-pas-product-tile]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [config-pas-product-tile]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [config-pas-product-tile]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [config-pas-product-tile]
+
+  - task: disable-errands
+    file: pipelines-repo/tasks/disable-errands/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((pas_product_identifier))
+      ERRANDS: ((errands_to_disable))
+
+- name: pas-product-apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [disable-errands]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [disable-errands]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [disable-errands]
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+
+- name: set-upgrade-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [pas-product-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [pas-product-apply-changes]
+
+  - task: set-upgrade-pipeline
+    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
+    params:
+      DEBUG: ((debug))
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      CONCOURSE_URL: ((concourse_url))
+      BUILD_PIPELINE_NAME: ((install_pipeline_name))
+      BUILD_TEAM_NAME: ((team_name))
+      UPGRADE_PIPELINE_NAME: ((upgrade_pipeline_name))
+      PRODUCT_NAME: elastic-runtime
+      PRODUCT_IDENTIFIER: ((pas_product_identifier))
+      PRODUCT_VERSION: ((pas_product_version))
+      PRODUCT_GLOB: ((pas_product_glob))
+
+- name: unpause-reinstall-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [pas-product-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [pas-product-apply-changes]
+
+  - task: change-pipeline-state
+    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+    params:
+      DEBUG: ((debug))
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      PIPELINE_NAME: ((reinstall_pipeline_name))
+      TEAM_NAME: ((team_name))
+      PIPELINE_STATE: ((reinstall_pipeline_state))
+
+- name: pause-install-pipeline
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [pas-product-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [pas-product-apply-changes]
+
+  - task: change-pipeline-state
+    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+    params:
+      DEBUG: ((debug))
+      CONCOURSE_USERNAME: ((concourse_user))
+      CONCOURSE_PASSWD: ((concourse_pwd))
+      ATC_EXTERNAL_URL: ((concourse_url))
+      PIPELINE_NAME: ((install_pipeline_name))
+      TEAM_NAME: ((team_name))
+      PIPELINE_STATE: ((install_pipeline_state))
+
+  - put: email
+    params:
+      subject_text: "Build finished: ${BUILD_PIPELINE_NAME}/${BUILD_NAME}"
+      body_text: "Build finished: ${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"

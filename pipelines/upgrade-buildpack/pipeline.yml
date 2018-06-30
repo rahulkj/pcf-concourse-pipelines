@@ -17,10 +17,10 @@ resources:
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet

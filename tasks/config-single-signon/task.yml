@@ -7,17 +7,18 @@ image_resource:
 
 params:
   DEBUG:
-  PRODUCT_IDENTIFIER:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
-  SINGLETON_JOB_AZ:
+  NETWORK_NAME:
   OTHER_AZS:
-  DEPLOY_SERVICE_BROKER_INSTANCES:
+  SINGLETON_JOBS_AZ:
+  PRODUCT_IDENTIFIER:
 
 inputs:
   - name: pipelines-repo
   - name: om-cli
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/config-single-signon/task.sh

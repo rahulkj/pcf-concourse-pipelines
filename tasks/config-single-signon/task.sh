@@ -7,38 +7,41 @@ else
 fi
 
 chmod +x om-cli/om-linux
-CMD=./om-cli/om-linux
+OM_CMD=./om-cli/om-linux
 
-function fn_other_azs {
-  local azs_csv=$1
-  echo $azs_csv | awk -F "," -v braceopen='{' -v braceclose='}' -v name='"name":' -v quote='"' -v OFS='"},{"name":"' '$1=$1 {print braceopen name quote $0 quote braceclose}'
-}
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
 
-BALANCE_JOB_AZS=$(fn_other_azs $OTHER_AZS)
-
-PRODUCT_NETWORK_CONFIG=$(cat <<-EOF
-{
-  "singleton_availability_zone": {
-    "name": "$SINGLETON_JOB_AZ"
-  },
-  "other_availability_zones": [
-    $BALANCE_JOB_AZS
-  ],
-  "network": {
-    "name": "$NETWORK_NAME"
-  }
-}
-EOF
+properties_config=$($JQ_CMD -n \
+'{}'
 )
 
-PRODUCT_RESOURCE_CONFIG=$(cat <<-EOF
-{
-  "deploy-service-broker": {
-    "instance_type": {"id": "automatic"},
-    "instances": $DEPLOY_SERVICE_BROKER_INSTANCES
+resources_config="{}"
+
+network_config=$($JQ_CMD -n \
+  --arg network_name "$NETWORK_NAME" \
+  --arg other_azs "$OTHER_AZS" \
+  --arg singleton_az "$SINGLETON_JOBS_AZ" \
+'
+  {
+    "network": {
+      "name": $network_name
+    },
+    "other_availability_zones": ($other_azs | split(",") | map({name: .})),
+    "singleton_availability_zone": {
+      "name": $singleton_az
+    }
   }
-}
-EOF
+'
 )
 
-$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k configure-product -n $PRODUCT_IDENTIFIER -pn "$PRODUCT_NETWORK_CONFIG" -pr "$PRODUCT_RESOURCE_CONFIG"
+$OM_CMD \
+  --target https://$OPS_MGR_HOST \
+  --username "$OPS_MGR_USR" \
+  --password "$OPS_MGR_PWD" \
+  --skip-ssl-validation \
+  configure-product \
+  --product-name $PRODUCT_IDENTIFIER \
+  --product-properties "$properties_config" \
+  --product-network "$network_config" \
+  --product-resources "$resources_config"

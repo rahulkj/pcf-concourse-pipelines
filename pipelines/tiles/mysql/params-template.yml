@@ -1,0 +1,197 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+debug: false  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+
+product_name: p-mysql
+product_identifier: p-mysql
+product_version: ^1\.10\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.backup_options":
+    value: disable
+  ".properties.backup_options.enable.cron_schedule":                            # Delete this line if backup_options == disable
+    value:
+  ".properties.backup_options.enable.backup_all_masters":                       # Delete this line if backup_options == disable
+    value: true
+  ".properties.backups":                                                        # disable|enable|azure|gcs|scp (enable is for AWS S3)
+    value: disable
+  ".properties.backups.enable.endpoint_url":                                    # Delete all .properties.backups, if backups == disable
+    value:
+  ".properties.backups.enable.bucket_name":
+    value:
+  ".properties.backups.enable.bucket_path":
+    value:
+  ".properties.backups.enable.access_key_id":
+    value:
+  ".properties.backups.enable.secret_access_key":
+    value:
+      secret:
+  ".properties.backups.enable.region":
+    value:
+  ".properties.backups.azure.storage_account":
+    value:
+  ".properties.backups.azure.storage_access_key":
+    value:
+      secret:
+  ".properties.backups.azure.container":
+    value:
+  ".properties.backups.azure.container_path":
+    value:
+  ".properties.backups.azure.base_url":
+    value:
+  ".properties.backups.gcs.service_account_json":
+    value:
+      secret:
+  ".properties.backups.gcs.project_id":
+    value:
+  ".properties.backups.gcs.bucket_name":
+    value:
+  ".properties.backups.scp.user":
+    value:
+  ".properties.backups.scp.server":
+    value:
+  ".properties.backups.scp.destination":
+    value:
+  ".properties.backups.scp.scp_key":
+    value:
+  ".properties.backups.scp.port":
+    value: 22
+  ".properties.plan_collection":
+    value:
+    - name: 100mb
+      description: 100MB default
+      max_storage_mb: 100
+      max_user_connections: 40
+      private: false
+  ".properties.optional_protections":
+    value: enable
+  ".properties.optional_protections.enable.recipient_email":
+    value:
+  ".properties.optional_protections.enable.prevent_auto_rejoin":
+    value: false
+  ".properties.optional_protections.enable.replication_canary":
+    value: true
+  ".properties.optional_protections.enable.notify_only":
+    value: false
+  ".properties.optional_protections.enable.canary_poll_frequency":
+    value: 30
+  ".properties.optional_protections.enable.canary_write_read_delay":
+    value: 20
+  ".properties.innodb_flush_log_at_trx_commit":
+    value: two
+  ".properties.server_activity_logging":
+    value: enable
+  ".properties.server_activity_logging.enable.audit_logging_events":
+    value: connect,query
+  ".properties.server_activity_logging.enable.server_audit_excluded_users_csv":
+    value:
+  ".properties.syslog":
+    value: enabled
+  ".properties.syslog.enabled.address":
+    value:
+  ".properties.syslog.enabled.port":
+    value: 6514
+  ".properties.syslog.enabled.protocol":                                        # tcp|udp|relp
+    value: tcp
+  ".properties.buffer_pool_size":                                               # percent|bytes
+    value: percent
+  ".properties.buffer_pool_size.percent.buffer_pool_size_percent":              # Configure this if using percent, else delete this line
+    value: 50
+  ".properties.buffer_pool_size.bytes.buffer_pool_size_bytes":                  # Configure this if using bytes, else delete this line
+    value:
+  ".mysql.roadmin_password":
+    value:
+      secret:
+  ".mysql.skip_name_resolve":
+    value: true
+  ".mysql.innodb_large_prefix_enabled":
+    value: true
+  ".mysql.mysql_start_timeout":
+    value: 60
+  ".mysql.metrics_polling_frequency":
+    value: 30
+  ".mysql.cluster_probe_timeout":
+    value: 10
+  ".mysql.tmp_table_size":
+    value: 33554432
+  ".mysql.table_open_cache":
+    value: 2000
+  ".mysql.table_definition_cache":
+    value: 8192
+  ".mysql.max_connections":
+    value: 1500
+  ".mysql.binlog_expire_days":
+    value: 7
+  ".mysql.cluster_name":
+    value: cf-mariadb-galera-cluster
+  ".mysql.innodb_strict_mode":
+    value: true
+  ".mysql.cli_history":
+    value: true
+  ".mysql.allow_remote_admin_access":
+    value: false
+  ".mysql.allow_local_infile":
+    value: true
+  ".proxy.static_ips":
+    value:
+  ".proxy.shutdown_delay":
+    value: 0
+  ".proxy.startup_delay":
+    value: 0
+  ".cf-mysql-broker.quota_enforcer_pause":
+    value: 30
+  ".cf-mysql-broker.allow_table_locks":
+    value: true
+  ".cf-mysql-broker.bind_hostname":
+    value:
+
+product_resources: |
+  mysql:
+    instances: 3
+    instance_type:
+      id: "large.disk"
+    persistent_disk:
+      size_mb: "102400"
+  backup-prepare:
+    instances: 1
+    instance_type:
+      id: "large.cpu"
+    persistent_disk:
+      size_mb: "204800"
+  proxy:
+    instances: 2
+    instance_type:
+      id: "small.disk"
+  monitoring:
+    instances: 1
+    instance_type:
+      id: "micro"
+  cf-mysql-broker:
+    instances: 2
+    instance_type:
+      id: "small.disk"
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable: # "broker-registrar,smoke-tests"

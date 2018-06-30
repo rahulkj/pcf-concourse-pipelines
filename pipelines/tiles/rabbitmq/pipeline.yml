@@ -6,35 +6,34 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: jq
   type: github-release
   source:
     user: stedolan
     repository: jq
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
@@ -44,6 +43,37 @@ resources:
     product_version: ((product_version))
 
 jobs:
+
+- name: delete-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+
+  - task: unstage-tile
+    file: pipelines-repo/tasks/unstage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: upload-product
   plan:
@@ -63,6 +93,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -81,7 +115,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product
@@ -110,16 +143,17 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [stage-product]
       trigger: true
     - get: om-cli
@@ -131,81 +165,19 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-rabbitmq/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      SERVICE_NETWORK_NAME: ((service_network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
-      ON_DEMAND_BROKER_GLOBAL_SERVICE_INSTANCE_QUOTA: ((on_demand_broker_global_service_instance_quota))
-      DISK_ALARM_THRESHOLD: ((disk_alarm_threshold))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR: ((on_demand_broker_dedicated_cluster_plan_selector))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_CF_SERVICE_ACCESS: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_cf_service_access))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_DESCRIPTION: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_description))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_DISK_LIMIT_ACKNOWLEDGEMENT: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_disk_limit_acknowledgement))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_FEATURES: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_features))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_INSTANCE_QUOTA: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_instance_quota))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_NAME: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_name))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_RABBITMQ_AZ_PLACEMENT: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_az_placement))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_RABBITMQ_CLUSTER_PARTITION_HANDLING_STRATEGY: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_cluster_partition_handling_strategy))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_RABBITMQ_NUMBER_OF_NODES: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_number_of_nodes))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_RABBITMQ_PERSISTENT_DISK_TYPE: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_persistent_disk_type))
-      ON_DEMAND_BROKER_DEDICATED_CLUSTER_PLAN_SELECTOR_ENABLED_RABBITMQ_VM_TYPE: ((on_demand_broker_dedicated_cluster_plan_selector_enabled_rabbitmq_vm_type))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_CF_SERVICE_ACCESS: ((on_demand_broker_dedicated_single_node_plan_cf_service_access))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DESCRIPTION: ((on_demand_broker_dedicated_single_node_plan_description))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_DISK_LIMIT_ACKNOWLEDGEMENT: ((on_demand_broker_dedicated_single_node_plan_disk_limit_acknowledgement))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_FEATURES: ((on_demand_broker_dedicated_single_node_plan_features))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_INSTANCE_QUOTA: ((on_demand_broker_dedicated_single_node_plan_instance_quota))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_NAME: ((on_demand_broker_dedicated_single_node_plan_name))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_AZ_PLACEMENT: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_az_placement))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_PERSISTENT_DISK_TYPE: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_persistent_disk_type))
-      ON_DEMAND_BROKER_DEDICATED_SINGLE_NODE_PLAN_RABBITMQ_VM_TYPE: ((on_demand_broker_dedicated_single_node_plan_rabbitmq_vm_type))
-      ON_DEMAND_BROKER_VM_EXTENSIONS: ((on_demand_broker_vm_extensions))
-      SYSLOG_SELECTOR: ((syslog_selector))
-      SYSLOG_SELECTOR_ENABLED_ADDRESS: ((syslog_selector_enabled_address))
-      SYSLOG_SELECTOR_ENABLED_PORT: ((syslog_selector_enabled_port))
-      SYSLOG_SELECTOR_ENABLED_SYSLOG_CA_CERT: ((syslog_selector_enabled_syslog_ca_cert))
-      SYSLOG_SELECTOR_ENABLED_SYSLOG_FORMAT: ((syslog_selector_enabled_syslog_format))
-      SYSLOG_SELECTOR_ENABLED_SYSLOG_PERMITTED_PEER: ((syslog_selector_enabled_syslog_permitted_peer))
-      SYSLOG_SELECTOR_ENABLED_SYSLOG_TLS: ((syslog_selector_enabled_syslog_tls))
-      SYSLOG_SELECTOR_ENABLED_SYSLOG_TRANSPORT: ((syslog_selector_enabled_syslog_transport))
-      RABBITMQ_BROKER_DNS_HOST: ((rabbitmq_broker_dns_host))
-      RABBITMQ_BROKER_OPERATOR_SET_POLICY_ENABLED: ((rabbitmq_broker_operator_set_policy_enabled))
-      RABBITMQ_BROKER_POLICY_DEFINITION: ((rabbitmq_broker_policy_definition))
-      RABBITMQ_HAPROXY_STATIC_IPS: ((rabbitmq_haproxy_static_ips))
-      RABBITMQ_SERVER_CLUSTER_PARTITION_HANDLING: ((rabbitmq_server_cluster_partition_handling))
-      RABBITMQ_SERVER_CONFIG: ((rabbitmq_server_config))
-      RABBITMQ_SERVER_COOKIE: ((rabbitmq_server_cookie))
-      RABBITMQ_SERVER_PLUGINS: ((rabbitmq_server_plugins))
-      RABBITMQ_SERVER_PORTS: ((rabbitmq_server_ports))
-      RABBITMQ_SERVER_SSL_CERT_PEM: ((rabbitmq_server_ssl_cert_pem))
-      RABBITMQ_SERVER_SSL_PRIVATE_KEY_PEM: ((rabbitmq_server_ssl_private_key_pem))
-      RABBITMQ_SERVER_SERVER_ADMIN_USERNAME: ((rabbitmq_server_server_admin_username))
-      RABBITMQ_SERVER_SERVER_ADMIN_PASSWORD: ((rabbitmq_server_server_admin_password))
-      RABBITMQ_SERVER_SSL_CACERT: ((rabbitmq_server_ssl_cacert))
-      RABBITMQ_SERVER_SSL_FAIL_IF_NO_PEER_CERT: ((rabbitmq_server_ssl_fail_if_no_peer_cert))
-      RABBITMQ_SERVER_SSL_VERIFICATION_DEPTH: ((rabbitmq_server_ssl_verification_depth))
-      RABBITMQ_SERVER_SSL_VERIFY: ((rabbitmq_server_ssl_verify))
-      RABBITMQ_SERVER_SSL_VERSIONS: ((rabbitmq_server_ssl_versions))
-      RABBITMQ_SERVER_STATIC_IPS: ((rabbitmq_server_static_ips))
-      RABBITMQ_SERVER_INSTANCES: ((rabbitmq_server_instances))
-      RABBITMQ_SERVER_INSTANCE_TYPE: ((rabbitmq_server_instance_type))
-      RABBITMQ_SERVER_PERSISTENT_DISK_MB: ((rabbitmq_server_persistent_disk_mb))
-      RABBITMQ_HAPROXY_INSTANCES: ((rabbitmq_haproxy_instances))
-      RABBITMQ_HAPROXY_INSTANCE_TYPE: ((rabbitmq_haproxy_instance_type))
-      RABBITMQ_BROKER_INSTANCES: ((rabbitmq_broker_instances))
-      RABBITMQ_BROKER_INSTANCE_TYPE: ((rabbitmq_broker_instance_type))
-      ON_DEMAND_BROKER_INSTANCES: ((on_demand_broker_instances))
-      ON_DEMAND_BROKER_INSTANCE_TYPE: ((on_demand_broker_instance_type))
-      ON_DEMAND_BROKER_PERSISTENT_DISK_MB: ((on_demand_broker_persistent_disk_mb))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
@@ -220,8 +192,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [config-product]
       trigger: true
     - get: jq
@@ -248,8 +219,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [disable-errands]
       trigger: true
     - get: om-cli
@@ -265,30 +235,3 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-
-- name: set-upgrade-pipeline
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [apply-changes]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs:
-        - "*.pivotal"
-      passed: [apply-changes]
-      trigger: true
-
-  - task: set-upgrade-pipeline
-    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
-    params:
-      DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      CONCOURSE_URL: ((concourse_url))
-      BUILD_PIPELINE_NAME: ((pipeline-name))
-      BUILD_TEAM_NAME: ((team-name))
-      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
-      PRODUCT_NAME: ((product_name))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      PRODUCT_VERSION: ((product_version))

@@ -6,35 +6,34 @@ resource_types:
     tag: latest-final
 
 resources:
-
 - name: om-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: om
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
   type: github-release
   source:
     user: pivotal-cf
     repository: pivnet-cli
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: jq
   type: github-release
   source:
     user: stedolan
     repository: jq
-    access_token: ((github_token)) ## Optional: Removing this will cause you to hit the rate limit
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pipelines-repo
   type: git
   source:
-    uri: ((github_repo))
-    branch: ((github_branch))
-    username: ((github_username))
-    password: ((github_token))
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
@@ -44,6 +43,37 @@ resources:
     product_version: ((product_version))
 
 jobs:
+
+- name: delete-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+
+  - task: unstage-tile
+    file: pipelines-repo/tasks/unstage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+
+  - task: apply-changes
+    file: pipelines-repo/tasks/apply-changes/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
 - name: upload-product
   plan:
@@ -63,6 +93,10 @@ jobs:
       params:
         globs:
         - "*linux-amd64*"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
@@ -81,7 +115,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-      OPS_MGR_IP: ((ops_mgr_ip))
       IAAS_TYPE: ((iaas_type))
 
 - name: stage-product
@@ -110,16 +143,17 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
   plan:
   - aggregate:
     - get: pipelines-repo
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [stage-product]
       trigger: true
     - get: om-cli
@@ -131,106 +165,19 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [upload-product]
 
   - task: config-tile
-    file: pipelines-repo/tasks/config-redis/task.yml
+    file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      NETWORK_NAME: ((network_name))
-      SERVICE_NETWORK_NAME: ((service_network_name))
-      OTHER_AZS: ((other_azs))
-      SINGLETON_JOBS_AZ: ((singleton_jobs_az))
-      PRODUCT_NAME: ((product_name))
-      CF_REDIS_BROKER_REDIS_MAXMEMORY: ((cf_redis_broker_redis_maxmemory))
-      CF_REDIS_BROKER_SERVICE_INSTANCE_LIMIT: ((cf_redis_broker_service_instance_limit))
-      BACKUPS_SELECTOR: ((backups_selector))
-      BACKUPS_SELECTOR_AZURE_ACCOUNT: ((backups_selector_azure_account))
-      BACKUPS_SELECTOR_AZURE_BG_SAVE_TIMEOUT: ((backups_selector_azure_bg_save_timeout))
-      BACKUPS_SELECTOR_AZURE_BLOB_STORE_BASE_URL: ((backups_selector_azure_blob_store_base_url))
-      BACKUPS_SELECTOR_AZURE_CONTAINER: ((backups_selector_azure_container))
-      BACKUPS_SELECTOR_AZURE_CRON_SCHEDULE: ((backups_selector_azure_cron_schedule))
-      BACKUPS_SELECTOR_AZURE_PATH: ((backups_selector_azure_path))
-      BACKUPS_SELECTOR_AZURE_STORAGE_ACCESS_KEY: ((backups_selector_azure_storage_access_key))
-      BACKUPS_SELECTOR_GCS_BG_SAVE_TIMEOUT: ((backups_selector_gcs_bg_save_timeout))
-      BACKUPS_SELECTOR_GCS_BUCKET_NAME: ((backups_selector_gcs_bucket_name))
-      BACKUPS_SELECTOR_GCS_CRON_SCHEDULE: ((backups_selector_gcs_cron_schedule))
-      BACKUPS_SELECTOR_GCS_PROJECT_ID: ((backups_selector_gcs_project_id))
-      BACKUPS_SELECTOR_GCS_SERVICE_ACCOUNT_JSON: ((backups_selector_gcs_service_account_json))
-      BACKUPS_SELECTOR_S3_ACCESS_KEY_ID: ((backups_selector_s3_access_key_id))
-      BACKUPS_SELECTOR_S3_BG_SAVE_TIMEOUT: ((backups_selector_s3_bg_save_timeout))
-      BACKUPS_SELECTOR_S3_BUCKET_NAME: ((backups_selector_s3_bucket_name))
-      BACKUPS_SELECTOR_S3_CRON_SCHEDULE: ((backups_selector_s3_cron_schedule))
-      BACKUPS_SELECTOR_S3_ENDPOINT_URL: ((backups_selector_s3_endpoint_url))
-      BACKUPS_SELECTOR_S3_PATH: ((backups_selector_s3_path))
-      BACKUPS_SELECTOR_S3_REGION: ((backups_selector_s3_region))
-      BACKUPS_SELECTOR_S3_SECRET_ACCESS_KEY: ((backups_selector_s3_secret_access_key))
-      BACKUPS_SELECTOR_S3_SIGNATURE_VERSION: ((backups_selector_s3_signature_version))
-      BACKUPS_SELECTOR_SCP_BG_SAVE_TIMEOUT: ((backups_selector_scp_bg_save_timeout))
-      BACKUPS_SELECTOR_SCP_CRON_SCHEDULE: ((backups_selector_scp_cron_schedule))
-      BACKUPS_SELECTOR_SCP_FINGERPRINT: ((backups_selector_scp_fingerprint))
-      BACKUPS_SELECTOR_SCP_KEY: ((backups_selector_scp_key))
-      BACKUPS_SELECTOR_SCP_PATH: ((backups_selector_scp_path))
-      BACKUPS_SELECTOR_SCP_PORT: ((backups_selector_scp_port))
-      BACKUPS_SELECTOR_SCP_SERVER: ((backups_selector_scp_server))
-      BACKUPS_SELECTOR_SCP_USER: ((backups_selector_scp_user))
-      LARGE_PLAN_SELECTOR: ((large_plan_selector))
-      LARGE_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT: ((large_plan_selector_active_az_single_select))
-      LARGE_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS: ((large_plan_selector_active_cf_service_access))
-      LARGE_PLAN_SELECTOR_ACTIVE_DESCRIPTION: ((large_plan_selector_active_description))
-      LARGE_PLAN_SELECTOR_ACTIVE_DISK_SIZE: ((large_plan_selector_active_disk_size))
-      LARGE_PLAN_SELECTOR_ACTIVE_INSTANCE_LIMIT: ((large_plan_selector_active_instance_limit))
-      LARGE_PLAN_SELECTOR_ACTIVE_LUA_SCRIPTING: ((large_plan_selector_active_lua_scripting))
-      LARGE_PLAN_SELECTOR_ACTIVE_MAXCLIENTS: ((large_plan_selector_active_maxclients))
-      LARGE_PLAN_SELECTOR_ACTIVE_NAME: ((large_plan_selector_active_name))
-      LARGE_PLAN_SELECTOR_ACTIVE_TCP_KEEPALIVE: ((large_plan_selector_active_tcp_keepalive))
-      LARGE_PLAN_SELECTOR_ACTIVE_TIMEOUT: ((large_plan_selector_active_timeout))
-      LARGE_PLAN_SELECTOR_ACTIVE_VM_TYPE: ((large_plan_selector_active_vm_type))
-      MEDIUM_PLAN_SELECTOR: ((medium_plan_selector))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT: ((medium_plan_selector_active_az_single_select))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS: ((medium_plan_selector_active_cf_service_access))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_DESCRIPTION: ((medium_plan_selector_active_description))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_DISK_SIZE: ((medium_plan_selector_active_disk_size))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_INSTANCE_LIMIT: ((medium_plan_selector_active_instance_limit))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_LUA_SCRIPTING: ((medium_plan_selector_active_lua_scripting))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_MAXCLIENTS: ((medium_plan_selector_active_maxclients))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_NAME: ((medium_plan_selector_active_name))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_TCP_KEEPALIVE: ((medium_plan_selector_active_tcp_keepalive))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_TIMEOUT: ((medium_plan_selector_active_timeout))
-      MEDIUM_PLAN_SELECTOR_ACTIVE_VM_TYPE: ((medium_plan_selector_active_vm_type))
-      METRICS_POLLING_INTERVAL: ((metrics_polling_interval))
-      SMALL_PLAN_SELECTOR: ((small_plan_selector))
-      SMALL_PLAN_SELECTOR_ACTIVE_AZ_SINGLE_SELECT: ((small_plan_selector_active_az_single_select))
-      SMALL_PLAN_SELECTOR_ACTIVE_CF_SERVICE_ACCESS: ((small_plan_selector_active_cf_service_access))
-      SMALL_PLAN_SELECTOR_ACTIVE_DESCRIPTION: ((small_plan_selector_active_description))
-      SMALL_PLAN_SELECTOR_ACTIVE_DISK_SIZE: ((small_plan_selector_active_disk_size))
-      SMALL_PLAN_SELECTOR_ACTIVE_INSTANCE_LIMIT: ((small_plan_selector_active_instance_limit))
-      SMALL_PLAN_SELECTOR_ACTIVE_LUA_SCRIPTING: ((small_plan_selector_active_lua_scripting))
-      SMALL_PLAN_SELECTOR_ACTIVE_MAXCLIENTS: ((small_plan_selector_active_maxclients))
-      SMALL_PLAN_SELECTOR_ACTIVE_NAME: ((small_plan_selector_active_name))
-      SMALL_PLAN_SELECTOR_ACTIVE_TCP_KEEPALIVE: ((small_plan_selector_active_tcp_keepalive))
-      SMALL_PLAN_SELECTOR_ACTIVE_TIMEOUT: ((small_plan_selector_active_timeout))
-      SMALL_PLAN_SELECTOR_ACTIVE_VM_TYPE: ((small_plan_selector_active_vm_type))
-      SYSLOG_SELECTOR: ((syslog_selector))
-      SYSLOG_SELECTOR_ACTIVE_SYSLOG_ADDRESS: ((syslog_selector_active_syslog_address))
-      SYSLOG_SELECTOR_ACTIVE_SYSLOG_FORMAT: ((syslog_selector_active_syslog_format))
-      SYSLOG_SELECTOR_ACTIVE_SYSLOG_PORT: ((syslog_selector_active_syslog_port))
-      SYSLOG_SELECTOR_ACTIVE_SYSLOG_TRANSPORT: ((syslog_selector_active_syslog_transport))
-      SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_ADDRESS: ((syslog_selector_active_with_tls_syslog_address))
-      SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_CA_CERT: ((syslog_selector_active_with_tls_syslog_ca_cert))
-      SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_FORMAT: ((syslog_selector_active_with_tls_syslog_format))
-      SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PERMITTED_PEER: ((syslog_selector_active_with_tls_syslog_permitted_peer))
-      SYSLOG_SELECTOR_ACTIVE_WITH_TLS_SYSLOG_PORT: ((syslog_selector_active_with_tls_syslog_port))
-      REDIS_ON_DEMAND_BROKER_SERVICE_INSTANCE_LIMIT: ((redis_on_demand_broker_service_instance_limit))
-      REDIS_ON_DEMAND_BROKER_VM_EXTENSIONS: ((redis_on_demand_broker_vm_extensions))
-      REDIS_ON_DEMAND_BROKER_INSTANCES: ((redis_on_demand_broker_instances))
-      REDIS_ON_DEMAND_BROKER_INSTANCE_TYPE: ((redis_on_demand_broker_instance_type))
-      REDIS_ON_DEMAND_BROKER_PERSISTENT_DISK_MB: ((redis_on_demand_broker_persistent_disk_mb))
-      DEDICATED_NODE_INSTANCES: ((dedicated_node_instances))
-      DEDICATED_NODE_INSTANCE_TYPE: ((dedicated_node_instance_type))
-      DEDICATED_NODE_PERSISTENT_DISK_MB: ((dedicated_node_persistent_disk_mb))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_PROPERTIES: ((product_properties))
+      PRODUCT_RESOURCES: ((product_resources))
+      PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands
   plan:
@@ -245,8 +192,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [config-product]
       trigger: true
     - get: jq
@@ -258,6 +204,7 @@ jobs:
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
+      DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
@@ -272,8 +219,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [disable-errands]
       trigger: true
     - get: om-cli
@@ -289,30 +235,3 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-
-- name: set-upgrade-pipeline
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [apply-changes]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs:
-        - "*.pivotal"
-      passed: [apply-changes]
-      trigger: true
-
-  - task: set-upgrade-pipeline
-    file: pipelines-repo/tasks/set-upgrade-pipeline/task.yml
-    params:
-      DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      CONCOURSE_URL: ((concourse_url))
-      BUILD_PIPELINE_NAME: ((pipeline-name))
-      BUILD_TEAM_NAME: ((team-name))
-      UPGRADE_PIPELINE_NAME: ((upgrade-pipeline-name))
-      PRODUCT_NAME: ((product_name))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      PRODUCT_VERSION: ((product_version))

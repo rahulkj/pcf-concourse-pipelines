@@ -1,0 +1,86 @@
+pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
+git_token: ((git_token)) # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+debug: false # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
+
+iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+
+product_name: nr-firehose-nozzle
+product_identifier: nr-firehose-nozzle
+product_version: ^1\.0\..*$
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.org":
+    value: nr-firehose-nozzle-org
+  ".properties.space":
+    value: nr-firehose-nozzle-space
+  ".properties.apply_open_security_group":
+    value: true
+  ".properties.allow_paid_service_plans":
+    value: false
+  ".properties.newrelic_insights_base_url":
+    value: https://insights-collector.newrelic.com/v1
+  ".properties.newrelic_insights_rpm_id":
+    value:
+  ".properties.newrelic_insights_insert_key":
+    value:
+      secret:
+  ".properties.nozzle_uaa_url":
+    value:
+  ".properties.nozzle_instances":
+    value: 3
+  ".properties.nozzle_skip_ssl":
+    value: false
+  ".properties.nozzle_username":
+    value: opentsdb-firehose-nozzle
+  ".properties.nozzle_password":
+    value:
+      secret:
+  ".properties.nozzle_traffic_controller_url":
+    value:
+  ".properties.nozzle_firehose_subscription_id":
+    value: newrelic.firehose
+  ".properties.nozzle_selected_events":
+    value: ValueMetric,CounterEvent,ContainerMetric
+  ".properties.nozzle_excluded_deployments":
+    value:
+  ".properties.nozzle_excluded_origins":
+    value:
+  ".properties.nozzle_excluded_jobs":
+    value:
+  ".properties.nozzle_admin_user":
+    value: admin
+  ".properties.nozzle_admin_password":
+    value:
+      secret:
+  ".properties.nozzle_app_detail_interval":
+    value: 1
+  ".properties.http_proxy":
+    value:
+  ".properties.no_proxy":
+    value:
+
+product_resources: |
+  --- {}
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:
