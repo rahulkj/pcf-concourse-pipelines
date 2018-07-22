@@ -42,13 +42,13 @@ SECURITY_DOMAIN=$(cat <<-EOF
 EOF
 )
 
-  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
+  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
 
   export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
   export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
   export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`
 
-  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$SECURITY_DOMAIN"`
+  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$SECURITY_DOMAIN"`
 
   export UAA_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
   export UAA_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`

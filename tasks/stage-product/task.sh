@@ -10,7 +10,7 @@ chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
 if [[ (! -z "$DEPENDENCY_PRODUCT_TILES") && ("null" != "$DEPENDENCY_PRODUCT_TILES") ]]; then
-  STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/staged/products)
+  STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p /api/v0/staged/products)
 
   for dependency in $(echo $DEPENDENCY_PRODUCT_TILES | sed "s/,/ /g")
   do

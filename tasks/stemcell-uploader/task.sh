@@ -19,7 +19,7 @@ SC_VERSION=`cat ./pivnet-product/metadata.json | $JQ_CMD -r '.Dependencies[] | s
 
 STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-ubuntu-trusty-go_agent.tgz
 
-DIAGNOSTIC_REPORT=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/diagnostic_report)
+DIAGNOSTIC_REPORT=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p /api/v0/diagnostic_report)
 STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | $JQ_CMD -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
 
 if $STEMCELL_EXISTS ; then
