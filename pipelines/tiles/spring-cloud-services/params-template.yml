@@ -25,9 +25,9 @@ dependency_product_tiles: 'cf,p-rabbitmq,pivotal-mysql'
 product_properties: |
   ---
   ".deploy-service-broker.persistence_store_service":
-    value: p-mysql
+    value: p.mysql
   ".deploy-service-broker.persistence_store_service_plan":
-    value: 100mb
+    value: db-small
   ".deploy-service-broker.message_bus_service":
     value: p-rabbitmq
   ".deploy-service-broker.message_bus_service_plan":

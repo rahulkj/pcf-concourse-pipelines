@@ -885,18 +885,14 @@ product_resources: |
     instance_type:
       id: large
 
-errands_to_disable: smoke_tests,test-autoscaling
+errands_to_disable:
 
 concourse_username: ((concourse_user))
 concourse_passwd: ((concourse_pwd))
 concourse_url: ((concourse_url))
 team_name: ((team_name))
-install_pipeline_name: install-pcf
-install_pipeline_state: pause
 upgrade_pipeline_name: upgrade-pas
-
-reinstall_pipeline_name: reinstall-pcf
-reinstall_pipeline_state: unpause
+dependency_product_tiles: ""
 
 smtp_address: ((smtp_address))
 smtp_port: ((smtp_port))

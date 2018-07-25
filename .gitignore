@@ -1,5 +1,5 @@
 .env*
-*creds.yml
+*creds*.yml
 .DS_Store
 *cred*.sh
 .idea/

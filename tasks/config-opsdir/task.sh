@@ -35,16 +35,16 @@ $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-di
 
 echo "Configuring availability zones..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-  curl -p "/api/v0/staged/director/availability_zones" \
+  curl -s -p "/api/v0/staged/director/availability_zones" \
   -x PUT -d "$az_configuration"
 
 echo "Configuring network..."
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-  curl -p "/api/v0/staged/director/networks" \
+  curl -s -p "/api/v0/staged/director/networks" \
   -x PUT -d "$network_configuration"
 
 $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
- curl -p /api/v0/staged/director/network_and_az \
+ curl -s -p /api/v0/staged/director/network_and_az \
  -x PUT -d "$network_assignment"
 
 echo "Configuring network assignment, security..."

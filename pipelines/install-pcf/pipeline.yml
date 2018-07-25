@@ -99,8 +99,6 @@ jobs:
       params:
         globs:
         - "*.ova"
-        save: true
-      trigger: true
     - get: jq
       params:
         globs:
@@ -196,7 +194,7 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
 
-- name: upload-pas-product-tile
+- name: upload-pas
   plan:
   - aggregate:
     - get: pipelines-repo
@@ -206,7 +204,6 @@ jobs:
       params:
         globs:
         - ((pas_product_glob))
-        save: true
     - get: om-cli
       params:
         globs:
@@ -225,7 +222,7 @@ jobs:
         - "*linux64*"
       passed: [install-ops-manager]
 
-  - task: upload-pas-product-tile
+  - task: upload-pas
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
       DEBUG: ((debug))
@@ -244,26 +241,26 @@ jobs:
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS_TYPE: ((iaas_type))
 
-- name: config-pas-product-tile
+- name: config-pas
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-pas-product-tile, ops-director-apply-changes]
+      passed: [upload-pas, ops-director-apply-changes]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [upload-pas-product-tile, ops-director-apply-changes]
+      passed: [upload-pas, ops-director-apply-changes]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [upload-pas-product-tile, ops-director-apply-changes]
+      passed: [upload-pas, ops-director-apply-changes]
     - get: jq
       params:
         globs:
         - "*linux64*"
       passed: [configure-ops-director]
 
-  - task: config-pas-product-tile
+  - task: config-pas
     file: pipelines-repo/tasks/config-ert/task.yml
     params:
       DEBUG: ((debug))
@@ -279,20 +276,20 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [config-pas-product-tile]
+      passed: [config-pas]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [config-pas-product-tile]
+      passed: [config-pas]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [config-pas-product-tile]
+      passed: [config-pas]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [config-pas-product-tile]
+      passed: [config-pas]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -349,46 +346,57 @@ jobs:
       PRODUCT_IDENTIFIER: ((pas_product_identifier))
       PRODUCT_VERSION: ((pas_product_version))
       PRODUCT_GLOB: ((pas_product_glob))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
-- name: unpause-reinstall-pipeline
+  - put: email
+    params:
+      subject_text: "Build finished: ${BUILD_PIPELINE_NAME}/${BUILD_NAME}"
+      body_text: "Build finished: ${ATC_EXTERNAL_URL}/teams/main/pipelines/${BUILD_PIPELINE_NAME}/jobs/${BUILD_JOB_NAME}/builds/${BUILD_NAME}"
+
+- name: delete-all
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [pas-product-apply-changes]
+    - get: govc
+      params:
+        globs:
+        - "*linux_amd64*"
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
     - get: concourse-trigger-gist
-      trigger: true
-      passed: [pas-product-apply-changes]
+    - get: ops-manager
+      params:
+        globs: []
 
-  - task: change-pipeline-state
-    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+  - task: delete-products
+    file: pipelines-repo/tasks/delete-products/task.yml
     params:
       DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      ATC_EXTERNAL_URL: ((concourse_url))
-      PIPELINE_NAME: ((reinstall_pipeline_name))
-      TEAM_NAME: ((team_name))
-      PIPELINE_STATE: ((reinstall_pipeline_state))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
 
-- name: pause-install-pipeline
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [pas-product-apply-changes]
-    - get: concourse-trigger-gist
-      trigger: true
-      passed: [pas-product-apply-changes]
-
-  - task: change-pipeline-state
-    file: pipelines-repo/tasks/change-pipeline-state/task.yml
+  - task: bump-timestamp
+    file: pipelines-repo/tasks/gist-update/task.yml
     params:
       DEBUG: ((debug))
-      CONCOURSE_USERNAME: ((concourse_user))
-      CONCOURSE_PASSWD: ((concourse_pwd))
-      ATC_EXTERNAL_URL: ((concourse_url))
-      PIPELINE_NAME: ((install_pipeline_name))
-      TEAM_NAME: ((team_name))
-      PIPELINE_STATE: ((install_pipeline_state))
+      CI_USERNAME: ((ci_username))
+      CI_EMAIL_ADDRESS: ((ci_email_address))
+
+  - task: delete-ops-manager
+    file: pipelines-repo/tasks/delete-opsman/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_IP: ((ops_mgr_ip))
+      GOVC_INSECURE: 1
+      GOVC_URL: ((vcenter_host))
+      GOVC_USERNAME: ((vcenter_usr))
+      GOVC_PASSWORD: ((vcenter_pwd))
+
+  - put: concourse-trigger-gist
+    params: {repository: updated-concourse-trigger-gist}
 
   - put: email
     params:
