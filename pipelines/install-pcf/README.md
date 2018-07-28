@@ -8,3 +8,5 @@
 	-	DNS with wildcard domains
 
 **IMPORTANT: If the above vSphere settings do not match your setup, please fork this repository and modify the `tasks/config-opsdir/task.sh` and update the networks and AZ's JSON accordingly**
+
+![](../../images/install-pcf.png)
