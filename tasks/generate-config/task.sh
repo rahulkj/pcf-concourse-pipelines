@@ -16,7 +16,6 @@ function cleanAndEchoProperties {
   JSON="$(echo "$PROPERTIES")"
   OUTPUT="$PRODUCT_IDENTIFIER.json"
 
-  log "Deleting non configurable properties"
   for KEY in $(echo "$JSON" | "$JQ_CMD" -r '.[] | keys[]' | sed "s/,/ /g"); do
     IS_NON_CONFIGURABLE=$(echo "$JSON" | "$JQ_CMD" --arg "key" "$KEY" '.properties[$key] | select(.configurable==false)')
     if [ ! -z "$IS_NON_CONFIGURABLE" ]; then
@@ -25,7 +24,6 @@ function cleanAndEchoProperties {
     unset IS_NON_CONFIGURABLE
   done
 
-  log "Deleting keys: (${DELETE[@]}) from $INPUT"
   for key in "${DELETE[@]}"; do
     JSON=$(echo "$JSON" | "$JQ_CMD" -L "$(__DIR__)" --arg 'key' "$key" 'import "library" as lib;
       lib::walk(if type == "object" then del(.[$key]) else . end)')
@@ -38,7 +36,6 @@ function cleanAndEchoProperties {
 }
 
 function cleanAndEchoResources() {
-  log "Writing resources_config"
 
   KEYS=$(echo "$RESOURCES" | $JQ_CMD -r '.resources[] | .identifier' )
   j=$(echo $RESOURCES | $JQ_CMD '.resources | length')
