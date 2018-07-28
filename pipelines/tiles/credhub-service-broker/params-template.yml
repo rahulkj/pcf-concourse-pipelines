@@ -1,0 +1,51 @@
+pivnet_token: ((pivnet_token))            # [R] PivNet Access Token
+git_token: ((git_token))               # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username))         # [R] Your github username
+
+iaas_type: vsphere-esxi                   # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host))            # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))              # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))              # [R] Ops Manager admin password
+
+debug: false
+
+product_name: credhub-service-broker
+product_identifier: credhub-service-broker
+product_version: ^1\.0\..*$
+
+singleton_jobs_az: ((singleton_jobs_az))  # [R] Place singleton jobs in an AZ
+other_azs: ((other_azs))                  # [R] Balance other jobs in AZ's (comma-separated)
+network_name: ((network_name))            # [R] Tile network name
+
+dependency_product_tiles: 'cf'
+
+product_properties: |
+  ---
+  ".properties.org":
+    value: credhub-service-broker-org
+  ".properties.space":
+    value: credhub-service-broker-space
+  ".properties.apply_open_security_group":
+    value: false
+  ".properties.allow_paid_service_plans":
+    value: false
+  ".properties.credhub_broker_enable_global_access_to_plans":
+    value: true
+
+product_resources: |
+  ---
+
+product_network_azs: |
+  network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:
+
+errands_to_disable:

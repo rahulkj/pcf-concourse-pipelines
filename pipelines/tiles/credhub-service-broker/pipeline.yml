@@ -106,7 +106,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
-
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
@@ -116,6 +115,34 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS_TYPE: ((iaas_type))
+      
+- name: stage-product
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs:
+        - "*.pivotal"
+      passed: [upload-product]
+      trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-product]
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: generate-product-config
   plan:
@@ -146,34 +173,6 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
-      
-- name: stage-product
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [upload-product]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs:
-        - "*.pivotal"
-      passed: [upload-product]
-      trigger: true
-    - get: om-cli
-      params:
-        globs:
-        - "*-linux"
-      passed: [upload-product]
-
-  - task: stage-tile
-    file: pipelines-repo/tasks/stage-product/task.yml
-    params:
-      DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
   plan:

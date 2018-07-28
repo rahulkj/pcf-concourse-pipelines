@@ -26,6 +26,7 @@ This repository provides the pipelines for the products listed in the following 
 | [Spring Cloud Data Flow](https://network.pivotal.io/products/p-dataflow) | 1.0.x | [Spring Cloud Data Flow Installation](./pipelines/tiles/spring-cloud-dataflow)
 |	[Single Signon](https://network.pivotal.io/products/pivotal_single_sign-on_service) | 1.6.x | [Single Signon Installation](./pipelines/tiles/single-signon)
 |	[AppDynamics Service Broker](https://network.pivotal.io/products/p-appdynamics) | 4.4.135 | [AppDynamics Service Broker Installation](./pipelines/tiles/appdynamics)
+|	[Credhub Service Broker](https://network.pivotal.io/products/credhub-service-broker) | 1.0.2 | [Credhub Service Broker Installation](./pipelines/tiles/credhub-service-broker)
 |	Upgrade Buildpacks | any | [Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 |	Upgrade Tile | any | [Upgrade Tile](./pipelines/upgrade-tile)
 
