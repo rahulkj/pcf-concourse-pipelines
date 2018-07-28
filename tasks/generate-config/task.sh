@@ -65,11 +65,13 @@ function cleanAndEchoResources() {
 
   echo "**Resources for $PRODUCT_IDENTIFIER are: **"
   cat $RESOURCES_YML
+  echo ""
 }
 
 function cleanAndEchoErrands() {
   echo "**Errands for $PRODUCT_IDENTIFIER are: **"
   echo $ERRANDS
+  echo ""
 }
 
 function echoNetworkTemplate() {
@@ -85,6 +87,7 @@ function echoNetworkTemplate() {
     - name:
   singleton_availability_zone:
     name:"
+  echo ""
 }
 
 CURL_CMD="$OM_CMD -k -t $OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -s -p"
