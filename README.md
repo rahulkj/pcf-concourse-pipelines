@@ -13,7 +13,7 @@ This repository provides the pipelines for the products listed in the following 
 | PIVOTAL PRODUCT NAME | VERSION | PIPELINE LOCATION |
 | --- | --- | --- |
 | [Isolation Segments](https://network.pivotal.io/products/p-isolation-segment) | 2.1.x | [Isolation Segments Installation](./pipelines/tiles/isolation-segment)
-| [RabbitMQ](https://network.pivotal.io/products/p-rabbitmq) | 1.12.x | [RabbitMQ Installation](./pipelines/tiles/rabbitmq)
+| [RabbitMQ](https://network.pivotal.io/products/p-rabbitmq) | 1.13.x | [RabbitMQ Installation](./pipelines/tiles/rabbitmq)
 | [Redis](https://network.pivotal.io/products/p-redis) | 1.12.x | [Redis Installation](./pipelines/tiles/redis)
 |	[Spring Cloud Services](https://network.pivotal.io/products/p-spring-cloud-services) | 1.5.x | [Spring Cloud Services Installation](./pipelines/tiles/spring-cloud-services)
 | [MySQL-v1](https://network.pivotal.io/products/p-mysql) | 1.10.x | [MySQL-v1 Installation](./pipelines/tiles/mysql) [**TO BE DISCONTINUED**]
