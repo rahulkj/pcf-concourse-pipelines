@@ -75,15 +75,16 @@ function cleanAndEchoErrands() {
 function echoNetworkTemplate() {
   echo "**Network and AZ's template: **"
   echo "product_network_azs: |
-    network:
-      name:
-    service_network:
-      name:
-    other_availability_zones:
-      - name:
-      - name:
-    singleton_availability_zone:
-      name:"
+  ---
+  network:
+    name:
+  service_network:
+    name:
+  other_availability_zones:
+    - name:
+    - name:
+  singleton_availability_zone:
+    name:"
 }
 
 CURL_CMD="$OM_CMD -k -t $OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -s -p"
