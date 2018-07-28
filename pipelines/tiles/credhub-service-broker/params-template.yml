@@ -13,41 +13,31 @@ ops_mgr_pwd: ((ops_mgr_pwd))              # [R] Ops Manager admin password
 
 debug: false
 
-product_name: p-event-alerts
-product_identifier: p-event-alerts
-product_version: ^1\.1\..*$
+product_name: credhub-service-broker
+product_identifier: credhub-service-broker
+product_version: ^1\.0\..*$
 
 singleton_jobs_az: ((singleton_jobs_az))  # [R] Place singleton jobs in an AZ
 other_azs: ((other_azs))                  # [R] Balance other jobs in AZ's (comma-separated)
 network_name: ((network_name))            # [R] Tile network name
 
-dependency_product_tiles: 'cf,pivotal-mysql'
+dependency_product_tiles: 'cf'
 
 product_properties: |
   ---
-  ".properties.mysql":                    # "MySQL Service"|"External DB"
-    value: MySQL Service
-  ".properties.mysql.internal.plan_name":
-    value:
-  ".properties.mysql.external.host":
-    value:
-  ".properties.mysql.external.port":
-    value:
-  ".properties.mysql.external.username":
-    value:
-  ".properties.mysql.external.password":
-    value:
-      secret:
-  ".properties.mysql.external.database":
-    value:
-  ".deploy-pcf-event-alerts.instance_count":
-    value: 5
+  ".properties.org":
+    value: credhub-service-broker-org
+  ".properties.space":
+    value: credhub-service-broker-space
+  ".properties.apply_open_security_group":
+    value: false
+  ".properties.allow_paid_service_plans":
+    value: false
+  ".properties.credhub_broker_enable_global_access_to_plans":
+    value: true
 
 product_resources: |
-  deploy-pcf-event-alerts:
-    instances: 1
-    instance_type:
-      id: "medium.cpu"
+  ---
 
 product_network_azs: |
   network:

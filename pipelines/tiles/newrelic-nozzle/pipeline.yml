@@ -43,7 +43,6 @@ resources:
     product_version: ((product_version))
 
 jobs:
-
 - name: delete-product
   plan:
   - aggregate:
@@ -144,6 +143,36 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PRODUCT_IDENTIFIER: ((product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
+
+- name: generate-product-config
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [stage-product]
+    - get: pivnet-product
+      resource: pivnet-product
+      params:
+        globs: []
+      passed: [stage-product]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [upload-product]
+
+  - task: generate-config
+    file: pipelines-repo/tasks/generate-config/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: config-product
   plan:
