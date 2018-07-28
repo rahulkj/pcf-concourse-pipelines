@@ -27,7 +27,7 @@ function cleanAndEchoProperties {
   DELETE=(type optional credential guid options configurable)
 
   for key in "${DELETE[@]}"; do
-    JSON=$(echo "$JSON" | "$JQ_CMD" -L "$(__DIR__)" --arg 'key' "$key" 'import "library" as lib;
+    JSON=$(echo "$JSON" | "$JQ_CMD" -L $PWD/pipelines-repo/tasks/generate-config --arg 'key' "$key" 'import "library" as lib;
       lib::walk(if type == "object" then del(.[$key]) else . end)')
   done
 
@@ -41,7 +41,6 @@ function cleanAndEchoProperties {
 function cleanAndEchoResources() {
 
   KEYS=$(echo "$RESOURCES" | $JQ_CMD -r '.resources[] | .identifier' )
-  j=$(echo $RESOURCES | $JQ_CMD '.resources | length')
 
   RESOURCES_YML=resources.yml
 
@@ -65,12 +64,26 @@ function cleanAndEchoResources() {
   done
 
   echo "**Resources for $PRODUCT_IDENTIFIER are: **"
-  echo $(cat $RESOURCES_YML)
+  cat $RESOURCES_YML
 }
 
 function cleanAndEchoErrands() {
-  echo "Errands for $PRODUCT_IDENTIFIER are: "
-  echo $(cat $ERRANDS)
+  echo "**Errands for $PRODUCT_IDENTIFIER are: **"
+  echo $ERRANDS
+}
+
+function echoNetworkTemplate() {
+  echo "**Network and AZ's template: **"
+  echo "product_network_azs: |
+    network:
+      name:
+    service_network:
+      name:
+    other_availability_zones:
+      - name:
+      - name:
+    singleton_availability_zone:
+      name:"
 }
 
 CURL_CMD="$OM_CMD -k -t $OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -s -p"
@@ -89,6 +102,11 @@ RESOURCES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/resources)
 ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD '.errands[] | select(.post_deploy==true) | .name')
 
 ## Cleanup all the stuff, and echo on the console
-cleanAndEchoProperties $PROPERTIES
-cleanAndEchoResources $RESOURCES
-cleanAndEchoErrands $ERRANDS
+cleanAndEchoProperties
+cleanAndEchoResources
+cleanAndEchoErrands
+echoNetworkTemplate
+
+## Clean-up the container
+rm -rf $PRODUCT_IDENTIFIER.json
+rm -rf $RESOURCES_YML
