@@ -1,11 +1,5 @@
 #!/bin/bash -e
 
-if [[ $DEBUG == true ]]; then
-  set -ex
-else
-  set -e
-fi
-
 chmod +x om-cli/om-linux
 OM_CMD=./om-cli/om-linux
 
