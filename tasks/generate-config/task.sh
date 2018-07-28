@@ -24,6 +24,8 @@ function cleanAndEchoProperties {
     unset IS_NON_CONFIGURABLE
   done
 
+  DELETE=(type optional credential guid options configurable)
+
   for key in "${DELETE[@]}"; do
     JSON=$(echo "$JSON" | "$JQ_CMD" -L "$(__DIR__)" --arg 'key' "$key" 'import "library" as lib;
       lib::walk(if type == "object" then del(.[$key]) else . end)')
@@ -31,8 +33,9 @@ function cleanAndEchoProperties {
 
   echo "$JSON" | "$JQ_CMD" '.[]' > "$OUTPUT"
 
-  echo "Properties for $PRODUCT_IDENTIFIER are: \n"
+  echo "**Properties for $PRODUCT_IDENTIFIER are: **"
   ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < $OUTPUT
+  echo ""
 }
 
 function cleanAndEchoResources() {
@@ -61,13 +64,13 @@ function cleanAndEchoResources() {
     fi
   done
 
-  echo "Resources for $PRODUCT_IDENTIFIER are: \n"
-  cat $RESOURCES_YML
+  echo "**Resources for $PRODUCT_IDENTIFIER are: **"
+  echo $(cat $RESOURCES_YML)
 }
 
 function cleanAndEchoErrands() {
-  echo "Errands for $PRODUCT_IDENTIFIER are: \n"
-  cat $ERRANDS
+  echo "Errands for $PRODUCT_IDENTIFIER are: "
+  echo $(cat $ERRANDS)
 }
 
 CURL_CMD="$OM_CMD -k -t $OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -s -p"
