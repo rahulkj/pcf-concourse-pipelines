@@ -27,7 +27,10 @@ function cleanAndEchoProperties {
 
   echo "$JSON" | "$JQ_CMD" '.[]' > "$OUTPUT"
 
-  jq --argfile f1 $PWD/pipelines-repo/tasks/generate-config/product_properties.json --argfile f2 "$OUTPUT" -n '$f1 | .product_properties = $f2'
+  FINAL_JSON=$($JQ_CMD --argfile f1 $PWD/pipelines-repo/tasks/generate-config/product_properties.json --argfile f2 "$OUTPUT" -n '$f1 | .product_properties = $f2')
+  rm -rf $OUTPUT
+
+  echo "$FINAL_JSON" > "$OUTPUT"
 
   echo "# Properties for $PRODUCT_IDENTIFIER are:"
   ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < $OUTPUT
