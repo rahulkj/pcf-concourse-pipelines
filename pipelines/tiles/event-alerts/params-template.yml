@@ -15,7 +15,7 @@ debug: false
 
 product_name: p-event-alerts
 product_identifier: p-event-alerts
-product_version: ^1\.1\..*$
+product_version: ^1\.2\..*$
 
 singleton_jobs_az: ((singleton_jobs_az))  # [R] Place singleton jobs in an AZ
 other_azs: ((other_azs))                  # [R] Balance other jobs in AZ's (comma-separated)
@@ -25,10 +25,10 @@ dependency_product_tiles: 'cf,pivotal-mysql'
 
 product_properties: |
   ---
-  ".properties.mysql":                    # "MySQL Service"|"External DB"
-    value: MySQL Service
+  ".properties.mysql":
+    value: MySQL Service                                                  # "MySQL Service"|"External DB"
   ".properties.mysql.internal.plan_name":
-    value:
+    value: db-small
   ".properties.mysql.external.host":
     value:
   ".properties.mysql.external.port":
@@ -40,14 +40,22 @@ product_properties: |
       secret:
   ".properties.mysql.external.database":
     value:
+  ".properties.smtp_selector":
+    value: Disabled                                                       # Enabled | Disabled
+  ".properties.smtp_selector.enabled.smtp_from":
+    value:
+  ".properties.smtp_selector.enabled.smtp_address":
+    value:
+  ".properties.smtp_selector.enabled.smtp_port":
+    value:
+  ".properties.smtp_selector.enabled.smtp_credentials":
+    value:
+      password:
   ".deploy-pcf-event-alerts.instance_count":
-    value: 5
+    value: 1
 
 product_resources: |
-  deploy-pcf-event-alerts:
-    instances: 1
-    instance_type:
-      id: "medium.cpu"
+  ---
 
 product_network_azs: |
   network:
