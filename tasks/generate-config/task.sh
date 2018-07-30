@@ -27,7 +27,12 @@ function cleanAndEchoProperties {
 
   echo "$JSON" | "$JQ_CMD" '.[]' > "$OUTPUT"
 
-  echo "**Properties for $PRODUCT_IDENTIFIER are: **"
+  FINAL_JSON=$($JQ_CMD --argfile f1 $PWD/pipelines-repo/tasks/generate-config/product_properties.json --argfile f2 "$OUTPUT" -n '$f1 | .product_properties = $f2')
+  rm -rf $OUTPUT
+
+  echo "$FINAL_JSON" > "$OUTPUT"
+
+  echo "# Properties for $PRODUCT_IDENTIFIER are:"
   ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < $OUTPUT
   echo ""
 }
@@ -57,19 +62,19 @@ function cleanAndEchoResources() {
     fi
   done
 
-  echo "**Resources for $PRODUCT_IDENTIFIER are: **"
+  echo "# Resources for $PRODUCT_IDENTIFIER are:"
   cat $RESOURCES_YML
   echo ""
 }
 
 function cleanAndEchoErrands() {
-  echo "**Errands for $PRODUCT_IDENTIFIER are: **"
+  echo "# Errands for $PRODUCT_IDENTIFIER are:"
   echo $ERRANDS
   echo ""
 }
 
 function echoNetworkTemplate() {
-  echo "**Network and AZ's template: **"
+  echo "# Network and AZ's template: "
   echo "product_network_azs: |
   ---
   network:
