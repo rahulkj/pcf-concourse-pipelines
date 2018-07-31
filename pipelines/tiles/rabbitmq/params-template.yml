@@ -18,7 +18,7 @@ ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
 
 product_name: p-rabbitmq
 product_identifier: p-rabbitmq
-product_version: ^1\.12\..*$
+product_version: ^1\.13\..*$
 
 dependency_product_tiles: 'cf'
 
