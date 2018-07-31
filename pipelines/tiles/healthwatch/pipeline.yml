@@ -32,7 +32,8 @@ resources:
   source:
     uri: ((git_url))
     branch: ((git_branch))
-    private_key: ((git_key))
+    username: ((git_username))
+    password: ((git_token))
 
 - name: pivnet-product
   type: pivnet
