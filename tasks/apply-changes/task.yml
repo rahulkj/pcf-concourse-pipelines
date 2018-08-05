@@ -16,6 +16,7 @@ params:
 inputs:
   - name: pipelines-repo
   - name: om-cli
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/apply-changes/task.sh
