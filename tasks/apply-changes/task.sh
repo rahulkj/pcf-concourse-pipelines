@@ -13,7 +13,7 @@ OM_CMD=om
 # JQ_CMD=./jq/jq-linux64
 JQ_CMD=jq
 
-if [[ ! -z "$APPLY_CHANGES_CONFIG"]]; then
+if [[ ! -z "$APPLY_CHANGES_CONFIG" ]]; then
   echo "$APPLY_CHANGES_CONFIG" > apply_changes_config.yml
   apply_changes_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < apply_changes_config.yml)
 
