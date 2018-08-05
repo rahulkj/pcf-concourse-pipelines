@@ -73,6 +73,29 @@ function cleanAndEchoErrands() {
   echo ""
 }
 
+function applyChangesConfig() {
+  echo "# Apply Change Config for $PRODUCT_IDENTIFIER are:"
+
+  echo APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
+
+  echo 'product_resources: |' >> "$APPLY_CHANGES_CONFIG_YML"
+  echo '  ---' >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "  deploy_products: [\"$PRODUCT_IDENTIFIER\"]" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "  errands:" >> "$APPLY_CHANGES_CONFIG_YML" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "    $PRODUCT_IDENTIFIER:" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "      run_post_deploy:"
+
+  for errand in $ERRANDS; do
+    echo "        $errand: true" >> "$APPLY_CHANGES_CONFIG_YML"
+  done
+
+  echo "  ignore_warnings: true" >> "$APPLY_CHANGES_CONFIG_YML"
+
+  echo "# Apply Changes Config for $PRODUCT_IDENTIFIER are:"
+  cat $APPLY_CHANGES_CONFIG_YML
+  echo ""
+}
+
 function echoNetworkTemplate() {
   echo "# Network and AZ's template: "
   echo "product_network_azs: |
