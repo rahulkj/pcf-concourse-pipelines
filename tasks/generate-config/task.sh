@@ -69,7 +69,37 @@ function cleanAndEchoResources() {
 
 function cleanAndEchoErrands() {
   echo "# Errands for $PRODUCT_IDENTIFIER are:"
-  echo $ERRANDS
+  ERRANDS_LIST=""
+  for errand in $ERRANDS; do
+    if [[ -z "$ERRANDS_LIST" ]]; then
+      ERRANDS_LIST=$errand
+    fi
+    ERRANDS_LIST=$ERRANDS_LIST,$errand
+  done
+  echo $ERRANDS_LIST
+  echo ""
+}
+
+function applyChangesConfig() {
+  echo "# Apply Change Config for $PRODUCT_IDENTIFIER are:"
+
+  APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
+
+  echo 'apply_changes_config: |' >> "$APPLY_CHANGES_CONFIG_YML"
+  echo '  ---' >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "  deploy_products: [\"$PRODUCT_IDENTIFIER\"]" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "  errands:" >> "$APPLY_CHANGES_CONFIG_YML" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "    $PRODUCT_IDENTIFIER:" >> "$APPLY_CHANGES_CONFIG_YML"
+  echo "      run_post_deploy:" >> "$APPLY_CHANGES_CONFIG_YML"
+
+  for errand in $ERRANDS; do
+    echo "        $errand: true" >> "$APPLY_CHANGES_CONFIG_YML"
+  done
+
+  echo "  ignore_warnings: true" >> "$APPLY_CHANGES_CONFIG_YML"
+
+  echo "# Apply Changes Config for $PRODUCT_IDENTIFIER are:"
+  cat $APPLY_CHANGES_CONFIG_YML
   echo ""
 }
 
@@ -102,12 +132,13 @@ PROPERTIES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/properties)
 RESOURCES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/resources)
 
 ## Download the errands
-ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD '.errands[] | select(.post_deploy==true) | .name')
+ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD -r '.errands[] | select(.post_deploy==true) | .name')
 
 ## Cleanup all the stuff, and echo on the console
 cleanAndEchoProperties
 cleanAndEchoResources
 cleanAndEchoErrands
+applyChangesConfig
 echoNetworkTemplate
 
 ## Clean-up the container

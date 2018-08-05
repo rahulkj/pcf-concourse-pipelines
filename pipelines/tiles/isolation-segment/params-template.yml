@@ -93,3 +93,5 @@ isolated_diego_cell_instances: 3
 isolated_diego_cell_instance_type: xlarge.disk
 
 errands_to_disable:
+
+apply_changes_config:

@@ -195,3 +195,5 @@ product_network_azs: |
     name:
 
 errands_to_disable: # "broker-registrar,smoke-tests"
+
+apply_changes_config:

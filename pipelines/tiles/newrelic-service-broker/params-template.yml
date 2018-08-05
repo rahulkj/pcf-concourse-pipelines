@@ -56,3 +56,5 @@ product_network_azs: |
     name:
 
 errands_to_disable:
+
+apply_changes_config:

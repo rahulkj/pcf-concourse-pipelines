@@ -11,10 +11,12 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
-  
+  APPLY_CHANGES_CONFIG:
+
 inputs:
   - name: pipelines-repo
   - name: om-cli
+  - name: jq
 
 run:
   path: pipelines-repo/tasks/apply-changes/task.sh
