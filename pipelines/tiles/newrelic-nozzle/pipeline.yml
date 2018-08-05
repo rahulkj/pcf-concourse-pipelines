@@ -256,6 +256,11 @@ jobs:
         globs:
         - "*-linux"
       passed: [disable-errands]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [disable-errands]
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
@@ -264,3 +269,4 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      APPLY_CHANGES_CONFIG: ((apply_changes_config))

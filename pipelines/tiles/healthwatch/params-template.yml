@@ -61,7 +61,7 @@ product_properties: |
   ".healthwatch-forwarder.publish_to_eva":
     value: true
   ".healthwatch-forwarder.health_check_az":
-    value: 
+    value:
   ".healthwatch-forwarder.health_check_vm_type":
     value: nano
 
@@ -98,3 +98,5 @@ product_network_azs: |
     name:
 
 errands_to_disable:
+
+apply_changes_config:

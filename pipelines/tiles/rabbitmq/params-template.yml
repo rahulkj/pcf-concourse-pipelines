@@ -276,3 +276,15 @@ product_network_azs: |
     name:
 
 errands_to_disable: # broker-registrar|multitenant-smoke-tests|register-on-demand-service-broker|dedicated-instance-smoke-tests|upgrade-all-service-instances
+
+apply_changes_config: |
+  deploy_products: ["p-rabbitmq"]
+  errands:
+    p-rabbitmq:
+      run_post_deploy:
+        broker-registrar: true
+        smoke-tests: true
+        register-broker: true
+        on-demand-broker-smoke-tests: true
+        upgrade-all-service-instances: true
+  ignore_warnings: true

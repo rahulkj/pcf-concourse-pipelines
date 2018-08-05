@@ -226,3 +226,5 @@ product_resources: |
       size_mb: "5120"
 
 errands_to_disable: # "broker-registrar,smoke-tests,register-on-demand-broker,on-demand-broker-smoke-tests,upgrade-all-service-instances,broker-deregistrar,delete-all-service-instances-and-deregister-broker"
+
+apply_changes_config:
