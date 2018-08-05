@@ -131,6 +131,7 @@ ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD '.er
 cleanAndEchoProperties
 cleanAndEchoResources
 cleanAndEchoErrands
+applyChangesConfig
 echoNetworkTemplate
 
 ## Clean-up the container
