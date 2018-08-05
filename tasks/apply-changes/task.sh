@@ -6,12 +6,11 @@ else
   set -e
 fi
 
-# chmod +x om-cli/om-linux
-# OM_CMD=./om-cli/om-linux
-OM_CMD=om
-# chmod +x ./jq/jq-linux64
-# JQ_CMD=./jq/jq-linux64
-JQ_CMD=jq
+chmod +x om-cli/om-linux
+OM_CMD=./om-cli/om-linux
+
+chmod +x ./jq/jq-linux64
+JQ_CMD=./jq/jq-linux64
 
 if [[ ! -z "$APPLY_CHANGES_CONFIG" ]]; then
   echo "$APPLY_CHANGES_CONFIG" > apply_changes_config.yml
