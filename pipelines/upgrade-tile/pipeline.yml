@@ -192,6 +192,10 @@ jobs:
         globs: []
       passed: [stage-product]
       trigger: true
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
