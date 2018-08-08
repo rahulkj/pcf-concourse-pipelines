@@ -19,3 +19,5 @@ product_identifier: ((product_identifier))
 product_glob: ((product_glob))
 
 dependency_product_tiles: ((dependency_product_tiles))
+
+apply_changes_config:
