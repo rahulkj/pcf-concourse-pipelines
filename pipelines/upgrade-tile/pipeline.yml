@@ -181,17 +181,22 @@ jobs:
   - aggregate:
     - get: pipelines-repo
       passed: [stage-product]
-    - get: om-cli
-      params:
-        globs:
-        - "*-linux"
-      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs: []
       passed: [stage-product]
       trigger: true
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [stage-product]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [upload-stemcell]
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
@@ -200,3 +205,4 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      APPLY_CHANGES_CONFIG: ((apply_changes_config))

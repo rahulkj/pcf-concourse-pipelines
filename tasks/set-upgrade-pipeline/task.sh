@@ -18,5 +18,6 @@ $FLY_CLI -t cc set-pipeline -n -p $UPGRADE_PIPELINE_NAME -c pipelines-repo/pipel
   -v product_version="$PRODUCT_VERSION" \
   -v product_identifier="$PRODUCT_IDENTIFIER" \
   -v product_glob="$PRODUCT_GLOB" \
-  -v dependency_product_tiles="$DEPENDENCY_PRODUCT_TILES"
+  -v dependency_product_tiles="$DEPENDENCY_PRODUCT_TILES" \
+  -v apply_changes_config="$APPLY_CHANGES_CONFIG"
 $FLY_CLI -t cc unpause-pipeline -p $UPGRADE_PIPELINE_NAME
