@@ -41,4 +41,4 @@ This repository provides the pipelines for the products listed in the following 
 
 ![](./images/pipeline.png)
 
-Once the pipeline executes successfully, there will be a new pipeline set in the concourse based on the concourse information provided in the params file of the install pipeline. Make sure your concourse instance requires authentication, failing which the `set-upgrade-pipeline` job will fail.
+If you wish to use your own docker images in the `task.sh` files, then the original docker file is located under the `ci` folder. [ci/Dockerfile](./ci/Dockerfile)
