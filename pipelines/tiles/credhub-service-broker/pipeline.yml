@@ -57,6 +57,10 @@ jobs:
       params:
         globs:
         - "*-linux"
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
 
   - task: unstage-tile
     file: pipelines-repo/tasks/unstage-product/task.yml
@@ -74,6 +78,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      APPLY_CHANGES_CONFIG: ""
 
 - name: upload-product
   plan:

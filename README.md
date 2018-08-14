@@ -30,6 +30,8 @@ This repository provides the pipelines for the products listed in the following 
 |	Upgrade Buildpacks | any | [Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 |	Upgrade Tile | any | [Upgrade Tile](./pipelines/upgrade-tile)
 
+If there is any product that you are looking for and its missing, then use the template to write your own pipeline. [Install Product Tile Template](./pipelines/install-product)
+
 ---
 ### Following is an example on how to `fly` a pipeline:
 
@@ -41,4 +43,4 @@ This repository provides the pipelines for the products listed in the following 
 
 ![](./images/pipeline.png)
 
-Once the pipeline executes successfully, there will be a new pipeline set in the concourse based on the concourse information provided in the params file of the install pipeline. Make sure your concourse instance requires authentication, failing which the `set-upgrade-pipeline` job will fail.
+If you wish to use your own docker images in the `task.sh` files, then the original docker file is located under the `ci` folder. [ci/Dockerfile](./ci/Dockerfile)
