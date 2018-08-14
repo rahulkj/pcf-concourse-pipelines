@@ -1,0 +1,35 @@
+pivnet_token: ((pivnet_token))                                # [R] PivNet Access Token
+git_token: ((git_token))                                      # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines  # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username))                                # [R] Your github username
+
+iaas_type: vsphere-esxi                                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+
+## Ops Manager installation meta data
+ops_mgr_host: ((ops_mgr_host))                                # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))                                  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager admin password
+
+debug: false
+
+product_name:                                                 # Get the product slug from pivnet. It can be found in the URL of the pivnet product, ex: elastic-runtime
+product_identifier:                                           # Product name known to ops manager. Usually its the name of the *.pivotal file. ex: cf
+product_version: ^0\.0\..*$                                   # Update the version number
+
+dependency_product_tiles: 'cf'
+
+## After the pipeline is done with the stage product, click the generate-product-config and fill out the rest of the info
+product_properties: |
+  --- {}
+
+product_resources: |
+  --- {}
+
+product_network_azs: |
+  --- {}
+
+errands_to_disable:
+
+apply_changes_config: |
+  --- {}

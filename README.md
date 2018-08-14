@@ -30,6 +30,8 @@ This repository provides the pipelines for the products listed in the following 
 |	Upgrade Buildpacks | any | [Upgrade Buildpacks](./pipelines/upgrade-buildpack)
 |	Upgrade Tile | any | [Upgrade Tile](./pipelines/upgrade-tile)
 
+If there is any product that you are looking for and its missing, then use the template to write your own pipeline. [Install Product Tile Template](./pipelines/install-product)
+
 ---
 ### Following is an example on how to `fly` a pipeline:
 
