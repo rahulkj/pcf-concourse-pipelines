@@ -8,6 +8,7 @@ git_branch: master
 git_username: ((git_username)) # [R] Your github username
 
 iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+stemcell_type: trusty                         # xenail|trusty
 
 debug: false
 

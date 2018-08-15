@@ -13,6 +13,7 @@ params:
   OPS_MGR_PWD:
   PIVNET_API_TOKEN:
   IAAS_TYPE:
+  STEMCELL_TYPE:
 
 inputs:
   - name: pivnet-product
