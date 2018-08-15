@@ -18,6 +18,7 @@ pas_product_version: ^2\.1\..*$
 pas_product_identifier: cf
 pas_product_glob: "cf-*.pivotal"
 iaas_type: vsphere-esxi                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+stemcell_type: xenial                         # xenail|trusty
 
 ci_username: ((ci_username))                  # [R] Username used to push to your gist_url
 ci_email_address: ((ci_email_address))        # [R] Email used to push to your gist_url

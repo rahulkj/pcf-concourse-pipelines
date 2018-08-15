@@ -119,6 +119,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS_TYPE: ((iaas_type))
+      STEMCELL_TYPE: ((stemcell_type))
 
 - name: stage-product
   plan:
