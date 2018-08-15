@@ -18,7 +18,7 @@ pas_product_version: ^2\.1\..*$
 pas_product_identifier: cf
 pas_product_glob: "cf-*.pivotal"
 iaas_type: vsphere-esxi                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
-stemcell_type: xenial                         # xenail|trusty
+stemcell_type: trusty                         # xenial|trusty
 
 ci_username: ((ci_username))                  # [R] Username used to push to your gist_url
 ci_email_address: ((ci_email_address))        # [R] Email used to push to your gist_url
@@ -47,8 +47,34 @@ ops_mgr_vm_name: OpsManager                   # Ops Manager VM Name
 # - `/<Data Center Name>/host/<Cluster Name>/Resources/<Resource Pool Name>`
 # - or `/<Data Center Name>/host/<Cluster Name>`
 ops_mgr_resource_pool: /HOMELAB/host/PCF_CLUSTER/Resources/MGMT_RP
-ops_mgr_disk_type: "thick"
-ops_mgr_vm_power_state: true
+
+ops_manager_settings: |
+  Annotation: "Ops Manager for Pivotal Cloud Foundry\ninstalls and manages PCF products and services."
+  DiskProvisioning: thick
+  IPAllocationPolicy: dhcpPolicy
+  IPProtocol: IPv4
+  InjectOvfEnv: false
+  Name: OpsManager
+  NetworkMapping:
+  - Name: "Network 1"
+    Network: vxw-dvs-27-virtualwire-1-sid-5000-INFRASTRUCTURE
+  PowerOn: true
+  PropertyMapping:
+  - Key: ip0
+    Value: ((ops_mgr_ip))
+  - Key: netmask0
+    Value:
+  - Key: gateway
+    Value:
+  - Key: DNS
+    Value:
+  - Key: ntp_servers
+    Value: 
+  - Key: admin_password
+    Value: ((ops_mgr_ssh_pwd))
+  - Key: custom_hostname
+    Value: ((ops_mgr_host))
+  WaitForIP: false
 
 iaas_configuration: |
   vcenter_host: ((vcenter_host))
