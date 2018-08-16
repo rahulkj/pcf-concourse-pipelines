@@ -275,7 +275,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_IDENTIFIER: cf
 
 - name: config-pas
   plan:
