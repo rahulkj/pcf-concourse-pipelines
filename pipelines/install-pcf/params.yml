@@ -13,8 +13,8 @@ debug: true
 
 gist_url: ((gist_url))
 
-opsman_product_version: ^2\.1\..*$
-pas_product_version: ^2\.1\..*$
+opsman_product_version: ^2\.2\..*$
+pas_product_version: ^2\.2\..*$
 pas_product_identifier: cf
 pas_product_glob: "cf-*.pivotal"
 iaas_type: vsphere-esxi                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
@@ -69,7 +69,7 @@ ops_manager_settings: |
   - Key: DNS
     Value:
   - Key: ntp_servers
-    Value: 
+    Value:
   - Key: admin_password
     Value: ((ops_mgr_ssh_pwd))
   - Key: custom_hostname
@@ -225,13 +225,14 @@ resource_configuration: |
 generate_certs: false
 
 product_properties: |
-  ---
   ".properties.autoscale_api_instance_count":
     value: 1
+  ".properties.autoscale_enable_verbose_logging":
+    value: false
   ".properties.autoscale_instance_count":
     value: 3
   ".properties.autoscale_metric_bucket_count":
-    value: 35
+    value: 120
   ".properties.autoscale_scaling_interval_in_seconds":
     value: 35
   ".properties.cc_api_rate_limit":
@@ -240,10 +241,18 @@ product_properties: |
     value: 2000
   ".properties.cc_api_rate_limit.enable.unauthenticated_limit":
     value: 100
+  ".properties.cc_logging_level":
+    value: info
   ".properties.cf_dial_timeout_in_seconds":
     value:
+  ".properties.cf_networking_database_connection_timeout":
+    value: 120
   ".properties.cf_networking_enable_space_developer_self_service":
     value: false
+  ".properties.cf_networking_search_domains":
+    value:
+  ".properties.cloud_controller_default_health_check_timeout":
+    value: 60
   ".properties.container_networking":
     value: enable
   ".properties.container_networking_interface_plugin":
@@ -272,17 +281,17 @@ product_properties: |
     value:
   ".properties.credhub_database.external.password":
     value:
-      secret: ""
+      secret:
   ".properties.credhub_database.external.tls_ca":
     value:
   ".properties.credhub_hsm_provider_client_certificate":
     value:
-      private_key_pem: ""
+      private_key_pem:
   ".properties.credhub_hsm_provider_partition":
     value:
   ".properties.credhub_hsm_provider_partition_password":
     value:
-      secret: ""
+      secret:
   ".properties.credhub_hsm_provider_servers":
     value: []
   ".properties.credhub_key_encryption_passwords":
@@ -292,16 +301,22 @@ product_properties: |
       key:
         secret: ((credhub_key_encryption_secret))
       primary: ((credhub_key_encryption_is_primary))
+  ".properties.diego_log_timestamp_format":
+    value: rfc3339
   ".properties.enable_grootfs":
     value: true
+  ".properties.enable_log_cache":
+    value: true
   ".properties.enable_service_discovery_for_apps":
-    value: false
+    value: true
   ".properties.garden_disk_cleanup":
     value: threshold
   ".properties.gorouter_ssl_ciphers":
     value: ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+  ".properties.haproxy_client_cert_validation":
+    value: none
   ".properties.haproxy_forward_tls":
-    value: enable
+    value: disable
   ".properties.haproxy_forward_tls.enable.backend_ca":
     value:
   ".properties.haproxy_hsts_support":
@@ -317,7 +332,7 @@ product_properties: |
   ".properties.haproxy_ssl_ciphers":
     value: DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
   ".properties.logger_endpoint_port":
-    value:
+    value: 443
   ".properties.mysql_activity_logging":
     value: enable
   ".properties.mysql_activity_logging.enable.audit_logging_events":
@@ -326,15 +341,15 @@ product_properties: |
     value:
     - name:
       certificate:
-        cert_pem:
         private_key_pem:
+        cert_pem:
   ".properties.nfs_volume_driver":
-    value: enable
+    value: disable
   ".properties.nfs_volume_driver.enable.ldap_service_account_user":
     value:
   ".properties.nfs_volume_driver.enable.ldap_service_account_password":
     value:
-      secret: ""
+      secret:
   ".properties.nfs_volume_driver.enable.ldap_server_host":
     value:
   ".properties.nfs_volume_driver.enable.ldap_server_port":
@@ -375,18 +390,12 @@ product_properties: |
     value:
   ".properties.push_apps_manager_nav_links":
     value:
-    - name:
-        value: Marketplace
-      href:
-        value: "/marketplace"
-    - name:
-        value: Docs
-      href:
-        value: https://docs.pivotal.io/pivotalcf/2-1/pas/intro.html
-    - name:
-        value: Tools
-      href:
-        value: "/tools"
+    - name: Marketplace
+      href: "/marketplace"
+    - name: Docs
+      href: https://docs.pivotal.io/pivotalcf/2-1/pas/intro.html
+    - name: Tools
+      href: "/tools"
   ".properties.push_apps_manager_product_name":
     value:
   ".properties.push_apps_manager_square_logo":
@@ -439,14 +448,16 @@ product_properties: |
     value:
   ".properties.smtp_credentials":
     value:
-      identity: ""
-      password: ""
+      identity:
+      password:
   ".properties.smtp_enable_starttls_auto":
     value: false
   ".properties.smtp_from":
     value:
   ".properties.smtp_port":
     value:
+  ".properties.syslog_drop_debug":
+    value: true
   ".properties.syslog_host":
     value:
   ".properties.syslog_metrics_to_syslog_enabled":
@@ -454,7 +465,7 @@ product_properties: |
   ".properties.syslog_port":
     value:
   ".properties.syslog_protocol":
-    value:
+    value: relp
   ".properties.syslog_rule":
     value:
   ".properties.syslog_tls":
@@ -477,14 +488,26 @@ product_properties: |
     value:
   ".properties.system_blobstore.external.resources_bucket":
     value:
+  ".properties.system_blobstore.external.buildpacks_backup_bucket":
+    value:
+  ".properties.system_blobstore.external.droplets_backup_bucket":
+    value:
+  ".properties.system_blobstore.external.packages_backup_bucket":
+    value:
+  ".properties.system_blobstore.external.resources_backup_bucket":
+    value:
+  ".properties.system_blobstore.external.iam_instance_profile_authentication":
+    value: false
   ".properties.system_blobstore.external.access_key":
     value:
   ".properties.system_blobstore.external.secret_key":
     value:
-      secret: ""
+      secret:
   ".properties.system_blobstore.external.signature_version":
     value: 4
   ".properties.system_blobstore.external.region":
+    value:
+  ".properties.system_blobstore.external.backup_region":
     value:
   ".properties.system_blobstore.external.encryption":
     value: false
@@ -504,7 +527,7 @@ product_properties: |
     value:
   ".properties.system_blobstore.external_gcs.secret_key":
     value:
-      secret: ""
+      secret:
   ".properties.system_blobstore.external_gcs_service_account.buildpacks_bucket":
     value:
   ".properties.system_blobstore.external_gcs_service_account.droplets_bucket":
@@ -531,11 +554,11 @@ product_properties: |
     value:
   ".properties.system_blobstore.external_azure.access_key":
     value:
-      secret: ""
+      secret:
   ".properties.system_blobstore.external_azure.environment":
     value: AzureCloud
   ".properties.system_database":
-    value: internal_mysql
+    value: internal_pxc
   ".properties.system_database.external.host":
     value:
   ".properties.system_database.external.port":
@@ -544,57 +567,57 @@ product_properties: |
     value:
   ".properties.system_database.external.account_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.app_usage_service_username":
     value:
   ".properties.system_database.external.app_usage_service_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.autoscale_username":
     value:
   ".properties.system_database.external.autoscale_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.ccdb_username":
     value:
   ".properties.system_database.external.ccdb_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.diego_username":
     value:
   ".properties.system_database.external.diego_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.locket_username":
     value:
   ".properties.system_database.external.locket_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.networkpolicyserver_username":
     value:
   ".properties.system_database.external.networkpolicyserver_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.nfsvolume_username":
     value:
   ".properties.system_database.external.nfsvolume_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.notifications_username":
     value:
   ".properties.system_database.external.notifications_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.routing_username":
     value:
   ".properties.system_database.external.routing_password":
     value:
-      secret: ""
+      secret:
   ".properties.system_database.external.silk_username":
     value:
   ".properties.system_database.external.silk_password":
     value:
-      secret: ""
+      secret:
   ".properties.tcp_routing":
     value: disable
   ".properties.tcp_routing.enable.reservable_ports":
@@ -645,8 +668,8 @@ product_properties: |
     value:
   ".properties.uaa.ldap.credentials":
     value:
-      identity: ""
-      password: ""
+      identity:
+      password:
   ".properties.uaa.ldap.search_base":
     value:
   ".properties.uaa.ldap.search_filter":
@@ -656,8 +679,6 @@ product_properties: |
   ".properties.uaa.ldap.group_search_filter":
     value: member={0}
   ".properties.uaa.ldap.server_ssl_cert":
-    value:
-  ".properties.uaa.ldap.server_ssl_cert_alias":
     value:
   ".properties.uaa.ldap.mail_attribute_name":
     value: mail
@@ -679,7 +700,7 @@ product_properties: |
     value:
   ".properties.uaa_database.external.uaa_password":
     value:
-      secret: ""
+      secret:
   ".properties.uaa_session_cookie_max_age":
     value: 28800
   ".properties.uaa_session_idle_timeout":
@@ -698,17 +719,19 @@ product_properties: |
     value: true
   ".mysql.cluster_probe_timeout":
     value:
+  ".mysql.max_connections":
+    value:
   ".mysql.prevent_node_auto_rejoin":
     value: false
   ".mysql.remote_admin_access":
     value: false
   ".uaa.service_provider_key_credentials":
     value:
-      cert_pem: ""
-      private_key_pem: ""
+      private_key_pem:
+      cert_pem:
   ".uaa.service_provider_key_password":
     value:
-      secret: ""
+      secret:
   ".uaa.apps_manager_access_token_lifetime":
     value: 1209600
   ".uaa.apps_manager_refresh_token_lifetime":
@@ -727,7 +750,7 @@ product_properties: |
     value:
   ".cloud_controller.encrypt_key":
     value:
-      secret: ""
+      secret:
   ".cloud_controller.max_file_size":
     value: 1024
   ".cloud_controller.default_app_memory":
@@ -928,4 +951,19 @@ smtp_password: ((smtp_password))
 from_address: ((from_address))
 to_addresses: ((to_addresses))
 
-apply_changes_config:
+apply_changes_config: |
+  ---
+  deploy_products: ["cf"]
+  errands:
+    cf:
+      run_post_deploy:
+        smoke_tests: false
+        push-usage-service: true
+        push-apps-manager: true
+        deploy-notifications: true
+        deploy-notifications-ui: true
+        deploy-autoscaler: true
+        test-autoscaling: false
+        nfsbrokerpush: true
+        delete-pivotal-account: true
+  ignore_warnings: true

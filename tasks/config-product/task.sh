@@ -17,7 +17,7 @@ echo "$PRODUCT_RESOURCES" > resources.yml
 echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
 
 properties_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
-properties_config=$(echo "$properties_config" | $JQ_CMD 'delpaths([path(.[][] | select(. == null))]) | delpaths([path(.[][] | select(. == ""))]) | delpaths([path(.[] | select(. == {}))])')
+properties_config=$(echo "$properties_config" | $JQ_CMD 'delpaths([path(.[][] | select(.secret? == null))]) | delpaths([path(.[][] | select(. == null))]) | delpaths([path(.[][] | select(. == ""))]) | delpaths([path(.[][] | select(. == null))]) | delpaths([path(.[][] | select(. == ""))]) | delpaths([path(.[] | select(. == {}))])')
 
 resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
 network_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < network-azs.yml)
