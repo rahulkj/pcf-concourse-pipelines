@@ -8,7 +8,18 @@ JQ_CMD=./jq/jq-linux64
 
 function cleanAndEchoProperties {
   JSON="$(echo "$PROPERTIES")"
+  INPUT="input.json"
   OUTPUT="$PRODUCT_IDENTIFIER.json"
+  OUTPUT_YML="$PRODUCT_IDENTIFIER.yml"
+
+  echo "$JSON" >> $INPUT
+
+  ./tile-config-convertor/tile-config-convertor -g properties -i $INPUT -o $OUTPUT_YML
+
+  echo "**************************"
+  cat $OUTPUT_YML
+  echo "**************************"
+  echo ""
 
   for KEY in $(echo "$JSON" | "$JQ_CMD" -r '.[] | keys[]' | sed "s/,/ /g"); do
     IS_NON_CONFIGURABLE=$(echo "$JSON" | "$JQ_CMD" --arg "key" "$KEY" '.properties[$key] | select(.configurable==false)')
