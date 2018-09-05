@@ -6,6 +6,9 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
+chmod +x ./tile-config-convertor/tile-config-convertor_linux_amd64
+TCC_CMD=./tile-config-convertor/tile-config-convertor_linux_amd64
+
 function cleanAndEchoProperties {
   JSON="$(echo "$PROPERTIES")"
   INPUT="input.json"
@@ -14,7 +17,7 @@ function cleanAndEchoProperties {
 
   echo "$JSON" >> $INPUT
 
-  ./tile-config-convertor/tile-config-convertor -g properties -i $INPUT -o $OUTPUT_YML
+  $TCC_CMD -g properties -i $INPUT -o $OUTPUT_YML
 
   echo "**************************"
   cat $OUTPUT_YML
