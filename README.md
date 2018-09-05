@@ -10,7 +10,9 @@ PCF product tiles Concourse Pipelines:
 
 This repository provides the pipelines for the products listed in the following table.
 
-| PIVOTAL PRODUCT NAME | VERSION | PIPELINE LOCATION |
+The pipeline for the tiles is common and is located [here](./pipelines/install-product)
+
+| PIVOTAL PRODUCT NAME | VERSION | PIPELINE PARAMS LOCATION |
 | --- | --- | --- |
 | [Isolation Segments](https://network.pivotal.io/products/p-isolation-segment) | 2.1.x | [Isolation Segments Installation](./pipelines/tiles/isolation-segment)
 | [RabbitMQ](https://network.pivotal.io/products/p-rabbitmq) | 1.13.x | [RabbitMQ Installation](./pipelines/tiles/rabbitmq)
@@ -37,10 +39,10 @@ If there is any product that you are looking for and its missing, then use the t
 
 ```
 >	fly -t concourse-[ENV] login -c https://<CONCOURSE-URL> -k
->	fly -t concourse-[ENV] set-pipeline -p install-healthwatch -c ./pipelines/tiles/healthwatch/pipeline.yml -l ./pipelines/tiles/healthwatch/params.yml
->	fly -t concourse-[ENV] unpause-pipeline -p install-healthwatch
+>	fly -t concourse-[ENV] set-pipeline -p healthwatch -c ./pipelines/install-product/pipeline.yml -l ./pipelines/tiles/healthwatch/params.yml
+>	fly -t concourse-[ENV] unpause-pipeline -p healthwatch
 ```
 
 ![](./images/pipeline.png)
 
-If you wish to use your own docker images in the `task.sh` files, then the original docker file is located under the `ci` folder. [ci/Dockerfile](./ci/Dockerfile)
+If you wish to use your own docker images in the `task.yml` files, then the original docker file is located under the `ci` folder. [ci/Dockerfile](./ci/Dockerfile)

@@ -38,6 +38,13 @@ resources:
     repository: jq
     access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
+- name: tile-config-convertor
+  type: github-release
+  source:
+    user: rahul-kj
+    repository: tile-config-convertor
+    access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
+
 - name: pipelines-repo
   type: git
   source:
@@ -267,6 +274,9 @@ jobs:
         globs:
         - "*linux64*"
       passed: [configure-ops-director]
+    - get: tile-config-convertor
+      params:
+        globs: ["*linux*"]
 
   - task: generate-config
     file: pipelines-repo/tasks/generate-config/task.yml
