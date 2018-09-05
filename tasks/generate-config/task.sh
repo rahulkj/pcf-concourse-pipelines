@@ -52,7 +52,6 @@ function applyChangesConfig() {
   APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
 
   echo 'apply_changes_config: |' >> "$APPLY_CHANGES_CONFIG_YML"
-  echo '  ---' >> "$APPLY_CHANGES_CONFIG_YML"
   echo "  deploy_products: [\"$PRODUCT_IDENTIFIER\"]" >> "$APPLY_CHANGES_CONFIG_YML"
   echo "  errands:" >> "$APPLY_CHANGES_CONFIG_YML" >> "$APPLY_CHANGES_CONFIG_YML"
   echo "    $PRODUCT_IDENTIFIER:" >> "$APPLY_CHANGES_CONFIG_YML"
@@ -72,7 +71,6 @@ function applyChangesConfig() {
 function echoNetworkTemplate() {
   echo "# Network and AZ's template: "
   echo "product_network_azs: |
-  ---
   network:
     name:
   service_network:
