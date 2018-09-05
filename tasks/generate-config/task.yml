@@ -17,6 +17,7 @@ inputs:
   - name: pipelines-repo
   - name: om-cli
   - name: jq
+  - name: tile-config-convertor
 
 run:
   path: pipelines-repo/tasks/generate-config/task.sh
