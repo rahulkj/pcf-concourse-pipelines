@@ -40,7 +40,7 @@ function cleanAndEchoErrands() {
     if [[ -z "$ERRANDS_LIST" ]]; then
       ERRANDS_LIST=$errand
     fi
-    ERRANDS_LIST=$ERRANDS_LIST,$errand
+    ERRANDS_LIST+=,$errand
   done
   echo $ERRANDS_LIST
   echo ""

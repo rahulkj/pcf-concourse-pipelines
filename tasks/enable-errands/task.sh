@@ -18,7 +18,7 @@ if [[ ! -z "$ERRANDS" ]]; then
   do
     echo "$i"
     set +e
-    ERRAND_EXISTS=`$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -f json errands \
+    ERRAND_EXISTS=`$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD errands -f json \
       -p $PRODUCT_IDENTIFIER | jq -r --arg errand $i '.[] | select(.name==$errand) | .name'`
 
     set -e
