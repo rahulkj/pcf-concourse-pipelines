@@ -40,7 +40,11 @@ if [[ ! -z "$SC_VERSION" ]]; then
     if [[ -z "$RESPONSE" ]]; then
       wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/$STEMCELL_NAME
     else
-      $PIVNET_CLI download-product-files -p stemcells -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
+      if [ "$STEMCELL_TYPE"="xenial" ]; then
+        $PIVNET_CLI download-product-files -p stemcells-ubuntu-xenial -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
+      else
+        $PIVNET_CLI download-product-files -p stemcells -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
+      fi
     fi
 
     SC_FILE_PATH=`find ./ -name *.tgz`
