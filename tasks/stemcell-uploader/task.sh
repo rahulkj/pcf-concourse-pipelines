@@ -30,7 +30,11 @@ if [[ ! -z "$SC_VERSION" ]]; then
     $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
 
     set +e
-    RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $SC_VERSION`
+    if [ "$STEMCELL_TYPE"="xenial" ]; then
+      RESPONSE=`$PIVNET_CLI releases -p stemcells-ubuntu-xenial | grep $SC_VERSION`
+    else 
+      RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $SC_VERSION`
+    fi
     set -e
 
     if [[ -z "$RESPONSE" ]]; then
