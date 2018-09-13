@@ -19,7 +19,7 @@ SC_VERSION=`cat ./pivnet-product/metadata.json | $JQ_CMD -r '.Dependencies[] | s
 
 if [[ ! -z "$SC_VERSION" ]]; then
   STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-ubuntu-$STEMCELL_TYPE-go_agent.tgz
-  if [ "$STEMCELL_TYPE"="xenial"]; then
+  if [ "$STEMCELL_TYPE"="xenial" ]; then
     $PRODUCT_SLUG="stemcells-ubuntu-xenial"
   else
     $PRODUCT_SLUG="stemcells"
