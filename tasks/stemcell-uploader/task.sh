@@ -19,6 +19,11 @@ SC_VERSION=`cat ./pivnet-product/metadata.json | $JQ_CMD -r '.Dependencies[] | s
 
 if [[ ! -z "$SC_VERSION" ]]; then
   STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-ubuntu-$STEMCELL_TYPE-go_agent.tgz
+  if [ "$STEMCELL_TYPE"="xenial" ]; then
+    PRODUCT_SLUG="stemcells-ubuntu-xenial"
+  else
+    PRODUCT_SLUG="stemcells"
+  fi
 
   DIAGNOSTIC_REPORT=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p /api/v0/diagnostic_report)
   STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | $JQ_CMD -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
@@ -30,13 +35,13 @@ if [[ ! -z "$SC_VERSION" ]]; then
     $PIVNET_CLI login --api-token="$PIVNET_API_TOKEN"
 
     set +e
-    RESPONSE=`$PIVNET_CLI releases -p stemcells | grep $SC_VERSION`
+    RESPONSE=`$PIVNET_CLI releases -p $PRODUCT_SLUG | grep $SC_VERSION`
     set -e
 
     if [[ -z "$RESPONSE" ]]; then
       wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/$STEMCELL_NAME
     else
-      $PIVNET_CLI download-product-files -p stemcells -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
+      $PIVNET_CLI download-product-files -p $PRODUCT_SLUG -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
     fi
 
     SC_FILE_PATH=`find ./ -name *.tgz`
