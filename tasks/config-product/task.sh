@@ -22,29 +22,38 @@ properties_config=$(echo "$properties_config" | $JQ_CMD 'delpaths([path(.[][][]?
 resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
 network_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < network-azs.yml)
 
-$OM_CMD \
-  --target https://$OPS_MGR_HOST \
-  --username "$OPS_MGR_USR" \
-  --password "$OPS_MGR_PWD" \
-  --skip-ssl-validation \
-  configure-product \
-  --product-name $PRODUCT_IDENTIFIER \
-  --product-network "$network_config"
+input_length=$(echo $network_config | $JQ_CMD '. | keys | length')
+if [[ $input_length != 0 ]]; then
+  $OM_CMD \
+    --target https://$OPS_MGR_HOST \
+    --username "$OPS_MGR_USR" \
+    --password "$OPS_MGR_PWD" \
+    --skip-ssl-validation \
+    configure-product \
+    --product-name $PRODUCT_IDENTIFIER \
+    --product-network "$network_config"
+fi
 
-$OM_CMD \
-  --target https://$OPS_MGR_HOST \
-  --username "$OPS_MGR_USR" \
-  --password "$OPS_MGR_PWD" \
-  --skip-ssl-validation \
-  configure-product \
-  --product-name $PRODUCT_IDENTIFIER \
-  --product-properties "$properties_config"
+input_length=$(echo $properties_config | $JQ_CMD '. | keys | length')
+if [[ $input_length != 0 ]]; then
+  $OM_CMD \
+    --target https://$OPS_MGR_HOST \
+    --username "$OPS_MGR_USR" \
+    --password "$OPS_MGR_PWD" \
+    --skip-ssl-validation \
+    configure-product \
+    --product-name $PRODUCT_IDENTIFIER \
+    --product-properties "$properties_config"
+fi
 
-$OM_CMD \
-  --target https://$OPS_MGR_HOST \
-  --username "$OPS_MGR_USR" \
-  --password "$OPS_MGR_PWD" \
-  --skip-ssl-validation \
-  configure-product \
-  --product-name $PRODUCT_IDENTIFIER \
-  --product-resources "$resources_config"
+input_length=$(echo $resources_config | $JQ_CMD '. | keys | length')
+if [[ $input_length != 0 ]]; then
+  $OM_CMD \
+    --target https://$OPS_MGR_HOST \
+    --username "$OPS_MGR_USR" \
+    --password "$OPS_MGR_PWD" \
+    --skip-ssl-validation \
+    configure-product \
+    --product-name $PRODUCT_IDENTIFIER \
+    --product-resources "$resources_config"
+fi
