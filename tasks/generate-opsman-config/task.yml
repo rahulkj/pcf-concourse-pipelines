@@ -1,0 +1,18 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+
+inputs:
+  - name: pivnet-product
+  - name: pipelines-repo
+  - name: govc
+
+run:
+  path: pipelines-repo/tasks/generate-opsman-config/task.sh

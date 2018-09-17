@@ -67,6 +67,13 @@ resources:
     product_slug: elastic-runtime
     product_version: ((pas_product_version))
 
+- name: nsxt-product
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: vmware-nsx-t
+    product_version: ((nsxt_product_version))
+
 - name: concourse-trigger-gist
   type: git
   source:
@@ -225,6 +232,44 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
 
+- name: upload-nsxt
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [configure-ops-director]
+    - get: pivnet-product
+      resource: nsxt-product
+      trigger: true
+      params:
+        globs:
+        - ((nsxt_product_glob))
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [configure-ops-director]
+    - get: pivnet-cli
+      params:
+        globs:
+        - "*linux-amd64*"
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [configure-ops-director]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [configure-ops-director]
+
+  - task: upload-nsxt-tile
+    file: pipelines-repo/tasks/upload-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PIVNET_API_TOKEN: ((pivnet_token))
+
 - name: upload-pas
   plan:
   - aggregate:
@@ -274,11 +319,89 @@ jobs:
       IAAS_TYPE: ((iaas_type))
       STEMCELL_TYPE: ((stemcell_type))
 
-- name: generate-pas-config
+- name: config-nsxt
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upload-nsxt]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [upload-nsxt]
+    - get: pivnet-product
+      resource: nsxt-product
+      passed: [upload-nsxt]
+      params:
+        globs:
+        - ((nsxt_product_glob))
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [ops-director-apply-changes]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [upload-nsxt]
+
+  - task: stage-nsxt-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+      DEPENDENCY_PRODUCT_TILES: ((nsxt_product_dependencies))
+
+  - task: config-nsxt-tile
+    file: pipelines-repo/tasks/config-product/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+      PRODUCT_PROPERTIES: ((nsxt_product_properties))
+
+- name: generate-nsxt-config
   plan:
   - aggregate:
     - get: pipelines-repo
       passed: [ops-director-apply-changes]
+    - get: pivnet-product
+      resource: nsxt-product
+      params:
+        globs: []
+      passed: [upload-nsxt]
+    - get: om-cli
+      params:
+        globs:
+        - "*-linux"
+      passed: [upload-nsxt]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [upload-nsxt]
+    - get: tile-config-convertor
+      params:
+        globs: ["*linux*"]
+
+  - task: generate-config
+    file: pipelines-repo/tasks/generate-config/task.yml
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+
+- name: generate-pas-config
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [config-nsxt]
     - get: pivnet-product
       resource: pas-product
       params:
@@ -288,12 +411,12 @@ jobs:
       params:
         globs:
         - "*-linux"
-      passed: [ops-director-apply-changes]
+      passed: [upload-pas]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [configure-ops-director]
+      passed: [config-nsxt]
     - get: tile-config-convertor
       params:
         globs: ["*linux*"]
@@ -311,20 +434,20 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [ops-director-apply-changes]
+      passed: [config-nsxt]
     - get: om-cli
       params:
         globs:
         - "*om-linux*"
-      passed: [ops-director-apply-changes]
+      passed: [config-nsxt]
     - get: concourse-trigger-gist
       trigger: true
-      passed: [ops-director-apply-changes]
+      passed: [config-nsxt]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [configure-ops-director]
+      passed: [config-nsxt]
 
   - task: config-pas
     file: pipelines-repo/tasks/config-ert/task.yml
