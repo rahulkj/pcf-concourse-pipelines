@@ -293,7 +293,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
-      passed: [configure-ops-director]
+      passed: [upload-pas]
     - get: tile-config-convertor
       params:
         globs: ["*linux*"]
@@ -320,11 +320,17 @@ jobs:
     - get: concourse-trigger-gist
       trigger: true
       passed: [ops-director-apply-changes]
+    - get: pivnet-product
+      resource: pas-product
+      params:
+        globs: []
+      trigger: true
+      passed: [upload-pas]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [configure-ops-director]
+      passed: [upload-pas]
 
   - task: config-pas
     file: pipelines-repo/tasks/config-ert/task.yml
@@ -356,6 +362,12 @@ jobs:
         globs:
         - "*linux64*"
       passed: [config-pas]
+    - get: pivnet-product
+      resource: pas-product
+      params:
+        globs: []
+      trigger: true
+      passed: [config-pas]
 
   - task: disable-errands
     file: pipelines-repo/tasks/disable-errands/task.yml
@@ -384,6 +396,12 @@ jobs:
       params:
         globs:
         - "*linux64*"
+      passed: [disable-errands]
+    - get: pivnet-product
+      resource: pas-product
+      params:
+        globs: []
+      trigger: true
       passed: [disable-errands]
 
   - task: apply-changes
