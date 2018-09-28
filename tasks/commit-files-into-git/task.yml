@@ -1,0 +1,22 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+  CI_USERNAME:
+  CI_EMAIL_ADDRESS:
+  GIT_COMMIT_MESSAGE:
+  FILES_PATH:
+
+inputs:
+  - name: pipelines-repo
+  - name: git_repo
+  - name: src_dir
+
+run:
+  path: pipelines-repo/tasks/commit-files-into-git/task.sh
