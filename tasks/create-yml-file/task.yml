@@ -1,0 +1,20 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+  OUTPUT_FILE_NAME:
+  PARAM_NAME:
+
+inputs:
+  - name: pipelines-repo
+
+outputs:
+  - name: output-folder
+
+run:
+  path: pipelines-repo/tasks/create-yml-file/task.sh
