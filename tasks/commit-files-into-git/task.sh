@@ -6,13 +6,15 @@ else
   set -eu
 fi
 
-if [ ! -d "git_repo/$FILES_PATH" ]; then
-  mkdir -p git_repo/$FILES_PATH
+git clone git-repo git-repo-updated
+
+if [ ! -d "git-repo-updated/$FILES_PATH" ]; then
+  mkdir -p git-repo-updated/$FILES_PATH
 fi
 
-cp -r src_dir/* git_repo/$FILES_PATH/
+cp -r src_dir/* git-repo-updated/$FILES_PATH/
 
-pushd git_repo
+pushd git-repo-updated
   git config --global user.email "${CI_EMAIL_ADDRESS}"
   git config --global user.name "${CI_USERNAME}"
 
