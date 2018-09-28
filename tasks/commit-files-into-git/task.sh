@@ -12,7 +12,7 @@ if [ ! -d "git-repo-updated/$FILES_PATH" ]; then
   mkdir -p git-repo-updated/$FILES_PATH
 fi
 
-cp -r src_dir/* git-repo-updated/$FILES_PATH/
+cp -r src-dir/* git-repo-updated/$FILES_PATH/
 
 pushd git-repo-updated
   git config --global user.email "${CI_EMAIL_ADDRESS}"
