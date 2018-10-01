@@ -17,4 +17,4 @@ inputs:
   - name: env
 
 run:
-  path: pipelines-repo/tasks/config-ert/task.sh
+  path: pipelines-repo/tasks/generate-certs/task.sh
