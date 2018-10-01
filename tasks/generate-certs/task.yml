@@ -1,0 +1,20 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: rjain/buildbox}
+
+params:
+  DEBUG:
+  DOMAINS:
+  ENV_FILE: env.yml
+
+inputs:
+  - name: pipelines-repo
+  - name: om-cli
+  - name: jq
+  - name: env
+
+run:
+  path: pipelines-repo/tasks/config-ert/task.sh
