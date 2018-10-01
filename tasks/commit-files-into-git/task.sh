@@ -15,9 +15,11 @@ fi
 cp -r src-dir/* git-repo-updated/$FILES_PATH/
 
 pushd git-repo-updated
-  git config --global user.email "${CI_EMAIL_ADDRESS}"
-  git config --global user.name "${CI_USERNAME}"
+  if [[ -n "$(git status -s)" ]]; then
+    git config --global user.email "${CI_EMAIL_ADDRESS}"
+    git config --global user.name "${CI_USERNAME}"
 
-  git add .
-  git commit -m "$GIT_COMMIT_MESSAGE"
+    git add .
+    git commit -m "$GIT_COMMIT_MESSAGE"
+  fi
 popd
