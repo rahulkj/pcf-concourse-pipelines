@@ -8,11 +8,7 @@ fi
 
 git clone git-repo git-repo-updated
 
-if [ ! -d "git-repo-updated/$FILES_PATH" ]; then
-  mkdir -p git-repo-updated/$FILES_PATH
-fi
-
-cp -r src-dir/* git-repo-updated/$FILES_PATH/
+cp -r src-dir/* git-repo-updated/
 
 pushd git-repo-updated
   if [[ -n "$(git status -s)" ]]; then

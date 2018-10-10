@@ -39,8 +39,9 @@ function cleanAndEchoErrands() {
   for errand in $ERRANDS; do
     if [[ -z "$ERRANDS_LIST" ]]; then
       ERRANDS_LIST=$errand
+    else
+      ERRANDS_LIST+=,$errand
     fi
-    ERRANDS_LIST+=,$errand
   done
   echo $ERRANDS_LIST
   echo ""
@@ -70,7 +71,7 @@ function applyChangesConfig() {
 
 function echoNetworkTemplate() {
   echo "# Network and AZ's template: "
-  echo "product_network_azs: |
+  echo "network-properties: |
   network:
     name:
   service_network:
