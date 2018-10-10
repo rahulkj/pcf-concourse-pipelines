@@ -17,6 +17,8 @@ domains=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < d
 
 CERTIFICATES=$($OM_CMD --env env/"${ENV_FILE}" -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$domains")
 
+echo "$CERTIFICATES"
+
 CERT_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.certificate'`
 PRIVATE_KEY_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.key'`
 
