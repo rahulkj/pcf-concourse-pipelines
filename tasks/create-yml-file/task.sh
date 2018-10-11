@@ -6,5 +6,4 @@ else
   set -e
 fi
 
-cp input-folder/* output-folder/
 echo "$PARAM_NAME" > output-folder/$OUTPUT_FILE_NAME

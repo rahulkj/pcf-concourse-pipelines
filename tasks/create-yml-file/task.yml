@@ -12,7 +12,6 @@ params:
 
 inputs:
   - name: pipelines-repo
-  - name: input-folder
 
 outputs:
   - name: output-folder
