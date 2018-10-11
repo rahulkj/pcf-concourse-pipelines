@@ -12,7 +12,9 @@ params:
 
 inputs:
   - name: pipelines-repo
-  - name: work-folder
+  - name: input-folder
 
+outputs:
+  - name: output-folder
 run:
   path: pipelines-repo/tasks/create-yml-file/task.sh
