@@ -226,7 +226,7 @@ resource_configuration: |
       id: large.cpu
     instances: 4
 
-nsxt_product_properties: |
+nsxt_product-properties: |
   .properties.container_ip_blocks:
     value:
     - name:
@@ -270,7 +270,7 @@ nsxt_product_properties: |
 
 generate_certs: false
 
-product_network_azs: |
+network-properties: |
   network:
     name:
   other_availability_zones:
@@ -279,7 +279,7 @@ product_network_azs: |
   singleton_availability_zone:
     name:
 
-product_properties: |
+product-properties: |
   .cloud_controller.allow_app_ssh_access:
     value: true
   .cloud_controller.apps_domain:
@@ -878,7 +878,7 @@ product_properties: |
     value:
       secret:
 
-product_resources: |
+resource-config: |
   consul_server:
     instances: 3
     instance_type:

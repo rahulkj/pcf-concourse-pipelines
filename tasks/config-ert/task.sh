@@ -20,7 +20,7 @@ PRODUCT_VERSION=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] 
 $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
 echo "$PRODUCT_PROPERTIES" > properties.yml
-echo "$PRODUCT_RESOURCES" > resources.yml
+echo "$resource-config" > resources.yml
 echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
 
 properties_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < properties.yml)
@@ -47,8 +47,8 @@ EOF
   CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
 
   export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
-  export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
-  export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`
+  export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.certificate'`
+  export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.key'`
 
   CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$SECURITY_DOMAIN"`
 

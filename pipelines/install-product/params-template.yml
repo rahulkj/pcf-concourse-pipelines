@@ -4,6 +4,7 @@ git_url: https://github.com/rahul-kj/pcf-concourse-pipelines  # [R] Pipelines gi
 git_branch: master
 git_username: ((git_username))                                # [R] Your github username
 
+iaas: vsphere                                                 # azure|vsphere|aws|openstack|vcloud|google
 iaas_type: vsphere-esxi                                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 stemcell_type: trusty                                         # xenial|trusty
 
@@ -21,13 +22,13 @@ product_version: ^0\.0\..*$                                   # Update the versi
 dependency_product_tiles: 'cf'
 
 ## After the pipeline is done with the stage product, click the generate-product-config and fill out the rest of the info
-product_properties: |
+product-properties: |
   --- {}
 
-product_resources: |
+resource-config: |
   --- {}
 
-product_network_azs: |
+network-properties: |
   --- {}
 
 errands_to_disable:

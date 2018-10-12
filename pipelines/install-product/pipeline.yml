@@ -76,7 +76,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      product-name: ((product-name))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
@@ -127,6 +127,7 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
+      IAAS: ((iaas))
       IAAS_TYPE: ((iaas_type))
       STEMCELL_TYPE: ((stemcell_type))
 
@@ -153,7 +154,7 @@ jobs:
     - get: tile-config-convertor
       params:
         globs: ["*linux*"]
-        
+
   - task: generate-config
     file: pipelines-repo/tasks/generate-config/task.yml
     params:
@@ -161,7 +162,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      product-name: ((product-name))
 
 - name: stage-product
   plan:
@@ -188,7 +189,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      product-name: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
@@ -220,10 +221,10 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
-      PRODUCT_PROPERTIES: ((product_properties))
-      PRODUCT_RESOURCES: ((product_resources))
-      PRODUCT_NETWORK_AZS: ((product_network_azs))
+      product-name: ((product-name))
+      PRODUCT_PROPERTIES: ((product-properties))
+      resource-config: ((resource-config))
+      network-properties: ((network-properties))
 
 - name: disable-errands
   plan:
@@ -254,7 +255,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      product-name: ((product-name))
       ERRANDS: ((errands_to_disable))
 
 - name: apply-changes

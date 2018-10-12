@@ -39,16 +39,15 @@ function cleanAndEchoErrands() {
   for errand in $ERRANDS; do
     if [[ -z "$ERRANDS_LIST" ]]; then
       ERRANDS_LIST=$errand
+    else
+      ERRANDS_LIST+=,$errand
     fi
-    ERRANDS_LIST+=,$errand
   done
   echo $ERRANDS_LIST
   echo ""
 }
 
 function applyChangesConfig() {
-  echo "# Apply Change Config for $PRODUCT_IDENTIFIER are:"
-
   APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
 
   echo 'apply_changes_config: |' >> "$APPLY_CHANGES_CONFIG_YML"
@@ -70,7 +69,7 @@ function applyChangesConfig() {
 
 function echoNetworkTemplate() {
   echo "# Network and AZ's template: "
-  echo "product_network_azs: |
+  echo "network-properties: |
   network:
     name:
   service_network:
@@ -99,11 +98,13 @@ RESOURCES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/resources)
 ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD -r '.errands[] | select(.post_deploy==true) | .name')
 
 ## Cleanup all the stuff, and echo on the console
+echo "product-name: $PRODUCT_IDENTIFIER"
 cleanAndEchoProperties
 cleanAndEchoResources
+echoNetworkTemplate
 cleanAndEchoErrands
 applyChangesConfig
-echoNetworkTemplate
+
 
 ## Clean-up the container
 rm -rf $PRODUCT_IDENTIFIER.json

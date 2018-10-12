@@ -1,5 +1,4 @@
 ---
-
 platform: linux
 
 image_resource:
@@ -8,13 +7,13 @@ image_resource:
 
 params:
   DEBUG:
-  ENV_FILE: env.yml
+  OUTPUT_FILE_NAME:
+  PARAM_NAME:
 
 inputs:
-  - name: product
   - name: pipelines-repo
-  - name: om-cli
-  - name: env
 
+outputs:
+  - name: output-folder
 run:
-  path: pipelines-repo/tasks/upload-product/task.sh
+  path: pipelines-repo/tasks/create-yml-file/task.sh

@@ -46,8 +46,8 @@ if [[ "$PRODUCT_PROPERTIES" != "" ]]; then
   fi
 fi
 
-if [[ "$PRODUCT_RESOURCES" != "" ]]; then
-  echo "$PRODUCT_RESOURCES" > resources.yml
+if [[ "$resource-config" != "" ]]; then
+  echo "$resource-config" > resources.yml
   resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
   input_length=$(echo $resources_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
