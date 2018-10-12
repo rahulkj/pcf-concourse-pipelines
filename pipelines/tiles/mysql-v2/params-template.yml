@@ -4,14 +4,16 @@ git_url: https://github.com/rahul-kj/pcf-concourse-pipelines  # [R] Pipelines gi
 git_branch: master
 git_username: ((git_username))                                # [R] Your github username
 
+iaas: vsphere                                                 # azure|vsphere|aws|openstack|vcloud|google
 iaas_type: vsphere-esxi                                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
 stemcell_type: trusty                                         # xenial|trusty
 
-debug: false                                                  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
-
+## Ops Manager installation meta data
 ops_mgr_host: ((ops_mgr_host))                                # [R] Ops Manager FQDN, ex: opsmgr.example.com
 ops_mgr_usr: ((ops_mgr_usr))                                  # [R] Ops Manager admin user
 ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager admin password
+
+debug: false                                                  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
 product_name: pivotal-mysql
 product_identifier: pivotal-mysql
@@ -19,7 +21,7 @@ product_version: ^2\.3\..*$
 
 dependency_product_tiles: 'cf'
 
-product_properties: |
+product-properties: |
   ---
   .properties.global_service_instance_limit:
     value: 50
@@ -210,7 +212,7 @@ product_properties: |
   .properties.syslog_migration_selector.enabled.ca_cert:
     value:
 
-product_network_azs: |
+network-properties: |
   network:
     name:
   service_network:
@@ -221,7 +223,7 @@ product_network_azs: |
   singleton_availability_zone:
     name:
 
-product_resources: |
+resource-config: |
   dedicated-mysql-broker:
     instances: 1
     instance_type:

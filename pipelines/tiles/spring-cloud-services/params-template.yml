@@ -1,21 +1,22 @@
 # Token used to download the product file from Pivotal Network. Find this
 # on your Pivotal Network profile page:
 # https://network.pivotal.io/users/dashboard/edit-profile
-pivnet_token: ((pivnet_token)) # [R] PivNet Access Token
-git_token: ((git_token)) # [R] Your github token
-git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+pivnet_token: ((pivnet_token))                                # [R] PivNet Access Token
+git_token: ((git_token))                                      # [R] Your github token
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines  # [R] Pipelines github repo
 git_branch: master
-git_username: ((git_username)) # [R] Your github username
+git_username: ((git_username))                                # [R] Your github username
 
-iaas_type: vsphere-esxi # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
-stemcell_type: trusty                         # xenial|trusty
-
-debug: false
+iaas: vsphere                                                 # azure|vsphere|aws|openstack|vcloud|google
+iaas_type: vsphere-esxi                                       # azure-hyperv|vsphere-esxi|aws-xen-hvm|openstack-kvm|vcloud-esxi|google-kvm
+stemcell_type: trusty                                         # xenial|trusty
 
 ## Ops Manager installation meta data
-ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
-ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
-ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+ops_mgr_host: ((ops_mgr_host))                                # [R] Ops Manager FQDN, ex: opsmgr.example.com
+ops_mgr_usr: ((ops_mgr_usr))                                  # [R] Ops Manager admin user
+ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager admin password
+
+debug: false
 
 product_name: p-spring-cloud-services # Product slug from pivnet
 product_identifier: p-spring-cloud-services # Product identifier from OpsManager using om cli
@@ -23,7 +24,7 @@ product_version: ^1\.5\..*$
 
 dependency_product_tiles: 'cf,p-rabbitmq,pivotal-mysql'
 
-product_properties: |
+product-properties: |
   ---
   ".deploy-service-broker.persistence_store_service":
     value: p.mysql
@@ -46,7 +47,7 @@ product_properties: |
   ".register-service-broker.enable_global_access":
     value: true
 
-product_resources: |
+resource-config: |
   deploy-service-broker:
     instances: 1
     instance_type:
@@ -56,7 +57,7 @@ product_resources: |
     instance_type:
       id: "nano"
 
-product_network_azs: |
+network-properties: |
   network:
     name:
   other_availability_zones:

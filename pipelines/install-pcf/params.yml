@@ -219,7 +219,7 @@ resource_configuration: |
 
 generate_certs: false
 
-product_network_azs: |
+network-properties: |
   network:
     name:
   other_availability_zones:
@@ -228,7 +228,7 @@ product_network_azs: |
   singleton_availability_zone:
     name:
 
-product_properties: |
+product-properties: |
   .cloud_controller.allow_app_ssh_access:
     value: true
   .cloud_controller.apps_domain:
@@ -827,7 +827,7 @@ product_properties: |
     value:
       secret:
 
-product_resources: |
+resource-config: |
   consul_server:
     instances: 3
     instance_type:

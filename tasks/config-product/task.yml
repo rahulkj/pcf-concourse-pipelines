@@ -12,7 +12,7 @@ params:
   OPS_MGR_PWD:
   PRODUCT_IDENTIFIER:
   PRODUCT_PROPERTIES:
-  PRODUCT_RESOURCES:
+  resource-config:
   PRODUCT_NETWORK_AZS:
 
 inputs:

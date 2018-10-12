@@ -37,7 +37,7 @@ if [[ ! -z "$SC_VERSION" ]]; then
     set -e
 
     if [[ -z "$RESPONSE" ]]; then
-      wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/vsphere/$STEMCELL_NAME
+      wget --show-progress https://s3.amazonaws.com/bosh-core-stemcells/$IAAS/$STEMCELL_NAME
     else
       $PIVNET_CLI download-product-files -p $PRODUCT_SLUG -r $SC_VERSION -g "*$IAAS_TYPE*" --accept-eula
     fi

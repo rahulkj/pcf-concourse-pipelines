@@ -341,7 +341,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       GENERATE_CERTS: ((generate_certs))
       PRODUCT_PROPERTIES: ((product_properties))
-      PRODUCT_RESOURCES: ((product_resources))
+      resource-config: ((resource-config))
       PRODUCT_NETWORK_AZS: ((product_network_azs))
 
 - name: disable-errands

@@ -12,7 +12,7 @@ params:
   OPS_MGR_PWD:
   GENERATE_CERTS:
   PRODUCT_PROPERTIES:
-  PRODUCT_RESOURCES:
+  resource-config:
   PRODUCT_NETWORK_AZS:
 
 inputs:
