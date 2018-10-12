@@ -100,11 +100,13 @@ RESOURCES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/resources)
 ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD -r '.errands[] | select(.post_deploy==true) | .name')
 
 ## Cleanup all the stuff, and echo on the console
+echo "product-name: $PRODUCT_IDENTIFIER"
 cleanAndEchoProperties
 cleanAndEchoResources
+echoNetworkTemplate
 cleanAndEchoErrands
 applyChangesConfig
-echoNetworkTemplate
+
 
 ## Clean-up the container
 rm -rf $PRODUCT_IDENTIFIER.json
