@@ -48,8 +48,6 @@ function cleanAndEchoErrands() {
 }
 
 function applyChangesConfig() {
-  echo "# Apply Change Config for $PRODUCT_IDENTIFIER are:"
-
   APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
 
   echo 'apply_changes_config: |' >> "$APPLY_CHANGES_CONFIG_YML"
