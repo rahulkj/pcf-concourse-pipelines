@@ -12,8 +12,8 @@ params:
   OPS_MGR_PWD:
   PRODUCT_IDENTIFIER:
   PRODUCT_PROPERTIES:
-  resource-config:
-  PRODUCT_NETWORK_AZS:
+  RESOURCE_CONFIG:
+  NETWORK_PROPERTIES:
 
 inputs:
   - name: pipelines-repo

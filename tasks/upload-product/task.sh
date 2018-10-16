@@ -11,4 +11,4 @@ CMD=./om-cli/om-linux
 
 FILE_PATH=`find ./product -name *.pivotal`
 
-$CMD --env env/"${ENV_FILE}" -k upload-product -p $FILE_PATH
+$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $FILE_PATH

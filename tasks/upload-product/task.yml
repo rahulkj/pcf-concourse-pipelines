@@ -8,13 +8,14 @@ image_resource:
 
 params:
   DEBUG:
-  ENV_FILE: env.yml
+  OPS_MGR_HOST:
+  OPS_MGR_USR:
+  OPS_MGR_PWD:
 
 inputs:
   - name: product
   - name: pipelines-repo
   - name: om-cli
-  - name: env
 
 run:
   path: pipelines-repo/tasks/upload-product/task.sh

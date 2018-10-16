@@ -204,7 +204,6 @@ jobs:
       SECURITY_CONFIGURATION: ((security_configuration))
       RESOURCE_CONFIGURATION: ((resource_configuration))
 
-
 - name: ops-director-apply-changes
   plan:
   - aggregate:
@@ -263,12 +262,13 @@ jobs:
 
   - task: upload-nsxt-tile
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PIVNET_API_TOKEN: ((pivnet_token))
 
 - name: upload-pas
   plan:
@@ -301,12 +301,13 @@ jobs:
 
   - task: upload-pas
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -457,9 +458,9 @@ jobs:
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
       GENERATE_CERTS: ((generate_certs))
-      PRODUCT_PROPERTIES: ((product_properties))
-      resource-config: ((resource-config))
-      PRODUCT_NETWORK_AZS: ((product_network_azs))
+      PRODUCT_PROPERTIES: ((product-properties))
+      RESOURCE_CONFIG: ((resource-config))
+      NETWORK_PROPERTIES: ((network-properties))
 
 - name: disable-errands
   plan:

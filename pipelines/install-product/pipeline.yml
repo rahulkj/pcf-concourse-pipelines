@@ -76,7 +76,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
@@ -162,7 +162,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
 
 - name: stage-product
   plan:
@@ -189,7 +189,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
@@ -221,10 +221,10 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       PRODUCT_PROPERTIES: ((product-properties))
-      resource-config: ((resource-config))
-      network-properties: ((network-properties))
+      RESOURCE_CONFIG: ((resource-config))
+      NETWORK_PROPERTIES: ((network-properties))
 
 - name: disable-errands
   plan:
@@ -255,7 +255,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       ERRANDS: ((errands_to_disable))
 
 - name: apply-changes
