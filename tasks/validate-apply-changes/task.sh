@@ -10,10 +10,10 @@ chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
 STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p /api/v0/staged/products -s)
-PRODUCT_GUID=$(echo $STAGED_PRODUCTS | jq --arg PRODUCT_IDENTIFIER $PRODUCT_IDENTIFIER '.[] | select(.type | contains ($PRODUCT_IDENTIFIER))' | jq '.guid' | tr -d '"')
+PRODUCT_GUID=$(echo $STAGED_PRODUCTS | jq --arg PRODUCT_NAME $PRODUCT_NAME '.[] | select(.type | contains ($PRODUCT_NAME))' | jq '.guid' | tr -d '"')
 
 if [[ -z "$PRODUCT_GUID" ]]; then
-  echo "Product with identifier $PRODUCT_IDENTIFIER not found!"
+  echo "Product with identifier $PRODUCT_NAME not found!"
   exit 1
 fi
 

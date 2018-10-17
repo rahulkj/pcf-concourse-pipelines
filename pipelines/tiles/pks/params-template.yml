@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: pivotal-container-service
-product_identifier: pivotal-container-service
+product_slug: pivotal-container-service
+product-name: pivotal-container-service
 product_version: ^1\.1\..*$
 
 dependency_product_tiles: 'p-bosh'

@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: p-new-relic
-product_identifier: newrelic-broker
+product_slug: p-new-relic
+product-name: newrelic-broker
 product_version: ^1\.12\..*$
 
 dependency_product_tiles: 'cf'

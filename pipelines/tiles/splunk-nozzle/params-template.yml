@@ -18,8 +18,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: splunk-nozzle
-product_identifier: splunk-nozzle
+product_slug: splunk-nozzle
+product-name: splunk-nozzle
 product_version: ^1\.0\..*$
 
 dependency_product_tiles: 'cf'

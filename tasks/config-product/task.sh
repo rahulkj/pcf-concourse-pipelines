@@ -12,8 +12,8 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-if [[ "$PRODUCT_NETWORK_AZS" != "" ]]; then
-  echo "$PRODUCT_NETWORK_AZS" > network-azs.yml
+if [[ "$NETWORK_PROPERTIES" != "" ]]; then
+  echo "$NETWORK_PROPERTIES" > network-azs.yml
   network_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < network-azs.yml)
   input_length=$(echo $network_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
@@ -23,7 +23,7 @@ if [[ "$PRODUCT_NETWORK_AZS" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-network "$network_config"
   fi
 fi
@@ -41,13 +41,13 @@ if [[ "$PRODUCT_PROPERTIES" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-properties "$properties_config"
   fi
 fi
 
-if [[ "$resource-config" != "" ]]; then
-  echo "$resource-config" > resources.yml
+if [[ "$RESOURCE_CONFIG" != "" ]]; then
+  echo "$RESOURCE_CONFIG" > resources.yml
   resources_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resources.yml)
   input_length=$(echo $resources_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
@@ -57,7 +57,7 @@ if [[ "$resource-config" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-resources "$resources_config"
   fi
 fi

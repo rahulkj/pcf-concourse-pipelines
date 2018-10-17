@@ -46,7 +46,7 @@ resources:
   type: pivnet
   source:
     api_token: ((pivnet_token))
-    product_slug: ((product_name))
+    product_slug: ((product_slug))
     product_version: ((product_version))
 
 jobs:
@@ -76,7 +76,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
@@ -112,12 +112,13 @@ jobs:
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -162,13 +163,13 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
 
 - name: stage-product
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-product]
+      # passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -189,7 +190,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: config-product
@@ -221,10 +222,10 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       PRODUCT_PROPERTIES: ((product-properties))
-      resource-config: ((resource-config))
-      network-properties: ((network-properties))
+      RESOURCE_CONFIG: ((resource-config))
+      NETWORK_PROPERTIES: ((network-properties))
 
 - name: disable-errands
   plan:
@@ -255,7 +256,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      product-name: ((product-name))
+      PRODUCT_NAME: ((product-name))
       ERRANDS: ((errands_to_disable))
 
 - name: apply-changes
