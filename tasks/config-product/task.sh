@@ -23,7 +23,7 @@ if [[ "$NETWORK_PROPERTIES" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-network "$network_config"
   fi
 fi
@@ -41,7 +41,7 @@ if [[ "$PRODUCT_PROPERTIES" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-properties "$properties_config"
   fi
 fi
@@ -57,7 +57,7 @@ if [[ "$RESOURCE_CONFIG" != "" ]]; then
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
-      --product-name $PRODUCT_IDENTIFIER \
+      --product-name $PRODUCT_NAME \
       --product-resources "$resources_config"
   fi
 fi

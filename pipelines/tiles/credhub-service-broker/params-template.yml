@@ -15,7 +15,7 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: credhub-service-broker
+product_slug: credhub-service-broker
 product_identifier: credhub-service-broker
 product_version: ^1\.0\..*$
 

@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: pivotal_single_sign-on_service # Product slug from PivNet
-product_identifier: Pivotal_Single_Sign-On_Service # product identifier using OM cli
+product_slug: pivotal_single_sign-on_service # Product slug from PivNet
+product-name: Pivotal_Single_Sign-On_Service # product identifier using OM cli
 product_version: ^1\.6\..*$
 
 dependency_product_tiles: 'cf'

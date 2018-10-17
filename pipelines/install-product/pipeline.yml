@@ -46,7 +46,7 @@ resources:
   type: pivnet
   source:
     api_token: ((pivnet_token))
-    product_slug: ((product_name))
+    product_slug: ((product_slug))
     product_version: ((product_version))
 
 jobs:
@@ -112,12 +112,13 @@ jobs:
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -168,7 +169,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [upload-product]
+      # passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
       params:

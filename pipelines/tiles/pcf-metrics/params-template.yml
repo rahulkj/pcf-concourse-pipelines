@@ -18,8 +18,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: apm
-product_identifier: apm
+product_slug: apm
+product-name: apm
 product_version: ^1\.4\..*$
 
 dependency_product_tiles: 'cf'

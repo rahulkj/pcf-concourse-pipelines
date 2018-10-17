@@ -19,7 +19,7 @@ if [[ ! -z "$ERRANDS" ]]; then
     echo "$i"
     set +e
     ERRAND_EXISTS=`$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD errands -f json \
-      -p $PRODUCT_IDENTIFIER | jq -r --arg errand $i '.[] | select(.name==$errand) | .name'`
+      -p $PRODUCT_NAME | jq -r --arg errand $i '.[] | select(.name==$errand) | .name'`
 
     set -e
     echo $ERRAND_EXISTS
@@ -27,7 +27,7 @@ if [[ ! -z "$ERRANDS" ]]; then
     if [[ ! -z "$ERRAND_EXISTS" ]]; then
       echo $i " errand found... and disabling..."
       $OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
-        set-errand-state -p $PRODUCT_IDENTIFIER -e $i --post-deploy-state disabled
+        set-errand-state -p $PRODUCT_NAME -e $i --post-deploy-state disabled
     else
       echo $i " errand not found... skipping..."
     fi

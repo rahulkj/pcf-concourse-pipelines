@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false                                                  # Set to true if you want to see all the tasks output. This will also show all the secrets and certs, so think twice
 
-product_name: pivotal-mysql
-product_identifier: pivotal-mysql
+product_slug: pivotal-mysql
+product-name: pivotal-mysql
 product_version: ^2\.3\..*$
 
 dependency_product_tiles: 'cf'

@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: p-dataflow
-product_identifier: p-dataflow
+product_slug: p-dataflow
+product-name: p-dataflow
 product_version: ^1\.0\..*$
 
 dependency_product_tiles: 'cf,pivotal-mysql'

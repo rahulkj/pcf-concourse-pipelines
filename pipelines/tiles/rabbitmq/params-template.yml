@@ -18,8 +18,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: p-rabbitmq
-product_identifier: p-rabbitmq
+product_slug: p-rabbitmq
+product-name: p-rabbitmq
 product_version: ^1\.13\..*$
 
 dependency_product_tiles: 'cf'

@@ -15,7 +15,7 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: p-appdynamics
+product_slug: p-appdynamics
 product-name: appdynamics
 product_version: ^4\.4\..*$
 

@@ -15,8 +15,8 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name:                                                 # Get the product slug from pivnet. It can be found in the URL of the pivnet product, ex: elastic-runtime
-product_identifier:                                           # Product name known to ops manager. Usually its the name of the *.pivotal file. ex: cf
+product_slug:                                                 # Get the product slug from pivnet. It can be found in the URL of the pivnet product, ex: elastic-runtime
+product-name:                                           # Product name known to ops manager. Usually its the name of the *.pivotal file. ex: cf
 product_version: ^0\.0\..*$                                   # Update the version number
 
 dependency_product_tiles: 'cf'

@@ -15,7 +15,7 @@ ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager 
 
 debug: false
 
-product_name: p-healthwatch
+product_slug: p-healthwatch
 product_identifier: p-healthwatch
 product_version: ^1\.3\..*$
 
