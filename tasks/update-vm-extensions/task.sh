@@ -14,7 +14,7 @@ JQ_CMD=./jq/jq-linux64
 
 JSON=$(cat config/$EXTENSION_FILE)
 
-CURL_CMD=$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s
+CURL_CMD="$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s"
 
 EXISTING_EXTENSION=$($CURL_CMD -p /api/v0/staged/vm_extensions)
 
