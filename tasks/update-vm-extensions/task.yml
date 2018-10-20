@@ -19,4 +19,4 @@ inputs:
   - name: om-cli
 
 run:
-  path: pipelines-repo/tasks/update-vm-extension/task.sh
+  path: pipelines-repo/tasks/update-vm-extensions/task.sh
