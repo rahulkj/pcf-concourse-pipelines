@@ -1,0 +1,150 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+- name: email
+  type: docker-image
+  source:
+    repository: pcfseceng/email-resource
+
+resources:
+- name: pipelines-repo
+  type: git
+  source:
+    uri: ((git_url))
+    branch: ((git_branch))
+    username: ((git_username))
+    password: ((git_token))
+
+- name: state
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/test-automation
+    branch: master
+    username: ((git_username))
+    password: ((git_token))
+
+- name: ops-manager
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: ops-manager
+    product_version: ((opsman_product_version))
+
+- name: platform-automation-tasks
+  type: git
+  source:
+    uri: https://github.com/rahul-kj/test-automation
+    username: ((git_username))
+    password: ((git_token))
+
+- name: platform-automation-image
+  type: docker-image
+  source:
+    repository: rjain/platform-automation
+
+jobs:
+- name: upgrade-ops-manager
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+    - get: platform-automation-tasks
+    - get: platform-automation-image
+    - get: state
+    - get: pivnet-product
+      resource: ops-manager
+      params:
+        globs:
+        - "*.ova"
+      trigger: true
+
+  - task: create-opsman-env-file
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env-folder
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: opsman-env.yml
+      PARAM_NAME: ((ops_manager_env))
+
+  - task: create-opsman-import-file
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: config-folder
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((opsman_output_file))
+      PARAM_NAME: ((ops_manager_settings))
+
+  - task: export-opsman-installation
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/export-installation.yml
+    input_mapping:
+      env: env-folder
+    params:
+      ENV_FILE: opsman-env.yml
+
+  - task: upgrade-opsman
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/upgrade-opsman.yml
+    input_mapping:
+      env: env-folder
+      config: config-folder
+      image: pivnet-product
+      installation: installation
+      state: state
+    params:
+      OPSMAN_CONFIG_FILE: opsman.yml
+      INSTALLATION_FILE: installation.zip
+      STATE_FILE: state.yml
+      ENV_FILE: opsman-env.yml
+
+  - task: commit-files-into-git
+    file: pipelines-repo/tasks/commit-files-into-git/task.yml
+    input_mapping:
+      git-repo: state
+      src-dir: generated-state
+    params:
+      DEBUG: ((debug))
+      CI_USERNAME: ((ci_username))
+      CI_EMAIL_ADDRESS: ((ci_email_address))
+      GIT_COMMIT_MESSAGE: "Updated the state file"
+
+  - put: state
+    params:
+      repository: git-repo-updated
+
+- name: apply-changes
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [upgrade-ops-manager]
+    - get: platform-automation-tasks
+      passed: [upgrade-ops-manager]
+    - get: platform-automation-image
+      passed: [upgrade-ops-manager]
+    - get: pivnet-product
+      resource: ops-manager
+      params:
+        globs: []
+      passed: [upgrade-ops-manager]
+      trigger: true
+
+  - task: create-opsman-env-file
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: opsman-env.yml
+      PARAM_NAME: ((ops_manager_env))
+
+  - task: trigger-apply-changes
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/apply-director-changes.yml
+    input_mapping:
+      env: env
+    params:
+      ENV_FILE: opsman-env.yml

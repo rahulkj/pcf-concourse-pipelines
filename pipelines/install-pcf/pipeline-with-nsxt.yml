@@ -352,7 +352,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+      PRODUCT_NAME: ((nsxt_product_identifier))
       DEPENDENCY_PRODUCT_TILES: ((nsxt_product_dependencies))
 
   - task: config-nsxt-tile
@@ -362,7 +362,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+      PRODUCT_NAME: ((nsxt_product_identifier))
       PRODUCT_PROPERTIES: ((nsxt_product_properties))
 
 - name: generate-nsxt-config
@@ -396,7 +396,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((nsxt_product_identifier))
+      PRODUCT_NAME: ((nsxt_product_identifier))
 
 - name: generate-pas-config
   plan:
@@ -429,7 +429,50 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: cf
+      PRODUCT_NAME: cf
+
+- name: update-vm-extensions
+  plan:
+  - aggregate:
+    - get: pipelines-repo
+      passed: [ops-director-apply-changes]
+    - get: om-cli
+      params:
+        globs:
+        - "*om-linux*"
+      passed: [ops-director-apply-changes]
+    - get: concourse-trigger-gist
+      trigger: true
+      passed: [ops-director-apply-changes]
+    - get: jq
+      params:
+        globs:
+        - "*linux64*"
+      passed: [ops-director-apply-changes]
+
+  - task: update-routers-vm-extension
+    file: pipelines-repo/tasks/update-vm-extensions/task.yml
+    input_mapping:
+      config: pipelines-repo
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      EXTENSION_NAME: router-extension
+      EXTENSION_FILE: extensions/routers-extension.json
+
+  - task: update-db-vm-extension
+    file: pipelines-repo/tasks/update-vm-extensions/task.yml
+    input_mapping:
+      config: pipelines-repo
+    params:
+      DEBUG: ((debug))
+      OPS_MGR_HOST: ((ops_mgr_host))
+      OPS_MGR_USR: ((ops_mgr_usr))
+      OPS_MGR_PWD: ((ops_mgr_pwd))
+      EXTENSION_NAME: diego-brain-extension
+      EXTENSION_FILE: extensions/diego-brains-extension.json
 
 - name: config-pas
   plan:
@@ -448,7 +491,7 @@ jobs:
       params:
         globs:
         - "*linux64*"
-      passed: [config-nsxt]
+      passed: [config-nsxt,update-vm-extensions]
 
   - task: config-pas
     file: pipelines-repo/tasks/config-ert/task.yml
@@ -488,7 +531,7 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_IDENTIFIER: ((pas_product_identifier))
+      PRODUCT_NAME: ((pas_product_identifier))
       ERRANDS: ((errands_to_disable))
 
 - name: pas-product-apply-changes
