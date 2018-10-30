@@ -11,6 +11,7 @@ params:
   OPS_MGR_HOST:
   OPS_MGR_USR:
   OPS_MGR_PWD:
+  EXTENSION_NAME:
   EXTENSION_FILE: extension.json
 
 inputs:

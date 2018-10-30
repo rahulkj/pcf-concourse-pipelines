@@ -18,7 +18,7 @@ CURL_CMD="$CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl 
 
 EXISTING_EXTENSION=$($CURL_CMD -p /api/v0/staged/vm_extensions)
 
-EXTENSION_FOUND=$(echo "$EXISTING_EXTENSION" | $JQ_CMD '.vm_extensions[] | select(.name | contains("router-extension"))')
+EXTENSION_FOUND=$(echo "$EXISTING_EXTENSION" | $JQ_CMD --arg extension_name $EXTENSION_NAME '.vm_extensions[] | select(.name | contains("$extension_name"))')
 
 if [ -z "$EXTENSION_FOUND" ]; then
   $CURL_CMD -p /api/v0/staged/vm_extensions -d "$JSON" -x POST
