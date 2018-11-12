@@ -19,6 +19,8 @@ if [[ "$NETWORK_PROPERTIES" != "" ]]; then
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
       --target https://$OPS_MGR_HOST \
+      --client-id "$OPSMAN_CLIENT_ID" \
+      --client-secret "$OPSMAN_CLIENT_SECRET" \
       --username "$OPS_MGR_USR" \
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
@@ -37,6 +39,8 @@ if [[ "$PRODUCT_PROPERTIES" != "" ]]; then
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
       --target https://$OPS_MGR_HOST \
+      --client-id "$OPSMAN_CLIENT_ID" \
+      --client-secret "$OPSMAN_CLIENT_SECRET" \
       --username "$OPS_MGR_USR" \
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
@@ -53,6 +57,8 @@ if [[ "$RESOURCE_CONFIG" != "" ]]; then
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
       --target https://$OPS_MGR_HOST \
+      --client-id "$OPSMAN_CLIENT_ID" \
+      --client-secret "$OPSMAN_CLIENT_SECRET" \
       --username "$OPS_MGR_USR" \
       --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \

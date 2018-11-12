@@ -34,6 +34,30 @@ The pipeline for the tiles is common and is located [here](./pipelines/install-p
 
 If there is any product that you are looking for and its missing, then use the template to write your own pipeline. [Install Product Tile Template](./pipelines/install-product)
 
+## Authentication
+If your operations manager is configured to use SAML authentication please follow instruction below to generate client credentials for om cli.
+If your operations manager is configured with basic auth you can ignore steps below.
+
+OM cli prefers Client ID and Client Secret if provided. To create a Client ID and Client Secret
+
+1. `uaac target https://YOUR_OPSMANAGER/uaa`
+1. `uaac token sso get` if using SAML or `uaac token owner get` if using internal auth. Specify the Client ID as `opsman` and leave Client Secret blank.
+1. Generate a client ID and secret
+
+```
+uaac client add -i
+Client ID:  NEW_CLIENT_NAME
+New client secret:  DESIRED_PASSWORD
+Verify new client secret:  DESIRED_PASSWORD
+scope (list):  opsman.admin
+authorized grant types (list):  client_credentials
+authorities (list):  opsman.admin
+access token validity (seconds):  43200
+refresh token validity (seconds):  43200
+redirect uri (list):
+autoapprove (list):
+signup redirect url (url):
+```
 ---
 ### Following is an example on how to `fly` a pipeline:
 
