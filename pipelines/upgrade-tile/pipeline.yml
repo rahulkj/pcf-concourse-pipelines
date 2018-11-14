@@ -82,6 +82,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
 
 - name: upload-stemcell
@@ -91,8 +93,7 @@ jobs:
       passed: [upload-product]
     - get: pivnet-product
       params:
-        globs:
-        - ((product_glob))
+        globs: []
       passed: [upload-product]
       trigger: true
     - get: om-cli
@@ -117,6 +118,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS_TYPE: ((iaas_type))
       STEMCELL_TYPE: ((stemcell_type))
@@ -128,8 +131,7 @@ jobs:
       passed: [upload-stemcell]
     - get: pivnet-product
       params:
-        globs:
-        - ((product_glob))
+        globs: []
       passed: [upload-stemcell]
       trigger: true
     - get: om-cli
@@ -145,6 +147,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: generate-product-config
@@ -175,6 +179,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: apply-changes
@@ -206,4 +212,6 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ((apply_changes_config))

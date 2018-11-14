@@ -68,6 +68,8 @@ ops_manager_settings: |
 ops_mgr_host: ((ops_mgr_host))                # FQDN to access Ops Manager, ex: opsmgr.example.com
 ops_mgr_usr: ((ops_mgr_usr))                  # Ops Manager admin username
 ops_mgr_pwd: ((ops_mgr_pwd))                  # Ops Manager admin password
+opsman_client_id: ((opsman_client_id))         # OpsManager client id if using SAML auth
+opsman_client_secret: ((opsman_client_secret))         # OpsManager client secret if using SAML auth
 ops_mgr_decryption_pwd: ((ops_mgr_decryption_pwd)) # Ops Manager decryption password
 
 iaas_configuration: |

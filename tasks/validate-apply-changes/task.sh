@@ -9,7 +9,7 @@ fi
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p /api/v0/staged/products -s)
+STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -p /api/v0/staged/products -s)
 PRODUCT_GUID=$(echo $STAGED_PRODUCTS | jq --arg PRODUCT_NAME $PRODUCT_NAME '.[] | select(.type | contains ($PRODUCT_NAME))' | jq '.guid' | tr -d '"')
 
 if [[ -z "$PRODUCT_GUID" ]]; then
@@ -17,7 +17,7 @@ if [[ -z "$PRODUCT_GUID" ]]; then
   exit 1
 fi
 
-PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/staged/pending_changes -s)
+PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/staged/pending_changes -s)
 PENDING_CHANGES_LENGTH=$(echo "$PENDING_CHANGES" | jq '.product_changes | length')
 
 if [[ "$PENDING_CHANGES_LENGTH" -eq "0" ]]; then
@@ -25,7 +25,7 @@ if [[ "$PENDING_CHANGES_LENGTH" -eq "0" ]]; then
 fi
 
 while [[ "$PENDING_CHANGES_LENGTH" -ne "1" ]]; do
-  PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/staged/pending_changes -s)
+  PENDING_CHANGES=$($CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p /api/v0/staged/pending_changes -s)
   PENDING_CHANGES_LENGTH=$(echo "$PENDING_CHANGES" | jq '.product_changes | length')
   printf "."
   sleep 5

@@ -29,26 +29,26 @@ security_configuration=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.l
 resource_configuration=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < resource_configuration.yml)
 
 echo "Configuring IaaS and Director..."
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-director \
+$OM_CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD configure-director \
   -i "$iaas_configuration" \
   -d "$director_configuration"
 
 echo "Configuring availability zones..."
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+$OM_CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   curl -s -p "/api/v0/staged/director/availability_zones" \
   -x PUT -d "$az_configuration"
 
 echo "Configuring network..."
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+$OM_CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   curl -s -p "/api/v0/staged/director/networks" \
   -x PUT -d "$network_configuration"
 
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+$OM_CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD \
  curl -s -p /api/v0/staged/director/network_and_az \
  -x PUT -d "$network_assignment"
 
 echo "Configuring network assignment, security..."
-$OM_CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD \
+$OM_CMD -t https://$OPS_MGR_HOST -k --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD \
   configure-director \
   --security-configuration "$security_configuration" \
   --resource-configuration "$resource_configuration"

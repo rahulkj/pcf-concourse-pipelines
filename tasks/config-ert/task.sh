@@ -12,12 +12,12 @@ OM_CMD=./om-cli/om-linux
 chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
-CF_RELEASE=$($OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products -f json)
+CF_RELEASE=$($OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products -f json)
 
 PRODUCT_NAME=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] | select(.name==$deployment_name) | .name')
 PRODUCT_VERSION=$(echo "$CF_RELEASE" | $JQ_CMD -r --arg deployment_name cf '.[] | select(.name==$deployment_name) | .version')
 
-$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
+$OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
 
 echo "$PRODUCT_PROPERTIES" > properties.yml
 echo "$RESOURCE_CONFIG" > resources.yml
@@ -44,13 +44,13 @@ SECURITY_DOMAIN=$(cat <<-EOF
 EOF
 )
 
-  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
+  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
 
   export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
   export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.certificate'`
   export NETWORKING_POE_SSL_CERT_PRIVATE_KEY_PEM=`echo $CERTIFICATES | $JQ_CMD --raw-output '.key'`
 
-  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$SECURITY_DOMAIN"`
+  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p "/api/v0/certificates/generate" -x POST -d "$SECURITY_DOMAIN"`
 
   export UAA_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
   export UAA_PRIVATE_KEY_PEM=`echo $CERTIFICATES | jq --raw-output '.key'`
@@ -95,6 +95,8 @@ fi
 
 $OM_CMD \
   --target https://$OPS_MGR_HOST \
+  --client-id "$OPSMAN_CLIENT_ID" \
+  --client-secret "$OPSMAN_CLIENT_SECRET" \
   --username "$OPS_MGR_USR" \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
@@ -104,6 +106,8 @@ $OM_CMD \
 
 $OM_CMD \
   --target https://$OPS_MGR_HOST \
+  --client-id "$OPSMAN_CLIENT_ID" \
+  --client-secret "$OPSMAN_CLIENT_SECRET" \
   --username "$OPS_MGR_USR" \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
@@ -113,6 +117,8 @@ $OM_CMD \
 
 $OM_CMD \
   --target https://$OPS_MGR_HOST \
+  --client-id "$OPSMAN_CLIENT_ID" \
+  --client-secret "$OPSMAN_CLIENT_SECRET" \
   --username "$OPS_MGR_USR" \
   --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \

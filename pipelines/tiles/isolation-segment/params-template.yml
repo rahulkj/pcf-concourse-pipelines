@@ -12,6 +12,8 @@ stemcell_type: trusty                                         # xenial|trusty
 ops_mgr_host: ((ops_mgr_host))                                # [R] Ops Manager FQDN, ex: opsmgr.example.com
 ops_mgr_usr: ((ops_mgr_usr))                                  # [R] Ops Manager admin user
 ops_mgr_pwd: ((ops_mgr_pwd))                                  # [R] Ops Manager admin password
+opsman_client_id: ((opsman_client_id))         # OpsManager client id if using SAML auth
+opsman_client_secret: ((opsman_client_secret))         # OpsManager client secret if using SAML auth
 
 debug: false
 
@@ -20,6 +22,8 @@ ops_mgr_ip: ((ops_mgr_ip))   # [O] Ops Manager IP if behind proxy
 ops_mgr_host: ((ops_mgr_host)) # [R] Ops Manager FQDN, ex: opsmgr.example.com
 ops_mgr_usr: ((ops_mgr_usr))  # [R] Ops Manager admin user
 ops_mgr_pwd: ((ops_mgr_pwd))  # [R] Ops Manager admin password
+opsman_client_id: ((opsman_client_id))         # OpsManager client id if using SAML auth
+opsman_client_secret: ((opsman_client_secret))         # OpsManager client secret if using SAML auth
 
 ops_mgr_generate_ssl_endpoint: /api/v0/certificates/generate # Do not change
 

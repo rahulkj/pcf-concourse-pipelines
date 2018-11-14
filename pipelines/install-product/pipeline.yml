@@ -76,6 +76,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
 
   - task: apply-changes
@@ -85,6 +87,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ""
 
 - name: upload-product
@@ -119,6 +123,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
@@ -127,6 +133,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS: ((iaas))
       IAAS_TYPE: ((iaas_type))
@@ -163,6 +171,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
 
 - name: stage-product
@@ -173,8 +183,7 @@ jobs:
     - get: pivnet-product
       resource: pivnet-product
       params:
-        globs:
-        - "*.pivotal"
+        globs: []
       passed: [upload-product]
       trigger: true
     - get: om-cli
@@ -190,6 +199,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
@@ -222,6 +233,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       PRODUCT_PROPERTIES: ((product-properties))
       RESOURCE_CONFIG: ((resource-config))
@@ -256,6 +269,8 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       ERRANDS: ((errands_to_disable))
 
@@ -288,4 +303,6 @@ jobs:
       OPS_MGR_HOST: ((ops_mgr_host))
       OPS_MGR_USR: ((ops_mgr_usr))
       OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_CLIENT_ID: ((opsman_client_id))
+      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ((apply_changes_config))
