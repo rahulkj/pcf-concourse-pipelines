@@ -33,7 +33,7 @@ resources:
   type: pivnet
   source:
     api_token: ((pivnet_token))
-    product_slug: ((product-name))
+    product_slug: ((product_name))
     product_version: ((product_version))
 
 - name: time-schedule
@@ -151,8 +151,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       OPSMAN_CLIENT_ID: ((opsman_client_id))
       OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
-      PRODUCT_NAME: ((product-name))
-      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: generate-product-config
   plan:
@@ -184,7 +183,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       OPSMAN_CLIENT_ID: ((opsman_client_id))
       OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
-      PRODUCT_NAME: ((product-name))
+      PRODUCT_IDENTIFIER: ((product_identifier))
 
 - name: apply-changes
   plan:
