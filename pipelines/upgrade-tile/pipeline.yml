@@ -77,6 +77,8 @@ jobs:
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
