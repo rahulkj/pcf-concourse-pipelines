@@ -33,7 +33,7 @@ resources:
   type: pivnet
   source:
     api_token: ((pivnet_token))
-    product_slug: ((product_name))
+    product_slug: ((product-name))
     product_version: ((product_version))
 
 - name: time-schedule
@@ -77,6 +77,8 @@ jobs:
 
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
+    input_mapping:
+      product: pivnet-product
     params:
       DEBUG: ((debug))
       OPS_MGR_HOST: ((ops_mgr_host))
@@ -149,7 +151,8 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       OPSMAN_CLIENT_ID: ((opsman_client_id))
       OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_NAME: ((product-name))
+      DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
 - name: generate-product-config
   plan:
@@ -181,7 +184,7 @@ jobs:
       OPS_MGR_PWD: ((ops_mgr_pwd))
       OPSMAN_CLIENT_ID: ((opsman_client_id))
       OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
-      PRODUCT_IDENTIFIER: ((product_identifier))
+      PRODUCT_NAME: ((product-name))
 
 - name: apply-changes
   plan:
