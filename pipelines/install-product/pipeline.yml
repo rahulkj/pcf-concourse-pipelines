@@ -11,6 +11,7 @@ resources:
   source:
     user: pivotal-cf
     repository: om
+    tag_filter: '0.44.0'
     access_token: ((git_token)) ## Optional: Removing this will cause you to hit the rate limit
 
 - name: pivnet-cli
