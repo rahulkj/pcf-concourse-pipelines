@@ -23,7 +23,7 @@ PRODUCT_SLUG=$(echo "$SC_DETAILS" | $JQ_CMD -r '.Release.Product.Slug')
 if [[ ! -z "$SC_VERSION" ]]; then
   STEMCELL_NAME=bosh-stemcell-$SC_VERSION-$IAAS_TYPE-ubuntu-$STEMCELL_TYPE-go_agent.tgz
 
-  DIAGNOSTIC_REPORT=$($OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p /api/v0/diagnostic_report)
+  DIAGNOSTIC_REPORT=$($OM_CMD -k curl -s -p /api/v0/diagnostic_report)
   STEMCELL_EXISTS=$(echo $DIAGNOSTIC_REPORT | $JQ_CMD -r --arg STEMCELL_NAME $STEMCELL_NAME '.stemcells | contains([$STEMCELL_NAME])')
 
   if $STEMCELL_EXISTS ; then
@@ -44,7 +44,7 @@ if [[ ! -z "$SC_VERSION" ]]; then
 
     SC_FILE_PATH=`find ./ -name *.tgz`
 
-    $OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-stemcell -s $SC_FILE_PATH
+    $OM_CMD -k upload-stemcell -s $SC_FILE_PATH
 
     if [ ! -f "$SC_FILE_PATH" ]; then
         echo "Stemcell file not found!"

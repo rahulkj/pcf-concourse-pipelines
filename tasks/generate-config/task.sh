@@ -83,7 +83,7 @@ function echoNetworkTemplate() {
   echo ""
 }
 
-CURL_CMD="$OM_CMD -k -t $OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD curl -s -p"
+CURL_CMD="$OM_CMD -k curl -s -p"
 
 PRODUCTS=$($CURL_CMD /api/v0/staged/products)
 PRODUCT_GUID=$(echo $PRODUCTS | $JQ_CMD -r --arg product_identifier $PRODUCT_NAME '.[] | select(.type == $product_identifier) | .guid')

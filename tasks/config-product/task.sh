@@ -18,11 +18,6 @@ if [[ "$NETWORK_PROPERTIES" != "" ]]; then
   input_length=$(echo $network_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
-      --target https://$OPS_MGR_HOST \
-      --client-id "$OPSMAN_CLIENT_ID" \
-      --client-secret "$OPSMAN_CLIENT_SECRET" \
-      --username "$OPS_MGR_USR" \
-      --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
       --product-name $PRODUCT_NAME \
@@ -38,11 +33,6 @@ if [[ "$PRODUCT_PROPERTIES" != "" ]]; then
   input_length=$(echo $properties_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
-      --target https://$OPS_MGR_HOST \
-      --client-id "$OPSMAN_CLIENT_ID" \
-      --client-secret "$OPSMAN_CLIENT_SECRET" \
-      --username "$OPS_MGR_USR" \
-      --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
       --product-name $PRODUCT_NAME \
@@ -56,11 +46,6 @@ if [[ "$RESOURCE_CONFIG" != "" ]]; then
   input_length=$(echo $resources_config | $JQ_CMD '. | keys | length')
   if [[ $input_length != 0 ]]; then
     $OM_CMD \
-      --target https://$OPS_MGR_HOST \
-      --client-id "$OPSMAN_CLIENT_ID" \
-      --client-secret "$OPSMAN_CLIENT_SECRET" \
-      --username "$OPS_MGR_USR" \
-      --password "$OPS_MGR_PWD" \
       --skip-ssl-validation \
       configure-product \
       --product-name $PRODUCT_NAME \

@@ -10,7 +10,7 @@ chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
 if [[ (! -z "$DEPENDENCY_PRODUCT_TILES") && ("null" != "$DEPENDENCY_PRODUCT_TILES") ]]; then
-  STAGED_PRODUCTS=$($CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -s -p /api/v0/staged/products)
+  STAGED_PRODUCTS=$($CMD -k curl -s -p /api/v0/staged/products)
 
   for dependency in $(echo $DEPENDENCY_PRODUCT_TILES | sed "s/,/ /g")
   do
@@ -26,8 +26,8 @@ fi
 
 VERSION=`cat pivnet-product/metadata.json | jq '.Release.Version' | tr -d '"'`
 
-RELEASE_NAME=`$CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k available-products | grep $PRODUCT_NAME | grep $VERSION`
+RELEASE_NAME=`$CMD -k available-products | grep $PRODUCT_NAME | grep $VERSION`
 
 PRODUCT_VERSION=`echo $RELEASE_NAME | cut -d"|" -f3 | tr -d " "`
 
-$CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION
+$CMD -k stage-product -p $PRODUCT_NAME -v $PRODUCT_VERSION

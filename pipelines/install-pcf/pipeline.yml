@@ -149,11 +149,11 @@ jobs:
     file: pipelines-repo/tasks/config-opsman/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       OM_DECRYPTION_PWD: ((ops_mgr_decryption_pwd))
 
   - task: bump-timestamp
@@ -188,11 +188,11 @@ jobs:
     file: pipelines-repo/tasks/config-opsdir/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       IAAS_CONFIGURATION: ((iaas_configuration))
       DIRECTOR_CONFIGURATION: ((director_configuration))
       AZ_CONFIGURATION: ((az_configuration))
@@ -225,11 +225,11 @@ jobs:
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
 
 - name: upload-pas
   plan:
@@ -264,22 +264,22 @@ jobs:
     file: pipelines-repo/tasks/upload-product/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS_TYPE: ((iaas_type))
       STEMCELL_TYPE: ((stemcell_type))
@@ -312,11 +312,11 @@ jobs:
     file: pipelines-repo/tasks/generate-config/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_IDENTIFIER: cf
 
 - name: config-pas
@@ -348,11 +348,11 @@ jobs:
     file: pipelines-repo/tasks/config-ert/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       GENERATE_CERTS: ((generate_certs))
       PRODUCT_PROPERTIES: ((product-properties))
       RESOURCE_CONFIG: ((resource-config))
@@ -387,11 +387,11 @@ jobs:
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_IDENTIFIER: ((pas_product_identifier))
       ERRANDS: ((errands_to_disable))
 
@@ -424,11 +424,11 @@ jobs:
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ((apply_changes_config))
 
   - put: email
@@ -457,11 +457,11 @@ jobs:
     file: pipelines-repo/tasks/delete-products/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
 
   - task: bump-timestamp
     file: pipelines-repo/tasks/gist-update/task.yml

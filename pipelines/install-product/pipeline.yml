@@ -73,22 +73,22 @@ jobs:
     file: pipelines-repo/tasks/unstage-product/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ""
 
 - name: upload-product
@@ -120,21 +120,21 @@ jobs:
       product: pivnet-product
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
 
   - task: upload-stemcell
     file: pipelines-repo/tasks/stemcell-uploader/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS: ((iaas))
       IAAS_TYPE: ((iaas_type))
@@ -168,11 +168,11 @@ jobs:
     file: pipelines-repo/tasks/generate-config/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
 
 - name: stage-product
@@ -196,11 +196,11 @@ jobs:
     file: pipelines-repo/tasks/stage-product/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
@@ -230,11 +230,11 @@ jobs:
     file: pipelines-repo/tasks/config-product/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       PRODUCT_PROPERTIES: ((product-properties))
       RESOURCE_CONFIG: ((resource-config))
@@ -266,11 +266,11 @@ jobs:
     file: pipelines-repo/tasks/disable-errands/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       PRODUCT_NAME: ((product-name))
       ERRANDS: ((errands_to_disable))
 
@@ -300,9 +300,9 @@ jobs:
     file: pipelines-repo/tasks/apply-changes/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      OPSMAN_CLIENT_ID: ((opsman_client_id))
-      OPSMAN_CLIENT_SECRET: ((opsman_client_secret))
+      OM_TARGET: ((ops_mgr_host))
+      OM_USERNAME: ((ops_mgr_usr))
+      OM_PASSWORD: ((ops_mgr_pwd))
+      OM_CLIENT_ID: ((opsman_client_id))
+      OM_CLIENT_SECRET: ((opsman_client_secret))
       APPLY_CHANGES_CONFIG: ((apply_changes_config))

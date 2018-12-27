@@ -15,7 +15,7 @@ JQ_CMD=./jq/jq-linux64
 if [[ -z "$NETWORKING_POE_SSL_CERT_PEM" ]]; then
   DOMAINS=$(echo $ISOLATION_SEGMENT_DOMAINS | jq --raw-input -c '{"domains": (. | split(" "))}')
 
-  CERTIFICATES=`$OM_CMD -t https://$OPS_MGR_HOST --client-id $OPSMAN_CLIENT_ID --client-secret $OPSMAN_CLIENT_SECRET -u $OPS_MGR_USR -p $OPS_MGR_PWD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
+  CERTIFICATES=`$OM_CMD -k curl -p "/api/v0/certificates/generate" -x POST -d "$DOMAINS"`
 
   export NETWORKING_POE_SSL_NAME="GENERATED-CERTS"
   export NETWORKING_POE_SSL_CERT_PEM=`echo $CERTIFICATES | jq --raw-output '.certificate'`
@@ -349,11 +349,6 @@ network_config=$($JQ_CMD -n \
 )
 
 $OM_CMD \
-  --target https://$OPS_MGR_HOST \
-  --client-id "$OPSMAN_CLIENT_ID" \
-  --client-secret "$OPSMAN_CLIENT_SECRET" \
-  --username "$OPS_MGR_USR" \
-  --password "$OPS_MGR_PWD" \
   --skip-ssl-validation \
   configure-product \
   --product-name $PRODUCT_NAME \
