@@ -1,9 +1,11 @@
 PCF product tiles Concourse Pipelines:
 ---
-
 > **CAUTION:** Pivotal does not provide support for these pipelines.
 > If you find anything broken, then please submit a PR.
+---
 
+---
+## NOTICE: This repository will be available, and PR's will be merged, but no new features will be added here. Please start using https://github.com/rahul-kj/pcf-automation
 ---
 
 ### Pipelines available in this repository are:
