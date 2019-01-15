@@ -37,7 +37,10 @@ cp ./pipelines/install-product/params-template.yml sandbox/healthwatch/params.ym
 
 ```
 >	fly -t concourse-[ENV] login -c https://<CONCOURSE-URL> -k
->	fly -t concourse-[ENV] set-pipeline -p healthwatch -c ./pipelines/install-product/pipeline.yml -l ./sandbox/healthwatch/params.yml -l ./pipelines/globals.yml
+>	fly -t concourse-[ENV] set-pipeline -p healthwatch \
+        -c ./pipelines/install-product/pipeline.yml \
+        -l ./sandbox/healthwatch/params.yml \
+        -l ./pipelines/globals.yml
 >	fly -t concourse-[ENV] unpause-pipeline -p healthwatch
 ```
 
