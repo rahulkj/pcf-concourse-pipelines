@@ -168,7 +168,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      # passed: [stage-product]
+      passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
