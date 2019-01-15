@@ -14,13 +14,13 @@ params:
   STEMCELL_TYPE:
 
 inputs:
-  - name: pivnet-product
-  - name: pipelines-repo
-  - name: pivnet-cli
-  - name: jq
+- name: pivnet-product
+- name: pipelines-repo
+- name: pivnet-cli
+- name: jq
 
 outputs:
-  - name: stemcells
+- name: stemcells
 
 run:
-  path: pipelines-repo/tasks/stemcell-downloader/task.sh
+  path: pipelines-repo/tasks/download-stemcell/task.sh

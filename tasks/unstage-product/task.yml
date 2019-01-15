@@ -8,15 +8,14 @@ image_resource:
 
 params:
   DEBUG:
-  OPS_MGR_HOST:
-  OPS_MGR_USR:
-  OPS_MGR_PWD:
+  OPSMAN_ENV_FILE_NAME:
   PRODUCT_NAME:
 
 inputs:
-  - name: pipelines-repo
-  - name: om-cli
-  - name: pivnet-product
+- name: pipelines-repo
+- name: om-cli
+- name: env
+- name: pivnet-product
 
 run:
   path: pipelines-repo/tasks/unstage-product/task.sh

@@ -9,4 +9,4 @@ fi
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-$CMD -t https://$OPS_MGR_HOST -k -u $OPS_MGR_USR -p $OPS_MGR_PWD delete-installation
+$CMD -e config/$OPSMAN_ENV_FILE_NAME delete-installation

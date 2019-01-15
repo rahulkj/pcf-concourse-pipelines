@@ -22,16 +22,18 @@ product_version: ^0\.0\..*$                                   # Update the versi
 dependency_product_tiles: 'cf'
 
 ## After the pipeline is done with the stage product, click the generate-product-config and fill out the rest of the info
-product-properties: |
-  --- {}
+product_config: |
+  product-name:
+  product-properties:
+    --- {}
 
-resource-config: |
-  --- {}
+  resource-config:
+    --- {}
 
-network-properties: |
-  --- {}
+  network-properties:
+    --- {}
 
-errands_to_disable:
+  errands_to_disable:
 
 apply_changes_config: |
   --- {}

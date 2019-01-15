@@ -19,11 +19,10 @@ OM_CMD=./om-cli/om-linux
 if [[ ! -z "$REPLICATOR_NAME" ]]; then
   echo "Replicating the tile and adding " $REPLICATOR_NAME
   $CMD -name $REPLICATOR_NAME -path $INPUT_FILE_PATH -output $OUTPUT_FILE_PATH
-  $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $OUTPUT_FILE_PATH
 else
   echo "Uploading tile without any replication"
-  FILE_PATH=`find ./pivnet-product -name *.pivotal`
-  $OM_CMD -t https://$OPS_MGR_HOST -u $OPS_MGR_USR -p $OPS_MGR_PWD -k upload-product -p $FILE_PATH
+  cp $INPUT_FILE_PATH $OUTPUT_FILE_PATH
 fi
 
+$OM_CMD -e env/${OPSMAN_ENV_FILE_NAME} upload-product -p $OUTPUT_FILE_PATH
 rm -rf $OUTPUT_FILE_PATH

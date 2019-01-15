@@ -4,8 +4,6 @@ PCF product tiles Concourse Pipelines:
 > **CAUTION:** Pivotal does not provide support for these pipelines.
 > If you find anything broken, then please submit a PR.
 
----
-
 ### Pipelines available in this repository are:
 
 This repository provides the pipelines for the products listed in the following table.

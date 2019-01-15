@@ -69,23 +69,41 @@ jobs:
         globs:
         - "*linux64*"
 
-  - task: unstage-tile
-    file: pipelines-repo/tasks/unstage-product/task.yml
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
+  - task: unstage-tile
+    file: pipelines-repo/tasks/unstage-product/task.yml
+    input_mapping:
+      env: env
+    params:
+      DEBUG: ((debug))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
       PRODUCT_NAME: ((product-name))
+
+  - task: create-apply-changes-config
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: config
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((apply_changes_file_name))
+      PARAM_NAME: ((apply_changes_config))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
+    input_mapping:
+      env: env
+      config: config
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      APPLY_CHANGES_CONFIG: ""
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
 
 - name: upload-product
   plan:
@@ -110,27 +128,41 @@ jobs:
         globs:
         - "*linux64*"
 
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
   - task: upload-tile
     file: pipelines-repo/tasks/upload-product/task.yml
     input_mapping:
-      product: pivnet-product
+      env: env
+      pivnet-product: pivnet-product
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
 
-  - task: upload-stemcell
-    file: pipelines-repo/tasks/stemcell-uploader/task.yml
+  - task: download-stemcell
+    file: pipelines-repo/tasks/upload-stemcell/task.yml
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
       PIVNET_API_TOKEN: ((pivnet_token))
       IAAS: ((iaas))
       IAAS_TYPE: ((iaas_type))
       STEMCELL_TYPE: ((stemcell_type))
+
+  - task: upload-stemcell
+    file: pipelines-repo/tasks/upload-stemcell/task.yml
+    input_mapping:
+      env: env
+      stemcells: stemcells
+    params:
+      DEBUG: ((debug))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
 
 - name: generate-product-config
   plan:
@@ -156,20 +188,29 @@ jobs:
       params:
         globs: ["*linux*"]
 
-  - task: generate-config
-    file: pipelines-repo/tasks/generate-config/task.yml
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
+  - task: generate-config
+    file: pipelines-repo/tasks/generate-config/task.yml
+    input_mapping:
+      env: env
+    params:
+      DEBUG: ((debug))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
       PRODUCT_NAME: ((product-name))
 
 - name: stage-product
   plan:
   - aggregate:
     - get: pipelines-repo
-      # passed: [upload-product]
+      passed: [upload-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -183,13 +224,22 @@ jobs:
         - "*-linux"
       passed: [upload-product]
 
-  - task: stage-tile
-    file: pipelines-repo/tasks/stage-product/task.yml
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
+  - task: stage-tile
+    file: pipelines-repo/tasks/stage-product/task.yml
+    input_mapping:
+      env: env
+    params:
+      DEBUG: ((debug))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
       PRODUCT_NAME: ((product-name))
       DEPENDENCY_PRODUCT_TILES: ((dependency_product_tiles))
 
@@ -215,77 +265,69 @@ jobs:
         - "*linux64*"
       passed: [upload-product]
 
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
   - task: config-tile
     file: pipelines-repo/tasks/config-product/task.yml
+    input_mapping:
+      env: env
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_NAME: ((product-name))
-      PRODUCT_PROPERTIES: ((product-properties))
-      RESOURCE_CONFIG: ((resource-config))
-      NETWORK_PROPERTIES: ((network-properties))
-
-- name: disable-errands
-  plan:
-  - aggregate:
-    - get: pipelines-repo
-      passed: [config-product]
-    - get: om-cli
-      params:
-        globs:
-        - "*om-linux*"
-      passed: [config-product]
-    - get: pivnet-product
-      resource: pivnet-product
-      params:
-        globs: []
-      passed: [config-product]
-      trigger: true
-    - get: jq
-      params:
-        globs:
-        - "*linux64*"
-      passed: [config-product]
-
-  - task: disable-errands
-    file: pipelines-repo/tasks/disable-errands/task.yml
-    params:
-      DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      PRODUCT_NAME: ((product-name))
-      ERRANDS: ((errands_to_disable))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PRODUCT_CONFIG: ((product_config))
 
 - name: apply-changes
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [disable-errands]
+      passed: [config-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
         globs: []
-      passed: [disable-errands]
+      passed: [config-product]
       trigger: true
     - get: om-cli
       params:
         globs:
         - "*-linux"
-      passed: [disable-errands]
+      passed: [config-product]
     - get: jq
       params:
         globs:
         - "*linux64*"
-      passed: [disable-errands]
+      passed: [config-product]
+
+  - task: create-opsman-env
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: env
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((opsman_env_file_name))
+      PARAM_NAME: ((opsman_config))
+
+  - task: create-apply-changes-config
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: config
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((apply_changes_file_name))
+      PARAM_NAME: ((apply_changes_config))
 
   - task: apply-changes
     file: pipelines-repo/tasks/apply-changes/task.yml
+    input_mapping:
+      env: env
+      config: config
     params:
       DEBUG: ((debug))
-      OPS_MGR_HOST: ((ops_mgr_host))
-      OPS_MGR_USR: ((ops_mgr_usr))
-      OPS_MGR_PWD: ((ops_mgr_pwd))
-      APPLY_CHANGES_CONFIG: ((apply_changes_config))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))

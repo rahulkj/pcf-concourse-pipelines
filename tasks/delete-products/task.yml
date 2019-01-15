@@ -8,13 +8,13 @@ image_resource:
 
 params:
   DEBUG:
-  OPS_MGR_HOST:
-  OPS_MGR_USR:
-  OPS_MGR_PWD:
+  OPSMAN_ENV_FILE_NAME:
 
 inputs:
-  - name: pipelines-repo
-  - name: om-cli
+- name: pipelines-repo
+- name: om-cli
+- name: config
+- name: env
 
 run:
   path: pipelines-repo/tasks/delete-products/task.sh

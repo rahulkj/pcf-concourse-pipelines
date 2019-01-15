@@ -9,14 +9,12 @@ image_resource:
 params:
   DEBUG:
   OPSMAN_ENV_FILE_NAME:
-  CONFIG_FILE_NAME:
 
 inputs:
 - name: pipelines-repo
 - name: om-cli
-- name: jq
-- name: config
 - name: env
+- name: stemcells
 
 run:
-  path: pipelines-repo/tasks/apply-changes/task.sh
+  path: pipelines-repo/tasks/upload-stemcell/task.sh

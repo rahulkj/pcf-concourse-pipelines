@@ -4,20 +4,19 @@ platform: linux
 
 image_resource:
   type: docker-image
-  source: {repository: rjain/buildbox}
+  source: {repository: rjain/buildbox
 
 params:
   DEBUG:
-  OPS_MGR_HOST:
-  OPS_MGR_USR:
-  OPS_MGR_PWD:
+  OPSMAN_ENV_FILE_NAME:
   PRODUCT_NAME:
 
 inputs:
-  - name: pipelines-repo
-  - name: om-cli
-  - name: jq
-  - name: tile-config-convertor
+- name: pipelines-repo
+- name: om-cli
+- name: jq
+- name: tile-config-convertor
+- name: env
 
 run:
   path: pipelines-repo/tasks/generate-config/task.sh

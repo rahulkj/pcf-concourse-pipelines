@@ -8,17 +8,15 @@ image_resource:
 
 params:
   DEBUG:
-  OPS_MGR_HOST:
-  OPS_MGR_USR:
-  OPS_MGR_PWD:
-  PIVNET_API_TOKEN:
+  OPSMAN_ENV_FILE_NAME:
   REPLICATOR_NAME:
 
 inputs:
-  - name: pipelines-repo
-  - name: om-cli
-  - name: pivnet-product
-  - name: replicator
+- name: pipelines-repo
+- name: om-cli
+- name: pivnet-product
+- name: replicator
+- name: env
 
 outputs:
   - name: replicator-tile
