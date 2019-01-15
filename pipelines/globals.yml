@@ -1,0 +1,22 @@
+# Token used to download the product file from Pivotal Network. Find this
+# on your Pivotal Network profile page:
+# https://network.pivotal.io/users/dashboard/edit-profile
+pivnet_token: ((pivnet_token))
+
+# The token used to download the repos from GitHub for the pipelines
+git_token: ((git_token))
+git_url: https://github.com/rahul-kj/pcf-concourse-pipelines # [R] Pipelines github repo
+git_branch: master
+git_username: ((git_username)) # [R] Your github username
+
+debug: false
+
+opsman_config: |
+  target: https://((ops_mgr_host))
+  skip-ssl-validation: true
+  username: ((ops_mgr_usr))
+  password: ((ops_mgr_pwd))
+
+opsman_env_file_name: opsman-env.yml
+config_file_name: product-config.yml
+apply_changes_file_name: apply-changes.yml

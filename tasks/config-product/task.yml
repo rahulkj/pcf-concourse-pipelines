@@ -7,20 +7,14 @@ image_resource:
 
 params:
   DEBUG:
-  OM_TARGET:
-  OM_USERNAME:
-  OM_PASSWORD:
-  OM_CLIENT_ID:
-  OM_CLIENT_SECRET:
-  PRODUCT_NAME:
-  PRODUCT_PROPERTIES:
-  RESOURCE_CONFIG:
-  NETWORK_PROPERTIES:
+  OPSMAN_ENV_FILE_NAME:
+  CONFIG_FILE_NAME:
 
 inputs:
-  - name: pipelines-repo
-  - name: om-cli
-  - name: jq
+- name: pipelines-repo
+- name: om-cli
+- name: config
+- name: env
 
 run:
   path: pipelines-repo/tasks/config-product/task.sh

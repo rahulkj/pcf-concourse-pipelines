@@ -9,4 +9,4 @@ fi
 chmod +x om-cli/om-linux
 CMD=./om-cli/om-linux
 
-$CMD -k delete-installation
+$CMD -e config/$OPSMAN_ENV_FILE_NAME delete-installation

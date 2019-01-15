@@ -1,0 +1,15 @@
+{
+"cloud_properties": {
+"nsxt": {
+  "lb": {
+    "server_pools": [
+      {
+        "name": "PAS-GoRouter443ServerPool",
+        "port": 443
+      }
+    ]
+  }
+}
+},
+"name": "router-extension"
+}

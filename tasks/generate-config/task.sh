@@ -10,45 +10,53 @@ chmod +x ./tile-config-convertor/tile-config-convertor_linux_amd64
 TCC_CMD=./tile-config-convertor/tile-config-convertor_linux_amd64
 
 function cleanAndEchoProperties {
-  INPUT="properties.json"
-  OUTPUT="properties.yml"
+  INPUT=$1
+  OUTPUT=$2
 
   echo "$PROPERTIES" >> $INPUT
   $TCC_CMD -g properties -i $INPUT -o $OUTPUT
 
-  echo "# Properties for $PRODUCT_NAME are:"
+  sed -i -e 's/^/  /' $OUTPUT
   cat $OUTPUT
   echo ""
 }
 
 function cleanAndEchoResources() {
-  INPUT="resources.json"
-  OUTPUT="resources.yml"
+  INPUT=$1
+  OUTPUT=$2
 
   echo "$RESOURCES" >> $INPUT
   $TCC_CMD -g resources -i $INPUT -o $OUTPUT
 
-  echo "# Resources for $PRODUCT_NAME are:"
+  sed -i -e 's/^/  /' $OUTPUT
   cat $OUTPUT
   echo ""
 }
 
 function cleanAndEchoErrands() {
-  echo "errands_to_disable:"
-  echo "# Errands for $PRODUCT_NAME are:"
-  ERRANDS_LIST=""
-  for errand in $ERRANDS; do
-    if [[ -z "$ERRANDS_LIST" ]]; then
-      ERRANDS_LIST="# $errand"
-    else
-      ERRANDS_LIST+=,$errand
-    fi
-  done
-  echo $ERRANDS_LIST
+  INPUT=$1
+  OUTPUT=$2
+
+  echo "$ERRANDS" >> $INPUT
+  $TCC_CMD -g errands -i $INPUT -o $OUTPUT
+
+  sed -i -e 's/^/  /' $OUTPUT
+  cat $OUTPUT
+  echo ""
+}
+
+function echoNetworkTemplate() {
+  OUTPUT=$1
+
+  $TCC_CMD -g network-azs -o $OUTPUT
+
+  sed -i -e 's/^/  /' $OUTPUT
+  cat $OUTPUT
   echo ""
 }
 
 function applyChangesConfig() {
+  ERRANDS=$(echo "$ERRANDS" | $JQ_CMD -r '.errands[] | select(.post_deploy==true) | .name')
   APPLY_CHANGES_CONFIG_YML=apply_changes_config.yml
 
   echo 'apply_changes_config: |' >> "$APPLY_CHANGES_CONFIG_YML"
@@ -68,22 +76,7 @@ function applyChangesConfig() {
   echo ""
 }
 
-function echoNetworkTemplate() {
-  echo "# Network and AZ's template: "
-  echo "network-properties: |
-  network:
-    name:
-  service_network:
-    name:
-  other_availability_zones:
-    - name:
-    - name:
-  singleton_availability_zone:
-    name:"
-  echo ""
-}
-
-CURL_CMD="$OM_CMD -k curl -s -p"
+CURL_CMD="$OM_CMD --env env/"${OPSMAN_ENV_FILE_NAME}" curl -s -p"
 
 PRODUCTS=$($CURL_CMD /api/v0/staged/products)
 PRODUCT_GUID=$(echo $PRODUCTS | $JQ_CMD -r --arg product_identifier $PRODUCT_NAME '.[] | select(.type == $product_identifier) | .guid')
@@ -96,17 +89,16 @@ PROPERTIES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/properties)
 RESOURCES=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/resources)
 
 ## Download the errands
-ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands | $JQ_CMD -r '.errands[] | select(.post_deploy==true) | .name')
+ERRANDS=$($CURL_CMD /api/v0/staged/products/$PRODUCT_GUID/errands)
 
 ## Cleanup all the stuff, and echo on the console
-echo "product-name: $PRODUCT_NAME"
-cleanAndEchoProperties
-cleanAndEchoResources
-echoNetworkTemplate
-cleanAndEchoErrands
+echo "product_config: |"
+echo "  product-name: $PRODUCT_NAME"
+echoNetworkTemplate "$PRODUCT_NAME-nw-azs.yml"
+cleanAndEchoProperties "$PRODUCT_NAME-properties.json" "$PRODUCT_NAME-properties.yml"
+cleanAndEchoResources "$PRODUCT_NAME-resources.json" "$PRODUCT_NAME-resources.yml"
+cleanAndEchoErrands "$PRODUCT_NAME-errands.json" "$PRODUCT_NAME-errands.yml"
 applyChangesConfig
 
-
 ## Clean-up the container
-rm -rf $PRODUCT_NAME.json
-rm -rf $RESOURCES_YML
+rm -rf $PRODUCT_NAME-*.*
