@@ -147,7 +147,7 @@ jobs:
       OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
 
   - task: download-stemcell
-    file: pipelines-repo/tasks/upload-stemcell/task.yml
+    file: pipelines-repo/tasks/download-stemcell/task.yml
     params:
       DEBUG: ((debug))
       PIVNET_API_TOKEN: ((pivnet_token))
@@ -168,7 +168,7 @@ jobs:
   plan:
   - aggregate:
     - get: pipelines-repo
-      passed: [stage-product]
+      # passed: [stage-product]
     - get: pivnet-product
       resource: pivnet-product
       params:
@@ -274,14 +274,24 @@ jobs:
       OUTPUT_FILE_NAME: ((opsman_env_file_name))
       PARAM_NAME: ((opsman_config))
 
+  - task: create-product-config
+    file: pipelines-repo/tasks/create-yml-file/task.yml
+    output_mapping:
+      output-folder: config
+    params:
+      DEBUG: ((debug))
+      OUTPUT_FILE_NAME: ((config_file_name))
+      PARAM_NAME: ((product_config))
+
   - task: config-tile
     file: pipelines-repo/tasks/config-product/task.yml
     input_mapping:
       env: env
+      config: config
     params:
       DEBUG: ((debug))
-      OUTPUT_FILE_NAME: ((opsman_env_file_name))
-      PRODUCT_CONFIG: ((product_config))
+      OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
+      CONFIG_FILE_NAME: ((config_file_name))
 
 - name: apply-changes
   plan:
@@ -331,3 +341,4 @@ jobs:
     params:
       DEBUG: ((debug))
       OPSMAN_ENV_FILE_NAME: ((opsman_env_file_name))
+      CONFIG_FILE_NAME: ((apply_changes_file_name))
