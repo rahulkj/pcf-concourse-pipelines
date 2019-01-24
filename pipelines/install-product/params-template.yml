@@ -20,7 +20,8 @@ product_config: |
   network-properties:
     --- {}
 
-  errands_to_disable:
+  errand-config:
+    --- {}
 
 apply_changes_config: |
   --- {}
