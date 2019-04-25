@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 MAINTAINER rahulkj@gmail.com
 
 RUN apt-get update && apt-get install -y vim curl wget git \
