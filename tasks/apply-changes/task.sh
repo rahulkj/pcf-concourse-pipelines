@@ -13,7 +13,7 @@ chmod +x ./jq/jq-linux64
 JQ_CMD=./jq/jq-linux64
 
 if [[ ! -z "$CONFIG_FILE_NAME" && null != "$CONFIG_FILE_NAME" ]]; then
-  apply_changes_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < config/$CONFIG_FILE_NAME)
+  apply_changes_config=$(yq r -j config/$CONFIG_FILE_NAME)
 
   deploy_products_type=$(echo "$apply_changes_config" | $JQ_CMD -r '.deploy_products | type')
 
@@ -32,7 +32,7 @@ if [[ ! -z "$CONFIG_FILE_NAME" && null != "$CONFIG_FILE_NAME" ]]; then
       fi
     done
 
-    apply_changes_config=$(ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))' < config/$CONFIG_FILE_NAME)
+    apply_changes_config=$(yq r -j config/$CONFIG_FILE_NAME)
   fi
 
   $OM_CMD -e env/$OPSMAN_ENV_FILE_NAME curl -s -p /api/v0/installations -x POST -d "$apply_changes_config"
