@@ -14,8 +14,6 @@ FILE_PATH=`find ./pivnet-product/ -name *.ova`
 
 $GOVC_CMD import.spec $FILE_PATH > import-spec.json
 
-ruby -ryaml -rjson -e 'puts YAML.dump(JSON.parse(STDIN.read))' < import-spec.json > import-spec.yml
-
-cat import-spec.yml
+yq r import-spec.json
 
 rm import-spec*
