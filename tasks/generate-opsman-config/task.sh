@@ -14,6 +14,6 @@ FILE_PATH=`find ./pivnet-product/ -name *.ova`
 
 $GOVC_CMD import.spec $FILE_PATH > import-spec.json
 
-yq r import-spec.json
+yq e import-spec.json
 
 rm import-spec*
